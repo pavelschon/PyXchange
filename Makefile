@@ -9,9 +9,9 @@ CXXFLAGS=-Wall -pedantic -fPIC -std=c++14
 CLIENT_DEPS=src/Client.cpp src/Client.hpp src/PyXchangeFwd.hpp
 TRADER_DEPS=src/Trader.cpp src/Trader.hpp src/PyXchangeFwd.hpp
 ORDER_DEPS=src/Order.cpp src/Order.hpp src/PyXchangeFwd.hpp
-ORDERBOOK_DEPS=src/orderbook/OrderBook.cpp src/orderbook/OrderBook.hpp src/Order.hpp src/orderbook/OrderContainer.hpp src/Message.hpp src/PyXchangeFwd.hpp
-CREATEORDER_DEPS=src/orderbook/CreateOrder.cpp src/orderbook/OrderBook.hpp src/Order.hpp src/orderbook/OrderContainer.hpp src/Message.hpp src/PyXchangeFwd.hpp
-MATCHER_DEPS=src/Matcher.cpp src/Matcher.hpp src/Client.hpp src/Trader.hpp src/orderbook/OrderBook.hpp src/Message.hpp src/Utils.hpp src/PyXchangeFwd.hpp
+ORDERBOOK_DEPS=src/orderbook/OrderBook.cpp src/orderbook/OrderBook.hpp src/Order.hpp src/orderbook/OrderContainer.hpp src/Utils.hpp src/PyXchangeFwd.hpp
+CREATEORDER_DEPS=src/orderbook/CreateOrder.cpp src/orderbook/OrderBook.hpp src/Order.hpp src/orderbook/OrderContainer.hpp src/Utils.hpp src/PyXchangeFwd.hpp
+MATCHER_DEPS=src/Matcher.cpp src/Matcher.hpp src/Client.hpp src/Trader.hpp src/orderbook/OrderBook.hpp src/Utils.hpp src/PyXchangeFwd.hpp
 PYXCHANGEO_DEPS=src/PyXchange.cpp src/PyXchangeFwd.hpp src/Client.hpp src/Trader.hpp src/Matcher.hpp src/Utils.hpp
 PYXCHANGE_DEPS=build/Client.o build/Trader.o build/Order.o build/OrderBook.o build/CreateOrder.o build/Matcher.o build/PyXchange.o
 

@@ -8,7 +8,6 @@
 #include "Matcher.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
-#include "Message.hpp"
 #include "Utils.hpp"
 
 

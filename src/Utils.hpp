@@ -16,6 +16,26 @@
 namespace pyxchange
 {
 
+
+namespace message
+{
+
+    const boost::python::str createOrder = "createOrder";
+
+
+} /* namespace message */
+
+
+namespace side
+{
+
+    const boost::python::str bid = "BUY";
+    const boost::python::str ask = "SELL";
+
+
+} /* namespace side */
+
+
 const auto json = boost::python::import( "json" );
 
 /**
