@@ -7,7 +7,7 @@
 #ifndef ORDER
 #define ORDER
 
-#include "PyXchangeFwd.hpp"
+#include "../PyXchangeFwd.hpp"
 
 
 namespace pyxchange

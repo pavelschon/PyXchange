@@ -3,3 +3,7 @@
 *.o
 *.so
 *~
+obj-*
+CMakeFiles
+CmakeCache.txt
+cmake_install.cmake
