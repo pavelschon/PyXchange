@@ -11,7 +11,6 @@
 namespace pyxchange
 {
 
-const std::string Trader::name = "Trader";
 
 /**
  * @brief Constructor

@@ -19,7 +19,7 @@ class Client
 public:
                                             Client();
 
-    static const std::string                name;
+    static constexpr const char* const      name = "Client";
 private:
 
 

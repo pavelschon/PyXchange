@@ -19,7 +19,7 @@ class Trader
 public:
                                             Trader();
 
-    static const std::string                name;
+    static constexpr const char* const      name = "Trader";
 private:
 
 

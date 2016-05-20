@@ -11,8 +11,6 @@
 namespace pyxchange
 {
 
-const std::string Order::name = "Order";
-
 
 /**
  * @brief Constructor

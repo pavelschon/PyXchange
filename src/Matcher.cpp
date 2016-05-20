@@ -15,8 +15,6 @@
 namespace pyxchange
 {
 
-const std::string Matcher::name = "Matcher";
-
 
 /**
  * @brief Constructor

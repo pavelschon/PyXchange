@@ -10,8 +10,7 @@
 
 namespace pyxchange
 {
-
-const std::string Client::name = "Client";
+    
 
 /**
  * @brief Constructor

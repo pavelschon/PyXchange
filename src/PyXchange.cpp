@@ -40,31 +40,20 @@ size_t sizeof_( void )
 }
 
 
-/**
- * @brief Static function sizeof(T)
- *
- */
-template< typename T >
-const char* nameof_( void )
-{
-    return T::name.c_str();
-}
-
-
 BOOST_PYTHON_MODULE( pyxchange )
 {
     using namespace ::boost::python;
     using namespace ::pyxchange;
 
-    class_<Client, ClientPtr>( nameof_<Client>(), no_init )
+    class_<Client, ClientPtr>( Client::name, no_init )
         .def( "__init__", make_constructor( constructor<Client> ) )
         ;
 
-    class_<Trader, TraderPtr>( nameof_<Trader>(), no_init )
+    class_<Trader, TraderPtr>( Trader::name, no_init )
         .def( "__init__", make_constructor( constructor<Trader> ) )
     ;
 
-    class_<Matcher, MatcherPtr>( nameof_<Matcher>(), no_init )
+    class_<Matcher, MatcherPtr>( Matcher::name, no_init )
         .def( "__init__", make_constructor( constructor<Matcher> ) )
         .def( "addTrader", &Matcher::addTrader )
         .def( "addClient", &Matcher::addClient )

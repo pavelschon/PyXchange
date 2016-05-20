@@ -18,8 +18,7 @@ class Order
 {
 public:
                                             Order();
-
-    static const std::string                name;
+                                            
 private:
 
 

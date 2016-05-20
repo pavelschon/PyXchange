@@ -31,7 +31,7 @@ public:
                                                 const ClientPtr& client
                                             );
 
-    static const std::string                name;
+    static constexpr const char* const      name = "Matcher";
 
 private:
     OrderBook                               orderbook;
