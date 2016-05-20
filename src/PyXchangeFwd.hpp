@@ -32,6 +32,10 @@ class Matcher;
 typedef std::shared_ptr<Matcher>            MatcherPtr;
 
 
+typedef unsigned int                        price_t;
+typedef unsigned long                       time_t;
+
+
 } /* namespace pyxchange */
 
 

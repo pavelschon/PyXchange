@@ -7,10 +7,12 @@
 
 #include "Client.hpp"
 
+#include <iostream>
+
 
 namespace pyxchange
 {
-    
+
 
 /**
  * @brief Constructor

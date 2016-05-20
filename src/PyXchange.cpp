@@ -15,28 +15,14 @@
 #include <memory>
 
 
-
 /**
  * @brief FIXME
  *
  */
-template< typename T, typename... Params >
-std::shared_ptr<T> constructor( Params... parameters )
+template<typename T, typename... Params>
+std::shared_ptr<T> make_shared_( Params... parameters )
 {
-    std::cout << "creating " << T::name << std::endl;
-
     return std::make_shared<T>( parameters... );
-}
-
-
-/**
- * @brief Static function sizeof(T)
- *
- */
-template< typename T >
-size_t sizeof_( void )
-{
-    return sizeof( T );
 }
 
 
@@ -46,17 +32,17 @@ BOOST_PYTHON_MODULE( pyxchange )
     using namespace ::pyxchange;
 
     class_<Client, ClientPtr>( Client::name, no_init )
-        .def( "__init__", make_constructor( constructor<Client> ) )
+        .def( "__init__", make_constructor( &make_shared_<Client> ) )
         ;
 
     class_<Trader, TraderPtr>( Trader::name, no_init )
-        .def( "__init__", make_constructor( constructor<Trader> ) )
+        .def( "__init__", make_constructor( &make_shared_<Trader> ) )
     ;
 
     class_<Matcher, MatcherPtr>( Matcher::name, no_init )
-        .def( "__init__", make_constructor( constructor<Matcher> ) )
-        .def( "addTrader", &Matcher::addTrader )
-        .def( "addClient", &Matcher::addClient )
+        .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
+        .def( "addTrader", &Matcher::addTrader, args( "trader" ) )
+        .def( "addClient", &Matcher::addClient, args( "client" ) )
     ;
 }
 

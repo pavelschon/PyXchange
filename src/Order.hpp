@@ -18,7 +18,9 @@ class Order
 {
 public:
                                             Order();
-                                            
+
+    price_t                                 price;
+    time_t                                  time;
 private:
 
 

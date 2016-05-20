@@ -10,7 +10,7 @@ class ClientProtocol(protocol.Protocol):
 
     def __init__(self, factory, addr):
         self.factory = factory
-        self.client = client = pyxchange.Client()
+        self.client = client = pyxchange.Client(1,2)
 
         factory.matcher.addClient(client)
 

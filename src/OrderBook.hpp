@@ -4,10 +4,11 @@
  *
  */
 
-#ifndef ORDERBOOK
-#define ORDERBOOK
+#ifndef ORDER_BOOK
+#define ORDER_BOOK
 
 #include "PyXchangeFwd.hpp"
+#include "OrderContainer.hpp"
 
 
 namespace pyxchange
@@ -20,7 +21,8 @@ public:
                                             OrderBook();
 
 private:
-
+    BidOrderContainer                       bidOrders;
+    AskOrderContainer                       askOrders;
 
 };
 
@@ -28,7 +30,7 @@ private:
 } /* namespace pyxchange */
 
 
-#endif /* ORDERBOOK */
+#endif /* ORDER_BOOK */
 
 
 /* EOF */

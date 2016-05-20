@@ -27,6 +27,7 @@ print(repr(trader2))
 
 client = pyxchange.Client()
 client2 = pyxchange.Client()
+client3 = pyxchange.Client(1,2)
 
 print(repr(client))
 print(repr(client2))
