@@ -2,42 +2,126 @@
 
 
 import pyxchange
+import unittest
+import io
 
 
-matcher  = pyxchange.Matcher()
-matcher2 = pyxchange.Matcher()
+class JsonTest(unittest.TestCase):
+    dct, sdct = { 'key': None }, '{"key": null}'
 
-print( pyxchange.Matcher )
-print( matcher )
-print( matcher2 )
+    def testLoads(self):
+        """ Test JSON loads """
 
-trader = pyxchange.Trader()
-trader2 = pyxchange.Trader()
+        assert pyxchange.json_loads('true')  is True
+        assert pyxchange.json_loads('false') is False
+        assert pyxchange.json_loads('null')  is None
+        assert pyxchange.json_loads(self.sdct) == self.dct
 
-print(repr(trader))
-print(repr(trader2))
-
-matcher.addTrader(trader)
-matcher.addTrader(trader)
-
-trader = trader2
-print(repr(trader))
-print(repr(trader2))
+        with self.assertRaises(TypeError):
+            assert pyxchange.json_loads(None)
 
 
-client = pyxchange.Client()
-client2 = pyxchange.Client()
-client3 = pyxchange.Client(1,2)
+    def testDumps(self):
+        """ Test JSON dumpss """
 
-print(repr(client))
-print(repr(client2))
+        assert pyxchange.json_dumps(True)  == 'true'
+        assert pyxchange.json_dumps(False) == 'false'
+        assert pyxchange.json_dumps(None)  == 'null'
+        assert pyxchange.json_dumps(self.dct) == self.sdct
 
-matcher.addClient(client)
-matcher.addClient(client2)
+        with self.assertRaises(TypeError):
+            assert pyxchange.json_dumps(object)
+
+
+class MatcherTest(unittest.TestCase):
+    pass
+
+
+class ClientTest(unittest.TestCase):
+    def setUp(self):
+        self.transport = io.BytesIO()
+
+
+    def testWrite(self):
+        """ Test writing data into client's write function """
+
+        client, msg = pyxchange.Client(self.transport.write), 'data'
+
+        client.write(msg)
+
+        assert self.transport.getvalue() == 'data'
+
+
+    def testBadWrite(self):
+        """ Test whether client throws error on bad write """
+
+        client, msg = pyxchange.Client(None), 'data'
+
+        with self.assertRaises(TypeError):
+            client.write(msg)
+
+
+    def testAddRemoveClient(self):
+        """ Test add/remove client into matcher """
+
+        matcher = pyxchange.Matcher()
+        client = pyxchange.Client(self.transport.write)
+
+        matcher.addClient(client)
+
+        with self.assertRaises(ValueError):
+            matcher.addClient(client)
+
+        matcher.removeClient(client)
+
+        with self.assertRaises(KeyError):
+            matcher.removeClient(client)
+
+
+class TraderTest(unittest.TestCase):
+    def setUp(self):
+        self.transport = io.BytesIO()
+
+
+    def testWrite(self):
+        """ Test writing data into trader's write function """
+
+        trader, msg = pyxchange.Trader(self.transport.write), 'data'
+
+        trader.write(msg)
+
+        assert self.transport.getvalue() == msg
+
+
+    def testBadWrite(self):
+        """ Test whether client throws error on bad write """
+
+        trader, msg = pyxchange.Trader(None), 'data'
+
+        with self.assertRaises(TypeError):
+            trader.write(msg)
+
+
+    def testAddTrader(self):
+        """ Test add/remove trader into matcher """
+
+        matcher = pyxchange.Matcher()
+        trader = pyxchange.Trader(self.transport.write)
+
+        matcher.addTrader(trader)
+
+        with self.assertRaises(ValueError):
+            matcher.addTrader(trader)
+
+        matcher.removeTrader(trader)
+
+        with self.assertRaises(KeyError):
+            matcher.removeTrader(trader)
+
+
+if __name__ == '__main__':
+    unittest.main()
 
 
 # EOF
-
-
-
 

@@ -9,6 +9,8 @@
 
 #include "PyXchangeFwd.hpp"
 
+#include <boost/python/object.hpp>
+
 
 namespace pyxchange
 {
@@ -16,10 +18,16 @@ namespace pyxchange
 
 class Trader
 {
+
 public:
-                                            Trader();
+    explicit                                Trader( const boost::python::object& write_ );
+
+    void                                    operator()( const char* const data );
 
     static constexpr const char* const      name = "Trader";
+
+    const boost::python::object             write;
+
 private:
 
 

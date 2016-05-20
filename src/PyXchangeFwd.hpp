@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <set>
 
 
 namespace pyxchange
@@ -20,12 +21,12 @@ class OrderBook;
 
 class Client;
 typedef std::shared_ptr<Client>             ClientPtr;
-typedef std::vector<ClientPtr>              ClientVector;
+typedef std::set<ClientPtr>                 ClientSet;
 
 
 class Trader;
 typedef std::shared_ptr<Trader>             TraderPtr;
-typedef std::vector<TraderPtr>              TraderVector;
+typedef std::set<TraderPtr>                 TraderSet;
 
 
 class Matcher;

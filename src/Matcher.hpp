@@ -21,23 +21,19 @@ class Matcher
 public:
                                             Matcher();
 
-    static void                             addTrader(
-                                                const MatcherPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
+    void                                    addTrader( const TraderPtr& trader );
+    void                                    addClient( const ClientPtr& client );
 
-    static void                             addClient(
-                                                const MatcherPtr& matcher,
-                                                const ClientPtr& client
-                                            );
+    void                                    removeTrader( const TraderPtr& client );
+    void                                    removeClient( const ClientPtr& client );
 
     static constexpr const char* const      name = "Matcher";
 
 private:
     OrderBook                               orderbook;
 
-    TraderVector                            traders;
-    ClientVector                            clients;
+    TraderSet                               traders;
+    ClientSet                               clients;
 };
 
 

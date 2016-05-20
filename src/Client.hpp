@@ -9,6 +9,9 @@
 
 #include "PyXchangeFwd.hpp"
 
+#include <boost/python/object.hpp>
+
+
 
 namespace pyxchange
 {
@@ -16,12 +19,17 @@ namespace pyxchange
 
 class Client
 {
+
 public:
-                                            Client();
+    explicit                                Client( const boost::python::object& write_ );
+
+    void                                    operator()( const char* const data );
 
     static constexpr const char* const      name = "Client";
-private:
 
+    const boost::python::object             write;
+
+private:
 
 };
 

@@ -10,17 +10,20 @@ class ClientProtocol(protocol.Protocol):
 
     def __init__(self, factory, addr):
         self.factory = factory
-        self.client = client = pyxchange.Client(1,2)
-
-        factory.matcher.addClient(client)
 
 
     def dataReceived(self, data):
-        self.transport.write(repr(matcher) + ' ' + repr(self.client) + '\n')
+        self.client.write(repr(matcher) + ' ' + repr(self.client) + '\n')
+
+
+    def connectionMade(self):
+        self.client = pyxchange.Client(self.transport.write)
+
+        self.factory.matcher.addClient(self.client)
 
 
     def connectionLost(self, reason):
-        pass
+        self.factory.matcher.removeClient(self.client)
 
 
 class ClientFactory(protocol.Factory):
@@ -28,6 +31,7 @@ class ClientFactory(protocol.Factory):
 
     def __init__(self, matcher):
         self.matcher = matcher
+
 
     def buildProtocol(self, addr):
         return ClientProtocol(self, addr)
@@ -38,21 +42,25 @@ class TraderProtocol(protocol.Protocol):
 
     def __init__(self, factory, addr):
         self.factory = factory
-        self.trader = trader = pyxchange.Trader()
 
-        factory.matcher.addTrader(trader)
+
+    def connectionMade(self):
+        self.trader = pyxchange.Trader(self.transport.write)
+
+        self.factory.matcher.addTrader(self.trader)
 
 
     def dataReceived(self, data):
-        self.transport.write(repr(matcher) + ' ' + repr(self.trader) + '\n')
+        self.trader.write(repr(matcher) + ' ' + repr(self.trader) + '\n')
 
 
     def connectionLost(self, reason):
-        pass
+        self.factory.matcher.removeTrader(self.trader)
 
 
 class TraderFactory(protocol.Factory):
     """ Factory for Trader protocol """
+
     def __init__(self, matcher):
         self.matcher = matcher
 
