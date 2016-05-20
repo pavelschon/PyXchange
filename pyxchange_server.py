@@ -1,66 +1,74 @@
-#!/usr/bin/env python
-
-import os
-import sys
+#!/usr/bin/env python2.7
 
 from twisted.internet import reactor, protocol
 
-program = os.path.dirname(__file__) + '/server_process.py'
-program_args = [ program ] + sys.argv[1:]
+import pyxchange
 
 
-class PyCapWorkerProcess(protocol.ProcessProtocol):
-    def __init__(self, parent):
-        self.parent = parent
+class ClientProtocol(protocol.Protocol):
+    """ Market-data client protocol """
 
-        reactor.spawnProcess(self, program, args=program_args, env=os.environ)
-
-
-    def outReceived(self, data):
-        self.parent.transport.write(data)
-
-
-    def errReceived(self, data):
-        print data
-
-
-    def processEnded(self, reason):
-        print reason
-        self.parent.transport.loseConnection()
-
-
-class PyCapWorker(protocol.Protocol):
-    def __init__(self, factory):
+    def __init__(self, factory, addr):
         self.factory = factory
+        self.client = client = pyxchange.Client()
 
-        self.process = PyCapWorkerProcess(self)
+        factory.matcher.addClient(client)
 
 
     def dataReceived(self, data):
-        self.process.transport.write(data)
+        self.transport.write(repr(matcher) + ' ' + repr(self.client) + '\n')
 
 
     def connectionLost(self, reason):
-        self.factory.workers.append(self)
-        #self.process.transport.closeStdin()
+        pass
 
 
-class PyCapFactory(protocol.Factory):
-    workers = []
+class ClientFactory(protocol.Factory):
+    """ Factory for market-data client protocol """
+
+    def __init__(self, matcher):
+        self.matcher = matcher
+
+    def buildProtocol(self, addr):
+        return ClientProtocol(self, addr)
+
+
+class TraderProtocol(protocol.Protocol):
+    """ Trader protocol of market participants """
+
+    def __init__(self, factory, addr):
+        self.factory = factory
+        self.trader = trader = pyxchange.Trader()
+
+        factory.matcher.addTrader(trader)
+
+
+    def dataReceived(self, data):
+        self.transport.write(repr(matcher) + ' ' + repr(self.trader) + '\n')
+
+
+    def connectionLost(self, reason):
+        pass
+
+
+class TraderFactory(protocol.Factory):
+    """ Factory for Trader protocol """
+    def __init__(self, matcher):
+        self.matcher = matcher
 
 
     def buildProtocol(self, addr):
-        try:
-            worker = self.workers.pop()
-        except IndexError:
-            return PyCapWorker(self)
-
-        return worker
+        return TraderProtocol(self, addr)
 
 
-reactor.listenTCP(8001, PyCapFactory())
 
-reactor.run()
+if __name__ == '__main__':
+    matcher = pyxchange.Matcher()
+
+    reactor.listenTCP(7001, TraderFactory(matcher)) # market participants
+    reactor.listenTCP(7002, ClientFactory(matcher)) # market-data clients
+
+    reactor.run()
 
 
 # EOF

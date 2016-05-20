@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.4
+#!/usr/bin/env python2.7
 
 
 import pyxchange
@@ -18,7 +18,7 @@ print(repr(trader))
 print(repr(trader2))
 
 matcher.addTrader(trader)
-matcher.addTrader(trader2)
+matcher.addTrader(trader)
 
 trader = trader2
 print(repr(trader))
