@@ -23,14 +23,13 @@ typedef std::shared_ptr<Client>             ClientPtr;
 typedef std::vector<ClientPtr>              ClientVector;
 
 
-
 class Trader;
 typedef std::shared_ptr<Trader>             TraderPtr;
 typedef std::vector<TraderPtr>              TraderVector;
 
 
-class MatchingEngine;
-typedef std::shared_ptr<MatchingEngine>     MatchingEnginePtr;
+class Matcher;
+typedef std::shared_ptr<Matcher>            MatcherPtr;
 
 
 } /* namespace pyxchange */

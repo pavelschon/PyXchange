@@ -1,11 +1,11 @@
 /**
  * @brief This module implements simulator of exchange
- * @file MatchingEngine.cpp
+ * @file Matcher.cpp
  * 
  */
 
 
-#include "MatchingEngine.hpp"
+#include "Matcher.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
 
@@ -15,14 +15,14 @@
 namespace pyxchange
 {
 
-const std::string MatchingEngine::name = "MatchingEngine";
+const std::string Matcher::name = "Matcher";
 
 
 /**
  * @brief Constructor
  * 
  */
-MatchingEngine::MatchingEngine()
+Matcher::Matcher()
 {
 
 }
@@ -32,7 +32,7 @@ MatchingEngine::MatchingEngine()
  * @brief FIXME
  *
  */
-void MatchingEngine::addTrader( const MatchingEnginePtr& matcher, const TraderPtr& trader )
+void Matcher::addTrader( const MatcherPtr& matcher, const TraderPtr& trader )
 {
     matcher->traders.push_back( trader );
 }
@@ -42,7 +42,7 @@ void MatchingEngine::addTrader( const MatchingEnginePtr& matcher, const TraderPt
  * @brief FIXME
  *
  */
-void MatchingEngine::addClient( const MatchingEnginePtr& matcher, const ClientPtr& client )
+void Matcher::addClient( const MatcherPtr& matcher, const ClientPtr& client )
 {
     matcher->clients.push_back( client );
 }

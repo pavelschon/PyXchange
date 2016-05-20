@@ -4,10 +4,10 @@
 import pyxchange
 
 
-matcher  = pyxchange.MatchingEngine()
-matcher2 = pyxchange.MatchingEngine()
+matcher  = pyxchange.Matcher()
+matcher2 = pyxchange.Matcher()
 
-print( pyxchange.MatchingEngine )
+print( pyxchange.Matcher )
 print( matcher )
 print( matcher2 )
 

@@ -1,11 +1,11 @@
 /**
  * @brief This module implements simulator of exchange
- * @file MatchingEngine.hpp
+ * @file Matcher.hpp
  * 
  */
 
-#ifndef MATCHINENGINE
-#define MATCHINGENGINE
+#ifndef MATCHER
+#define MATCHER
 
 #include "PyXchangeFwd.hpp"
 #include "OrderBook.hpp"
@@ -15,19 +15,19 @@ namespace pyxchange
 {
 
 
-class MatchingEngine
+class Matcher
 {
 
 public:
-                                            MatchingEngine();
+                                            Matcher();
 
     static void                             addTrader(
-                                                const MatchingEnginePtr& matcher,
+                                                const MatcherPtr& matcher,
                                                 const TraderPtr& trader
                                             );
 
     static void                             addClient(
-                                                const MatchingEnginePtr& matcher,
+                                                const MatcherPtr& matcher,
                                                 const ClientPtr& client
                                             );
 
@@ -44,7 +44,7 @@ private:
 } /* namespace pyxchange */
 
 
-#endif /* MATCHINENGINE */
+#endif /* MATCHER */
 
 
 /* EOF */

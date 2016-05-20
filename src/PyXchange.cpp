@@ -7,7 +7,7 @@
 #include "PyXchangeFwd.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
-#include "MatchingEngine.hpp"
+#include "Matcher.hpp"
 
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
@@ -56,24 +56,18 @@ BOOST_PYTHON_MODULE( pyxchange )
     using namespace ::boost::python;
     using namespace ::pyxchange;
 
-    class_< Client, ClientPtr >( nameof_<Client>(), no_init )
+    class_<Client, ClientPtr>( nameof_<Client>(), no_init )
         .def( "__init__", make_constructor( constructor<Client> ) )
-        //.def( init<const int64_t, const int64_t, const unsigned int, const unsigned int>() )
         ;
 
-    class_< Trader, TraderPtr >( nameof_<Trader>(), no_init )
+    class_<Trader, TraderPtr>( nameof_<Trader>(), no_init )
         .def( "__init__", make_constructor( constructor<Trader> ) )
-        //.def( init<const int64_t, const int64_t, const unsigned int, const unsigned int>() )
     ;
 
-//     class_< TraderVector >( "TraderVector", no_init )
-//         .def( vector_indexing_suite< TraderVector >() )
-//     ;
-
-    class_< MatchingEngine, MatchingEnginePtr >( MatchingEngine::name.c_str(), no_init )
-        .def( "__init__", make_constructor( constructor<MatchingEngine> ) )
-        .def( "addTrader", &MatchingEngine::addTrader )
-        .def( "addClient", &MatchingEngine::addClient )
+    class_<Matcher, MatcherPtr>( nameof_<Matcher>(), no_init )
+        .def( "__init__", make_constructor( constructor<Matcher> ) )
+        .def( "addTrader", &Matcher::addTrader )
+        .def( "addClient", &Matcher::addClient )
     ;
 }
 
