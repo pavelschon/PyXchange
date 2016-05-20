@@ -6,10 +6,13 @@
 
 
 #include "OrderBook.hpp"
+#include "../Message.hpp"
 
 
 namespace pyxchange
 {
+
+namespace py = boost::python;
 
 
 /**
@@ -27,5 +30,4 @@ OrderBook::OrderBook()
 
 
 /* EOF */
-
 

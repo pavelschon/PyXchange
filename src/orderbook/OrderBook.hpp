@@ -1,0 +1,46 @@
+/**
+ * @brief This module implements simulator of exchange
+ * @file OrderBook.hpp
+ *
+ */
+
+#ifndef ORDER_BOOK
+#define ORDER_BOOK
+
+#include "../PyXchangeFwd.hpp"
+#include "OrderContainer.hpp"
+
+
+namespace pyxchange
+{
+
+
+class OrderBook
+{
+public:
+                                            OrderBook();
+
+     void                                   createOrder( const TraderPtr& trader,
+                                                         const boost::python::dict& decoded );
+
+private:
+    template<typename T>
+    void                                    createOrder( T& orders,
+                                                         const TraderPtr& trader,
+                                                         const Order& order );
+
+    BidOrderContainer                       bidOrders;
+    AskOrderContainer                       askOrders;
+
+};
+
+
+} /* namespace pyxchange */
+
+
+#endif /* ORDER_BOOK */
+
+
+/* EOF */
+
+

@@ -50,6 +50,7 @@ BOOST_PYTHON_MODULE( pyxchange )
         .def( "addClient", &Matcher::addClient, args( "client" ) )
         .def( "removeTrader", &Matcher::removeTrader, args( "trader" ) )
         .def( "removeClient", &Matcher::removeClient, args( "client" ) )
+        .def( "handleMessage", &Matcher::handleMessage, args( "trader", "data" ) )
     ;
 
     def( "json_dumps", &json_dumps<const char*> );

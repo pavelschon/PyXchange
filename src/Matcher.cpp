@@ -8,11 +8,15 @@
 #include "Matcher.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
+#include "Message.hpp"
 #include "Utils.hpp"
 
 
 namespace pyxchange
 {
+
+
+namespace py = boost::python;
 
 
 /**
@@ -35,7 +39,7 @@ void Matcher::addTrader( const TraderPtr& trader )
     {
         PyErr_SetString( PyExc_ValueError, "trader already added" );
 
-        boost::python::throw_error_already_set();
+        py::throw_error_already_set();
     }
 }
 
@@ -50,7 +54,7 @@ void Matcher::addClient( const ClientPtr& client )
     {
         PyErr_SetString( PyExc_ValueError, "client already added" );
 
-        boost::python::throw_error_already_set();
+        py::throw_error_already_set();
     }
 }
 
@@ -72,7 +76,7 @@ void Matcher::removeTrader( const TraderPtr& client )
     {
         PyErr_SetString( PyExc_KeyError, "trader does not exist" );
 
-        boost::python::throw_error_already_set();
+        py::throw_error_already_set();
     }
 }
 
@@ -93,7 +97,29 @@ void Matcher::removeClient( const ClientPtr& client )
     {
         PyErr_SetString( PyExc_KeyError, "client does not exist" );
 
-        boost::python::throw_error_already_set();
+        py::throw_error_already_set();
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleMessage( const TraderPtr& trader, const char* const data )
+{
+    const py::dict decoded( json_loads<const char* const>( data ) );
+    const py::str message_type( decoded["message"] );
+
+    if( message_type == message::createOrder )
+    {
+        orderbook.createOrder( trader, decoded );
+    }
+    else
+    {
+        PyErr_SetString( PyExc_KeyError, "unknown message" );
+
+        py::throw_error_already_set();
     }
 }
 

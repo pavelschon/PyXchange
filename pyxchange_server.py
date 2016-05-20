@@ -51,7 +51,7 @@ class TraderProtocol(protocol.Protocol):
 
 
     def dataReceived(self, data):
-        self.trader.write(repr(matcher) + ' ' + repr(self.trader) + '\n')
+        self.matcher.handleMessage(self.trader, data)
 
 
     def connectionLost(self, reason):

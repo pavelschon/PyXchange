@@ -16,14 +16,22 @@ namespace pyxchange
 
 class Order
 {
+    friend class OrderBook;
+
 public:
-                                            Order();
+                                            Order( const TraderPtr& trader_,
+                                                   const boost::python::str& side_,
+                                                   const boost::python::long_& price_,
+                                                   const boost::python::long_& quantity_,
+                                                   const boost::python::long_& orderId_ );
+
+    const TraderPtr                         trader;
+    const boost::python::str                side;
 
     price_t                                 price;
     time_t                                  time;
-private:
-
-
+    quantity_t                              quantity;
+    orderId_t                               orderId;
 };
 
 

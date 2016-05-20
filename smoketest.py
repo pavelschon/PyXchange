@@ -33,10 +33,6 @@ class JsonTest(unittest.TestCase):
             assert pyxchange.json_dumps(object)
 
 
-class MatcherTest(unittest.TestCase):
-    pass
-
-
 class ClientTest(unittest.TestCase):
     def setUp(self):
         self.transport = io.BytesIO()
@@ -117,6 +113,34 @@ class TraderTest(unittest.TestCase):
 
         with self.assertRaises(KeyError):
             matcher.removeTrader(trader)
+
+
+class MatcherTest(unittest.TestCase):
+    def setUp(self):
+        self.transport = io.BytesIO()
+
+
+    def testMalformedMessage(self):
+        """ Test malformed message """
+
+        message = 'malformed'
+        matcher = pyxchange.Matcher()
+        trader = pyxchange.Trader(self.transport.write)
+
+        with self.assertRaises(ValueError):
+            matcher.handleMessage(trader, message)
+
+
+    def testCreateOrder(self):
+        """ Test create order """
+
+        message = ( '{"side": "BUY", "price": 145, "quantity": "350",'
+                    '"message": "createOrder", "orderId": 662688}' )
+
+        matcher = pyxchange.Matcher()
+        trader = pyxchange.Trader(self.transport.write)
+
+        matcher.handleMessage(trader, message)
 
 
 if __name__ == '__main__':

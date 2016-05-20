@@ -18,7 +18,6 @@ namespace pyxchange
 
 const auto json = boost::python::import( "json" );
 
-
 /**
  * @brief FIXME
  *

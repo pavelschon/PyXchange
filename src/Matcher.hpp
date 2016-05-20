@@ -8,7 +8,7 @@
 #define MATCHER
 
 #include "PyXchangeFwd.hpp"
-#include "OrderBook.hpp"
+#include "orderbook/OrderBook.hpp"
 
 
 namespace pyxchange
@@ -27,9 +27,15 @@ public:
     void                                    removeTrader( const TraderPtr& client );
     void                                    removeClient( const ClientPtr& client );
 
+    void                                    handleMessage( const TraderPtr& trader,
+                                                           const char* const data );
+
     static constexpr const char* const      name = "Matcher";
 
 private:
+    void                                    createOrder( const TraderPtr& trader,
+                                                         const boost::python::dict& decoded );
+
     OrderBook                               orderbook;
 
     TraderSet                               traders;
