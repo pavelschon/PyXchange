@@ -1,8 +1,8 @@
-BOOST_LIB=boost_python-py34
-PYTHON_CMD=python3.4
-PYTHON_LIB=python3.4
-PYTHON_INC=/usr/include/python3.4
-PYTHON_LIB_PATH=/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu/
+BOOST_LIB=boost_python-py27
+PYTHON_CMD=python2.7
+PYTHON_LIB=python2.7
+PYTHON_INC=/usr/include/python2.7
+PYTHON_LIB_PATH=/usr/lib/python2.7/config-x86_64-linux-gnu/
 CXX=g++
 CXXFLAGS=-Wall -pedantic -fPIC -std=c++14
 PYXCHANGE_DEPS=build/Client.o build/Trader.o build/Order.o build/OrderBook.o build/Matcher.o build/pyxchange.o
