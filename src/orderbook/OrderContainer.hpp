@@ -15,6 +15,7 @@
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index/composite_key.hpp>
 #include <boost/multi_index/member.hpp>
+#include <boost/multi_index/mem_fun.hpp>
 #include <boost/multi_index/tag.hpp>
 
 
@@ -33,8 +34,8 @@ typedef std::less<const time_t>                                                 
 typedef boost::multi_index::composite_key_compare<higherPrice, lowerTimestamp>  higherPriceLowerTimestamp;
 typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTimestamp>  lowerPriceLowerTimestamp;
 
-typedef boost::multi_index::member<Order, const price_t, &Order::price>         keyPrice;
-typedef boost::multi_index::member<Order, const time_t,  &Order::time>          keyTime;
+typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, price_t, Order::getPrice)       keyPrice;
+typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, time_t,  Order::getTime)        keyTime;
 typedef boost::multi_index::composite_key<Order, keyPrice, keyTime>             keyPriceTime;
 
 template<typename Compare, typename CompareNonUnique>

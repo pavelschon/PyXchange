@@ -21,18 +21,13 @@ namespace py = boost::python;
  */
 void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const py::str order_side( decoded["side"] );
-    const py::long_ price( decoded[ "price" ] );
-    const py::long_ quantity( decoded[ "quantity" ] );
-    const py::long_ orderId( decoded[ "orderId" ] );
+    const Order order( trader, decoded );
 
-    const Order order( trader, order_side, price, quantity, orderId );
-
-    if( order_side == side::bid )
+    if( order.side == side::bid )
     {
         createOrder( bidOrders, trader, order );
     }
-    else if( order_side == side::ask )
+    else if( order.side == side::ask )
     {
         createOrder( askOrders, trader, order );
     }

@@ -20,12 +20,13 @@ class Order
 
 public:
                                             Order( const TraderPtr& trader_,
-                                                   const boost::python::str& side_,
-                                                   const boost::python::long_& price_,
-                                                   const boost::python::long_& quantity_,
-                                                   const boost::python::long_& orderId_ );
+                                                   const boost::python::dict& decoded );
 
-    const TraderPtr                         trader;
+    price_t                                 getPrice( void ) const;
+    time_t                                  getTime( void ) const;
+
+private:
+    const TraderWPtr                        trader;
     const boost::python::str                side;
 
     price_t                                 price;

@@ -107,7 +107,7 @@ void Matcher::removeClient( const ClientPtr& client )
  */
 void Matcher::handleMessage( const TraderPtr& trader, const char* const data )
 {
-    const py::dict decoded( json_loads<const char* const>( data ) );
+    const py::dict decoded( json_loads( data ) );
     const py::str message_type( decoded["message"] );
 
     if( message_type == message::createOrder )

@@ -18,17 +18,35 @@ namespace py = boost::python;
  * @brief Constructor
  *
  */
-Order::Order( const TraderPtr& trader_, const py::str& side_,
-              const py::long_& price_, const py::long_& quantity_,
-              const py::long_& orderId_ ):
+Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
 
       trader( trader_ )
-    , side( side_ )
-    , price( py::extract<const price_t>( price_ ) )
-    , quantity( py::extract<const quantity_t>( quantity_ ) )
-    , orderId( py::extract<const orderId_t>( orderId_ ) )
+    , side( decoded["side"] )
+    , price( py::extract<const price_t>( decoded["price"] ) )
+    , quantity( py::extract<const quantity_t>( decoded["quantity"] ) )
+    , orderId( py::extract<const orderId_t>( decoded["orderId"] ) )
 {
 
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+price_t Order::getPrice( void ) const
+{
+    return price;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+time_t Order::getTime( void ) const
+{
+    return time;
 }
 
 
