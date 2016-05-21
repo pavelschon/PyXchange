@@ -134,7 +134,7 @@ class MatcherTest(unittest.TestCase):
     def testCreateOrder(self):
         """ Test create order """
 
-        message = ( '{"side": "BUY", "price": 145, "quantity": "350",'
+        message = ( '{"side": "BUY", "price": 145, "quantity": 350,'
                     '"message": "createOrder", "orderId": 662688}' )
 
         matcher = pyxchange.Matcher()

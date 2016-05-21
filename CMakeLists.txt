@@ -10,7 +10,7 @@ add_compile_options( -pedantic )
 add_compile_options( -fPIC )
 add_compile_options( -std=c++14 )
 
-set( CMAKE_VERBOSE_MAKEFILE ON )
+set( CMAKE_VERBOSE_MAKEFILE OFF )
 
 project( pyxchange CXX )
 
