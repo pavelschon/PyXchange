@@ -134,14 +134,14 @@ class MatcherTest(unittest.TestCase):
     def testCreateOrder(self):
         """ Test create order """
 
-        message = ( '{"side": "BUY", "price": 145, "quantity": 350,'
+        message = ( '{"side": "BUYs", "price": 145, "quantity": 350,'
                     '"message": "createOrder", "orderId": 662688}' )
 
         matcher = pyxchange.Matcher()
         trader = pyxchange.Trader(self.transport.write)
 
         matcher.handleMessage(trader, message)
-        
+
         with self.assertRaises(ValueError):
             matcher.handleMessage(trader, message)
 

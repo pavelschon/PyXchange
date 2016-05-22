@@ -8,7 +8,7 @@
 #define MATCHER
 
 #include "PyXchangeFwd.hpp"
-#include "orderbook/OrderBook.hpp"
+#include "OrderBook.hpp"
 
 
 namespace pyxchange

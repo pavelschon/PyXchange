@@ -6,7 +6,7 @@
 
 
 #include "Trader.hpp"
-#include "orderbook/Order.hpp"
+#include "Order.hpp"
 
 
 namespace pyxchange

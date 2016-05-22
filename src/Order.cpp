@@ -38,7 +38,7 @@ Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, "unknown side" );
+        PyErr_SetString( PyExc_ValueError, "unknown side" );
 
         py::throw_error_already_set();
     }

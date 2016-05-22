@@ -21,14 +21,13 @@ include_directories(
 
 
 add_library( pyxchange SHARED
+    src/Order.cpp
+    src/OrderBook.cpp
+    src/CreateOrder.cpp
     src/Client.cpp
     src/Trader.cpp
     src/Matcher.cpp
     src/PyXchange.cpp
-
-    src/orderbook/Order.cpp
-    src/orderbook/OrderBook.cpp
-    src/orderbook/CreateOrder.cpp
 )
 
 
