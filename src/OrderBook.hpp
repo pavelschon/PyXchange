@@ -34,9 +34,14 @@ private:
     void                                    createOrderError( const TraderPtr& trader,
                                                               const OrderPtr& order );
 
+    void                                    cancelOrderSuccess( const TraderPtr& trader,
+                                                                const boost::python::dict& decoded );
+
+    void                                    cancelOrderError( const TraderPtr& trader,
+                                                              const boost::python::dict& decoded );
+
     BidOrderContainer                       bidOrders;
     AskOrderContainer                       askOrders;
-
 };
 
 

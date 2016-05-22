@@ -119,15 +119,15 @@ class TraderTest(unittest.TestCase):
 class MatcherTest(unittest.TestCase):
     createOrderRequest  = { u'orderId': 662688, u'price': 145,
                             u'message': u'createOrder', u'side': u'BUY', u'quantity': 350 }
-
     createOrderResponse = { u'report': u'NEW', u'orderId': 662688,
                             u'message': u'executionReport' }
-
     createOrderError = { u'report': u'ERROR', u'text': u'order already exists',
                          u'message': u'executionReport', u'orderId': 662688 }
 
     cancelOrderRequest  = { u'orderId': 662688, u'message': u'cancelOrder' }
     cancelOrderResponse = { u'orderId': 662688, u'message': u'executionReport', 'report': u'CANCELED' }
+    cancelOrderError = { u'report': u'ERROR', u'text': u'order does not exist',
+                         u'message': u'executionReport', u'orderId': 662688 }
 
 
     def setUp(self):
@@ -171,6 +171,9 @@ class MatcherTest(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
+
+        self.assertOutput(self.cancelOrderError)
+
 
 
 if __name__ == '__main__':

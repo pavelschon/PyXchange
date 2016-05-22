@@ -22,15 +22,25 @@ namespace py = boost::python;
  */
 void OrderBook::cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const auto& orderId = py::extract<const orderId_t>( decoded["orderId"] );
+    const orderId_t orderId = py::extract<const orderId_t>( decoded["orderId"] );
 
     if( ! trader->cancelOrder( orderId ) )
     {
-        PyErr_SetString( PyExc_ValueError, "order does not exist" );
-
-        py::throw_error_already_set();
+        cancelOrderError( trader, decoded );
     }
+    else
+    {
+        cancelOrderSuccess( trader, decoded );
+    }
+}
 
+
+/**
+ * @brief FIXME
+ *
+ */
+void OrderBook::cancelOrderSuccess( const TraderPtr& trader, const boost::python::dict& decoded )
+{
     py::dict response;
 
     response["message"] = message::executionReport;
@@ -39,6 +49,30 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const boost::python::dict&
 
     // send response
     trader->writeData( response );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void OrderBook::cancelOrderError( const TraderPtr& trader, const boost::python::dict& decoded )
+{
+    const char* const text = "order does not exist";
+
+    py::dict response;
+
+    response["message"] = message::executionReport;
+    response["report" ] = report::err;
+    response["text"   ] = text;
+    response["orderId"] = decoded["orderId"];
+
+    // send response
+    trader->writeData( response );
+
+    PyErr_SetString( PyExc_ValueError, text );
+
+    py::throw_error_already_set();
 }
 
 
