@@ -42,6 +42,7 @@ namespace report
 {
     const boost::python::str new_ = "NEW";
     const boost::python::str cancel = "CANCELED";
+    const boost::python::str err = "ERROR";
 
 } /* namespace report */
 

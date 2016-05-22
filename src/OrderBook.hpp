@@ -28,10 +28,11 @@ public:
                                                          const boost::python::dict& decoded );
 
 private:
-    template<typename T>
-    void                                    createOrder( T& orders,
-                                                         const TraderPtr& trader,
-                                                         const OrderPtr& order );
+    void                                    createOrderSuccess( const TraderPtr& trader,
+                                                                const OrderPtr& order );
+
+    void                                    createOrderError( const TraderPtr& trader,
+                                                              const OrderPtr& order );
 
     BidOrderContainer                       bidOrders;
     AskOrderContainer                       askOrders;

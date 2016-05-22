@@ -26,9 +26,9 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
 
     if( !result.second )
     {
-        PyErr_SetString( PyExc_ValueError, "order already inserted" );
+        createOrderError( trader, result.first );
 
-        py::throw_error_already_set();
+        throw;
     }
     else if( result.first->side == side::bid )
     {
@@ -39,14 +39,7 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
         askOrders.insert( result.first );
     }
 
-    py::dict response;
-
-    response["message"] = message::executionReport;
-    response["report" ] = report::new_;
-    response["orderId"] = result.first->orderId;
-
-    // send response
-    trader->writeData( response );
+    createOrderSuccess( trader, result.first );
 }
 
 
@@ -54,11 +47,42 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
  * @brief FIXME
  *
  */
-// template<typename T>
-// void OrderBook::createOrder( T& orders, const TraderPtr& trader, const OrderPtr& order )
-// {
-//
-// }
+void OrderBook::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order )
+{
+    py::dict response;
+
+    response["message"] = message::executionReport;
+    response["report" ] = report::new_;
+    response["orderId"] = order->orderId;
+
+    // send response
+    trader->writeData( response );
+}
+
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void OrderBook::createOrderError( const TraderPtr& trader, const OrderPtr& order )
+{
+    const char* const text = "order already exists";
+
+    py::dict response;
+
+    response["message"] = message::executionReport;
+    response["report" ] = report::err;
+    response["text"   ] = text;
+    response["orderId"] = order->orderId;
+
+    // send response
+    trader->writeData( response );
+
+    PyErr_SetString( PyExc_ValueError, text );
+
+    py::throw_error_already_set();
+}
 
 
 } /* namespace pyxchange */

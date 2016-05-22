@@ -123,6 +123,9 @@ class MatcherTest(unittest.TestCase):
     createOrderResponse = { u'report': u'NEW', u'orderId': 662688,
                             u'message': u'executionReport' }
 
+    createOrderError = { u'report': u'ERROR', u'text': u'order already exists',
+                         u'message': u'executionReport', u'orderId': 662688 }
+
     cancelOrderRequest  = { u'orderId': 662688, u'message': u'cancelOrder' }
     cancelOrderResponse = { u'orderId': 662688, u'message': u'executionReport', 'report': u'CANCELED' }
 
@@ -134,6 +137,13 @@ class MatcherTest(unittest.TestCase):
         self.matcher.addTrader(self.trader)
 
 
+    def assertOutput(self, message):
+        assert pyxchange.json_loads(self.transport.getvalue()) == message
+
+        self.transport.truncate(0)
+        self.transport.seek(0)
+
+
     def testMalformedMessage(self):
         """ Test malformed message """
 
@@ -143,29 +153,24 @@ class MatcherTest(unittest.TestCase):
             self.matcher.handleMessageStr(self.trader, message)
 
 
-    def testCreateOrder(self):
+    def testCreateCancelOrder(self):
         """ Test create/cancel order """
 
         self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
 
-        assert pyxchange.json_loads(self.transport.getvalue()) == self.createOrderResponse
-
-        self.transport.seek(0)
+        self.assertOutput(self.createOrderResponse)
 
         with self.assertRaises(ValueError):
             self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
 
-        self.transport.seek(0)
+        self.assertOutput(self.createOrderError)
 
         self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
 
-        assert pyxchange.json_loads(self.transport.getvalue()) == self.cancelOrderResponse
-        self.transport.seek(0)
+        self.assertOutput(self.cancelOrderResponse)
 
         with self.assertRaises(ValueError):
             self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
-
-
 
 
 if __name__ == '__main__':
