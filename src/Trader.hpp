@@ -29,7 +29,7 @@ public:
     size_t                                  cancelOrder( const orderId_t orderId );
 
     template<typename... Params>
-    static std::pair<OrderPtr, bool>        insertOrder( const TraderPtr& trader, Params... params );
+    static OrderCreateResult                createOrder( const TraderPtr& trader, Params... params );
 
     static constexpr const char* const      name = "Trader";
 
@@ -38,21 +38,6 @@ private:
 
     OrderMap                                orders;
 };
-
-
-/**
- * @brief FIXME
- *
- */
-template<typename... Params>
-inline std::pair<OrderPtr, bool> Trader::insertOrder( const TraderPtr& trader, Params... params )
-{
-    const OrderPtr& order = std::make_shared<Order>( trader, params... );
-    const auto& orderPair = std::make_pair( order->getId(), order );
-    const auto& insResult = trader->orders.insert( orderPair );
-
-    return std::make_pair( order, insResult.second );
-}
 
 
 } /* namespace pyxchange */

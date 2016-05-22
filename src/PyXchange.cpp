@@ -36,7 +36,7 @@ BOOST_PYTHON_MODULE( pyxchange )
 
     class_<Client, ClientPtr, boost::noncopyable>( Client::name, no_init )
         .def( "__init__", make_constructor( &make_shared_<Client, const object&> ) )
-        .def( "write", &Client::operator() )
+        .def( "write", &Client::writeString )
         ;
 
     class_<Trader, TraderPtr, boost::noncopyable>( Trader::name, no_init )

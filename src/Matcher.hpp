@@ -27,7 +27,7 @@ public:
     void                                    removeTrader( const TraderPtr& client );
     void                                    removeClient( const ClientPtr& client );
 
-    void                                    handleMessageStr( const TraderPtr& trader, const char* const data );
+    void                                    handleMessageStr(  const TraderPtr& trader, const char* const data );
     void                                    handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
 
     static constexpr const char* const      name = "Matcher";
@@ -37,13 +37,13 @@ private:
     void                                    cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
 
     void                                    createOrderSuccess( const TraderPtr& trader, const OrderPtr& order );
-    void                                    createOrderError( const TraderPtr& trader, const OrderPtr& order );
+    void                                    createOrderError(   const TraderPtr& trader, const OrderPtr& order );
 
-    void                                    cancelOrderSuccess( const TraderPtr& trader, const boost::python::dict& decoded );
-    void                                    cancelOrderError( const TraderPtr& trader, const boost::python::dict& decoded );
+    void                                    cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId );
+    void                                    cancelOrderError(   const TraderPtr& trader, const orderId_t orderId );
 
     void                                    handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder );
-    void                                    handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& askOrder );
+    void                                    handleAskExecution( const TraderPtr& askTrader, const OrderPtr& askOrder );
 
     TraderSet                               traders;
     ClientSet                               clients;

@@ -26,11 +26,11 @@ void Matcher::cancelOrder( const TraderPtr& trader, const boost::python::dict& d
 
     if( ! trader->cancelOrder( orderId ) )
     {
-        cancelOrderError( trader, decoded );
+        cancelOrderError( trader, orderId );
     }
     else
     {
-        cancelOrderSuccess( trader, decoded );
+        cancelOrderSuccess( trader, orderId );
     }
 }
 
@@ -39,13 +39,13 @@ void Matcher::cancelOrder( const TraderPtr& trader, const boost::python::dict& d
  * @brief FIXME
  *
  */
-void Matcher::cancelOrderSuccess( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId )
 {
     py::dict response;
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::cancel;
-    response[ keys::orderId ] = decoded[ keys::orderId ];
+    response[ keys::orderId ] = orderId;
 
     // send response
     trader->writeData( response );
@@ -56,14 +56,14 @@ void Matcher::cancelOrderSuccess( const TraderPtr& trader, const boost::python::
  * @brief FIXME
  *
  */
-void Matcher::cancelOrderError( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::cancelOrderError( const TraderPtr& trader, const orderId_t orderId )
 {
     py::dict response;
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
     response[ keys::text    ] = strings::orderDoesNotExist;
-    response[ keys::orderId ] = decoded[ keys::orderId ];
+    response[ keys::orderId ] = orderId;
 
     // send response
     trader->writeData( response );

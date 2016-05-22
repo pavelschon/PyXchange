@@ -20,10 +20,9 @@ namespace pyxchange
 namespace message
 {
 
-const boost::python::str createOrder = "createOrder";
-const boost::python::str cancelOrder = "cancelOrder";
-const boost::python::str executionReport = "executionReport";
-
+const boost::python::str createOrder        = "createOrder";
+const boost::python::str cancelOrder        = "cancelOrder";
+const boost::python::str executionReport    = "executionReport";
 
 } /* namespace message */
 
@@ -34,15 +33,15 @@ namespace side
 const boost::python::str bid = "BUY";
 const boost::python::str ask = "SELL";
 
-
 } /* namespace side */
 
 
 namespace report
 {
-    const boost::python::str new_ = "NEW";
-    const boost::python::str cancel = "CANCELED";
-    const boost::python::str err = "ERROR";
+
+const boost::python::str new_   = "NEW";
+const boost::python::str cancel = "CANCELED";
+const boost::python::str err    = "ERROR";
 
 } /* namespace report */
 
@@ -50,17 +49,17 @@ namespace report
 namespace strings
 {
 
-    const char* const orderDoesNotExist = "order does not exists";
-    const char* const orderAlreadyExist = "order already exists";
+const char* const orderDoesNotExist     = "order does not exists";
+const char* const orderAlreadyExist     = "order already exists";
 
-    const char* const traderAlreadyAdded = "trader already added";
-    const char* const clientAlreadyAdded = "client already added";
+const char* const traderAlreadyAdded    = "trader already added";
+const char* const clientAlreadyAdded    = "client already added";
 
-    const char* const traderDoesNotExist = "trader does not exist";
-    const char* const clientDoesNotExist = "client does not exist";
+const char* const traderDoesNotExist    = "trader does not exist";
+const char* const clientDoesNotExist    = "client does not exist";
 
-    const char* const unknownMessage = "unknown message";
-    const char* const unknownSide = "unknown side";
+const char* const unknownMessage        = "unknown message";
+const char* const unknownSide           = "unknown side";
 
 } /* namespace strings */
 
@@ -68,13 +67,14 @@ namespace strings
 
 namespace keys
 {
-    const char* const message = "message";
-    const char* const report  = "report";
-    const char* const orderId  = "orderId";
-    const char* const price  = "price";
-    const char* const quantity  = "quantity";
-    const char* const side  = "side";
-    const char* const text  = "text";
+
+const char* const message   = "message";
+const char* const report    = "report";
+const char* const price     = "price";
+const char* const orderId   = "orderId";
+const char* const quantity  = "quantity";
+const char* const side      = "side";
+const char* const text      = "text";
 
 } /* namespace keys */
 

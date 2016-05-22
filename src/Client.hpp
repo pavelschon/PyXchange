@@ -23,13 +23,13 @@ class Client
 public:
     explicit                                Client( const boost::python::object& write_ );
 
-    void                                    operator()( const char* const data );
+    void                                    writeString( const char* const data );
+    void                                    writeData( const boost::python::object& data );
 
     static constexpr const char* const      name = "Client";
 
-    const boost::python::object             write;
-
 private:
+    const boost::python::object             write;
 
 };
 

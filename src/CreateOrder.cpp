@@ -20,34 +20,48 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
+template<typename... Params>
+OrderCreateResult Trader::createOrder( const TraderPtr& trader, Params... params )
+{
+    const OrderPtr& order = std::make_shared<Order>( trader, params... );
+    const auto& orderPair = std::make_pair( order->getId(), order );
+    const auto& insResult = trader->orders.insert( orderPair );
+
+    return std::make_pair( order, insResult.second );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const auto& result = Trader::insertOrder( trader, decoded );
+    const auto& result = Trader::createOrder( trader, decoded );
+    const OrderPtr& order = result.first;
 
     if( !result.second )
     {
-        createOrderError( trader, result.first );
-
-        throw;
+        createOrderError( trader, order );
     }
-    else if( result.first->side == side::bid )
+    else if( order->side == side::bid )
     {
-        createOrderSuccess( trader, result.first );
-        handleBidExecution( trader, result.first );
+        createOrderSuccess( trader, order );
+        handleBidExecution( trader, order );
 
-        if( result.first->quantity )
+        if( order->quantity )
         {
-            bidOrders.insert( result.first );
+            bidOrders.insert( order );
         }
     }
-    else if( result.first->side == side::ask )
+    else if( order->side == side::ask )
     {
-        createOrderSuccess( trader, result.first );
-        handleAskExecution( trader, result.first );
+        createOrderSuccess( trader, order );
+        handleAskExecution( trader, order );
 
-        if( result.first->quantity )
+        if( order->quantity )
         {
-            askOrders.insert( result.first );
+            askOrders.insert( order );
         }
     }
 }
