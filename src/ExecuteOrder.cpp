@@ -24,10 +24,8 @@ namespace py = boost::python;
  */
 void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder )
 {
-    using namespace boost::multi_index;
-
-    typename AskOrderContainer::template index<idxPriceTime>::type &idx = askOrders.get<idxPriceTime>();
-    typename AskOrderContainer::template index<idxPriceTime>::type::const_iterator it = idx.begin();
+    AskOrderContainer::index<tags::idxPriceTime>::type const &idx = askOrders.get<tags::idxPriceTime>();
+    AskOrderContainer::index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
 
@@ -65,10 +63,8 @@ void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bi
  */
 void Matcher::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& askOrder )
 {
-    using namespace boost::multi_index;
-
-    typename BidOrderContainer::template index<idxPriceTime>::type &idx = bidOrders.get<idxPriceTime>();
-    typename BidOrderContainer::template index<idxPriceTime>::type::const_iterator it = idx.begin();
+    BidOrderContainer::index<tags::idxPriceTime>::type const &idx= bidOrders.get<tags::idxPriceTime>();
+    BidOrderContainer::index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
 

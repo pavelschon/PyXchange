@@ -48,8 +48,10 @@ template<typename... Params>
 inline std::pair<OrderPtr, bool> Trader::insertOrder( const TraderPtr& trader, Params... params )
 {
     const OrderPtr& order = std::make_shared<Order>( trader, params... );
+    const auto& orderPair = std::make_pair( order->getId(), order );
+    const auto& insResult = trader->orders.insert( orderPair );
 
-    return std::make_pair( order, trader->orders.insert( std::make_pair( order->getId(), order ) ).second );
+    return std::make_pair( order, insResult.second );
 }
 
 

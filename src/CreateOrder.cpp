@@ -61,9 +61,9 @@ void Matcher::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order
 {
     py::dict response;
 
-    response["message"] = message::executionReport;
-    response["report" ] = report::new_;
-    response["orderId"] = order->orderId;
+    response[ keys::message ] = message::executionReport;
+    response[ keys::report  ] = report::new_;
+    response[ keys::orderId ] = order->orderId;
 
     // send response
     trader->writeData( response );
@@ -77,19 +77,17 @@ void Matcher::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order
  */
 void Matcher::createOrderError( const TraderPtr& trader, const OrderPtr& order )
 {
-    const char* const text = "order already exists";
-
     py::dict response;
 
-    response["message"] = message::executionReport;
-    response["report" ] = report::err;
-    response["text"   ] = text;
-    response["orderId"] = order->orderId;
+    response[ keys::message ] = message::executionReport;
+    response[ keys::report  ] = report::err;
+    response[ keys::text    ] = strings::orderAlreadyExist;
+    response[ keys::orderId ] = order->orderId;
 
     // send response
     trader->writeData( response );
 
-    PyErr_SetString( PyExc_ValueError, text );
+    PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist );
 
     py::throw_error_already_set();
 }

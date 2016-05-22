@@ -38,7 +38,7 @@ void Matcher::addTrader( const TraderPtr& trader )
 {
     if( ! traders.insert( trader ).second )
     {
-        PyErr_SetString( PyExc_ValueError, "trader already added" );
+        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded );
 
         py::throw_error_already_set();
     }
@@ -53,7 +53,7 @@ void Matcher::addClient( const ClientPtr& client )
 {
     if( ! clients.insert( client ).second )
     {
-        PyErr_SetString( PyExc_ValueError, "client already added" );
+        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded );
 
         py::throw_error_already_set();
     }
@@ -75,7 +75,7 @@ void Matcher::removeTrader( const TraderPtr& client )
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, "trader does not exist" );
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
 
         py::throw_error_already_set();
     }
@@ -96,7 +96,7 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, "client does not exist" );
+        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist );
 
         py::throw_error_already_set();
     }
@@ -120,7 +120,7 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const char* const data 
  */
 void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const py::str message_type( decoded["message"] );
+    const py::str message_type( decoded[ keys::message ] );
 
     if( message_type == message::createOrder )
     {
@@ -132,7 +132,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::d
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, "unknown message" );
+        PyErr_SetString( PyExc_KeyError, strings::unknownMessage );
 
         py::throw_error_already_set();
     }

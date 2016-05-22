@@ -47,6 +47,38 @@ namespace report
 } /* namespace report */
 
 
+namespace strings
+{
+
+    const char* const orderDoesNotExist = "order does not exists";
+    const char* const orderAlreadyExist = "order already exists";
+
+    const char* const traderAlreadyAdded = "trader already added";
+    const char* const clientAlreadyAdded = "client already added";
+
+    const char* const traderDoesNotExist = "trader does not exist";
+    const char* const clientDoesNotExist = "client does not exist";
+
+    const char* const unknownMessage = "unknown message";
+    const char* const unknownSide = "unknown side";
+
+} /* namespace strings */
+
+
+
+namespace keys
+{
+    const char* const message = "message";
+    const char* const report  = "report";
+    const char* const orderId  = "orderId";
+    const char* const price  = "price";
+    const char* const quantity  = "quantity";
+    const char* const side  = "side";
+    const char* const text  = "text";
+
+} /* namespace keys */
+
+
 const auto json = boost::python::import( "json" );
 
 /**

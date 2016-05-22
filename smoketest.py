@@ -126,7 +126,7 @@ class MatcherTest(unittest.TestCase):
 
     cancelOrderRequest  = { u'orderId': 662688, u'message': u'cancelOrder' }
     cancelOrderResponse = { u'orderId': 662688, u'message': u'executionReport', 'report': u'CANCELED' }
-    cancelOrderError = { u'report': u'ERROR', u'text': u'order does not exist',
+    cancelOrderError = { u'report': u'ERROR', u'text': u'order does not exists',
                          u'message': u'executionReport', u'orderId': 662688 }
 
 

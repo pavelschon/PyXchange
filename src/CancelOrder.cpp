@@ -22,7 +22,7 @@ namespace py = boost::python;
  */
 void Matcher::cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const orderId_t orderId = py::extract<const orderId_t>( decoded["orderId"] );
+    const orderId_t orderId = py::extract<const orderId_t>( decoded[ keys::orderId ] );
 
     if( ! trader->cancelOrder( orderId ) )
     {
@@ -43,9 +43,9 @@ void Matcher::cancelOrderSuccess( const TraderPtr& trader, const boost::python::
 {
     py::dict response;
 
-    response["message"] = message::executionReport;
-    response["report" ] = report::cancel;
-    response["orderId"] = decoded["orderId"];
+    response[ keys::message ] = message::executionReport;
+    response[ keys::report  ] = report::cancel;
+    response[ keys::orderId ] = decoded[ keys::orderId ];
 
     // send response
     trader->writeData( response );
@@ -58,19 +58,17 @@ void Matcher::cancelOrderSuccess( const TraderPtr& trader, const boost::python::
  */
 void Matcher::cancelOrderError( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const char* const text = "order does not exist";
-
     py::dict response;
 
-    response["message"] = message::executionReport;
-    response["report" ] = report::err;
-    response["text"   ] = text;
-    response["orderId"] = decoded["orderId"];
+    response[ keys::message ] = message::executionReport;
+    response[ keys::report  ] = report::err;
+    response[ keys::text    ] = strings::orderDoesNotExist;
+    response[ keys::orderId ] = decoded[ keys::orderId ];
 
     // send response
     trader->writeData( response );
 
-    PyErr_SetString( PyExc_ValueError, text );
+    PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist );
 
     py::throw_error_already_set();
 }
