@@ -124,11 +124,11 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::d
 
     if( message_type == message::createOrder )
     {
-        orderbook.createOrder( trader, decoded );
+        createOrder( trader, decoded );
     }
     else if( message_type == message::cancelOrder )
     {
-        orderbook.cancelOrder( trader, decoded );
+        cancelOrder( trader, decoded );
     }
     else
     {

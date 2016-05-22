@@ -5,7 +5,7 @@
  */
 
 
-#include "OrderBook.hpp"
+#include "Matcher.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -22,7 +22,7 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
-void OrderBook::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder )
+void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder )
 {
     using namespace boost::multi_index;
 
@@ -63,7 +63,7 @@ void OrderBook::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& 
  * @brief FIXME
  *
  */
-void OrderBook::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& askOrder )
+void Matcher::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& askOrder )
 {
     using namespace boost::multi_index;
 

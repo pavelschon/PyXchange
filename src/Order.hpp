@@ -16,7 +16,7 @@ namespace pyxchange
 
 class Order
 {
-    friend class OrderBook;
+    friend class Matcher;
 
 public:
                                             Order( const TraderPtr& trader_, const boost::python::dict& decoded );

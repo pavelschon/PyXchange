@@ -5,7 +5,7 @@
  */
 
 
-#include "OrderBook.hpp"
+#include "Matcher.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -20,7 +20,7 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
-void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
     const auto& result = Trader::insertOrder( trader, decoded );
 
@@ -57,7 +57,7 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
  * @brief FIXME
  *
  */
-void OrderBook::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order )
+void Matcher::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order )
 {
     py::dict response;
 
@@ -75,7 +75,7 @@ void OrderBook::createOrderSuccess( const TraderPtr& trader, const OrderPtr& ord
  * @brief FIXME
  *
  */
-void OrderBook::createOrderError( const TraderPtr& trader, const OrderPtr& order )
+void Matcher::createOrderError( const TraderPtr& trader, const OrderPtr& order )
 {
     const char* const text = "order already exists";
 

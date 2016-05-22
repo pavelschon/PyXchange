@@ -5,7 +5,7 @@
  */
 
 
-#include "OrderBook.hpp"
+#include "Matcher.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -20,7 +20,7 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
-void OrderBook::cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
     const orderId_t orderId = py::extract<const orderId_t>( decoded["orderId"] );
 
@@ -39,7 +39,7 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const boost::python::dict&
  * @brief FIXME
  *
  */
-void OrderBook::cancelOrderSuccess( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::cancelOrderSuccess( const TraderPtr& trader, const boost::python::dict& decoded )
 {
     py::dict response;
 
@@ -56,7 +56,7 @@ void OrderBook::cancelOrderSuccess( const TraderPtr& trader, const boost::python
  * @brief FIXME
  *
  */
-void OrderBook::cancelOrderError( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::cancelOrderError( const TraderPtr& trader, const boost::python::dict& decoded )
 {
     const char* const text = "order does not exist";
 
