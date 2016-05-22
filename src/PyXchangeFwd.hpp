@@ -16,10 +16,16 @@
 #include <utility>
 #include <functional>
 #include <set>
+#include <map>
 
 
 namespace pyxchange
 {
+
+typedef std::chrono::time_point<std::chrono::high_resolution_clock>     prio_t;
+typedef unsigned int                                                    price_t;
+typedef unsigned int                                                    quantity_t;
+typedef unsigned int                                                    orderId_t;
 
 class Order;
 
@@ -27,6 +33,7 @@ typedef std::shared_ptr<Order>                                          OrderPtr
 typedef std::shared_ptr<const Order>                                    OrderConstPtr;
 typedef std::function<bool(const OrderConstPtr&, const OrderConstPtr&)> OrderComparator;
 typedef std::set<OrderPtr, OrderComparator>                             OrderSet;
+typedef std::map<orderId_t, OrderPtr>                                   OrderMap;
 
 class OrderBook;
 
@@ -44,12 +51,6 @@ typedef std::set<TraderPtr>                                             TraderSe
 
 class Matcher;
 typedef std::shared_ptr<Matcher>                                        MatcherPtr;
-
-
-typedef std::chrono::time_point<std::chrono::high_resolution_clock>     prio_t;
-typedef unsigned int                                                    price_t;
-typedef unsigned int                                                    quantity_t;
-typedef unsigned int                                                    orderId_t;
 
 
 } /* namespace pyxchange */

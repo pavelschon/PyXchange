@@ -32,12 +32,21 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
     }
     else if( result.first->side == side::bid )
     {
-        createOrder( bidOrders, trader, result.first );
+        bidOrders.insert( result.first );
     }
     else if( result.first->side == side::ask )
     {
-        createOrder( askOrders, trader, result.first );
+        askOrders.insert( result.first );
     }
+
+    py::dict response;
+
+    response["message"] = message::executionReport;
+    response["report" ] = report::new_;
+    response["orderId"] = result.first->orderId;
+
+    // send response
+    trader->writeData( response );
 }
 
 
@@ -45,11 +54,11 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
  * @brief FIXME
  *
  */
-template<typename T>
-void OrderBook::createOrder( T& orders, const TraderPtr& trader, const OrderPtr& order )
-{
-
-}
+// template<typename T>
+// void OrderBook::createOrder( T& orders, const TraderPtr& trader, const OrderPtr& order )
+// {
+//
+// }
 
 
 } /* namespace pyxchange */

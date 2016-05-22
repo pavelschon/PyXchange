@@ -41,7 +41,7 @@ BOOST_PYTHON_MODULE( pyxchange )
 
     class_<Trader, TraderPtr, boost::noncopyable>( Trader::name, no_init )
         .def( "__init__", make_constructor( &make_shared_<Trader, const object&> ) )
-        .def( "write", &Trader::operator(), args( "data" ) )
+        .def( "write", &Trader::writeString, args( "data" ) )
     ;
 
     class_<Matcher, MatcherPtr, boost::noncopyable>( Matcher::name, no_init )
@@ -50,7 +50,8 @@ BOOST_PYTHON_MODULE( pyxchange )
         .def( "addClient", &Matcher::addClient, args( "client" ) )
         .def( "removeTrader", &Matcher::removeTrader, args( "trader" ) )
         .def( "removeClient", &Matcher::removeClient, args( "client" ) )
-        .def( "handleMessage", &Matcher::handleMessage, args( "trader", "data" ) )
+        .def( "handleMessageStr", &Matcher::handleMessageStr, args( "trader", "data" ) )
+        .def( "handleMessageDict", &Matcher::handleMessageDict, args( "trader", "data" ) )
     ;
 
     def( "json_dumps", &json_dumps<const char*> );

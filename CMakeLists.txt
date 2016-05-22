@@ -24,6 +24,7 @@ add_library( pyxchange SHARED
     src/Order.cpp
     src/OrderBook.cpp
     src/CreateOrder.cpp
+    src/CancelOrder.cpp
     src/Client.cpp
     src/Trader.cpp
     src/Matcher.cpp

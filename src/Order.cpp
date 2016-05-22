@@ -69,9 +69,9 @@ prio_t Order::getTime( void ) const
  * @brief FIXME
  *
  */
-bool Order::CompareByID::operator()( const OrderConstPtr& lhs, const OrderConstPtr& rhs ) const
+orderId_t Order::getId( void ) const
 {
-    return lhs->orderId < rhs->orderId;
+    return orderId;
 }
 
 
@@ -80,5 +80,4 @@ bool Order::CompareByID::operator()( const OrderConstPtr& lhs, const OrderConstP
 
 
 /* EOF */
-
 

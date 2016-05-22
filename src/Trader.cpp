@@ -7,6 +7,7 @@
 
 #include "Trader.hpp"
 #include "Order.hpp"
+#include "Utils.hpp"
 
 
 namespace pyxchange
@@ -19,7 +20,6 @@ namespace pyxchange
  */
 Trader::Trader( const boost::python::object& write_ ):
       write( write_ )
-    , orders( Order::CompareByID() )
 {
 
 }
@@ -29,9 +29,29 @@ Trader::Trader( const boost::python::object& write_ ):
  * @brief FIXME
  *
  */
-void Trader::operator()( const char* const data )
+void Trader::writeString( const char* const data )
 {
     write( data );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Trader::writeData( const boost::python::object& data )
+{
+    write( json_dumps<const char* const>( data ) );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+size_t Trader::cancelOrder( const orderId_t orderId )
+{
+    return orders.erase( orderId );
 }
 
 

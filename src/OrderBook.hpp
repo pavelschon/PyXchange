@@ -24,6 +24,9 @@ public:
      void                                   createOrder( const TraderPtr& trader,
                                                          const boost::python::dict& decoded );
 
+     void                                   cancelOrder( const TraderPtr& trader,
+                                                         const boost::python::dict& decoded );
+
 private:
     template<typename T>
     void                                    createOrder( T& orders,

@@ -4,6 +4,7 @@
 import pyxchange
 import unittest
 import io
+import json
 
 
 class JsonTest(unittest.TestCase):
@@ -116,34 +117,55 @@ class TraderTest(unittest.TestCase):
 
 
 class MatcherTest(unittest.TestCase):
+    createOrderRequest  = { u'orderId': 662688, u'price': 145,
+                            u'message': u'createOrder', u'side': u'BUY', u'quantity': 350 }
+
+    createOrderResponse = { u'report': u'NEW', u'orderId': 662688,
+                            u'message': u'executionReport' }
+
+    cancelOrderRequest  = { u'orderId': 662688, u'message': u'cancelOrder' }
+    cancelOrderResponse = { u'orderId': 662688, u'message': u'executionReport', 'report': u'CANCELED' }
+
+
     def setUp(self):
         self.transport = io.BytesIO()
+        self.trader = pyxchange.Trader(self.transport.write)
+        self.matcher = pyxchange.Matcher()
+        self.matcher.addTrader(self.trader)
 
 
     def testMalformedMessage(self):
         """ Test malformed message """
 
         message = 'malformed'
-        matcher = pyxchange.Matcher()
-        trader = pyxchange.Trader(self.transport.write)
 
         with self.assertRaises(ValueError):
-            matcher.handleMessage(trader, message)
+            self.matcher.handleMessageStr(self.trader, message)
 
 
     def testCreateOrder(self):
-        """ Test create order """
+        """ Test create/cancel order """
 
-        message = ( '{"side": "BUYs", "price": 145, "quantity": 350,'
-                    '"message": "createOrder", "orderId": 662688}' )
+        self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
 
-        matcher = pyxchange.Matcher()
-        trader = pyxchange.Trader(self.transport.write)
+        assert pyxchange.json_loads(self.transport.getvalue()) == self.createOrderResponse
 
-        matcher.handleMessage(trader, message)
+        self.transport.seek(0)
 
         with self.assertRaises(ValueError):
-            matcher.handleMessage(trader, message)
+            self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
+
+        self.transport.seek(0)
+
+        self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
+
+        assert pyxchange.json_loads(self.transport.getvalue()) == self.cancelOrderResponse
+        self.transport.seek(0)
+
+        with self.assertRaises(ValueError):
+            self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
+
+
 
 
 if __name__ == '__main__':

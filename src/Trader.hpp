@@ -8,6 +8,7 @@
 #define TRADER
 
 #include "PyXchangeFwd.hpp"
+#include "Order.hpp"
 
 #include <boost/python/object.hpp>
 
@@ -22,7 +23,10 @@ class Trader
 public:
     explicit                                Trader( const boost::python::object& write_ );
 
-    void                                    operator()( const char* const data );
+    void                                    writeString( const char* const data );
+    void                                    writeData( const boost::python::object& data );
+
+    size_t                                  cancelOrder( const orderId_t orderId );
 
     template<typename... Params>
     static std::pair<OrderPtr, bool>        insertOrder( const TraderPtr& trader, Params... params );
@@ -32,7 +36,7 @@ public:
 private:
     const boost::python::object             write;
 
-    OrderSet                                orders;
+    OrderMap                                orders;
 };
 
 
@@ -45,7 +49,7 @@ inline std::pair<OrderPtr, bool> Trader::insertOrder( const TraderPtr& trader, P
 {
     const OrderPtr& order = std::make_shared<Order>( trader, params... );
 
-    return std::make_pair( order, trader->orders.insert( order ).second );
+    return std::make_pair( order, trader->orders.insert( std::make_pair( order->getId(), order ) ).second );
 }
 
 

@@ -102,19 +102,33 @@ void Matcher::removeClient( const ClientPtr& client )
     }
 }
 
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleMessageStr( const TraderPtr& trader, const char* const data )
+{
+    const py::dict decoded( json_loads( data ) );
+
+    handleMessageDict( trader, decoded );
+}
+
 
 /**
  * @brief FIXME
  *
  */
-void Matcher::handleMessage( const TraderPtr& trader, const char* const data )
+void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const py::dict decoded( json_loads( data ) );
     const py::str message_type( decoded["message"] );
 
     if( message_type == message::createOrder )
     {
         orderbook.createOrder( trader, decoded );
+    }
+    else if( message_type == message::cancelOrder )
+    {
+        orderbook.cancelOrder( trader, decoded );
     }
     else
     {

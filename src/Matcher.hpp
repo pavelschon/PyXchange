@@ -27,8 +27,11 @@ public:
     void                                    removeTrader( const TraderPtr& client );
     void                                    removeClient( const ClientPtr& client );
 
-    void                                    handleMessage( const TraderPtr& trader,
-                                                           const char* const data );
+    void                                    handleMessageStr( const TraderPtr& trader,
+                                                              const char* const data );
+
+    void                                    handleMessageDict( const TraderPtr& trader,
+                                                               const boost::python::dict& decoded );
 
     static constexpr const char* const      name = "Matcher";
 
