@@ -28,7 +28,7 @@ private:
     template<typename T>
     void                                    createOrder( T& orders,
                                                          const TraderPtr& trader,
-                                                         const Order& order );
+                                                         const OrderPtr& order );
 
     BidOrderContainer                       bidOrders;
     AskOrderContainer                       askOrders;

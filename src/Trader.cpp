@@ -6,6 +6,7 @@
 
 
 #include "Trader.hpp"
+#include "orderbook/Order.hpp"
 
 
 namespace pyxchange
@@ -18,6 +19,7 @@ namespace pyxchange
  */
 Trader::Trader( const boost::python::object& write_ ):
       write( write_ )
+    , orders( Order::CompareByID() )
 {
 
 }

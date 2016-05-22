@@ -6,6 +6,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "Trader.hpp"
 #include "Utils.hpp"
 
 
@@ -21,21 +22,21 @@ namespace py = boost::python;
  */
 void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const Order order( trader, decoded );
+    const auto& result = Trader::insertOrder( trader, decoded );
 
-    if( order.side == side::bid )
+    if( !result.second )
     {
-        createOrder( bidOrders, trader, order );
-    }
-    else if( order.side == side::ask )
-    {
-        createOrder( askOrders, trader, order );
-    }
-    else
-    {
-        PyErr_SetString( PyExc_KeyError, "unknown side" );
+        PyErr_SetString( PyExc_ValueError, "order already inserted" );
 
         py::throw_error_already_set();
+    }
+    else if( result.first->side == side::bid )
+    {
+        createOrder( bidOrders, trader, result.first );
+    }
+    else if( result.first->side == side::ask )
+    {
+        createOrder( askOrders, trader, result.first );
     }
 }
 
@@ -45,7 +46,7 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
  *
  */
 template<typename T>
-void OrderBook::createOrder( T& orders, const TraderPtr& trader, const Order& order )
+void OrderBook::createOrder( T& orders, const TraderPtr& trader, const OrderPtr& order )
 {
 
 }

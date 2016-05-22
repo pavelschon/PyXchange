@@ -13,6 +13,8 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <utility>
+#include <functional>
 #include <set>
 
 
@@ -21,6 +23,10 @@ namespace pyxchange
 
 class Order;
 
+typedef std::shared_ptr<Order>                                          OrderPtr;
+typedef std::shared_ptr<const Order>                                    OrderConstPtr;
+typedef std::function<bool(const OrderConstPtr&, const OrderConstPtr&)> OrderComparator;
+typedef std::set<OrderPtr, OrderComparator>                             OrderSet;
 
 class OrderBook;
 

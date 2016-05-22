@@ -6,6 +6,7 @@
 
 
 #include "Order.hpp"
+#include "Utils.hpp"
 
 
 namespace pyxchange
@@ -27,7 +28,20 @@ Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
     , price( py::extract<const price_t>( decoded["price"] ) )
     , quantity( py::extract<const quantity_t>( decoded["quantity"] ) )
 {
+    if( side == side::bid )
+    {
 
+    }
+    else if( side == side::ask )
+    {
+
+    }
+    else
+    {
+        PyErr_SetString( PyExc_KeyError, "unknown side" );
+
+        py::throw_error_already_set();
+    }
 }
 
 
@@ -48,6 +62,16 @@ price_t Order::getPrice( void ) const
 prio_t Order::getTime( void ) const
 {
     return time;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+bool Order::CompareByID::operator()( const OrderConstPtr& lhs, const OrderConstPtr& rhs ) const
+{
+    return lhs->orderId < rhs->orderId;
 }
 
 

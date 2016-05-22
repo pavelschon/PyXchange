@@ -32,6 +32,13 @@ private:
     const orderId_t                         orderId;
     const price_t                           price;
     const quantity_t                        quantity;
+
+public:
+    struct CompareByID
+    {
+        bool                                operator()( const OrderConstPtr& lhs,
+                                                        const OrderConstPtr& rhs ) const;
+    };
 };
 
 

@@ -141,6 +141,9 @@ class MatcherTest(unittest.TestCase):
         trader = pyxchange.Trader(self.transport.write)
 
         matcher.handleMessage(trader, message)
+        
+        with self.assertRaises(ValueError):
+            matcher.handleMessage(trader, message)
 
 
 if __name__ == '__main__':

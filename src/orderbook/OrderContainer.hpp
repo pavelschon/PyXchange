@@ -42,7 +42,7 @@ template<typename Compare, typename CompareNonUnique>
 struct OrderContainer
 {
     typedef boost::multi_index::multi_index_container<
-        Order,
+        OrderPtr,
         boost::multi_index::indexed_by<
             boost::multi_index::ordered_unique<
                 boost::multi_index::tag<idxPriceTime>,
