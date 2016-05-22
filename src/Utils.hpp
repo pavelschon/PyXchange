@@ -20,7 +20,7 @@ namespace pyxchange
 namespace message
 {
 
-    const boost::python::str createOrder = "createOrder";
+const boost::python::str createOrder = "createOrder";
 
 
 } /* namespace message */
@@ -29,8 +29,8 @@ namespace message
 namespace side
 {
 
-    const boost::python::str bid = "BUY";
-    const boost::python::str ask = "SELL";
+const boost::python::str bid = "BUY";
+const boost::python::str ask = "SELL";
 
 
 } /* namespace side */
@@ -45,7 +45,7 @@ const auto json = boost::python::import( "json" );
 template<typename T>
 inline boost::python::object json_loads( T value )
 {
-    return json.attr("loads")( value );
+    return json.attr( "loads" )( value );
 }
 
 
@@ -56,7 +56,7 @@ inline boost::python::object json_loads( T value )
 template<typename T>
 inline T json_dumps( const boost::python::object& obj )
 {
-    return boost::python::extract<T>( json.attr("dumps")( obj ) );
+    return boost::python::extract<T>( json.attr( "dumps" )( obj ) );
 }
 
 
@@ -67,5 +67,4 @@ inline T json_dumps( const boost::python::object& obj )
 
 
 /* EOF */
-
 

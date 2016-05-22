@@ -10,12 +10,12 @@ add_compile_options( -pedantic )
 add_compile_options( -fPIC )
 add_compile_options( -std=c++14 )
 
-set( CMAKE_VERBOSE_MAKEFILE OFF )
+set( CMAKE_VERBOSE_MAKEFILE ON )
 
 project( pyxchange CXX )
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
     /usr/include/python2.7
 )
 

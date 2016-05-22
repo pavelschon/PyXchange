@@ -7,8 +7,6 @@
 
 #include "Client.hpp"
 
-#include <iostream>
-
 
 namespace pyxchange
 {
