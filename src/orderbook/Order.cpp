@@ -22,9 +22,10 @@ Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
 
       trader( trader_ )
     , side( decoded["side"] )
+    , time( std::chrono::high_resolution_clock::now() )
+    , orderId( py::extract<const orderId_t>( decoded["orderId"] ) )
     , price( py::extract<const price_t>( decoded["price"] ) )
     , quantity( py::extract<const quantity_t>( decoded["quantity"] ) )
-    , orderId( py::extract<const orderId_t>( decoded["orderId"] ) )
 {
 
 }
@@ -44,7 +45,7 @@ price_t Order::getPrice( void ) const
  * @brief FIXME
  *
  */
-time_t Order::getTime( void ) const
+prio_t Order::getTime( void ) const
 {
     return time;
 }

@@ -23,16 +23,15 @@ public:
                                                    const boost::python::dict& decoded );
 
     price_t                                 getPrice( void ) const;
-    time_t                                  getTime( void ) const;
+    prio_t                                  getTime( void ) const;
 
 private:
     const TraderWPtr                        trader;
     const boost::python::str                side;
-
-    price_t                                 price;
-    time_t                                  time;
-    quantity_t                              quantity;
-    orderId_t                               orderId;
+    const prio_t                            time;
+    const orderId_t                         orderId;
+    const price_t                           price;
+    const quantity_t                        quantity;
 };
 
 

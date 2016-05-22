@@ -35,7 +35,7 @@ typedef boost::multi_index::composite_key_compare<higherPrice, lowerTimestamp>  
 typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTimestamp>  lowerPriceLowerTimestamp;
 
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, price_t, Order::getPrice)       keyPrice;
-typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, time_t,  Order::getTime)        keyTime;
+typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, prio_t, Order::getTime)         keyTime;
 typedef boost::multi_index::composite_key<Order, keyPrice, keyTime>             keyPriceTime;
 
 template<typename Compare, typename CompareNonUnique>

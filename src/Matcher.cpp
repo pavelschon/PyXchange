@@ -10,6 +10,8 @@
 #include "Trader.hpp"
 #include "Utils.hpp"
 
+#include <chrono>
+
 
 namespace pyxchange
 {
