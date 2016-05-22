@@ -32,14 +32,24 @@ void OrderBook::createOrder( const TraderPtr& trader, const boost::python::dict&
     }
     else if( result.first->side == side::bid )
     {
-        bidOrders.insert( result.first );
+        createOrderSuccess( trader, result.first );
+        handleBidExecution( trader, result.first );
+
+        if( result.first->quantity )
+        {
+            bidOrders.insert( result.first );
+        }
     }
     else if( result.first->side == side::ask )
     {
-        askOrders.insert( result.first );
-    }
+        createOrderSuccess( trader, result.first );
+        handleAskExecution( trader, result.first );
 
-    createOrderSuccess( trader, result.first );
+        if( result.first->quantity )
+        {
+            askOrders.insert( result.first );
+        }
+    }
 }
 
 

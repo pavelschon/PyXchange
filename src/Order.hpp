@@ -19,8 +19,7 @@ class Order
     friend class OrderBook;
 
 public:
-                                            Order( const TraderPtr& trader_,
-                                                   const boost::python::dict& decoded );
+                                            Order( const TraderPtr& trader_, const boost::python::dict& decoded );
 
     price_t                                 getPrice( void ) const;
     prio_t                                  getTime( void ) const;
@@ -32,7 +31,7 @@ private:
     const prio_t                            time;
     const orderId_t                         orderId;
     const price_t                           price;
-    const quantity_t                        quantity;
+          quantity_t                        quantity;
 };
 
 

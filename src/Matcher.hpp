@@ -27,17 +27,13 @@ public:
     void                                    removeTrader( const TraderPtr& client );
     void                                    removeClient( const ClientPtr& client );
 
-    void                                    handleMessageStr( const TraderPtr& trader,
-                                                              const char* const data );
-
-    void                                    handleMessageDict( const TraderPtr& trader,
-                                                               const boost::python::dict& decoded );
+    void                                    handleMessageStr( const TraderPtr& trader, const char* const data );
+    void                                    handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
 
     static constexpr const char* const      name = "Matcher";
 
 private:
-    void                                    createOrder( const TraderPtr& trader,
-                                                         const boost::python::dict& decoded );
+    void                                    createOrder( const TraderPtr& trader, const boost::python::dict& decoded );
 
     OrderBook                               orderbook;
 

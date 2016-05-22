@@ -175,6 +175,37 @@ class MatcherTest(unittest.TestCase):
         self.assertOutput(self.cancelOrderError)
 
 
+class TradingTest(unittest.TestCase):
+    askOrders = [ { u'orderId': 1, u'price': 1000, u'message': u'createOrder',
+                    u'side': u'SELL', u'quantity': 4 },
+                  { u'orderId': 2, u'price': 1100, u'message': u'createOrder',
+                    u'side': u'SELL', u'quantity': 3 },
+                  { u'orderId': 3, u'price': 1200, u'message': u'createOrder',
+                    u'side': u'SELL', u'quantity': 1 },
+                  { u'orderId': 4, u'price': 1200, u'message': u'createOrder',
+                    u'side': u'SELL', u'quantity': 8 },
+                  { u'orderId': 5, u'price': 1300, u'message': u'createOrder',
+                    u'side': u'SELL', u'quantity': 10 } ]
+
+    def setUp(self):
+        self.transport1 = io.BytesIO()
+        self.transport2 = io.BytesIO()
+        self.trader1 = pyxchange.Trader(self.transport1.write)
+        self.trader2 = pyxchange.Trader(self.transport2.write)
+        self.matcher = pyxchange.Matcher()
+        self.matcher.addTrader(self.trader1)
+        self.matcher.addTrader(self.trader2)
+
+
+    def testBidMatchEvent(self):
+        for createOrderRequest in self.askOrders:
+            self.matcher.handleMessageDict(self.trader2, createOrderRequest)
+
+        createOrderRequest  = { u'orderId': 1, u'price': 1200,
+                                u'message': u'createOrder', u'side': u'BUY', u'quantity': 10 }
+
+        self.matcher.handleMessageDict(self.trader1, createOrderRequest)
+
 
 if __name__ == '__main__':
     unittest.main()

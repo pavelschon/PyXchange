@@ -9,14 +9,14 @@
 #include <boost/python/dict.hpp>
 #include <boost/python/extract.hpp>
 
+#include <algorithm>
+#include <functional>
 #include <memory>
 #include <chrono>
 #include <string>
-#include <vector>
 #include <utility>
-#include <functional>
-#include <set>
 #include <map>
+#include <set>
 
 
 namespace pyxchange
