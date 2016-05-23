@@ -34,9 +34,11 @@ void Matcher::addTrader( const TraderPtr& trader )
 {
     if( ! traders.insert( trader ).second )
     {
-        notifyError( trader, strings::traderAlreadyAdded );
+        trader->notifyError( strings::traderAlreadyAdded );
 
-        PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::traderAlreadyAdded );
+        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded );
+
+        py::throw_error_already_set();
     }
 }
 
@@ -49,9 +51,11 @@ void Matcher::addClient( const ClientPtr& client )
 {
     if( ! clients.insert( client ).second )
     {
-        notifyError( client, strings::clientAlreadyAdded );
+        client->notifyError( strings::clientAlreadyAdded );
 
-        PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::clientAlreadyAdded );
+        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded );
+
+        py::throw_error_already_set();
     }
 }
 
@@ -71,9 +75,11 @@ void Matcher::removeTrader( const TraderPtr& trader )
     }
     else
     {
-        notifyError( trader, strings::traderDoesNotExist );
+        trader->notifyError( strings::traderDoesNotExist );
 
-        PY_THROW_ERROR_IF( true, PyExc_KeyError, strings::traderDoesNotExist );
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+
+        py::throw_error_already_set();
     }
 }
 
@@ -92,9 +98,11 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
-        notifyError( client, strings::clientDoesNotExist );
+        client->notifyError( strings::clientDoesNotExist );
 
-        PY_THROW_ERROR_IF( true, PyExc_KeyError, strings::clientDoesNotExist );
+        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist );
+
+        py::throw_error_already_set();
     }
 }
 
@@ -103,15 +111,17 @@ void Matcher::removeClient( const ClientPtr& client )
  * @brief FIXME
  *
  */
-bool Matcher::checkTraderExist( const TraderPtr& trader )
+bool Matcher::checkTraderExist( const TraderPtr& trader ) const
 {
     const auto traderExist = traders.count( trader ) > 0;
 
     if( ! traderExist )
     {
-        notifyError( trader, strings::traderDoesNotExist );
+        trader->notifyError( strings::traderDoesNotExist );
 
-        PY_THROW_ERROR_IF( true, PyExc_KeyError, strings::traderDoesNotExist );
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+
+        py::throw_error_already_set();
     }
 
     return traderExist;

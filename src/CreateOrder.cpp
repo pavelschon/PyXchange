@@ -70,7 +70,7 @@ void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& d
  * @brief FIXME
  *
  */
-void Matcher::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order )
+void Matcher::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order ) const
 {
     py::dict response;
 
@@ -88,7 +88,7 @@ void Matcher::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order
  * @brief FIXME
  *
  */
-void Matcher::createOrderError( const TraderPtr& trader, const OrderPtr& order )
+void Matcher::createOrderError( const TraderPtr& trader, const OrderPtr& order ) const
 {
     py::dict response;
 
@@ -100,7 +100,9 @@ void Matcher::createOrderError( const TraderPtr& trader, const OrderPtr& order )
     // send response
     trader->writeData( response );
 
-    PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::orderAlreadyExist );
+    PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist );
+
+    py::throw_error_already_set();
 }
 
 

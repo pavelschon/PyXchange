@@ -11,6 +11,7 @@ class ClientProtocol(protocol.Protocol):
 
     def __init__(self, factory, addr):
         self.factory = factory
+        self.matcher = factory.matcher
         self.addr = addr
 
 
@@ -21,12 +22,11 @@ class ClientProtocol(protocol.Protocol):
     def connectionMade(self):
         self.client = pyxchange.Client(self.transport.write)
 
-        self.factory.matcher.addClient(self.client)
-        print self.client
+        self.matcher.addClient(self.client)
 
 
     def connectionLost(self, reason):
-        self.factory.matcher.removeClient(self.client)
+        self.matcher.removeClient(self.client)
 
 
 class ClientFactory(protocol.Factory):
@@ -45,25 +45,26 @@ class TraderProtocol(protocol.Protocol):
 
     def __init__(self, factory, addr):
         self.factory = factory
+        self.matcher = factory.matcher
         self.addr = addr
 
 
     def connectionMade(self):
         self.trader = pyxchange.Trader(self.transport.write)
 
-        self.factory.matcher.addTrader(self.trader)
+        self.matcher.addTrader(self.trader)
 
 
     def dataReceived(self, data):
         data = data.strip()
         if data:
             try:
-                self.factory.matcher.handleMessageStr(self.trader, data)
+                self.matcher.handleMessageStr(self.trader, data)
             except( KeyError, ValueError ), e:
                 print repr(e)
 
     def connectionLost(self, reason):
-        self.factory.matcher.removeTrader(self.trader)
+        self.matcher.removeTrader(self.trader)
 
 
 class TraderFactory(protocol.Factory):

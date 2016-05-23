@@ -6,6 +6,7 @@
 
 
 #include "Order.hpp"
+#include "Trader.hpp"
 #include "Utils.hpp"
 
 
@@ -30,6 +31,8 @@ Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
 {
     if( side != side::bid && side != side::ask )
     {
+        trader_->notifyError( strings::unknownSide );
+
         PyErr_SetString( PyExc_ValueError, strings::unknownSide );
 
         py::throw_error_already_set();

@@ -44,6 +44,23 @@ void Client::writeData( const boost::python::object& data )
 }
 
 
+/**
+ * @brief FIXME
+ *
+ */
+void Client::notifyError( const char* const text  )
+{
+    boost::python::dict response;
+
+    response[ keys::message ] = message::executionReport;
+    response[ keys::report  ] = report::err;
+    response[ keys::text    ] = text;
+
+    // send response
+    writeData( response );
+}
+
+
 } /* namespace pyxchange */
 
 

@@ -23,7 +23,7 @@ namespace pyxchange
  *
  */
 template<typename OrderContainer, typename Set>
-inline void Matcher::notifyPriceLevels( const OrderContainer& orders, const Set& priceLevels, const boost::python::str& side )
+inline void Matcher::notifyPriceLevels( const OrderContainer& orders, const Set& priceLevels, const boost::python::str& side ) const
 {
     for( const auto priceLevel : priceLevels )
     {
@@ -37,7 +37,7 @@ inline void Matcher::notifyPriceLevels( const OrderContainer& orders, const Set&
  *
  */
 template<typename OrderContainer>
-inline void Matcher::notifyPriceLevel( const OrderContainer& orders, const price_t priceLevel, const boost::python::str& side )
+inline void Matcher::notifyPriceLevel( const OrderContainer& orders, const price_t priceLevel, const boost::python::str& side ) const
 {
     typename OrderContainer::template index<tags::idxPrice>::type const &idx                = orders.template get<tags::idxPrice>();
     typename OrderContainer::template index<tags::idxPrice>::type::const_iterator it        = idx.lower_bound( priceLevel );
@@ -59,32 +59,10 @@ inline void Matcher::notifyPriceLevel( const OrderContainer& orders, const price
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;
 
-    std::cout << "orderbook " << priceLevel << " " << quantity << std::endl;
-
     for( const ClientPtr& client : clients )
     {
-        std::cout << "client " << priceLevel << " " << quantity << std::endl;
-
         client->writeData( response );
     }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-template<typename T>
-inline void Matcher::notifyError( const T& client, const char* const text  )
-{
-    boost::python::dict response;
-
-    response[ keys::message ] = message::executionReport;
-    response[ keys::report  ] = report::err;
-    response[ keys::text    ] = text;
-
-    // send response
-    client->writeData( response );
 }
 
 

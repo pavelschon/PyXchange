@@ -28,7 +28,7 @@ void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bi
 
     quantity_t totalMatchQuantity = 0;
 
-    std::set<price_t, std::less<price_t>> priceLevels;
+    std::set<price_t, lowerPrice> priceLevels;
 
     while( it != idx.end() && bidOrder->price >= (*it)->price && bidOrder->quantity > 0 )
     {
@@ -73,7 +73,7 @@ void Matcher::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& as
 
     quantity_t totalMatchQuantity = 0;
 
-    std::set<price_t, std::greater<price_t>> priceLevels;
+    std::set<price_t, higherPrice> priceLevels;
 
     while( it != idx.end() && askOrder->price <= (*it)->price && askOrder->quantity > 0 )
     {

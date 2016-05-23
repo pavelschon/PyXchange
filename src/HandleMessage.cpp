@@ -64,9 +64,11 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const boost::python::d
     }
     else
     {
-        notifyError( trader, strings::unknownMessage );
+        trader->notifyError( strings::unknownMessage );
 
-        PY_THROW_ERROR_IF( true, PyExc_KeyError, strings::unknownMessage );
+        PyErr_SetString( PyExc_KeyError, strings::unknownMessage );
+
+        py::throw_error_already_set();
     }
 }
 

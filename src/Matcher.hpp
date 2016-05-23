@@ -38,28 +38,24 @@ private:
     void                                    createOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     void                                    cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
 
-    void                                    createOrderSuccess( const TraderPtr& trader, const OrderPtr& order );
-    void                                    createOrderError(   const TraderPtr& trader, const OrderPtr& order );
+    void                                    createOrderSuccess( const TraderPtr& trader, const OrderPtr& order ) const;
+    void                                    createOrderError(   const TraderPtr& trader, const OrderPtr& order ) const;
 
-    void                                    cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId );
-    void                                    cancelOrderError(   const TraderPtr& trader, const orderId_t orderId );
+    void                                    cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId ) const;
+    void                                    cancelOrderError(   const TraderPtr& trader, const orderId_t orderId ) const;
 
     void                                    handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder );
     void                                    handleAskExecution( const TraderPtr& askTrader, const OrderPtr& askOrder );
 
-    bool                                    checkTraderExist( const TraderPtr& trader );
-    void                                    notifyTraderDoesNotExist( const TraderPtr& trader  );
+    bool                                    checkTraderExist( const TraderPtr& trader ) const;
 
     template<typename OrderContainer, typename Set>
     void                                    notifyPriceLevels( const OrderContainer& orders, const Set& priceLevels,
-                                                               const boost::python::str& side );
+                                                               const boost::python::str& side ) const;
 
     template<typename OrderContainer>
     void                                    notifyPriceLevel( const OrderContainer& orders, const price_t priceLevel,
-                                                              const boost::python::str& side );
-
-    template<typename T>
-    void                                    notifyError( const T& client, const char* const text );
+                                                              const boost::python::str& side ) const;
 
     TraderSet                               traders;
     ClientSet                               clients;

@@ -39,7 +39,7 @@ void Matcher::cancelOrder( const TraderPtr& trader, const boost::python::dict& d
  * @brief FIXME
  *
  */
-void Matcher::cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId )
+void Matcher::cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId ) const
 {
     py::dict response;
 
@@ -56,7 +56,7 @@ void Matcher::cancelOrderSuccess( const TraderPtr& trader, const orderId_t order
  * @brief FIXME
  *
  */
-void Matcher::cancelOrderError( const TraderPtr& trader, const orderId_t orderId )
+void Matcher::cancelOrderError( const TraderPtr& trader, const orderId_t orderId ) const
 {
     py::dict response;
 
@@ -68,7 +68,9 @@ void Matcher::cancelOrderError( const TraderPtr& trader, const orderId_t orderId
     // send response
     trader->writeData( response );
 
-    PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::orderDoesNotExist );
+    PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist );
+
+    py::throw_error_already_set();
 }
 
 

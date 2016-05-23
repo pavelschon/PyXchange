@@ -31,11 +31,9 @@ class Order;
 
 typedef std::shared_ptr<Order>                                          OrderPtr;
 typedef std::shared_ptr<const Order>                                    OrderConstPtr;
-typedef std::function<bool(const OrderConstPtr&, const OrderConstPtr&)> OrderComparator;
-typedef std::map<orderId_t, OrderPtr>                                   OrderMap;
-typedef std::pair<const OrderPtr, const bool>                           OrderCreateResult;
 
-class OrderBook;
+typedef std::map<const orderId_t, const OrderPtr>                       OrderMap;
+typedef std::pair<const OrderPtr, const bool>                           OrderCreateResult;
 
 
 class Client;
@@ -47,10 +45,6 @@ class Trader;
 typedef std::shared_ptr<Trader>                                         TraderPtr;
 typedef std::weak_ptr<Trader>                                           TraderWPtr;
 typedef std::set<TraderPtr>                                             TraderSet;
-
-
-class Matcher;
-typedef std::shared_ptr<Matcher>                                        MatcherPtr;
 
 
 } /* namespace pyxchange */

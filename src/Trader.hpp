@@ -31,6 +31,8 @@ public:
     template<typename... Params>
     static OrderCreateResult                createOrder( const TraderPtr& trader, Params... params );
 
+    void                                    notifyError( const char* const text );
+
     static constexpr const char* const      name = "Trader";
 
 private:

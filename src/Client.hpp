@@ -26,6 +26,8 @@ public:
     void                                    writeString( const char* const data );
     void                                    writeData( const boost::python::object& data );
 
+    void                                    notifyError( const char* const text );
+
     static constexpr const char* const      name = "Client";
 
 private:
