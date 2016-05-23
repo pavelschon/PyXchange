@@ -63,9 +63,9 @@ void Matcher::addClient( const ClientPtr& client )
  * @brief FIXME
  *
  */
-void Matcher::removeTrader( const TraderPtr& client )
+void Matcher::removeTrader( const TraderPtr& trader )
 {
-    const auto& it = traders.find( client );
+    const auto& it = traders.find( trader );
 
     if( it != traders.cend() )
     {
@@ -118,6 +118,13 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const char* const data 
  */
 void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded )
 {
+    if( ! traders.count( trader ) )
+    {
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+
+        py::throw_error_already_set();
+    }
+
     const py::str message_type( decoded[ keys::message ] );
 
     if( message_type == message::createOrder )
