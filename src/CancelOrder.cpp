@@ -68,9 +68,7 @@ void Matcher::cancelOrderError( const TraderPtr& trader, const orderId_t orderId
     // send response
     trader->writeData( response );
 
-    PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist );
-
-    py::throw_error_already_set();
+    PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::orderDoesNotExist );
 }
 
 

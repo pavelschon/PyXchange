@@ -6,8 +6,7 @@
 
 
 #include "Matcher.hpp"
-#include "Trader.hpp"
-#include "Utils.hpp"
+#include "MatcherUtils.hpp"
 
 
 namespace pyxchange
@@ -101,9 +100,7 @@ void Matcher::createOrderError( const TraderPtr& trader, const OrderPtr& order )
     // send response
     trader->writeData( response );
 
-    PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist );
-
-    py::throw_error_already_set();
+    PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::orderAlreadyExist );
 }
 
 

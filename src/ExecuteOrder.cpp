@@ -6,8 +6,7 @@
 
 
 #include "Matcher.hpp"
-#include "Trader.hpp"
-#include "Utils.hpp"
+#include "MatcherUtils.hpp"
 
 #include <iostream>
 
@@ -29,6 +28,8 @@ void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bi
 
     quantity_t totalMatchQuantity = 0;
 
+    std::set<price_t, std::less<price_t>> priceLevels;
+
     while( it != idx.end() && bidOrder->price >= (*it)->price && bidOrder->quantity > 0 )
     {
         const OrderPtr&  askOrder  = *it;
@@ -38,6 +39,8 @@ void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bi
         askOrder->quantity -= matchQty;
         bidOrder->quantity -= matchQty;
         totalMatchQuantity += matchQty;
+
+        priceLevels.insert( askOrder->price );
 
         if( askOrder->quantity < 1 )
         {
@@ -52,6 +55,8 @@ void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bi
     if( totalMatchQuantity > 0 )
     {
         std::cout << "TRADE=" << totalMatchQuantity << "S=" << askOrders.size() << std::endl;
+
+        notifyPriceLevels( askOrders, priceLevels, side::ask );
     }
 }
 
@@ -68,6 +73,8 @@ void Matcher::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& as
 
     quantity_t totalMatchQuantity = 0;
 
+    std::set<price_t, std::greater<price_t>> priceLevels;
+
     while( it != idx.end() && askOrder->price <= (*it)->price && askOrder->quantity > 0 )
     {
         const OrderPtr&  bidOrder  = *it;
@@ -77,6 +84,8 @@ void Matcher::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& as
         askOrder->quantity -= matchQty;
         bidOrder->quantity -= matchQty;
         totalMatchQuantity += matchQty;
+
+        priceLevels.insert( bidOrder->price );
 
         if( bidOrder->quantity < 1 )
         {
@@ -91,6 +100,8 @@ void Matcher::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& as
     if( totalMatchQuantity > 0 )
     {
         std::cout << "TRADE=" << totalMatchQuantity << std::endl;
+
+        notifyPriceLevels( bidOrders, priceLevels, side::bid );
     }
 }
 

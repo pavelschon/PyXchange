@@ -5,21 +5,24 @@ from twisted.internet import reactor, protocol
 import pyxchange
 
 
+
 class ClientProtocol(protocol.Protocol):
     """ Market-data client protocol """
 
     def __init__(self, factory, addr):
         self.factory = factory
+        self.addr = addr
 
 
     def dataReceived(self, data):
-        self.client.write(repr(matcher) + ' ' + repr(self.client) + '\n')
+        pass
 
 
     def connectionMade(self):
         self.client = pyxchange.Client(self.transport.write)
 
         self.factory.matcher.addClient(self.client)
+        print self.client
 
 
     def connectionLost(self, reason):
@@ -42,6 +45,7 @@ class TraderProtocol(protocol.Protocol):
 
     def __init__(self, factory, addr):
         self.factory = factory
+        self.addr = addr
 
 
     def connectionMade(self):
@@ -51,8 +55,12 @@ class TraderProtocol(protocol.Protocol):
 
 
     def dataReceived(self, data):
-        self.matcher.handleMessage(self.trader, data)
-
+        data = data.strip()
+        if data:
+            try:
+                self.factory.matcher.handleMessageStr(self.trader, data)
+            except( KeyError, ValueError ), e:
+                print repr(e)
 
     def connectionLost(self, reason):
         self.factory.matcher.removeTrader(self.trader)
@@ -76,6 +84,7 @@ if __name__ == '__main__':
     reactor.listenTCP(7001, TraderFactory(matcher)) # market participants
     reactor.listenTCP(7002, ClientFactory(matcher)) # market-data clients
 
+    print "Listening ..."
     reactor.run()
 
 

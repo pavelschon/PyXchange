@@ -6,9 +6,7 @@
 
 
 #include "Matcher.hpp"
-#include "Client.hpp"
-#include "Trader.hpp"
-#include "Utils.hpp"
+#include "MatcherUtils.hpp"
 
 
 namespace pyxchange
@@ -36,9 +34,9 @@ void Matcher::addTrader( const TraderPtr& trader )
 {
     if( ! traders.insert( trader ).second )
     {
-        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded );
+        notifyError( trader, strings::traderAlreadyAdded );
 
-        py::throw_error_already_set();
+        PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::traderAlreadyAdded );
     }
 }
 
@@ -51,9 +49,9 @@ void Matcher::addClient( const ClientPtr& client )
 {
     if( ! clients.insert( client ).second )
     {
-        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded );
+        notifyError( client, strings::clientAlreadyAdded );
 
-        py::throw_error_already_set();
+        PY_THROW_ERROR_IF( true, PyExc_ValueError, strings::clientAlreadyAdded );
     }
 }
 
@@ -73,9 +71,9 @@ void Matcher::removeTrader( const TraderPtr& trader )
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+        notifyError( trader, strings::traderDoesNotExist );
 
-        py::throw_error_already_set();
+        PY_THROW_ERROR_IF( true, PyExc_KeyError, strings::traderDoesNotExist );
     }
 }
 
@@ -94,21 +92,10 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist );
+        notifyError( client, strings::clientDoesNotExist );
 
-        py::throw_error_already_set();
+        PY_THROW_ERROR_IF( true, PyExc_KeyError, strings::clientDoesNotExist );
     }
-}
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::handleMessageStr( const TraderPtr& trader, const char* const data )
-{
-    const py::dict decoded( json_loads( data ) );
-
-    handleMessageDict( trader, decoded );
 }
 
 
@@ -116,31 +103,18 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const char* const data 
  * @brief FIXME
  *
  */
-void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded )
+bool Matcher::checkTraderExist( const TraderPtr& trader )
 {
-    if( ! traders.count( trader ) )
-    {
-        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+    const auto traderExist = traders.count( trader ) > 0;
 
-        py::throw_error_already_set();
+    if( ! traderExist )
+    {
+        notifyError( trader, strings::traderDoesNotExist );
+
+        PY_THROW_ERROR_IF( true, PyExc_KeyError, strings::traderDoesNotExist );
     }
 
-    const py::str message_type( decoded[ keys::message ] );
-
-    if( message_type == message::createOrder )
-    {
-        createOrder( trader, decoded );
-    }
-    else if( message_type == message::cancelOrder )
-    {
-        cancelOrder( trader, decoded );
-    }
-    else
-    {
-        PyErr_SetString( PyExc_KeyError, strings::unknownMessage );
-
-        py::throw_error_already_set();
-    }
+    return traderExist;
 }
 
 

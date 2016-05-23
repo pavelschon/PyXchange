@@ -24,10 +24,11 @@ add_library( pyxchange SHARED
     src/Order.cpp
     src/Client.cpp
     src/Trader.cpp
+    src/Matcher.cpp
     src/CreateOrder.cpp
     src/ExecuteOrder.cpp
     src/CancelOrder.cpp
-    src/Matcher.cpp
+    src/HandleMessage.cpp
     src/PyXchange.cpp
 )
 

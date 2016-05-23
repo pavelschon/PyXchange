@@ -33,6 +33,8 @@ public:
     static constexpr const char* const      name = "Matcher";
 
 private:
+    void                                    handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded );
+
     void                                    createOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     void                                    cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
 
@@ -44,6 +46,20 @@ private:
 
     void                                    handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder );
     void                                    handleAskExecution( const TraderPtr& askTrader, const OrderPtr& askOrder );
+
+    bool                                    checkTraderExist( const TraderPtr& trader );
+    void                                    notifyTraderDoesNotExist( const TraderPtr& trader  );
+
+    template<typename OrderContainer, typename Set>
+    void                                    notifyPriceLevels( const OrderContainer& orders, const Set& priceLevels,
+                                                               const boost::python::str& side );
+
+    template<typename OrderContainer>
+    void                                    notifyPriceLevel( const OrderContainer& orders, const price_t priceLevel,
+                                                              const boost::python::str& side );
+
+    template<typename T>
+    void                                    notifyError( const T& client, const char* const text );
 
     TraderSet                               traders;
     ClientSet                               clients;

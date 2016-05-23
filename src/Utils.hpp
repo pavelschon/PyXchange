@@ -12,6 +12,11 @@
 #include <boost/python/extract.hpp>
 #include <boost/python/import.hpp>
 
+#define PY_THROW_ERROR_IF( cond, err, msg )                 \
+    ([&](){ if( cond ) {                                    \
+            PyErr_SetString( err, msg );                    \
+            py::throw_error_already_set(); } })();
+
 
 namespace pyxchange
 {
@@ -23,6 +28,7 @@ namespace message
 const boost::python::str createOrder        = "createOrder";
 const boost::python::str cancelOrder        = "cancelOrder";
 const boost::python::str executionReport    = "executionReport";
+const boost::python::str orderBook          = "orderbook";
 
 } /* namespace message */
 
@@ -41,6 +47,7 @@ namespace report
 
 const boost::python::str new_   = "NEW";
 const boost::python::str cancel = "CANCELED";
+const boost::python::str fill   = "FILL";
 const boost::python::str err    = "ERROR";
 
 } /* namespace report */
@@ -57,6 +64,8 @@ const char* const clientAlreadyAdded    = "client already added";
 
 const char* const traderDoesNotExist    = "trader does not exist";
 const char* const clientDoesNotExist    = "client does not exist";
+
+const char* const jsonError             = "json decode error";
 
 const char* const unknownMessage        = "unknown message";
 const char* const unknownSide           = "unknown side";
