@@ -68,7 +68,7 @@ async def repl(userInput: asyncio.Queue, writer: asyncio.StreamWriter) -> None:
 				'quantity': quantity,
 			})
 		elif command == '2':
-			orderId = await prompt(userInput, 'Order ID to cancel?')
+			orderId = int(await prompt(userInput, 'Order ID to cancel?'))
 			await sendMessage(writer, {
 				'message': 'cancelOrder',
 				'orderId': orderId,
