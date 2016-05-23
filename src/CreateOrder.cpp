@@ -15,6 +15,8 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+
+
 /**
  * @brief FIXME
  *
@@ -39,6 +41,9 @@ void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& d
     const auto& result = Trader::createOrder( trader, decoded );
     const OrderPtr& order = result.first;
 
+    //const auto OrderCompareGreater = []( const OrderConstPtr& o1, const OrderConstPtr& o2 ) -> bool { return o1->price >= o2->price; };
+    //const auto OrderCompareLess    = []( const OrderConstPtr& o1, const OrderConstPtr& o2 ) -> bool { return o1->price <= o2->price; };
+
     if( !result.second )
     {
         createOrderError( trader, order );
@@ -46,7 +51,8 @@ void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& d
     else if( order->side == side::bid )
     {
         createOrderSuccess( trader, order );
-        handleBidExecution( trader, order );
+
+        handleExecutionT<AskOrderContainer, lowerPrice>( askOrders, trader, order, &Order::compareGreater );
 
         if( order->quantity )
         {
@@ -56,7 +62,11 @@ void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& d
     else if( order->side == side::ask )
     {
         createOrderSuccess( trader, order );
-        handleAskExecution( trader, order );
+//         handleAskExecution( trader, order );
+
+
+
+        handleExecutionT<BidOrderContainer, higherPrice>( bidOrders, trader, order, &Order::compareLess );
 
         if( order->quantity )
         {

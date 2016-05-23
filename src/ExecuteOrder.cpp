@@ -17,34 +17,36 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+
 /**
  * @brief FIXME
  *
  */
-void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder )
+template<typename OrderContainer, typename Pred>
+void Matcher::handleExecution( OrderContainer& orders, const TraderPtr& trader, const OrderPtr& order, const OrdersCompare& comp )
 {
-    AskOrderContainer::index<tags::idxPriceTime>::type const &idx = askOrders.get<tags::idxPriceTime>();
-    AskOrderContainer::index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
+    typename Orders::template index<tags::idxPriceTime>::type  const &idx        = orders.template get<tags::idxPriceTime>();
+    typename Orders::template index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
 
-    std::set<price_t, lowerPrice> priceLevels;
+    std::set<price_t, Pred> priceLevels;
 
-    while( it != idx.end() && bidOrder->price >= (*it)->price && bidOrder->quantity > 0 )
+    while( it != idx.end() && comp( order, *it ) && order->quantity > 0 )
     {
-        const OrderPtr&  askOrder  = *it;
-        const TraderPtr& askTrader = askOrder->trader.lock();
-        const quantity_t matchQty  = std::min( bidOrder->quantity, askOrder->quantity );
+        const OrderPtr&  othOrder  = *it;
+        //const TraderPtr& othTrader = othOrder->trader.lock();
+        const quantity_t matchQty  = std::min( order->quantity, othOrder->quantity );
 
-        askOrder->quantity -= matchQty;
-        bidOrder->quantity -= matchQty;
+        order->quantity    -= matchQty;
+        othOrder->quantity -= matchQty;
         totalMatchQuantity += matchQty;
 
-        priceLevels.insert( askOrder->price );
+        priceLevels.insert( othOrder->price );
 
-        if( askOrder->quantity < 1 )
+        if( othOrder->quantity < 1 )
         {
-            askOrders.erase( it++ );
+            orders.template erase( it++ );
         }
         else
         {
@@ -54,56 +56,18 @@ void Matcher::handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bi
 
     if( totalMatchQuantity > 0 )
     {
-        std::cout << "TRADE=" << totalMatchQuantity << "S=" << askOrders.size() << std::endl;
+        std::cout << "TRADE=" << totalMatchQuantity << "S=" << orders.template size() << std::endl;
 
-        notifyPriceLevels( askOrders, priceLevels, side::ask );
+        //notifyPriceLevels( orders.template, priceLevels, order->side );
     }
 }
 
 
+template void Matcher::handleExecution<BidOrderContainer, higherPrice>(
+    BidOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order, const OrdersCompare& comp );
 
-/**
- * @brief FIXME
- *
- */
-void Matcher::handleAskExecution( const TraderPtr& bidTrader, const OrderPtr& askOrder )
-{
-    BidOrderContainer::index<tags::idxPriceTime>::type const &idx= bidOrders.get<tags::idxPriceTime>();
-    BidOrderContainer::index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
-
-    quantity_t totalMatchQuantity = 0;
-
-    std::set<price_t, higherPrice> priceLevels;
-
-    while( it != idx.end() && askOrder->price <= (*it)->price && askOrder->quantity > 0 )
-    {
-        const OrderPtr&  bidOrder  = *it;
-        const TraderPtr& bidTrader = bidOrder->trader.lock();
-        const quantity_t matchQty  = std::min( bidOrder->quantity, askOrder->quantity );
-
-        askOrder->quantity -= matchQty;
-        bidOrder->quantity -= matchQty;
-        totalMatchQuantity += matchQty;
-
-        priceLevels.insert( bidOrder->price );
-
-        if( bidOrder->quantity < 1 )
-        {
-            bidOrders.erase( it++ );
-        }
-        else
-        {
-            ++it;
-        }
-    }
-
-    if( totalMatchQuantity > 0 )
-    {
-        std::cout << "TRADE=" << totalMatchQuantity << std::endl;
-
-        notifyPriceLevels( bidOrders, priceLevels, side::bid );
-    }
-}
+template void Matcher::handleExecution<AskOrderContainer, lowerPrice>(
+    AskOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order, const OrdersCompare& comp );
 
 
 } /* namespace pyxchange */

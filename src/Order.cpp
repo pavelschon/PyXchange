@@ -70,6 +70,26 @@ orderId_t Order::getId( void ) const
 }
 
 
+/**
+ * @brief FIXME
+ *
+ */
+bool Order::compareGreater( const OrderConstPtr& lhs, const OrderConstPtr& rhs )
+{
+    return lhs->price >= rhs->price;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+bool Order::compareLess( const OrderConstPtr& lhs, const OrderConstPtr& rhs )
+{
+    return lhs->price <= rhs->price;
+}
+
+
 } /* namespace pyxchange */
 
 

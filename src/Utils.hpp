@@ -37,6 +37,7 @@ namespace side
 const boost::python::str bid = "BUY";
 const boost::python::str ask = "SELL";
 
+
 } /* namespace side */
 
 

@@ -44,10 +44,11 @@ private:
     void                                    cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId ) const;
     void                                    cancelOrderError(   const TraderPtr& trader, const orderId_t orderId ) const;
 
-    void                                    handleBidExecution( const TraderPtr& bidTrader, const OrderPtr& bidOrder );
-    void                                    handleAskExecution( const TraderPtr& askTrader, const OrderPtr& askOrder );
-
     bool                                    checkTraderExist( const TraderPtr& trader ) const;
+
+    template<typename OrderContainer, typename Pred>
+    void                                    handleExecutionT( OrderContainer& orders, const TraderPtr& trader,
+                                                              const OrderPtr& order, const OrdersCompare& comp );
 
     template<typename OrderContainer, typename Set>
     void                                    notifyPriceLevels( const OrderContainer& orders, const Set& priceLevels,

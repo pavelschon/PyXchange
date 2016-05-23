@@ -35,6 +35,8 @@ typedef std::shared_ptr<const Order>                                    OrderCon
 typedef std::map<const orderId_t, const OrderPtr>                       OrderMap;
 typedef std::pair<const OrderPtr, const bool>                           OrderCreateResult;
 
+typedef std::function<bool(const OrderConstPtr&, const OrderConstPtr&)>   OrdersCompare;
+
 
 class Client;
 typedef std::shared_ptr<Client>                                         ClientPtr;
