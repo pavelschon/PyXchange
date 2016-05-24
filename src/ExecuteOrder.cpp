@@ -6,7 +6,9 @@
 
 
 #include "Matcher.hpp"
-#include "MatcherUtils.hpp"
+#include "Client.hpp"
+#include "Trader.hpp"
+#include "Utils.hpp"
 
 #include <iostream>
 
@@ -23,14 +25,13 @@ namespace py = boost::python;
  *
  */
 template<typename OrderContainer>
-void Matcher::handleExecution( OrderContainer& orders, const TraderPtr& trader, const OrderPtr& order )
+void Matcher::handleExecution( typename OrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order )
 {
-    typename OrderContainer::template index<tags::idxPriceTime>::type  const &idx        = orders.template get<tags::idxPriceTime>();
-    typename OrderContainer::template index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
+    typename OrderContainer::price_set priceLevels;
+    typename OrderContainer::type::template index<tags::idxPriceTime>::type  const &idx        = orders.template get<tags::idxPriceTime>();
+    typename OrderContainer::type::template index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
-
-    std::set<price_t> priceLevels;
 
     while( it != idx.end() && order->comparePrice( *it ) && order->quantity > 0 )
     {
@@ -64,10 +65,16 @@ void Matcher::handleExecution( OrderContainer& orders, const TraderPtr& trader, 
 
 
 template void Matcher::handleExecution<BidOrderContainer>(
-    BidOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order );
+    BidOrderContainer::type& orders,
+    const TraderPtr& trader,
+    const OrderPtr& order
+);
 
 template void Matcher::handleExecution<AskOrderContainer>(
-    AskOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order );
+    AskOrderContainer::type& orders,
+    const TraderPtr& trader,
+    const OrderPtr& order
+);
 
 
 } /* namespace pyxchange */

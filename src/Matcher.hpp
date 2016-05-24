@@ -47,21 +47,21 @@ private:
     bool                                    checkTraderExist( const TraderPtr& trader ) const;
 
     template<typename OrderContainer>
-    void                                    handleExecution( OrderContainer& orders, const TraderPtr& trader, const OrderPtr& order );
+    void                                    handleExecution( typename OrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
 
-    template<typename OrderContainer, typename Set>
-    void                                    notifyPriceLevels( const OrderContainer& orders, const Set& priceLevels,
+    template<typename OrderContainer>
+    void                                    notifyPriceLevels( const typename OrderContainer::type & orders, const typename OrderContainer::price_set& priceLevels,
                                                                const boost::python::str& side ) const;
 
     template<typename OrderContainer>
-    void                                    notifyPriceLevel( const OrderContainer& orders, const price_t priceLevel,
+    void                                    notifyPriceLevel( const typename OrderContainer::type& orders, const price_t priceLevel,
                                                               const boost::python::str& side ) const;
 
     TraderSet                               traders;
     ClientSet                               clients;
 
-    BidOrderContainer                       bidOrders;
-    AskOrderContainer                       askOrders;
+    BidOrderContainer::type                 bidOrders;
+    AskOrderContainer::type                 askOrders;
 };
 
 

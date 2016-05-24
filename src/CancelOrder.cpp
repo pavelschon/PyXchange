@@ -6,6 +6,7 @@
 
 
 #include "Matcher.hpp"
+#include "Client.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 

@@ -29,6 +29,7 @@ add_library( pyxchange SHARED
     src/ExecuteOrder.cpp
     src/CancelOrder.cpp
     src/HandleMessage.cpp
+    src/NotifyLevels.cpp
     src/PyXchange.cpp
 )
 

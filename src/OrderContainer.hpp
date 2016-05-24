@@ -54,11 +54,13 @@ struct OrderContainer
             boost::multi_index::tag<tags::idxPrice>,
                 keyPrice, CompareNonUnique> >
     > type;
+
+    typedef std::set<price_t, CompareNonUnique> price_set;
 };
 
 
-typedef OrderContainer<higherPriceLowerTimestamp, higherPrice>::type            BidOrderContainer;  // container type for buy orders
-typedef OrderContainer<lowerPriceLowerTimestamp,  lowerPrice>::type             AskOrderContainer; // container type for sell orders
+typedef OrderContainer<higherPriceLowerTimestamp, higherPrice>                  BidOrderContainer;  // container type for buy orders
+typedef OrderContainer<lowerPriceLowerTimestamp,  lowerPrice>                   AskOrderContainer; // container type for sell orders
 
 
 } /* namespace pyxchange */

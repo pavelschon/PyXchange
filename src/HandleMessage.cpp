@@ -6,7 +6,9 @@
 
 
 #include "Matcher.hpp"
-#include "MatcherUtils.hpp"
+#include "Client.hpp"
+#include "Trader.hpp"
+#include "Utils.hpp"
 
 
 namespace pyxchange
