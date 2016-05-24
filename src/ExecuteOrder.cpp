@@ -22,17 +22,17 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
-template<typename OrderContainer, typename Pred>
-void Matcher::handleExecution( OrderContainer& orders, const TraderPtr& trader, const OrderPtr& order, const OrdersCompare& comp )
+template<typename OrderContainer>
+void Matcher::handleExecution( OrderContainer& orders, const TraderPtr& trader, const OrderPtr& order )
 {
-    typename Orders::template index<tags::idxPriceTime>::type  const &idx        = orders.template get<tags::idxPriceTime>();
-    typename Orders::template index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
+    typename OrderContainer::template index<tags::idxPriceTime>::type  const &idx        = orders.template get<tags::idxPriceTime>();
+    typename OrderContainer::template index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
 
-    std::set<price_t, Pred> priceLevels;
+    std::set<price_t> priceLevels;
 
-    while( it != idx.end() && comp( order, *it ) && order->quantity > 0 )
+    while( it != idx.end() && order->comparePrice( *it ) && order->quantity > 0 )
     {
         const OrderPtr&  othOrder  = *it;
         //const TraderPtr& othTrader = othOrder->trader.lock();
@@ -63,11 +63,11 @@ void Matcher::handleExecution( OrderContainer& orders, const TraderPtr& trader, 
 }
 
 
-template void Matcher::handleExecution<BidOrderContainer, higherPrice>(
-    BidOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order, const OrdersCompare& comp );
+template void Matcher::handleExecution<BidOrderContainer>(
+    BidOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order );
 
-template void Matcher::handleExecution<AskOrderContainer, lowerPrice>(
-    AskOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order, const OrdersCompare& comp );
+template void Matcher::handleExecution<AskOrderContainer>(
+    AskOrderContainer& orders, const TraderPtr& trader, const OrderPtr& order );
 
 
 } /* namespace pyxchange */

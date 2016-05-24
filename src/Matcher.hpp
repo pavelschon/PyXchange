@@ -46,9 +46,8 @@ private:
 
     bool                                    checkTraderExist( const TraderPtr& trader ) const;
 
-    template<typename OrderContainer, typename Pred>
-    void                                    handleExecutionT( OrderContainer& orders, const TraderPtr& trader,
-                                                              const OrderPtr& order, const OrdersCompare& comp );
+    template<typename OrderContainer>
+    void                                    handleExecution( OrderContainer& orders, const TraderPtr& trader, const OrderPtr& order );
 
     template<typename OrderContainer, typename Set>
     void                                    notifyPriceLevels( const OrderContainer& orders, const Set& priceLevels,

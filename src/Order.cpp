@@ -74,19 +74,20 @@ orderId_t Order::getId( void ) const
  * @brief FIXME
  *
  */
-bool Order::compareGreater( const OrderConstPtr& lhs, const OrderConstPtr& rhs )
+bool Order::comparePrice( const OrderConstPtr& order )
 {
-    return lhs->price >= rhs->price;
-}
-
-
-/**
- * @brief FIXME
- *
- */
-bool Order::compareLess( const OrderConstPtr& lhs, const OrderConstPtr& rhs )
-{
-    return lhs->price <= rhs->price;
+    if( side == side::bid && order->side == side::ask )
+    {
+        return price >= order->price;
+    }
+    else if( side == side::ask && order->side == side::bid )
+    {
+        return price <= order->price;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 
