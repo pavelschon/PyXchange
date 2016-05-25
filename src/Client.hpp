@@ -28,6 +28,9 @@ public:
 
     void                                    notifyError( const char* const text );
 
+    static void                             addClient( const MatcherPtr& matcher, const ClientPtr& client );
+    static void                             removeClient( const MatcherPtr& matcher, const ClientPtr& client );
+
     static constexpr const char* const      name = "Client";
 
 private:

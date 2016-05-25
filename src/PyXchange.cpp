@@ -44,11 +44,12 @@ BOOST_PYTHON_MODULE( pyxchange )
         .def( "write", &Trader::writeString, args( "data" ) )
     ;
 
-    class_<Matcher, boost::noncopyable>( Matcher::name, init<>() )
-        .def( "addTrader", &Matcher::addTrader, args( "trader" ) )
-        .def( "addClient", &Matcher::addClient, args( "client" ) )
-        .def( "removeTrader", &Matcher::removeTrader, args( "trader" ) )
-        .def( "removeClient", &Matcher::removeClient, args( "client" ) )
+    class_<Matcher, boost::noncopyable>( Matcher::name, no_init )
+        .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
+        .def( "addTrader", &Trader::addTrader, args( "trader" ) )
+        .def( "addClient", &Client::addClient, args( "client" ) )
+        .def( "removeTrader", &Trader::removeTrader, args( "trader" ) )
+        .def( "removeClient", &Client::removeClient, args( "client" ) )
         .def( "handleMessageStr", &Matcher::handleMessageStr, args( "trader", "data" ) )
         .def( "handleMessageDict", &Matcher::handleMessageDict, args( "trader", "data" ) )
     ;

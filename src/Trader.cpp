@@ -6,12 +6,15 @@
 
 
 #include "Trader.hpp"
+#include "Matcher.hpp"
 #include "Order.hpp"
 #include "Utils.hpp"
 
 
 namespace pyxchange
 {
+
+namespace py = boost::python;
 
 
 /**
@@ -69,6 +72,68 @@ void Trader::notifyError( const char* const text  )
 
     // send response
     writeData( response );
+}
+
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Trader::addTrader( const MatcherPtr& matcher, const TraderPtr& trader )
+{
+    if( ! matcher->traders.insert( trader ).second )
+    {
+        trader->notifyError( strings::traderAlreadyAdded );
+
+        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded );
+
+        py::throw_error_already_set();
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Trader::removeTrader( const MatcherPtr& matcher, const TraderPtr& trader )
+{
+    const auto& it = matcher->traders.find( trader );
+
+    if( it != matcher->traders.cend() )
+    {
+        matcher->traders.erase( it );
+    }
+    else
+    {
+        trader->notifyError( strings::traderDoesNotExist );
+
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+
+        py::throw_error_already_set();
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+bool Trader::checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader )
+{
+    const auto traderExist = matcher->traders.count( trader ) > 0;
+
+    if( ! traderExist )
+    {
+        trader->notifyError( strings::traderDoesNotExist );
+
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+
+        py::throw_error_already_set();
+    }
+
+    return traderExist;
 }
 
 

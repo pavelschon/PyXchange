@@ -49,6 +49,10 @@ typedef std::weak_ptr<Trader>                                           TraderWP
 typedef std::set<TraderPtr>                                             TraderSet;
 
 
+class Matcher;
+typedef std::shared_ptr<Matcher>                                        MatcherPtr;
+
+
 } /* namespace pyxchange */
 
 

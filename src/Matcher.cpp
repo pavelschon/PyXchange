@@ -32,15 +32,13 @@ Matcher::Matcher()
  * @brief FIXME
  *
  */
-void Matcher::addTrader( const TraderPtr& trader )
+void Matcher::handleMessageStr( const MatcherPtr& matcher, const TraderPtr& trader, const char* const data )
 {
-    if( ! traders.insert( trader ).second )
+    if( Trader::checkRegistered( matcher, trader ) )
     {
-        trader->notifyError( strings::traderAlreadyAdded );
+        const py::dict decoded( json_loads( data ) );
 
-        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded );
-
-        py::throw_error_already_set();
+        matcher->handleMessageImpl( trader, decoded );
     }
 }
 
@@ -49,84 +47,39 @@ void Matcher::addTrader( const TraderPtr& trader )
  * @brief FIXME
  *
  */
-void Matcher::addClient( const ClientPtr& client )
+void Matcher::handleMessageDict( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    if( ! clients.insert( client ).second )
+    if( Trader::checkRegistered( matcher, trader ) )
     {
-        client->notifyError( strings::clientAlreadyAdded );
-
-        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded );
-
-        py::throw_error_already_set();
+        matcher->handleMessageImpl( trader, decoded );
     }
 }
-
 
 
 /**
  * @brief FIXME
  *
  */
-void Matcher::removeTrader( const TraderPtr& trader )
+void Matcher::handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const auto& it = traders.find( trader );
+    const py::str message_type( decoded[ keys::message ] );
 
-    if( it != traders.cend() )
+    if( message_type == message::createOrder )
     {
-        traders.erase( it );
+        createOrder( trader, decoded );
+    }
+    else if( message_type == message::cancelOrder )
+    {
+        cancelOrder( trader, decoded );
     }
     else
     {
-        trader->notifyError( strings::traderDoesNotExist );
+        trader->notifyError( strings::unknownMessage );
 
-        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
-
-        py::throw_error_already_set();
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::removeClient( const ClientPtr& client )
-{
-    const auto& it = clients.find( client );
-
-    if( it != clients.cend() )
-    {
-        clients.erase( it );
-    }
-    else
-    {
-        client->notifyError( strings::clientDoesNotExist );
-
-        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist );
+        PyErr_SetString( PyExc_KeyError, strings::unknownMessage );
 
         py::throw_error_already_set();
     }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-bool Matcher::checkTraderExist( const TraderPtr& trader ) const
-{
-    const auto traderExist = traders.count( trader ) > 0;
-
-    if( ! traderExist )
-    {
-        trader->notifyError( strings::traderDoesNotExist );
-
-        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
-
-        py::throw_error_already_set();
-    }
-
-    return traderExist;
 }
 
 

@@ -31,6 +31,10 @@ public:
     template<typename... Params>
     static OrderCreateResult                createOrder( const TraderPtr& trader, Params... params );
 
+    static void                             addTrader( const MatcherPtr& matcher, const TraderPtr& trader );
+    static void                             removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );
+    static bool                             checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader );
+
     void                                    notifyError( const char* const text );
 
     static constexpr const char* const      name = "Trader";

@@ -6,12 +6,14 @@
 
 
 #include "Client.hpp"
+#include "Matcher.hpp"
 #include "Utils.hpp"
 
 
 namespace pyxchange
 {
 
+namespace py = boost::python;
 
 /**
  * @brief Constructor
@@ -58,6 +60,47 @@ void Client::notifyError( const char* const text  )
 
     // send response
     writeData( response );
+}
+
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Client::addClient( const MatcherPtr& matcher, const ClientPtr& client )
+{
+    if( ! matcher->clients.insert( client ).second )
+    {
+        client->notifyError( strings::clientAlreadyAdded );
+
+        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded );
+
+        py::throw_error_already_set();
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Client::removeClient( const MatcherPtr& matcher, const ClientPtr& client )
+{
+    const auto& it = matcher->clients.find( client );
+
+    if( it != matcher->clients.cend() )
+    {
+        matcher->clients.erase( it );
+    }
+    else
+    {
+        client->notifyError( strings::clientDoesNotExist );
+
+        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist );
+
+        py::throw_error_already_set();
+    }
 }
 
 

@@ -8,6 +8,8 @@
 #define MATCHER
 
 #include "PyXchangeFwd.hpp"
+#include "Client.hpp"
+#include "Trader.hpp"
 #include "OrderContainer.hpp"
 
 
@@ -21,19 +23,21 @@ class Matcher
 public:
                                             Matcher();
 
-    void                                    addTrader( const TraderPtr& trader );
-    void                                    addClient( const ClientPtr& client );
+    friend void                             Client::addClient( const MatcherPtr& matcher, const ClientPtr& client );
+    friend void                             Client::removeClient( const MatcherPtr& matcher, const ClientPtr& client );
 
-    void                                    removeTrader( const TraderPtr& client );
-    void                                    removeClient( const ClientPtr& client );
+    friend void                             Trader::addTrader( const MatcherPtr& matcher, const TraderPtr& trader );
+    friend void                             Trader::removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );
 
-    void                                    handleMessageStr(  const TraderPtr& trader, const char* const data );
-    void                                    handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
+    static void                             handleMessageStr(  const MatcherPtr& matcher, const TraderPtr& trader, const char* const data );
+    static void                             handleMessageDict( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
 
     static constexpr const char* const      name = "Matcher";
 
 private:
     void                                    handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded );
+
+    friend bool                             Trader::checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader );
 
     void                                    createOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     void                                    cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
@@ -43,8 +47,6 @@ private:
 
     void                                    cancelOrderSuccess( const TraderPtr& trader, const orderId_t orderId ) const;
     void                                    cancelOrderError(   const TraderPtr& trader, const orderId_t orderId ) const;
-
-    bool                                    checkTraderExist( const TraderPtr& trader ) const;
 
     template<typename OrderContainer>
     void                                    handleExecution( typename OrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
