@@ -10,8 +10,6 @@
 #include "PyXchangeFwd.hpp"
 #include "Order.hpp"
 
-#include <boost/python/object.hpp>
-
 
 namespace pyxchange
 {

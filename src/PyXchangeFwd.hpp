@@ -8,6 +8,7 @@
 #include <boost/python/long.hpp>
 #include <boost/python/dict.hpp>
 #include <boost/python/extract.hpp>
+#include <boost/python/object.hpp>
 
 #include <algorithm>
 #include <functional>
