@@ -10,13 +10,6 @@
 #include "Matcher.hpp"
 #include "Utils.hpp"
 
-#include <boost/python.hpp>
-#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
-
-#include <boost/utility.hpp>
-
-#include <memory>
-
 
 /**
  * @brief FIXME
@@ -34,17 +27,17 @@ BOOST_PYTHON_MODULE( pyxchange )
     using namespace ::boost::python;
     using namespace ::pyxchange;
 
-    class_<Client, ClientPtr, boost::noncopyable>( Client::name, no_init )
+    class_<Client, ClientPtr, boost::noncopyable>( "Client", no_init )
         .def( "__init__", make_constructor( &make_shared_<Client, const object&> ) )
         .def( "write", &Client::writeString, args( "data" ) )
         ;
 
-    class_<Trader, TraderPtr, boost::noncopyable>( Trader::name, no_init )
+    class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
         .def( "__init__", make_constructor( &make_shared_<Trader, const object&> ) )
         .def( "write", &Trader::writeString, args( "data" ) )
     ;
 
-    class_<Matcher, boost::noncopyable>( Matcher::name, no_init )
+    class_<Matcher, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
         .def( "addTrader", &Trader::addTrader, args( "trader" ) )
         .def( "addClient", &Client::addClient, args( "client" ) )

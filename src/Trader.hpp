@@ -41,8 +41,6 @@ public:
     static void                             removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );
     static bool                             checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader );
 
-    static constexpr const char* const      name = "Trader";
-
 private:
     const boost::python::object             write;
 

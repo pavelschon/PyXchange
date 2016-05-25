@@ -33,12 +33,6 @@ add_library( pyxchange SHARED
 )
 
 
-target_link_libraries ( pyxchange
-    boost_python-py27
-    python2.7
-)
-
-
 set_target_properties( pyxchange
     PROPERTIES PREFIX ""
 )

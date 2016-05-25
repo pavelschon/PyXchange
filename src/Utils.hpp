@@ -9,12 +9,6 @@
 
 #include "PyXchangeFwd.hpp"
 
-#include <boost/python/extract.hpp>
-#include <boost/python/import.hpp>
-
-#define PY_THROW_ERROR_IF( cond, err, msg ) { if( cond ) { \
-    PyErr_SetString( err, msg ); py::throw_error_already_set(); } }
-
 
 namespace pyxchange
 {

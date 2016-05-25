@@ -4,18 +4,12 @@
  * 
  */
 
-#include <boost/python/str.hpp>
-#include <boost/python/long.hpp>
-#include <boost/python/dict.hpp>
-#include <boost/python/extract.hpp>
-#include <boost/python/object.hpp>
+#include <boost/python.hpp>
 
 #include <algorithm>
 #include <functional>
 #include <memory>
 #include <chrono>
-#include <string>
-#include <utility>
 #include <map>
 #include <set>
 
@@ -33,10 +27,10 @@ class Order;
 typedef std::shared_ptr<Order>                                          OrderPtr;
 typedef std::shared_ptr<const Order>                                    OrderConstPtr;
 
-typedef std::map<const orderId_t, const OrderPtr>                       OrderMap;
+typedef std::map<const orderId_t, const OrderConstPtr>                  OrderMap;
 typedef std::pair<const OrderPtr, const bool>                           OrderCreateResult;
 
-typedef std::function<bool(const OrderConstPtr&, const OrderConstPtr&)>   OrdersCompare;
+typedef std::function<bool(const OrderConstPtr&, const OrderConstPtr&)> OrdersCompare;
 
 
 class Client;

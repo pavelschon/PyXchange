@@ -32,8 +32,6 @@ public:
     static void                             handleMessageStr(  const MatcherPtr& matcher, const TraderPtr& trader, const char* const data );
     static void                             handleMessageDict( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
 
-    static constexpr const char* const      name = "Matcher";
-
 private:
     friend bool                             Trader::checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader );
 
