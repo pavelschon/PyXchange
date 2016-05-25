@@ -6,8 +6,6 @@
 
 
 #include "Matcher.hpp"
-#include "Client.hpp"
-#include "Trader.hpp"
 #include "Utils.hpp"
 
 
@@ -38,7 +36,7 @@ void Matcher::handleMessageStr( const MatcherPtr& matcher, const TraderPtr& trad
     {
         const py::dict decoded( json_loads( data ) );
 
-        matcher->handleMessageImpl( trader, decoded );
+        handleMessageImpl( matcher, trader, decoded );
     }
 }
 
@@ -51,7 +49,7 @@ void Matcher::handleMessageDict( const MatcherPtr& matcher, const TraderPtr& tra
 {
     if( Trader::checkRegistered( matcher, trader ) )
     {
-        matcher->handleMessageImpl( trader, decoded );
+        handleMessageImpl( matcher, trader, decoded );
     }
 }
 
@@ -60,17 +58,17 @@ void Matcher::handleMessageDict( const MatcherPtr& matcher, const TraderPtr& tra
  * @brief FIXME
  *
  */
-void Matcher::handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
 {
     const py::str message_type( decoded[ keys::message ] );
 
     if( message_type == message::createOrder )
     {
-        createOrder( trader, decoded );
+        matcher->orderbook.createOrder( matcher, trader, decoded );
     }
     else if( message_type == message::cancelOrder )
     {
-        cancelOrder( trader, decoded );
+        matcher->orderbook.cancelOrder( matcher, trader, decoded );
     }
     else
     {

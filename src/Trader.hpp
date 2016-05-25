@@ -26,6 +26,14 @@ public:
     void                                    writeString( const char* const data );
     void                                    writeData( const boost::python::object& data );
 
+    void                                    notifyError( const char* const text );
+
+    void                                    notifyCreateOrderSuccess( const orderId_t orderId );
+    void                                    notifyCreateOrderError( const orderId_t orderId );
+
+    void                                    notifyCancelOrderSuccess( const orderId_t orderId );
+    void                                    notifyCancelOrderError( const orderId_t orderId );
+
     size_t                                  cancelOrder( const orderId_t orderId );
 
     template<typename... Params>
@@ -34,8 +42,6 @@ public:
     static void                             addTrader( const MatcherPtr& matcher, const TraderPtr& trader );
     static void                             removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );
     static bool                             checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader );
-
-    void                                    notifyError( const char* const text );
 
     static constexpr const char* const      name = "Trader";
 

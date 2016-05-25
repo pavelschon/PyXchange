@@ -7,7 +7,6 @@
 
 #include "Trader.hpp"
 #include "Matcher.hpp"
-#include "Order.hpp"
 #include "Utils.hpp"
 
 
@@ -56,24 +55,6 @@ size_t Trader::cancelOrder( const orderId_t orderId )
 {
     return orders.erase( orderId );
 }
-
-
-/**
- * @brief FIXME
- *
- */
-void Trader::notifyError( const char* const text  )
-{
-    boost::python::dict response;
-
-    response[ keys::message ] = message::executionReport;
-    response[ keys::report  ] = report::err;
-    response[ keys::text    ] = text;
-
-    // send response
-    writeData( response );
-}
-
 
 
 /**

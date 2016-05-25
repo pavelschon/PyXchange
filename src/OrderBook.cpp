@@ -1,12 +1,11 @@
 /**
  * @brief This module implements simulator of exchange
- * @file CreateOrder.cpp
+ * @file OrderBook.cpp
  *
  */
 
 
-#include "Matcher.hpp"
-#include "Client.hpp"
+#include "OrderBook.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -14,9 +13,18 @@
 namespace pyxchange
 {
 
+
 namespace py = boost::python;
 
 
+/**
+ * @brief Constructor
+ *
+ */
+OrderBook::OrderBook()
+{
+
+}
 
 
 /**
@@ -38,18 +46,18 @@ OrderCreateResult Trader::createOrder( const TraderPtr& trader, Params... params
  * @brief FIXME
  *
  */
-void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& decoded )
+void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
 {
     const auto& result = Trader::createOrder( trader, decoded );
     const OrderPtr& order = result.first;
 
     if( !result.second )
     {
-        createOrderError( trader, order );
+        trader->notifyCreateOrderError( order->orderId );
     }
     else if( order->side == side::bid )
     {
-        createOrderSuccess( trader, order );
+        trader->notifyCreateOrderSuccess( order->orderId );
 
         handleExecution<AskOrderContainer>( askOrders, trader, order );
 
@@ -60,7 +68,8 @@ void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& d
     }
     else if( order->side == side::ask )
     {
-        createOrderSuccess( trader, order );
+        trader->notifyCreateOrderSuccess( order->orderId );
+
         handleExecution<BidOrderContainer>( bidOrders, trader, order );
 
         if( order->quantity )
@@ -75,39 +84,18 @@ void Matcher::createOrder( const TraderPtr& trader, const boost::python::dict& d
  * @brief FIXME
  *
  */
-void Matcher::createOrderSuccess( const TraderPtr& trader, const OrderPtr& order ) const
+void OrderBook::cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    py::dict response;
+    const orderId_t orderId = py::extract<const orderId_t>( decoded[ keys::orderId ] );
 
-    response[ keys::message ] = message::executionReport;
-    response[ keys::report  ] = report::new_;
-    response[ keys::orderId ] = order->orderId;
-
-    // send response
-    trader->writeData( response );
-}
-
-
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::createOrderError( const TraderPtr& trader, const OrderPtr& order ) const
-{
-    py::dict response;
-
-    response[ keys::message ] = message::executionReport;
-    response[ keys::report  ] = report::err;
-    response[ keys::text    ] = strings::orderAlreadyExist;
-    response[ keys::orderId ] = order->orderId;
-
-    // send response
-    trader->writeData( response );
-
-    PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist );
-
-    py::throw_error_already_set();
+    if( ! trader->cancelOrder( orderId ) )
+    {
+        trader->notifyCancelOrderError( orderId );
+    }
+    else
+    {
+        trader->notifyCancelOrderSuccess( orderId );
+    }
 }
 
 

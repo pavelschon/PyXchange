@@ -29,7 +29,7 @@ struct idxPriceTime {};
 
 } /* namespace tags */
 
-typedef std::greater<const price_t>                                             higherPrice;    // comparator ( higher price first -> buy orders )
+typedef std::greater<const price_t>                                             higherPrice;    // comparator ( higher price first -> bid orders )
 typedef std::less<const price_t>                                                lowerPrice;     // comparator ( lower  price first -> ask orders )
 typedef std::less<const prio_t>                                                 lowerTimestamp; // comparator ( lower timestamp first )
 

@@ -9,9 +9,6 @@
 
 #include "PyXchangeFwd.hpp"
 
-#include <boost/python/object.hpp>
-
-
 
 namespace pyxchange
 {
