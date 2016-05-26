@@ -29,6 +29,7 @@ public:
 private:
     friend void                             Client::addClient( const MatcherPtr& matcher, const ClientPtr& client );
     friend void                             Client::removeClient( const MatcherPtr& matcher, const ClientPtr& client );
+    friend void                             Client::writeAll( const MatcherConstPtr& matcher, const boost::python::object& data );
 
     friend void                             Trader::addTrader( const MatcherPtr& matcher, const TraderPtr& trader );
     friend void                             Trader::removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );

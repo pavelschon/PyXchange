@@ -26,16 +26,17 @@ public:
 
 private:
     template<typename OrderContainer>
-    void                                    handleExecution( typename OrderContainer::type& orders, const MatcherPtr& matcher,
+    void                                    handleExecution( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                                              const TraderPtr& trader, const OrderPtr& order );
 
     template<typename OrderContainer>
-    void                                    notifyPriceLevels( const typename OrderContainer::type & orders, const typename OrderContainer::price_set& priceLevels,
-                                                               const boost::python::str& side ) const;
+    void                                    notifyPriceLevels( const typename OrderContainer::type & orders,
+                                                               const typename OrderContainer::price_set& priceLevels,
+                                                               const MatcherConstPtr& matcher, const boost::python::str& side ) const;
 
     template<typename OrderContainer>
     void                                    notifyPriceLevel( const typename OrderContainer::type& orders, const price_t priceLevel,
-                                                              const boost::python::str& side ) const;
+                                                              const MatcherConstPtr& matcher, const boost::python::str& side ) const;
 
     BidOrderContainer::type                 bidOrders;
     AskOrderContainer::type                 askOrders;

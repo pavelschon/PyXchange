@@ -25,7 +25,7 @@ namespace py = boost::python;
  *
  */
 template<typename OrderContainer>
-void OrderBook::handleExecution( typename OrderContainer::type& orders, const MatcherPtr& matcher, const TraderPtr& trader, const OrderPtr& order )
+void OrderBook::handleExecution( typename OrderContainer::type& orders, const MatcherConstPtr& matcher, const TraderPtr& trader, const OrderPtr& order )
 {
     typename OrderContainer::price_set priceLevels;
     typename OrderContainer::type::template index<tags::idxPriceTime>::type  const &idx        = orders.template get<tags::idxPriceTime>();
@@ -61,21 +61,21 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
 
         std::cout << "TRADE=" << totalMatchQuantity << "S=" << orders.template size() << std::endl;
 
-        //notifyPriceLevels( orders.template, priceLevels, order->side );
+        notifyPriceLevels<OrderContainer>( orders, priceLevels, matcher, order->side );
     }
 }
 
 
 template void OrderBook::handleExecution<BidOrderContainer>(
     BidOrderContainer::type& orders,
-    const MatcherPtr& matcher,
+    const MatcherConstPtr& matcher,
     const TraderPtr& trader,
     const OrderPtr& order
 );
 
 template void OrderBook::handleExecution<AskOrderContainer>(
     AskOrderContainer::type& orders,
-    const MatcherPtr& matcher,
+    const MatcherConstPtr& matcher,
     const TraderPtr& trader,
     const OrderPtr& order
 );

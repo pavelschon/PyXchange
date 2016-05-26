@@ -50,6 +50,19 @@ void Client::writeData( const boost::python::object& data )
  * @brief FIXME
  *
  */
+void Client::writeAll( const MatcherConstPtr& matcher, const boost::python::object& data )
+{
+    for( const ClientPtr& client : matcher->clients )
+    {
+        client->writeData( data );
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 void Client::notifyError( const char* const text  )
 {
     boost::python::dict response;

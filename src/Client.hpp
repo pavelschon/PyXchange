@@ -22,11 +22,12 @@ public:
 
     void                                    writeString( const char* const data );
     void                                    writeData( const boost::python::object& data );
-
-    void                                    notifyError( const char* const text );
+    static void                             writeAll( const MatcherConstPtr& matcher, const boost::python::object& data );
 
     static void                             addClient( const MatcherPtr& matcher, const ClientPtr& client );
     static void                             removeClient( const MatcherPtr& matcher, const ClientPtr& client );
+
+    void                                    notifyError( const char* const text );
 
 private:
     const boost::python::object             write;
