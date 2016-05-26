@@ -25,9 +25,9 @@ public:
     prio_t                                  getTime( void ) const;
     orderId_t                               getId( void ) const;
 
-    bool                                    comparePrice( const OrderConstPtr& order );
-
 private:
+    bool                                    comparePrice( const OrderConstPtr& order ) const;
+
     const TraderWPtr                        trader;
     const boost::python::str                side;
     const prio_t                            time;

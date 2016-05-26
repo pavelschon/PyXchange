@@ -74,7 +74,7 @@ orderId_t Order::getId( void ) const
  * @brief FIXME
  *
  */
-bool Order::comparePrice( const OrderConstPtr& order )
+bool Order::comparePrice( const OrderConstPtr& order ) const
 {
     if( side == side::bid && order->side == side::ask )
     {

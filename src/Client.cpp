@@ -52,7 +52,7 @@ void Client::writeData( const boost::python::object& data )
  */
 void Client::writeAll( const MatcherConstPtr& matcher, const boost::python::object& data )
 {
-    for( const ClientPtr& client : matcher->clients )
+    for( const auto& client : matcher->clients )
     {
         client->writeData( data );
     }

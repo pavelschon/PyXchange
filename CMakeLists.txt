@@ -28,7 +28,7 @@ add_library( pyxchange SHARED
     src/Matcher.cpp
     src/OrderBook.cpp
     src/OrderBookExec.cpp
-    src/NotifyLevels.cpp
+    src/OrderBookNotify.cpp
     src/PyXchange.cpp
 )
 
