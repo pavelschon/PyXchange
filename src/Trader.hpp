@@ -39,7 +39,7 @@ public:
 
     static void                             addTrader( const MatcherPtr& matcher, const TraderPtr& trader );
     static void                             removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );
-    static bool                             checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader );
+    static bool                             checkRegistered( const MatcherConstPtr& matcher, const TraderPtr& trader );
 
 private:
     const boost::python::object             write;

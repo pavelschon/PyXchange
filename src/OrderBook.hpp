@@ -26,7 +26,8 @@ public:
 
 private:
     template<typename OrderContainer>
-    void                                    handleExecution( typename OrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
+    void                                    handleExecution( typename OrderContainer::type& orders, const MatcherPtr& matcher,
+                                                             const TraderPtr& trader, const OrderPtr& order );
 
     template<typename OrderContainer>
     void                                    notifyPriceLevels( const typename OrderContainer::type & orders, const typename OrderContainer::price_set& priceLevels,

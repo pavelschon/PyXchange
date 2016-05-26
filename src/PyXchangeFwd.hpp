@@ -46,6 +46,7 @@ typedef std::set<TraderPtr>                                             TraderSe
 
 class Matcher;
 typedef std::shared_ptr<Matcher>                                        MatcherPtr;
+typedef std::shared_ptr<const Matcher>                                  MatcherConstPtr;
 
 
 } /* namespace pyxchange */

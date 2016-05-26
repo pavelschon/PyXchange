@@ -101,7 +101,7 @@ void Trader::removeTrader( const MatcherPtr& matcher, const TraderPtr& trader )
  * @brief FIXME
  *
  */
-bool Trader::checkRegistered( const MatcherPtr& matcher, const TraderPtr& trader )
+bool Trader::checkRegistered( const MatcherConstPtr& matcher, const TraderPtr& trader )
 {
     const auto traderExist = matcher->traders.count( trader ) > 0;
 

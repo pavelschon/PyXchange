@@ -59,7 +59,7 @@ void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader,
     {
         trader->notifyCreateOrderSuccess( order->orderId );
 
-        handleExecution<AskOrderContainer>( askOrders, trader, order );
+        handleExecution<AskOrderContainer>( askOrders, matcher, trader, order );
 
         if( order->quantity )
         {
@@ -70,7 +70,7 @@ void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader,
     {
         trader->notifyCreateOrderSuccess( order->orderId );
 
-        handleExecution<BidOrderContainer>( bidOrders, trader, order );
+        handleExecution<BidOrderContainer>( bidOrders, matcher, trader, order );
 
         if( order->quantity )
         {
