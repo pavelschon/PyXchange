@@ -6,6 +6,7 @@
 
 
 #include "OrderBook.hpp"
+#include "Client.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -104,6 +105,81 @@ void OrderBook::cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader,
 
         py::throw_error_already_set();
     }
+}
+
+
+
+/**
+ * @brief FIXME
+ *
+ */
+template<typename OrderContainer>
+void OrderBook::handleExecution( typename OrderContainer::type& orders, const MatcherConstPtr& matcher, const TraderPtr& trader, const OrderPtr& order )
+{
+    typename OrderContainer::price_set priceLevels;
+    typename OrderContainer::type::template index<tags::idxPriceTime>::type  const &idx        = orders.template get<tags::idxPriceTime>();
+    typename OrderContainer::type::template index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
+
+    quantity_t totalMatchQuantity = 0;
+
+    while( it != idx.end() && order->comparePrice( *it ) && order->quantity > 0 )
+    {
+        const auto&  othOrder = *it;
+        //const TraderPtr& othTrader = othOrder->trader.lock();
+        const quantity_t matchQty  = std::min( order->quantity, othOrder->quantity );
+
+        order->quantity    -= matchQty;
+        othOrder->quantity -= matchQty;
+        totalMatchQuantity += matchQty;
+
+        priceLevels.insert( othOrder->price );
+
+        if( othOrder->quantity < 1 )
+        {
+            orders.template erase( it++ );
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
+    if( totalMatchQuantity > 0 )
+    {
+        priceLevels.insert( order->price );
+
+        std::cout << "TRADE=" << totalMatchQuantity << "S=" << orders.template size() << std::endl;
+
+        for( const auto price : priceLevels )
+        {
+            aggregatePriceLevel<OrderContainer>( orders, matcher, price, order->side );
+        }
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+template<typename OrderContainer>
+inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+                                            const price_t priceLevel, const side_t side_ ) const
+{
+    typename OrderContainer::type::template index<tags::idxPrice>::type const &idx                = orders.template get<tags::idxPrice>();
+    typename OrderContainer::type::template index<tags::idxPrice>::type::const_iterator it        = idx.lower_bound( priceLevel );
+    typename OrderContainer::type::template index<tags::idxPrice>::type::const_iterator const end = idx.upper_bound( priceLevel );
+
+    quantity_t quantity = 0;
+
+    while( it != end )
+    {
+        quantity += (*it)->quantity;
+
+        ++it;
+    }
+
+    Client::notifyAllOrderBook( matcher, priceLevel, side_, quantity );
 }
 
 

@@ -60,23 +60,6 @@ void Client::writeAll( const MatcherConstPtr& matcher, const boost::python::obje
 }
 
 
-/**
- * @brief FIXME
- *
- */
-void Client::notifyError( const std::string& text )
-{
-    boost::python::dict response;
-
-    response[ keys::message ] = message::executionReport;
-    response[ keys::report  ] = report::err;
-    response[ keys::text    ] = text;
-
-    // send response
-    writeData( response );
-}
-
-
 
 /**
  * @brief FIXME
@@ -116,6 +99,42 @@ void Client::removeClient( const MatcherPtr& matcher, const ClientPtr& client )
         py::throw_error_already_set();
     }
 }
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Client::notifyError( const std::string& text )
+{
+    boost::python::dict response;
+
+    response[ keys::message ] = message::executionReport;
+    response[ keys::report  ] = report::err;
+    response[ keys::text    ] = text;
+
+    // send response
+    writeData( response );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Client::notifyAllOrderBook( const MatcherConstPtr& matcher, const price_t priceLevel,
+                                 const side_t side_, const quantity_t quantity )
+{
+    boost::python::dict response;
+
+    response[ keys::message  ] = message::orderBook;
+    response[ keys::side     ] = side::toBidAsk( side_ );
+    response[ keys::price    ] = priceLevel;
+    response[ keys::quantity ] = quantity;
+
+    Client::writeAll( matcher, response );
+}
+
 
 
 } /* namespace pyxchange */

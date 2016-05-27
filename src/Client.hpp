@@ -28,6 +28,8 @@ public:
     static void                             removeClient( const MatcherPtr& matcher, const ClientPtr& client );
 
     void                                    notifyError( const std::string& text );
+    static void                             notifyAllOrderBook( const MatcherConstPtr& matcher, const price_t priceLevel,
+                                                                const side_t side_, const quantity_t quantity );
 
 private:
     const boost::python::object             write;

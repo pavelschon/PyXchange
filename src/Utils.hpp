@@ -42,6 +42,21 @@ const side_t ask_       = 2;
  * @brief FIXME
  *
  */
+inline side_t opposite( const side_t side_ )
+{
+    switch( side_ )
+    {
+        case bid_: return ask_;
+        case ask_: return bid_;
+        default:   throw;
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 inline std::string toBuySell( const side_t side_ )
 {
     switch( side_ )
