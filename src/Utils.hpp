@@ -70,13 +70,13 @@ const std::string unknownSide           = "unknown side";
 namespace keys
 {
 
-const char* const message   = "message";
-const char* const report    = "report";
-const char* const price     = "price";
-const char* const orderId   = "orderId";
-const char* const quantity  = "quantity";
-const char* const side      = "side";
-const char* const text      = "text";
+const std::string message   = "message";
+const std::string report    = "report";
+const std::string price     = "price";
+const std::string orderId   = "orderId";
+const std::string quantity  = "quantity";
+const std::string side      = "side";
+const std::string text      = "text";
 
 } /* namespace keys */
 
