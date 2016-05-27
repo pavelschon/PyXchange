@@ -59,7 +59,7 @@ void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader,
 
         py::throw_error_already_set();
     }
-    else if( order->side == side::buy )
+    else if( order->isBid() )
     {
         trader->notifyCreateOrderSuccess( order->orderId );
 
@@ -70,7 +70,7 @@ void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader,
             bidOrders.insert( order );
         }
     }
-    else if( order->side == side::sell )
+    else if( order->isAsk() )
     {
         trader->notifyCreateOrderSuccess( order->orderId );
 

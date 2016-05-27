@@ -25,11 +25,16 @@ public:
     prio_t                                  getTime( void ) const;
     orderId_t                               getId( void ) const;
 
+    bool                                    isBid( void ) const;
+    bool                                    isAsk( void ) const;
+
 private:
     bool                                    comparePrice( const OrderConstPtr& order ) const;
 
+    static side_t                           extractSide( const TraderPtr& trader_, const boost::python::dict& decoded );
+
     const TraderWPtr                        trader;
-    const boost::python::str                side;
+    const side_t                            side;
     const prio_t                            time;
     const orderId_t                         orderId;
     const price_t                           price;

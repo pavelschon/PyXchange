@@ -28,8 +28,44 @@ const std::string orderBook          = "orderbook";
 namespace side
 {
 
-const boost::python::str buy  = "BUY";
-const boost::python::str sell = "SELL";
+const std::string buy   = "BUY";
+const std::string sell  = "SELL";
+
+const std::string bid   = "bid";
+const std::string ask   = "ask";
+
+const side_t bid_       = 1;
+const side_t ask_       = 2;
+
+
+/**
+ * @brief FIXME
+ *
+ */
+inline std::string toBuySell( const side_t side_ )
+{
+    switch( side_ )
+    {
+        case bid_: return buy;
+        case ask_: return sell;
+        default:   throw;
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+inline std::string toBidAsk( const side_t side_ )
+{
+    switch( side_ )
+    {
+        case bid_: return bid;
+        case ask_: return ask;
+        default:   throw;
+    }
+}
 
 
 } /* namespace side */
