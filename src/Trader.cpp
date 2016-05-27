@@ -68,7 +68,7 @@ void Trader::addTrader( const MatcherPtr& matcher, const TraderPtr& trader )
     {
         trader->notifyError( strings::traderAlreadyAdded );
 
-        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded );
+        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded.c_str() );
 
         py::throw_error_already_set();
     }
@@ -91,7 +91,7 @@ void Trader::removeTrader( const MatcherPtr& matcher, const TraderPtr& trader )
     {
         trader->notifyError( strings::traderDoesNotExist );
 
-        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist.c_str() );
 
         py::throw_error_already_set();
     }
@@ -110,7 +110,7 @@ bool Trader::checkRegistered( const MatcherConstPtr& matcher, const TraderPtr& t
     {
         trader->notifyError( strings::traderDoesNotExist );
 
-        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist );
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist.c_str() );
 
         py::throw_error_already_set();
     }
@@ -124,5 +124,4 @@ bool Trader::checkRegistered( const MatcherConstPtr& matcher, const TraderPtr& t
 
 
 /* EOF */
-
 

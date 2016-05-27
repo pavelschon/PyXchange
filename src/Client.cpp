@@ -88,7 +88,7 @@ void Client::addClient( const MatcherPtr& matcher, const ClientPtr& client )
     {
         client->notifyError( strings::clientAlreadyAdded );
 
-        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded );
+        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded.c_str() );
 
         py::throw_error_already_set();
     }
@@ -111,7 +111,7 @@ void Client::removeClient( const MatcherPtr& matcher, const ClientPtr& client )
     {
         client->notifyError( strings::clientDoesNotExist );
 
-        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist );
+        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist.c_str() );
 
         py::throw_error_already_set();
     }

@@ -67,7 +67,7 @@ void Trader::notifyCreateOrderError( const orderId_t orderId )
     // send response
     writeData( response );
 
-    PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist );
+    PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist.c_str() );
 
     py::throw_error_already_set();
 }
@@ -106,7 +106,7 @@ void Trader::notifyCancelOrderError( const orderId_t orderId )
     // send response
     writeData( response );
 
-    PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist );
+    PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist.c_str() );
 
     py::throw_error_already_set();
 }

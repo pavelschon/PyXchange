@@ -75,7 +75,7 @@ void Matcher::handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& tra
     {
         trader->notifyError( strings::unknownMessage );
 
-        PyErr_SetString( PyExc_KeyError, strings::unknownMessage );
+        PyErr_SetString( PyExc_KeyError, strings::unknownMessage.c_str() );
 
         py::throw_error_already_set();
     }

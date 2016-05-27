@@ -49,19 +49,19 @@ const boost::python::str err    = "ERROR";
 namespace strings
 {
 
-const char* const orderDoesNotExist     = "order does not exists";
-const char* const orderAlreadyExist     = "order already exists";
+const std::string orderDoesNotExist     = "order does not exists";
+const std::string orderAlreadyExist     = "order already exists";
 
-const char* const traderAlreadyAdded    = "trader already added";
-const char* const clientAlreadyAdded    = "client already added";
+const std::string traderAlreadyAdded    = "trader already added";
+const std::string clientAlreadyAdded    = "client already added";
 
-const char* const traderDoesNotExist    = "trader does not exist";
-const char* const clientDoesNotExist    = "client does not exist";
+const std::string traderDoesNotExist    = "trader does not exist";
+const std::string clientDoesNotExist    = "client does not exist";
 
-const char* const jsonError             = "json decode error";
+const std::string jsonError             = "json decode error";
 
-const char* const unknownMessage        = "unknown message";
-const char* const unknownSide           = "unknown side";
+const std::string unknownMessage        = "unknown message";
+const std::string unknownSide           = "unknown side";
 
 } /* namespace strings */
 

@@ -33,7 +33,7 @@ Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
     {
         trader_->notifyError( strings::unknownSide );
 
-        PyErr_SetString( PyExc_ValueError, strings::unknownSide );
+        PyErr_SetString( PyExc_ValueError, strings::unknownSide.c_str() );
 
         py::throw_error_already_set();
     }
