@@ -17,10 +17,10 @@ namespace pyxchange
 namespace message
 {
 
-const boost::python::str createOrder        = "createOrder";
-const boost::python::str cancelOrder        = "cancelOrder";
-const boost::python::str executionReport    = "executionReport";
-const boost::python::str orderBook          = "orderbook";
+const std::string createOrder        = "createOrder";
+const std::string cancelOrder        = "cancelOrder";
+const std::string executionReport    = "executionReport";
+const std::string orderBook          = "orderbook";
 
 } /* namespace message */
 
@@ -28,8 +28,8 @@ const boost::python::str orderBook          = "orderbook";
 namespace side
 {
 
-const boost::python::str bid = "BUY";
-const boost::python::str ask = "SELL";
+const boost::python::str buy  = "BUY";
+const boost::python::str sell = "SELL";
 
 
 } /* namespace side */
@@ -38,10 +38,10 @@ const boost::python::str ask = "SELL";
 namespace report
 {
 
-const boost::python::str new_   = "NEW";
-const boost::python::str cancel = "CANCELED";
-const boost::python::str fill   = "FILL";
-const boost::python::str err    = "ERROR";
+const std::string new_   = "NEW";
+const std::string cancel = "CANCELED";
+const std::string fill   = "FILL";
+const std::string err    = "ERROR";
 
 } /* namespace report */
 

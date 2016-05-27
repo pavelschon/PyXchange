@@ -29,7 +29,7 @@ Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
     , price( py::extract<const price_t>( decoded[ keys::price ] ) )
     , quantity( py::extract<const quantity_t>( decoded[ keys::quantity ] ) )
 {
-    if( side != side::bid && side != side::ask )
+    if( side != side::buy && side != side::sell )
     {
         trader_->notifyError( strings::unknownSide );
 
@@ -76,11 +76,11 @@ orderId_t Order::getId( void ) const
  */
 bool Order::comparePrice( const OrderConstPtr& order ) const
 {
-    if( side == side::bid && order->side == side::ask )
+    if( side == side::buy && order->side == side::sell )
     {
         return price >= order->price;
     }
-    else if( side == side::ask && order->side == side::bid )
+    else if( side == side::sell && order->side == side::buy )
     {
         return price <= order->price;
     }
