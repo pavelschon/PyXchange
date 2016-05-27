@@ -53,7 +53,11 @@ void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader,
 
     if( !result.second )
     {
-        trader->notifyCreateOrderError( order->orderId );
+        trader->notifyCreateOrderError( order->orderId, strings::orderAlreadyExist );
+
+        PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist.c_str() );
+
+        py::throw_error_already_set();
     }
     else if( order->side == side::bid )
     {
@@ -88,13 +92,17 @@ void OrderBook::cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader,
 {
     const orderId_t orderId = py::extract<const orderId_t>( decoded[ keys::orderId ] );
 
-    if( ! trader->cancelOrder( orderId ) )
+    if( trader->cancelOrder( orderId ) )
     {
-        trader->notifyCancelOrderError( orderId );
+        trader->notifyCancelOrderSuccess( orderId );
     }
     else
     {
-        trader->notifyCancelOrderSuccess( orderId );
+        trader->notifyCancelOrderError( orderId, strings::orderDoesNotExist );
+
+        PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist.c_str() );
+
+        py::throw_error_already_set();
     }
 }
 

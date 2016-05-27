@@ -55,21 +55,17 @@ void Trader::notifyCreateOrderSuccess( const orderId_t orderId )
     * @brief FIXME
     *
     */
-void Trader::notifyCreateOrderError( const orderId_t orderId )
+void Trader::notifyCreateOrderError( const orderId_t orderId, const std::string& text )
 {
     py::dict response;
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
-    response[ keys::text    ] = strings::orderAlreadyExist;
+    response[ keys::text    ] = text;
     response[ keys::orderId ] = orderId;
 
     // send response
     writeData( response );
-
-    PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist.c_str() );
-
-    py::throw_error_already_set();
 }
 
 
@@ -94,21 +90,17 @@ void Trader::notifyCancelOrderSuccess( const orderId_t orderId )
     * @brief FIXME
     *
     */
-void Trader::notifyCancelOrderError( const orderId_t orderId )
+void Trader::notifyCancelOrderError( const orderId_t orderId, const std::string& text )
 {
     py::dict response;
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
-    response[ keys::text    ] = strings::orderDoesNotExist;
+    response[ keys::text    ] = text;
     response[ keys::orderId ] = orderId;
 
     // send response
     writeData( response );
-
-    PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist.c_str() );
-
-    py::throw_error_already_set();
 }
 
 
