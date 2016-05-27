@@ -21,10 +21,10 @@ class Trader
 public:
     explicit                                Trader( const boost::python::object& write_ );
 
-    void                                    writeString( const char* const data );
+    void                                    writeString( const std::string& data );
     void                                    writeData( const boost::python::object& data );
 
-    void                                    notifyError( const char* const text );
+    void                                    notifyError( const std::string& text );
 
     void                                    notifyCreateOrderSuccess( const orderId_t orderId );
     void                                    notifyCreateOrderError( const orderId_t orderId );

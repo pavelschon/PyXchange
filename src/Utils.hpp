@@ -81,30 +81,6 @@ const char* const text      = "text";
 } /* namespace keys */
 
 
-const auto json = boost::python::import( "json" );
-
-/**
- * @brief FIXME
- *
- */
-template<typename T>
-inline boost::python::object json_loads( T value )
-{
-    return json.attr( "loads" )( value );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-template<typename T>
-inline T json_dumps( const boost::python::object& obj )
-{
-    return boost::python::extract<T>( json.attr( "dumps" )( obj ) );
-}
-
-
 } /* namespace pyxchange */
 
 

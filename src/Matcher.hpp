@@ -23,7 +23,7 @@ class Matcher
 public:
                                             Matcher();
 
-    static void                             handleMessageStr(  const MatcherPtr& matcher, const TraderPtr& trader, const char* const data );
+    static void                             handleMessageStr(  const MatcherPtr& matcher, const TraderPtr& trader, const std::string& data );
     static void                             handleMessageDict( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
 
 private:

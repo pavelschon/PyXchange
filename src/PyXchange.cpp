@@ -8,7 +8,7 @@
 #include "Client.hpp"
 #include "Trader.hpp"
 #include "Matcher.hpp"
-#include "Utils.hpp"
+#include "Json.hpp"
 
 
 /**
@@ -47,8 +47,8 @@ BOOST_PYTHON_MODULE( pyxchange )
         .def( "handleMessageDict", &Matcher::handleMessageDict, args( "trader", "data" ) )
     ;
 
-    def( "json_dumps", &json_dumps<const char*> );
-    def( "json_loads", &json_loads<const char*> );
+    def( "json_dumps", &json::dumps<const std::string> );
+    def( "json_loads", &json::loads<const std::string> );
 }
 
 

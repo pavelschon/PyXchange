@@ -7,6 +7,7 @@
 
 #include "Client.hpp"
 #include "Matcher.hpp"
+#include "Json.hpp"
 #include "Utils.hpp"
 
 
@@ -30,7 +31,7 @@ Client::Client( const boost::python::object& write_ ):
  * @brief FIXME
  *
  */
-void Client::writeString( const char* const data )
+void Client::writeString( const std::string& data )
 {
     write( data );
 }
@@ -42,7 +43,7 @@ void Client::writeString( const char* const data )
  */
 void Client::writeData( const boost::python::object& data )
 {
-    write( json_dumps<const char* const>( data ) );
+    write( json::dumps<const std::string>( data ) );
 }
 
 
@@ -63,7 +64,7 @@ void Client::writeAll( const MatcherConstPtr& matcher, const boost::python::obje
  * @brief FIXME
  *
  */
-void Client::notifyError( const char* const text  )
+void Client::notifyError( const std::string& text )
 {
     boost::python::dict response;
 

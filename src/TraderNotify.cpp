@@ -20,7 +20,7 @@ namespace py = boost::python;
     * @brief FIXME
     *
     */
-void Trader::notifyError( const char* const text  )
+void Trader::notifyError( const std::string& text )
 {
     boost::python::dict response;
 

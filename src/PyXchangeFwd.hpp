@@ -10,6 +10,7 @@
 #include <functional>
 #include <memory>
 #include <chrono>
+#include <string>
 #include <map>
 #include <set>
 

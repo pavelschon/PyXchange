@@ -20,14 +20,14 @@ class Client
 public:
     explicit                                Client( const boost::python::object& write_ );
 
-    void                                    writeString( const char* const data );
+    void                                    writeString( const std::string& data );
     void                                    writeData( const boost::python::object& data );
     static void                             writeAll( const MatcherConstPtr& matcher, const boost::python::object& data );
 
     static void                             addClient( const MatcherPtr& matcher, const ClientPtr& client );
     static void                             removeClient( const MatcherPtr& matcher, const ClientPtr& client );
 
-    void                                    notifyError( const char* const text );
+    void                                    notifyError( const std::string& text );
 
 private:
     const boost::python::object             write;

@@ -7,6 +7,7 @@
 
 #include "Trader.hpp"
 #include "Matcher.hpp"
+#include "Json.hpp"
 #include "Utils.hpp"
 
 
@@ -31,7 +32,7 @@ Trader::Trader( const boost::python::object& write_ ):
  * @brief FIXME
  *
  */
-void Trader::writeString( const char* const data )
+void Trader::writeString( const std::string& data )
 {
     write( data );
 }
@@ -43,7 +44,7 @@ void Trader::writeString( const char* const data )
  */
 void Trader::writeData( const boost::python::object& data )
 {
-    write( json_dumps<const char* const>( data ) );
+    write( json::dumps<const std::string>( data ) );
 }
 
 

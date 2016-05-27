@@ -6,6 +6,7 @@
 
 
 #include "Matcher.hpp"
+#include "Json.hpp"
 #include "Utils.hpp"
 
 
@@ -30,11 +31,11 @@ Matcher::Matcher()
  * @brief FIXME
  *
  */
-void Matcher::handleMessageStr( const MatcherPtr& matcher, const TraderPtr& trader, const char* const data )
+void Matcher::handleMessageStr( const MatcherPtr& matcher, const TraderPtr& trader, const std::string& data )
 {
     if( Trader::checkRegistered( matcher, trader ) )
     {
-        const py::dict decoded( json_loads( data ) );
+        const py::dict decoded( json::loads( data ) );
 
         handleMessageImpl( matcher, trader, decoded );
     }
