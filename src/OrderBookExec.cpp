@@ -35,7 +35,7 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
 
     while( it != idx.end() && order->comparePrice( *it ) && order->quantity > 0 )
     {
-        const OrderPtr&  othOrder  = *it;
+        const auto&  othOrder = *it;
         //const TraderPtr& othTrader = othOrder->trader.lock();
         const quantity_t matchQty  = std::min( order->quantity, othOrder->quantity );
 

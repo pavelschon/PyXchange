@@ -34,7 +34,7 @@ OrderBook::OrderBook()
 template<typename... Params>
 OrderCreateResult Trader::createOrder( const TraderPtr& trader, Params... params )
 {
-    const OrderPtr& order = std::make_shared<Order>( trader, params... );
+    const auto& order = std::make_shared<Order>( trader, params... );
     const auto& orderPair = std::make_pair( order->getId(), order );
     const auto& insResult = trader->orders.insert( orderPair );
 
@@ -49,7 +49,7 @@ OrderCreateResult Trader::createOrder( const TraderPtr& trader, Params... params
 void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
 {
     const auto& result = Trader::createOrder( trader, decoded );
-    const OrderPtr& order = result.first;
+    const auto& order  = result.first;
 
     if( !result.second )
     {

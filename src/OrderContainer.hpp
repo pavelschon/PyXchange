@@ -31,16 +31,16 @@ struct idxPriceTime {};
 
 typedef std::greater<const price_t>                                             higherPrice;    // comparator ( higher price first -> bid orders )
 typedef std::less<const price_t>                                                lowerPrice;     // comparator ( lower  price first -> ask orders )
-typedef std::less<const prio_t>                                                 lowerTimestamp; // comparator ( lower timestamp first )
+typedef std::less<const prio_t>                                                 lowerTime;      // comparator ( lower timestamp first )
 
-typedef boost::multi_index::composite_key_compare<higherPrice, lowerTimestamp>  higherPriceLowerTimestamp;
-typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTimestamp>  lowerPriceLowerTimestamp;
+typedef boost::multi_index::composite_key_compare<higherPrice, lowerTime>       higherPriceLowerTime;
+typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTime>       lowerPriceLowerTime;
 
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, price_t, Order::getPrice)       keyPrice;
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, prio_t,  Order::getTime)        keyTime;
 typedef boost::multi_index::composite_key<Order, keyPrice, keyTime>             keyPriceTime;
 
-template<typename Compare, typename CompareNonUnique>
+template<typename ComparePriceTime, typename ComparePrice>
 struct OrderContainer
 {
     typedef boost::multi_index::multi_index_container<
@@ -48,19 +48,19 @@ struct OrderContainer
         boost::multi_index::indexed_by<
             boost::multi_index::ordered_unique<
                 boost::multi_index::tag<tags::idxPriceTime>,
-                keyPriceTime, Compare>,
+                keyPriceTime, ComparePriceTime>,
 
         boost::multi_index::ordered_non_unique<
             boost::multi_index::tag<tags::idxPrice>,
-                keyPrice, CompareNonUnique> >
+                keyPrice, ComparePrice> >
     > type;
 
-    typedef std::set<price_t, CompareNonUnique> price_set;
+    typedef std::set<price_t, ComparePrice> price_set;
 };
 
 
-typedef OrderContainer<higherPriceLowerTimestamp, higherPrice>                  BidOrderContainer;  // container type for buy orders
-typedef OrderContainer<lowerPriceLowerTimestamp,  lowerPrice>                   AskOrderContainer; // container type for sell orders
+typedef OrderContainer<higherPriceLowerTime, higherPrice>                       BidOrderContainer;  // container type for buy orders
+typedef OrderContainer<lowerPriceLowerTime,  lowerPrice>                        AskOrderContainer; // container type for sell orders
 
 
 } /* namespace pyxchange */
