@@ -43,9 +43,9 @@ size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders, const 
 {
     typename OrderContainer::price_set priceLevels;
 
-    auto &idx      = orders.template get<tags::idxTrader>();
-    auto it        = idx.lower_bound( trader );
-    const auto end = idx.upper_bound( trader );
+          auto &idx = orders.template get<tags::idxTrader>();
+          auto it   = idx.lower_bound( trader );
+    const auto end  = idx.upper_bound( trader );
 
     size_t n = 0;
 
@@ -60,10 +60,7 @@ size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders, const 
         ++n;
     }
 
-    for( const auto price : priceLevels )
-    {
-        aggregatePriceLevel<OrderContainer>( orders, matcher, price, side_ );
-    }
+    aggregateAllPriceLevel<OrderContainer>( orders, matcher, priceLevels, side_ );
 
     return n;
 }

@@ -34,7 +34,7 @@ OrderBook::OrderBook()
  */
 void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const auto& order  = std::make_shared<Order>( trader, decoded );
+    const auto& order = std::make_shared<Order>( trader, decoded );
 
     if( order->isBid() && bidOrders.insert( order ).second )
     {

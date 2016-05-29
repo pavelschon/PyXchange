@@ -74,7 +74,7 @@ struct OrderContainer
 };
 
 
-typedef OrderContainer<higherPriceLowerTime, higherPrice>                       BidOrderContainer;  // container type for buy orders
+typedef OrderContainer<higherPriceLowerTime, higherPrice>                       BidOrderContainer; // container type for buy orders
 typedef OrderContainer<lowerPriceLowerTime,  lowerPrice>                        AskOrderContainer; // container type for sell orders
 
 

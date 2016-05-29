@@ -54,7 +54,7 @@ template<typename OrderContainer>
 size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                const TraderPtr& trader, const orderId_t orderId )
 {
-    auto& idx       = orders.template get<tags::idxTraderOrderId>();
+          auto& idx = orders.template get<tags::idxTraderOrderId>();
     const auto& key = std::make_tuple( trader, orderId );
     const auto  it  = idx.find( key );
 

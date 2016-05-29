@@ -57,10 +57,7 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
     {
         std::cout << "TRADE=" << totalMatchQuantity << "S=" << orders.template size() << std::endl;
 
-        for( const auto price : priceLevels )
-        {
-            aggregatePriceLevel<OrderContainer>( orders, matcher, price, side::opposite( order->side ) );
-        }
+        aggregateAllPriceLevels<OrderContainer>( orders, matcher, priceLevels, side::opposite( order->side ) );
     }
 }
 
