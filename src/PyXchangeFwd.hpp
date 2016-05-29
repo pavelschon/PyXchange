@@ -4,6 +4,9 @@
  * 
  */
 
+#ifndef PYXCHANGEFWD
+#define PYXCHANGEFWD
+
 #include <boost/python.hpp>
 
 #include <algorithm>
@@ -11,12 +14,12 @@
 #include <memory>
 #include <chrono>
 #include <string>
-#include <map>
 #include <set>
 
 
 namespace pyxchange
 {
+
 
 typedef std::chrono::time_point<std::chrono::high_resolution_clock>     prio_t;
 typedef unsigned int                                                    price_t;
@@ -24,30 +27,14 @@ typedef unsigned int                                                    quantity
 typedef unsigned int                                                    orderId_t;
 typedef unsigned short                                                  side_t;
 
-class Order;
 
 class OrderBook;
 typedef std::shared_ptr<OrderBook>                                      OrderBookPtr;
 
+
+class Order;
 typedef std::shared_ptr<Order>                                          OrderPtr;
-typedef std::shared_ptr<const Order>                                    OrderConstPtr;
-
-typedef std::map<const orderId_t, const OrderConstPtr>                  OrderMap;
-typedef std::pair<const OrderPtr, const bool>                           OrderCreateResult;
-
-typedef std::function<bool(const OrderConstPtr&, const OrderConstPtr&)> OrdersCompare;
-
-
-class Client;
-typedef std::shared_ptr<Client>                                         ClientPtr;
-typedef std::set<ClientPtr>                                             ClientSet;
-
-
-class Trader;
-typedef std::shared_ptr<Trader>                                         TraderPtr;
-typedef std::weak_ptr<Trader>                                           TraderWPtr;
-typedef std::set<TraderPtr>                                             TraderSet;
-typedef std::tuple<TraderPtr, orderId_t>                                TraderOrderId;
+typedef std::shared_ptr<Order const>                                    OrderConstPtr;
 
 
 class Matcher;
@@ -55,8 +42,37 @@ typedef std::shared_ptr<Matcher>                                        MatcherP
 typedef std::shared_ptr<const Matcher>                                  MatcherConstPtr;
 
 
+template<typename T>
+struct CompareWeakPtr
+{
+    bool operator()( const std::weak_ptr<const T>& lhs,
+                     const std::weak_ptr<const T>& rhs ) const
+    {
+        const auto& lhs_ = lhs.lock();
+        const auto& rhs_ = rhs.lock();
+
+        return ( lhs_ && rhs_ ) ? lhs_ < rhs_ : false;
+    }
+};
+
+
+class Client;
+typedef std::shared_ptr<Client>                                         ClientPtr;
+typedef std::weak_ptr<Client>                                           ClientWPtr;
+typedef std::set<ClientWPtr, CompareWeakPtr<Client> >                   ClientSet;
+
+
+class Trader;
+typedef std::shared_ptr<Trader>                                         TraderPtr;
+typedef std::weak_ptr<Trader>                                           TraderWPtr;
+typedef std::set<TraderWPtr, CompareWeakPtr<Trader> >                   TraderSet;
+typedef std::tuple<const TraderPtr, const orderId_t>                    TraderOrderId;
+
+
 } /* namespace pyxchange */
 
+
+#endif /* PYXCHANGEFWD */
 
 
 /* EOF */

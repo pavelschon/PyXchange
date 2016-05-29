@@ -55,7 +55,12 @@ void Client::writeAll( const MatcherConstPtr& matcher, const boost::python::obje
 {
     for( const auto& client : matcher->clients )
     {
-        client->writeData( data );
+        const auto& client_ = client.lock(); // from weak_ptr to shared_ptr
+
+        if( client_ )
+        {
+            client_->writeData( data );
+        }
     }
 }
 
