@@ -25,6 +25,7 @@ public:
     prio_t                                  getTime( void ) const;
     orderId_t                               getId( void ) const;
     TraderPtr                               getTrader( void ) const;
+    TraderOrderId                           getUnique( void ) const;
 
     bool                                    isBid( void ) const;
     bool                                    isAsk( void ) const;

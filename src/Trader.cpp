@@ -52,16 +52,6 @@ void Trader::writeData( const boost::python::object& data )
  * @brief FIXME
  *
  */
-size_t Trader::cancelOrder( const orderId_t orderId )
-{
-    return orders.erase( orderId );
-}
-
-
-/**
- * @brief FIXME
- *
- */
 void Trader::addTrader( const MatcherPtr& matcher, const TraderPtr& trader )
 {
     if( ! matcher->traders.insert( trader ).second )

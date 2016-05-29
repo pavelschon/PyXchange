@@ -32,55 +32,29 @@ OrderBook::OrderBook()
  * @brief FIXME
  *
  */
-template<typename... Params>
-OrderCreateResult Trader::createOrder( const TraderPtr& trader, Params... params )
-{
-    const auto& order = std::make_shared<Order>( trader, params... );
-    const auto& orderPair = std::make_pair( order->getId(), order );
-    const auto& insResult = trader->orders.insert( orderPair );
-
-    return std::make_pair( order, insResult.second );
-}
-
-
-/**
- * @brief FIXME
- *
- */
 void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    const auto& result = Trader::createOrder( trader, decoded );
-    const auto& order  = result.first;
+    const auto& order  = std::make_shared<Order>( trader, decoded );
 
-    if( !result.second )
+    if( order->isBid() && bidOrders.insert( order ).second )
+    {
+        trader->notifyCreateOrderSuccess( order->orderId );
+
+        handleExecution<AskOrderContainer>( askOrders, matcher, trader, order );
+    }
+    else if( order->isAsk() && askOrders.insert( order ).second )
+    {
+        trader->notifyCreateOrderSuccess( order->orderId );
+
+        handleExecution<AskOrderContainer>( askOrders, matcher, trader, order );
+    }
+    else
     {
         trader->notifyCreateOrderError( order->orderId, strings::orderAlreadyExist );
 
         PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist.c_str() );
 
         py::throw_error_already_set();
-    }
-    else if( order->isBid() )
-    {
-        trader->notifyCreateOrderSuccess( order->orderId );
-
-        handleExecution<AskOrderContainer>( askOrders, matcher, trader, order );
-
-        if( order->quantity )
-        {
-            bidOrders.insert( order );
-        }
-    }
-    else if( order->isAsk() )
-    {
-        trader->notifyCreateOrderSuccess( order->orderId );
-
-        handleExecution<BidOrderContainer>( bidOrders, matcher, trader, order );
-
-        if( order->quantity )
-        {
-            askOrders.insert( order );
-        }
     }
 }
 
@@ -93,7 +67,13 @@ void OrderBook::cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader,
 {
     const orderId_t orderId = py::extract<const orderId_t>( decoded[ keys::orderId ] );
 
-    if( trader->cancelOrder( orderId ) )
+    size_t n = 0;
+
+    // we don't know if order is buy or sell, so we cancel it in both containers
+    n += cancelOrder<BidOrderContainer>( bidOrders, matcher, trader, orderId );
+    n += cancelOrder<AskOrderContainer>( askOrders, matcher, trader, orderId );
+
+    if( n > 0 )
     {
         trader->notifyCancelOrderSuccess( orderId );
     }
@@ -112,10 +92,40 @@ void OrderBook::cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader,
  * @brief FIXME
  *
  */
+template<typename OrderContainer>
+size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+                               const TraderPtr& trader, const orderId_t orderId )
+{
+    auto& idx       = orders.template get<tags::idxTraderOrderId>();
+    const auto& key = std::make_tuple( trader, orderId );
+    const auto  it  = idx.find( key );
+
+    if( it != idx.end() )
+    {
+        const auto order = *it; // no reference here!
+
+        idx.erase( it );
+
+        aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
+
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 size_t OrderBook::cancelOrders( const MatcherConstPtr& matcher, const TraderPtr& trader )
 {
     size_t n = 0;
 
+    // we don't know if order is buy or sell, so we cancel it in both containers
     n += cancelOrders<BidOrderContainer>( bidOrders, matcher, trader, side::bid_ );
     n += cancelOrders<AskOrderContainer>( askOrders, matcher, trader, side::ask_ );
 
@@ -131,12 +141,13 @@ template<typename OrderContainer>
 size_t OrderBook::cancelOrders( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                 const TraderPtr& trader, const side_t side_ )
 {
-    size_t n = 0;
-
     typename OrderContainer::price_set priceLevels;
-    typename OrderContainer::type::template index<tags::idxTrader>::type &idx = orders.template get<tags::idxTrader>();
-    typename OrderContainer::type::template index<tags::idxTrader>::type::const_iterator it        = idx.lower_bound( trader );
-    typename OrderContainer::type::template index<tags::idxTrader>::type::const_iterator const end = idx.upper_bound( trader );
+
+    auto &idx      = orders.template get<tags::idxTrader>();
+    auto it        = idx.lower_bound( trader );
+    const auto end = idx.upper_bound( trader );
+
+    size_t n = 0;
 
     while( it != end )
     {
@@ -168,8 +179,9 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
                                  const TraderPtr& trader, const OrderPtr& order )
 {
     typename OrderContainer::price_set priceLevels{ order->price };
-    typename OrderContainer::type::template index<tags::idxPriceTime>::type &idx = orders.template get<tags::idxPriceTime>();
-    typename OrderContainer::type::template index<tags::idxPriceTime>::type::const_iterator it = idx.begin();
+
+    auto &idx = orders.template get<tags::idxPriceTime>();
+    auto it   = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
 
@@ -187,8 +199,6 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
 
         if( oppOrder->quantity < 1 )
         {
-            oppTrader->cancelOrder( oppOrder->orderId );
-
             idx.erase( it++ );
         }
         else
@@ -217,9 +227,9 @@ template<typename OrderContainer>
 inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                             const price_t priceLevel, const side_t side_ ) const
 {
-    typename OrderContainer::type::template index<tags::idxPrice>::type  const &idx = orders.template get<tags::idxPrice>();
-    typename OrderContainer::type::template index<tags::idxPrice>::type::const_iterator it        = idx.lower_bound( priceLevel );
-    typename OrderContainer::type::template index<tags::idxPrice>::type::const_iterator const end = idx.upper_bound( priceLevel );
+    auto const &idx = orders.template get<tags::idxPrice>();
+    auto const end = idx.upper_bound( priceLevel );
+    auto it        = idx.lower_bound( priceLevel );
 
     quantity_t quantity = 0;
 

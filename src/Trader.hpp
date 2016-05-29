@@ -8,7 +8,6 @@
 #define TRADER
 
 #include "PyXchangeFwd.hpp"
-#include "Order.hpp"
 
 
 namespace pyxchange
@@ -32,21 +31,13 @@ public:
     void                                    notifyCancelOrderSuccess( const orderId_t orderId );
     void                                    notifyCancelOrderError( const orderId_t orderId, const std::string& text );
 
-    size_t                                  cancelOrder( const orderId_t orderId );
-
-    template<typename... Params>
-    static OrderCreateResult                createOrder( const TraderPtr& trader, Params... params );
-
     static void                             addTrader( const MatcherPtr& matcher, const TraderPtr& trader );
     static void                             removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );
     static bool                             checkRegistered( const MatcherConstPtr& matcher, const TraderPtr& trader );
 
 private:
     const boost::python::object             write;
-
-    OrderMap                                orders;
 };
-
 
 
 } /* namespace pyxchange */

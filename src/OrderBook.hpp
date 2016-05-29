@@ -28,6 +28,10 @@ public:
 
 private:
     template<typename OrderContainer>
+    size_t                                  cancelOrder( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+                                                         const TraderPtr& trader, const orderId_t orderId );
+
+    template<typename OrderContainer>
     size_t                                  cancelOrders( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                                           const TraderPtr& trader, const side_t side_ );
 

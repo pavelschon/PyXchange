@@ -124,6 +124,16 @@ TraderPtr Order::getTrader( void ) const
  * @brief FIXME
  *
  */
+TraderOrderId Order::getUnique( void ) const
+{
+    return std::make_tuple( trader.lock(), orderId );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 bool Order::comparePrice( const OrderConstPtr& order ) const
 {
     if( isBid() && order->isAsk() )

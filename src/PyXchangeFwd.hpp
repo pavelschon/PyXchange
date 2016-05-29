@@ -44,6 +44,7 @@ class Trader;
 typedef std::shared_ptr<Trader>                                         TraderPtr;
 typedef std::weak_ptr<Trader>                                           TraderWPtr;
 typedef std::set<TraderPtr>                                             TraderSet;
+typedef std::tuple<TraderPtr, orderId_t>                                TraderOrderId;
 
 
 class Matcher;
