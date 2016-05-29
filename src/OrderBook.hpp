@@ -24,7 +24,7 @@ public:
     void                                    createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
     void                                    cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
 
-    size_t                                  cancelOrders( const MatcherConstPtr& matcher, const TraderPtr& trader );
+    size_t                                  cancelAllOrders( const MatcherConstPtr& matcher, const TraderPtr& trader );
 
 private:
     template<typename OrderContainer>
@@ -32,8 +32,8 @@ private:
                                                          const TraderPtr& trader, const orderId_t orderId );
 
     template<typename OrderContainer>
-    size_t                                  cancelOrders( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                                                          const TraderPtr& trader, const side_t side_ );
+    size_t                                  cancelAllOrders( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+                                                             const TraderPtr& trader, const side_t side_ );
 
     template<typename OrderContainer>
     void                                    handleExecution( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,

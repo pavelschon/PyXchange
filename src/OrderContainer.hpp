@@ -37,9 +37,6 @@ typedef std::greater<const price_t>                                             
 typedef std::less<const price_t>                                                lowerPrice;     // comparator ( lower  price first -> ask orders )
 typedef std::less<const prio_t>                                                 lowerTime;      // comparator ( lower timestamp first )
 
-typedef boost::multi_index::composite_key_compare<higherPrice, lowerTime>       higherPriceLowerTime;
-typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTime>       lowerPriceLowerTime;
-
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, price_t, Order::getPrice )      keyPrice;
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, prio_t,  Order::getTime )       keyTime;
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, TraderPtr, Order::getTrader )   keyTrader;
@@ -47,27 +44,30 @@ typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, TraderOrderId, Order::getUnique 
 
 typedef boost::multi_index::composite_key<Order, keyPrice, keyTime>             keyPriceTime;
 
+typedef boost::multi_index::composite_key_compare<higherPrice, lowerTime>       higherPriceLowerTime;
+typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTime>       lowerPriceLowerTime;
+
 template<typename ComparePriceTime, typename ComparePrice>
 struct OrderContainer
 {
     typedef boost::multi_index::multi_index_container<
-        OrderPtr,
-        boost::multi_index::indexed_by<
+        OrderPtr, boost::multi_index::indexed_by<
+
             boost::multi_index::ordered_unique<
                 boost::multi_index::tag<tags::idxPriceTime>,
                 keyPriceTime, ComparePriceTime>,
 
-        boost::multi_index::ordered_non_unique<
-            boost::multi_index::tag<tags::idxPrice>,
-                keyPrice, ComparePrice>,
+            boost::multi_index::ordered_non_unique<
+                boost::multi_index::tag<tags::idxPrice>,
+                    keyPrice, ComparePrice>,
 
-        boost::multi_index::ordered_non_unique<
-            boost::multi_index::tag<tags::idxTrader>,
-                keyTrader >,
+            boost::multi_index::ordered_non_unique<
+                boost::multi_index::tag<tags::idxTrader>,
+                    keyTrader >,
 
-        boost::multi_index::hashed_unique<
-            boost::multi_index::tag<tags::idxTraderOrderId>,
-                keyTraderOrderId > >
+            boost::multi_index::hashed_unique<
+                boost::multi_index::tag<tags::idxTraderOrderId>,
+                    keyTraderOrderId > >
     > type;
 
     typedef std::set<price_t, ComparePrice> price_set;

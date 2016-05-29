@@ -36,7 +36,7 @@ private:
 
     static void                             handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
 
-    static size_t                           cancelOrders( const MatcherPtr& matcher, const TraderPtr& trader );
+    static size_t                           cancelAllOrders( const MatcherPtr& matcher, const TraderPtr& trader );
 
     TraderSet                               traders;
     ClientSet                               clients;

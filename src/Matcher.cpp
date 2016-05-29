@@ -87,9 +87,9 @@ void Matcher::handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& tra
  * @brief FIXME
  *
  */
-size_t Matcher::cancelOrders( const MatcherPtr& matcher, const TraderPtr& trader )
+size_t Matcher::cancelAllOrders( const MatcherPtr& matcher, const TraderPtr& trader )
 {
-    return matcher->orderbook->cancelOrders( matcher, trader );
+    return matcher->orderbook->cancelAllOrders( matcher, trader );
 }
 
 
