@@ -60,7 +60,7 @@ size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders, const 
         ++n;
     }
 
-    aggregateAllPriceLevel<OrderContainer>( orders, matcher, priceLevels, side_ );
+    aggregateAllPriceLevels<OrderContainer>( orders, priceLevels, matcher, side_ );
 
     return n;
 }

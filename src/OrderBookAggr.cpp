@@ -19,7 +19,7 @@ namespace py = boost::python;
 template<typename OrderContainer>
 void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::type& orders,
                                          const typename OrderContainer::price_set& priceLevels,
-                                         const MatcherConstPtr& matcher, const price_t priceLevel, const side_t side_ ) const
+                                         const MatcherConstPtr& matcher,const side_t side_ ) const
 {
     for( const auto price : priceLevels )
     {
@@ -55,11 +55,11 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
 
 template void OrderBook::aggregateAllPriceLevels<BidOrderContainer>(
     const BidOrderContainer::type& orders, const BidOrderContainer::price_set& priceLevels,
-    const MatcherConstPtr& matcher, const price_t priceLevel, const side_t side_ ) const;
+    const MatcherConstPtr& matcher, const side_t side_ ) const;
 
 template void OrderBook::aggregateAllPriceLevels<AskOrderContainer>(
     const AskOrderContainer::type& orders, const AskOrderContainer::price_set& priceLevels,
-    const MatcherConstPtr& matcher, const price_t priceLevel, const side_t side_ ) const;
+    const MatcherConstPtr& matcher, const side_t side_ ) const;
 
 template void OrderBook::aggregatePriceLevel<BidOrderContainer>(
     const BidOrderContainer::type& orders, const MatcherConstPtr& matcher,

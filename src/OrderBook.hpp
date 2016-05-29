@@ -42,7 +42,7 @@ private:
     template<typename OrderContainer>
     void                                    aggregateAllPriceLevels( const typename OrderContainer::type& orders,
                                                                      const typename OrderContainer::price_set& priceLevels,
-                                                                     const MatcherConstPtr& matcher, const price_t priceLevel, const side_t side_ ) const;
+                                                                     const MatcherConstPtr& matcher, const side_t side_ ) const;
 
     template<typename OrderContainer>
     void                                    aggregatePriceLevel( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
