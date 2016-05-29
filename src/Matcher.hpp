@@ -8,7 +8,6 @@
 #define MATCHER
 
 #include "PyXchangeFwd.hpp"
-#include "OrderBook.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
 
@@ -42,7 +41,7 @@ private:
     TraderSet                               traders;
     ClientSet                               clients;
 
-    OrderBook                               orderbook;
+    const OrderBookPtr                      orderbook;
 };
 
 

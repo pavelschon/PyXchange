@@ -6,6 +6,7 @@
 
 
 #include "Matcher.hpp"
+#include "OrderBook.hpp"
 #include "Json.hpp"
 #include "Utils.hpp"
 
@@ -21,7 +22,7 @@ namespace py = boost::python;
  * @brief Constructor
  * 
  */
-Matcher::Matcher()
+Matcher::Matcher(): orderbook{ std::make_shared<OrderBook>() }
 {
 
 }
@@ -65,11 +66,11 @@ void Matcher::handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& tra
 
     if( message_type == message::createOrder )
     {
-        matcher->orderbook.createOrder( matcher, trader, decoded );
+        matcher->orderbook->createOrder( matcher, trader, decoded );
     }
     else if( message_type == message::cancelOrder )
     {
-        matcher->orderbook.cancelOrder( matcher, trader, decoded );
+        matcher->orderbook->cancelOrder( matcher, trader, decoded );
     }
     else
     {
@@ -88,7 +89,7 @@ void Matcher::handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& tra
  */
 size_t Matcher::cancelOrders( const MatcherPtr& matcher, const TraderPtr& trader )
 {
-    return matcher->orderbook.cancelOrders( matcher, trader );
+    return matcher->orderbook->cancelOrders( matcher, trader );
 }
 
 

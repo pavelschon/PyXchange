@@ -43,7 +43,7 @@ typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTime>       
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, price_t, Order::getPrice )      keyPrice;
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, prio_t,  Order::getTime )       keyTime;
 typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, TraderPtr, Order::getTrader )   keyTrader;
-typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, TraderOrderId, Order::getUnique )   keyTraderOrderId;
+typedef BOOST_MULTI_INDEX_CONST_MEM_FUN( Order, TraderOrderId, Order::getUnique ) keyTraderOrderId;
 
 typedef boost::multi_index::composite_key<Order, keyPrice, keyTime>             keyPriceTime;
 

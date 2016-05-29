@@ -26,6 +26,9 @@ typedef unsigned short                                                  side_t;
 
 class Order;
 
+class OrderBook;
+typedef std::shared_ptr<OrderBook>                                      OrderBookPtr;
+
 typedef std::shared_ptr<Order>                                          OrderPtr;
 typedef std::shared_ptr<const Order>                                    OrderConstPtr;
 
