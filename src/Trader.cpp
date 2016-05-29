@@ -85,6 +85,7 @@ void Trader::removeTrader( const MatcherPtr& matcher, const TraderPtr& trader )
 
     if( it != matcher->traders.cend() )
     {
+        matcher->cancelOrders( matcher, trader );
         matcher->traders.erase( it );
     }
     else

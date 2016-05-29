@@ -114,6 +114,16 @@ orderId_t Order::getId( void ) const
  * @brief FIXME
  *
  */
+TraderPtr Order::getTrader( void ) const
+{
+    return trader.lock();
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 bool Order::comparePrice( const OrderConstPtr& order ) const
 {
     if( isBid() && order->isAsk() )
