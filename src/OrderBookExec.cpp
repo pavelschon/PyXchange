@@ -72,9 +72,9 @@ template<typename OrderContainer>
 void OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                  const TraderPtr& trader, const OrderConstPtr& order ) const
 {
-    Order order_( *order ); // copy of order
-    auto &idx = orders.template get<tags::idxPriceTime>();
-    auto it   = idx.begin();
+    Order order_ = *order; // copy of order
+    auto &idx    = orders.template get<tags::idxPriceTime>();
+    auto it      = idx.begin();
 
     while( it != idx.end() && order_.comparePrice( *it ) && order_.quantity > 0 )
     {

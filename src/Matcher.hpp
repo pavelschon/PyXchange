@@ -26,6 +26,8 @@ private:
 
 public:
                                             Matcher();
+                                            Matcher( const Matcher& ) = delete;
+                                            Matcher& operator=( const Matcher& ) = delete;
 
     static void                             handleMessageStr(
                                                 const MatcherPtr& matcher,

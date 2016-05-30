@@ -21,6 +21,8 @@ private:
 
 public:
     explicit                                Trader( const boost::python::object& write_ );
+                                            Trader( const Trader& ) = delete;
+                                            Trader& operator=( const Trader& ) = delete;
 
     void                                    writeString( const std::string& data );
     void                                    writeData( const boost::python::object& data );

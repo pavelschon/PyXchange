@@ -23,6 +23,8 @@ private:
 
 public:
                                             OrderBook();
+                                            OrderBook( const OrderBook& ) = delete;
+                                            OrderBook& operator=( const OrderBook& ) = delete;
 
     void                                    createOrder(
                                                 const MatcherPtr& matcher,

@@ -21,6 +21,8 @@ private:
 
 public:
     explicit                                Client( const boost::python::object& write_ );
+                                            Client( const Client& ) = delete;
+                                            Client& operator=( const Client& ) = delete;
 
     void                                    writeString( const std::string& data );
     void                                    writeData( const boost::python::object& data );
