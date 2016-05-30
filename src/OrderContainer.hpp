@@ -69,7 +69,7 @@ struct OrderContainer
                 boost::multi_index::tag<tags::idxPriceTime>,
                     extractors::keyPriceTime, ComparePriceTime>,
 
-            boost::multi_index::ordered_non_unique<
+            boost::multi_index::ordered_non_unique<                             // iterate orders by price levels
                 boost::multi_index::tag<tags::idxPrice>,
                     extractors::keyPrice, ComparePrice>,
 
@@ -86,8 +86,11 @@ struct OrderContainer
 };
 
 
-typedef OrderContainer<comparators::higherPriceLowerTime, comparators::higherPrice> BidOrderContainer; // container type for buy orders
-typedef OrderContainer<comparators::lowerPriceLowerTime,  comparators::lowerPrice>  AskOrderContainer; // container type for sell orders
+typedef OrderContainer<comparators::higherPriceLowerTime,
+                       comparators::higherPrice>                                BidOrderContainer; // container type for buy orders
+
+typedef OrderContainer<comparators::lowerPriceLowerTime,
+                       comparators::lowerPrice>                                 AskOrderContainer; // container type for sell orders
 
 
 } /* namespace pyxchange */

@@ -42,7 +42,6 @@ set_target_properties( pyxchange
 
 target_link_libraries ( pyxchange
     boost_python-py27
-    python2.7
 )
 
 

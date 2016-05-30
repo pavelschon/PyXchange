@@ -28,12 +28,13 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
 
     if( result.second )
     {
-        trader->notifyCreateOrderSuccess( order->orderId );
-
+        handleSelfMatch<OppOrderContainer>( oppOrders, matcher, trader, order );
         handleExecution<OppOrderContainer>( oppOrders, matcher, trader, order );
 
         if( order->quantity > 0 )
         {
+            trader->notifyCreateOrderSuccess( order->orderId );
+
             aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
         }
         else

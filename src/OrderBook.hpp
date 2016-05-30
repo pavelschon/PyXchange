@@ -76,6 +76,14 @@ private:
                                             );
 
     template<typename OrderContainer>
+    void                                    handleSelfMatch(
+                                                const typename OrderContainer::type& orders,
+                                                const MatcherConstPtr& matcher,
+                                                const TraderPtr& trader,
+                                                const OrderConstPtr& order
+                                            ) const;
+
+    template<typename OrderContainer>
     void                                    aggregateAllPriceLevels(
                                                 const typename OrderContainer::type& orders,
                                                 const typename OrderContainer::price_set& priceLevels,

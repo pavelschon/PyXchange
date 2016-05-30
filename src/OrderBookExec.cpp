@@ -6,6 +6,7 @@
 
 
 #include "OrderBook.hpp"
+#include "Trader.hpp"
 #include "Utils.hpp"
 
 
@@ -62,6 +63,37 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
 }
 
 
+
+/**
+ * @brief FIXME
+ *
+ */
+template<typename OrderContainer>
+void OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+                                 const TraderPtr& trader, const OrderConstPtr& order ) const
+{
+    Order order_( *order ); // copy of order
+    auto &idx = orders.template get<tags::idxPriceTime>();
+    auto it   = idx.begin();
+
+    while( it != idx.end() && order_.comparePrice( *it ) && order_.quantity > 0 )
+    {
+        const auto& oppOrder = *it;
+
+        if( trader == oppOrder->getTrader() )
+        {
+            trader->notifyCreateOrderError( order_.orderId, strings::orderSelfMatch );
+
+            PyErr_SetString( PyExc_ValueError, strings::orderSelfMatch.c_str() );
+
+            py::throw_error_already_set();
+        }
+
+        order_.quantity -= std::min( order_.quantity, oppOrder->quantity );
+    }
+}
+
+
 template void OrderBook::handleExecution<BidOrderContainer>(
     BidOrderContainer::type& orders, const MatcherConstPtr& matcher,
     const TraderPtr& trader, const OrderPtr& order );
@@ -70,6 +102,13 @@ template void OrderBook::handleExecution<AskOrderContainer>(
     AskOrderContainer::type& orders, const MatcherConstPtr& matcher,
     const TraderPtr& trader, const OrderPtr& order );
 
+template void OrderBook::handleSelfMatch<BidOrderContainer>(
+    const BidOrderContainer::type& orders, const MatcherConstPtr& matcher,
+    const TraderPtr& trader, const OrderConstPtr& order ) const;
+
+template void OrderBook::handleSelfMatch<AskOrderContainer>(
+    const AskOrderContainer::type& orders, const MatcherConstPtr& matcher,
+    const TraderPtr& trader, const OrderConstPtr& order ) const;
 
 } /* namespace pyxchange */
 

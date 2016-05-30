@@ -60,11 +60,13 @@ size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const Matc
 
     if( it != idx.end() )
     {
-        const auto order = *it; // no reference here!
+        const auto& order   = *it; // no reference here!
+        const price_t price = order->price;
+        const side_t side   = order->side;
 
         idx.erase( it );
 
-        aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
+        aggregatePriceLevel<OrderContainer>( orders, matcher, price, side );
 
         return 1;
     }

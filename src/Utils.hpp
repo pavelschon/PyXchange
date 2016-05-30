@@ -103,6 +103,7 @@ namespace strings
 const std::string orderDoesNotExist     = "order does not exists";
 const std::string orderAlreadyExist     = "order already exists";
 const std::string orderInvalid          = "order is invalid";
+const std::string orderSelfMatch        = "order self-match rejected";
 
 const std::string traderAlreadyAdded    = "trader already added";
 const std::string clientAlreadyAdded    = "client already added";
