@@ -36,33 +36,19 @@ void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader,
 {
     const auto& order = std::make_shared<Order>( trader, decoded );
 
-    if( order->isBid() && bidOrders.insert( order ).second )
+    if( order->isBid() && order->quantity > 0 )
     {
-        trader->notifyCreateOrderSuccess( order->orderId );
-
-        handleExecution<AskOrderContainer>( askOrders, matcher, trader, order );
-
-        if( order->price > 0 )
-        {
-            aggregatePriceLevel<BidOrderContainer>( bidOrders, matcher, order->price, order->side );
-        }
+        insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, matcher, trader, order );
     }
-    else if( order->isAsk() && askOrders.insert( order ).second )
+    else if( order->isAsk() && order->quantity > 0 )
     {
-        trader->notifyCreateOrderSuccess( order->orderId );
-
-        handleExecution<BidOrderContainer>( bidOrders, matcher, trader, order );
-
-        if( order->price > 0 )
-        {
-            aggregatePriceLevel<AskOrderContainer>( askOrders, matcher, order->price, order->side );
-        }
+        insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, matcher, trader, order );
     }
     else
     {
-        trader->notifyCreateOrderError( order->orderId, strings::orderAlreadyExist );
+        trader->notifyCreateOrderError( order->orderId, strings::orderInvalid );
 
-        PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist.c_str() );
+        PyErr_SetString( PyExc_ValueError, strings::orderInvalid.c_str() );
 
         py::throw_error_already_set();
     }

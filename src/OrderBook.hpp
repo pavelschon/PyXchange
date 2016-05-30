@@ -42,6 +42,15 @@ public:
                                             );
 
 private:
+    template<typename OrderContainer, typename OppOrderContainer>
+    void                                    insertOrder(
+                                                typename OrderContainer::type& orders,
+                                                typename OppOrderContainer::type& oppOrders, // opposite orders
+                                                const MatcherConstPtr& matcher,
+                                                const TraderPtr& trader,
+                                                const OrderPtr& order
+                                            );
+
     template<typename OrderContainer>
     size_t                                  cancelOrder(
                                                 typename OrderContainer::type& orders,
