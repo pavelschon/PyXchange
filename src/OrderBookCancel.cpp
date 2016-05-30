@@ -21,7 +21,7 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
-void OrderBook::cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
+void OrderBook::cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader, const py::dict& decoded )
 {
     const orderId_t orderId = py::extract<const orderId_t>( decoded[ keys::orderId ] );
 

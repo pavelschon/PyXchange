@@ -33,7 +33,8 @@ void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::type& or
  *
  */
 template<typename OrderContainer>
-inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type& orders,
+                                            const MatcherConstPtr& matcher,
                                             const price_t priceLevel, const side_t side_ ) const
 {
     const auto& idx = orders.template get<tags::idxPrice>();

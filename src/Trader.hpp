@@ -16,6 +16,8 @@ namespace pyxchange
 
 class Trader
 {
+private:
+    const boost::python::object             write; // callback
 
 public:
     explicit                                Trader( const boost::python::object& write_ );
@@ -26,17 +28,32 @@ public:
     void                                    notifyError( const std::string& text );
 
     void                                    notifyCreateOrderSuccess( const orderId_t orderId );
-    void                                    notifyCreateOrderError( const orderId_t orderId, const std::string& text );
-
     void                                    notifyCancelOrderSuccess( const orderId_t orderId );
-    void                                    notifyCancelOrderError( const orderId_t orderId, const std::string& text );
 
-    static void                             addTrader( const MatcherPtr& matcher, const TraderPtr& trader );
-    static void                             removeTrader( const MatcherPtr& matcher, const TraderPtr& trader );
-    static bool                             checkRegistered( const MatcherConstPtr& matcher, const TraderPtr& trader );
+    void                                    notifyCreateOrderError(
+                                                const orderId_t orderId,
+                                                const std::string& text
+                                            );
 
-private:
-    const boost::python::object             write;
+    void                                    notifyCancelOrderError(
+                                                const orderId_t orderId,
+                                                const std::string& text
+                                            );
+
+    static void                             addTrader(
+                                                const MatcherPtr& matcher,
+                                                const TraderPtr& trader
+                                            );
+
+    static void                             removeTrader(
+                                                const MatcherPtr& matcher,
+                                                const TraderPtr& trader
+                                            );
+
+    static bool                             checkRegistered(
+                                                const MatcherConstPtr& matcher,
+                                                const TraderPtr& trader
+                                            );
 };
 
 

@@ -19,7 +19,10 @@ class Order
     friend class OrderBook;
 
 public:
-                                            Order( const TraderPtr& trader_, const boost::python::dict& decoded );
+                                            Order(
+                                                const TraderPtr& trader_,
+                                                const boost::python::dict& decoded
+                                            );
 
     price_t                                 getPrice( void ) const;
     prio_t                                  getTime( void ) const;
@@ -33,7 +36,10 @@ public:
 private:
     bool                                    comparePrice( const OrderConstPtr& order ) const;
 
-    static side_t                           extractSide( const TraderPtr& trader_, const boost::python::dict& decoded );
+    static side_t                           extractSide(
+                                                const TraderPtr& trader_,
+                                                const boost::python::dict& decoded
+                                            );
 
     const TraderWPtr                        trader;
     const side_t                            side;

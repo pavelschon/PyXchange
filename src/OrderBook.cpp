@@ -32,7 +32,7 @@ OrderBook::OrderBook()
  * @brief FIXME
  *
  */
-void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
+void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const py::dict& decoded )
 {
     const auto& order = std::make_shared<Order>( trader, decoded );
 

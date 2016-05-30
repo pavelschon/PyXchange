@@ -17,39 +17,70 @@ namespace pyxchange
 
 class OrderBook
 {
+private:
+    BidOrderContainer::type                 bidOrders;
+    AskOrderContainer::type                 askOrders;
 
 public:
                                             OrderBook();
 
-    void                                    createOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
-    void                                    cancelOrder( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded );
+    void                                    createOrder(
+                                                const MatcherPtr& matcher,
+                                                const TraderPtr& trader,
+                                                const boost::python::dict& decoded
+                                            );
 
-    size_t                                  cancelAllOrders( const MatcherConstPtr& matcher, const TraderPtr& trader );
+    void                                    cancelOrder(
+                                                const MatcherPtr& matcher,
+                                                const TraderPtr& trader,
+                                                const boost::python::dict& decoded
+                                            );
+
+    size_t                                  cancelAllOrders(
+                                                const MatcherConstPtr& matcher,
+                                                const TraderPtr& trader
+                                            );
 
 private:
     template<typename OrderContainer>
-    size_t                                  cancelOrder( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                                                         const TraderPtr& trader, const orderId_t orderId );
+    size_t                                  cancelOrder(
+                                                typename OrderContainer::type& orders,
+                                                const MatcherConstPtr& matcher,
+                                                const TraderPtr& trader,
+                                                const orderId_t orderId
+                                            );
 
     template<typename OrderContainer>
-    size_t                                  cancelAllOrders( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                                                             const TraderPtr& trader, const side_t side_ );
+    size_t                                  cancelAllOrders(
+                                                typename OrderContainer::type& orders,
+                                                const MatcherConstPtr& matcher,
+                                                const TraderPtr& trader,
+                                                const side_t side_
+                                            );
 
     template<typename OrderContainer>
-    void                                    handleExecution( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                                                             const TraderPtr& trader, const OrderPtr& order );
+    void                                    handleExecution(
+                                                typename OrderContainer::type& orders,
+                                                const MatcherConstPtr& matcher,
+                                                const TraderPtr& trader,
+                                                const OrderPtr& order
+                                            );
 
     template<typename OrderContainer>
-    void                                    aggregateAllPriceLevels( const typename OrderContainer::type& orders,
-                                                                     const typename OrderContainer::price_set& priceLevels,
-                                                                     const MatcherConstPtr& matcher, const side_t side_ ) const;
+    void                                    aggregateAllPriceLevels(
+                                                const typename OrderContainer::type& orders,
+                                                const typename OrderContainer::price_set& priceLevels,
+                                                const MatcherConstPtr& matcher,
+                                                const side_t side_
+                                            ) const;
 
     template<typename OrderContainer>
-    void                                    aggregatePriceLevel( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                                                                 const price_t price, const side_t side_ ) const;
-
-    BidOrderContainer::type                 bidOrders;
-    AskOrderContainer::type                 askOrders;
+    void                                    aggregatePriceLevel(
+                                                const typename OrderContainer::type& orders,
+                                                const MatcherConstPtr& matcher,
+                                                const price_t price,
+                                                const side_t side_
+                                            ) const;
 };
 
 
