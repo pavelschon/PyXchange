@@ -41,12 +41,22 @@ void OrderBook::createOrder( const MatcherPtr& matcher, const TraderPtr& trader,
         trader->notifyCreateOrderSuccess( order->orderId );
 
         handleExecution<AskOrderContainer>( askOrders, matcher, trader, order );
+
+        if( order->price > 0 )
+        {
+            aggregatePriceLevel<BidOrderContainer>( bidOrders, matcher, order->price, order->side );
+        }
     }
     else if( order->isAsk() && askOrders.insert( order ).second )
     {
         trader->notifyCreateOrderSuccess( order->orderId );
 
-        handleExecution<AskOrderContainer>( askOrders, matcher, trader, order );
+        handleExecution<BidOrderContainer>( bidOrders, matcher, trader, order );
+
+        if( order->price > 0 )
+        {
+            aggregatePriceLevel<AskOrderContainer>( askOrders, matcher, order->price, order->side );
+        }
     }
     else
     {

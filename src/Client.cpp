@@ -141,6 +141,23 @@ void Client::notifyAllOrderBook( const MatcherConstPtr& matcher, const price_t p
 }
 
 
+/**
+ * @brief FIXME
+ *
+ */
+void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, const quantity_t quantity )
+{
+    boost::python::dict response;
+
+    response[ keys::message  ] = message::orderBook;
+    response[ keys::side     ] = side::toBidAsk( side_ );
+    response[ keys::price    ] = priceLevel;
+    response[ keys::quantity ] = quantity;
+
+    write( response );
+}
+
+
 
 } /* namespace pyxchange */
 

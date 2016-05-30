@@ -24,7 +24,7 @@ template<typename OrderContainer>
 void OrderBook::handleExecution( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                  const TraderPtr& trader, const OrderPtr& order )
 {
-    typename OrderContainer::price_set priceLevels{ order->price };
+    typename OrderContainer::price_set priceLevels;
 
     auto &idx = orders.template get<tags::idxPriceTime>();
     auto it   = idx.begin();
