@@ -8,34 +8,20 @@
 #define TRADER
 
 #include "PyXchangeFwd.hpp"
+#include "BaseClient.hpp"
 
 
 namespace pyxchange
 {
 
 
-class Trader
+class Trader: public BaseClient
 {
-private:
-    const std::string                       name;
-    const boost::python::object             transport;
-
-
 public:
-    explicit                                Trader(
-                                                const std::string& name_,
-                                                const boost::python::object& transport_
-                                            );
+    using BaseClient::BaseClient;
 
                                             Trader( const Trader& ) = delete;
                                             Trader& operator=( const Trader& ) = delete;
-
-    std::string                             getName( void ) const;
-
-    void                                    disconnect( void );
-
-    void                                    writeString( const std::string& data );
-    void                                    writeData( const boost::python::object& data );
 
     void                                    notifyError( const std::string& text );
 

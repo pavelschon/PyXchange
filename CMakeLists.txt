@@ -22,6 +22,7 @@ include_directories(
 
 add_library( pyxchange SHARED
     src/Order.cpp
+    src/BaseClient.cpp
     src/Client.cpp
     src/Trader.cpp
     src/Matcher.cpp

@@ -8,24 +8,20 @@
 #define CLIENT
 
 #include "PyXchangeFwd.hpp"
+#include "BaseClient.hpp"
 
 
 namespace pyxchange
 {
 
 
-class Client
+class Client: public BaseClient
 {
-private:
-    const boost::python::object             write; // callback
-
 public:
-    explicit                                Client( const boost::python::object& write_ );
+    using BaseClient::BaseClient;
+
                                             Client( const Client& ) = delete;
                                             Client& operator=( const Client& ) = delete;
-
-    void                                    writeString( const std::string& data );
-    void                                    writeData( const boost::python::object& data );
 
     static void                             writeAll(
                                                 const MatcherConstPtr& matcher,
@@ -46,7 +42,6 @@ public:
                                                 const side_t side_,
                                                 const quantity_t quantity
                                             );
-
 };
 
 

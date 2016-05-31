@@ -28,7 +28,7 @@ BOOST_PYTHON_MODULE( pyxchange )
     using namespace ::pyxchange;
 
     class_<Client, ClientPtr, boost::noncopyable>( "Client", no_init )
-        .def( "__init__", make_constructor( &make_shared_<Client, const object&> ) )
+        .def( "__init__", make_constructor( &make_shared_<Client, const std::string&, const object&> ) )
         .def( "write", &Client::writeString, args( "data" ) )
         ;
 

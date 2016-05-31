@@ -16,38 +16,6 @@ namespace pyxchange
 
 namespace py = boost::python;
 
-/**
- * @brief Constructor
- *
- */
-Client::Client( const boost::python::object& write_ ):
-      write( write_ )
-{
-
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Client::writeString( const std::string& data )
-{
-    write( data );
-    write( '\n' );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Client::writeData( const boost::python::object& data )
-{
-    write( json::dumps<const std::string>( data ) );
-    write( '\n' );
-}
-
 
 /**
  * @brief FIXME
@@ -115,7 +83,7 @@ void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, cons
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;
 
-    write( response );
+    writeData( response );
 }
 
 

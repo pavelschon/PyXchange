@@ -18,60 +18,6 @@ namespace py = boost::python;
 
 
 /**
- * @brief Constructor
- *
- */
-Trader::Trader( const std::string& name_, const boost::python::object& transport_ ):
-      name( name_ )
-    , transport( transport_ )
-{
-
-}
-
-
-/**
- * @brief FIXME
- *
- */
-std::string Trader::getName( void ) const
-{
-    return name;
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Trader::writeString( const std::string& data )
-{
-    transport.attr( attr::write )( data );
-    transport.attr( attr::write )( '\n' );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Trader::writeData( const boost::python::object& data )
-{
-    transport.attr( attr::write )( json::dumps<const std::string>( data ) );
-    transport.attr( attr::write )( '\n' );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Trader::disconnect( void )
-{
-    transport.attr( attr::loseConnection )();
-}
-
-
-/**
  * @brief FIXME
  *
  */
