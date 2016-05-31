@@ -52,6 +52,11 @@ public:
                                                 const std::string& message
                                             ) const;
 
+    void                                    log(
+                                                const std::string& level,
+                                                const boost::format& message
+                                            ) const;
+
 private:
     bool                                    checkRegistered( const TraderPtr& trader ) const;
 

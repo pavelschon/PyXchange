@@ -36,6 +36,14 @@ const std::string orderBook          = "orderbook";
 } /* namespace message */
 
 
+namespace format
+{
+
+const boost::format traderAddedOrder( "Trader %|| added %|| order id %|| at price %|| of quantity %||" );
+
+} /* namespace message */
+
+
 namespace side
 {
 

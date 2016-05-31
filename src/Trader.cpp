@@ -21,10 +21,21 @@ namespace py = boost::python;
  * @brief Constructor
  *
  */
-Trader::Trader( const boost::python::object& write_ ):
-      write( write_ )
+Trader::Trader( const std::string& name_, const boost::python::object& write_ ):
+      name( name_ )
+    , write( write_ )
 {
 
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+std::string Trader::getName( void ) const
+{
+    return name;
 }
 
 

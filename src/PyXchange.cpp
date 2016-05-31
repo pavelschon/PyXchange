@@ -33,7 +33,7 @@ BOOST_PYTHON_MODULE( pyxchange )
         ;
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
-        .def( "__init__", make_constructor( &make_shared_<Trader, const object&> ) )
+        .def( "__init__", make_constructor( &make_shared_<Trader, const std::string&, const object&> ) )
         .def( "write", &Trader::writeString, args( "data" ) )
     ;
 

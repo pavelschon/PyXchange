@@ -7,6 +7,7 @@
 #ifndef PYXCHANGEFWD
 #define PYXCHANGEFWD
 
+#include <boost/format.hpp>
 #include <boost/python.hpp>
 
 #include <algorithm>

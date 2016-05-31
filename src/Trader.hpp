@@ -17,12 +17,20 @@ namespace pyxchange
 class Trader
 {
 private:
+    const std::string                       name;
     const boost::python::object             write; // callback
 
+
 public:
-    explicit                                Trader( const boost::python::object& write_ );
+    explicit                                Trader(
+                                                const std::string& name_,
+                                                const boost::python::object& write_
+                                            );
+
                                             Trader( const Trader& ) = delete;
                                             Trader& operator=( const Trader& ) = delete;
+
+    std::string                             getName( void ) const;
 
     void                                    writeString( const std::string& data );
     void                                    writeData( const boost::python::object& data );

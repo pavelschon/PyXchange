@@ -6,6 +6,7 @@
 
 
 #include "OrderBook.hpp"
+#include "Matcher.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -36,6 +37,9 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
             trader->notifyCreateOrderSuccess( order->orderId );
 
             aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
+
+            matcher->log( log::info, boost::format( format::traderAddedOrder ) % trader->getName()
+                          % side::toBuySell( order->side ) % order->orderId % order->price % order->quantity );
         }
         else
         {

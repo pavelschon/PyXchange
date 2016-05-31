@@ -59,6 +59,19 @@ void Matcher::log( const std::string& level, const std::string& message ) const
  * @brief FIXME
  *
  */
+void Matcher::log( const std::string& level, const boost::format& message ) const
+{
+    if( logger != py::object() ) // if logger is not None
+    {
+        logger.attr( level.c_str() )( message.str() );
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
     if( checkRegistered( trader ) )
@@ -101,6 +114,8 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
     }
     else
     {
+//         log( log::warning, strings::unknownMessage );
+
         trader->notifyError( strings::unknownMessage );
 
         PyErr_SetString( PyExc_KeyError, strings::unknownMessage.c_str() );
@@ -118,6 +133,8 @@ void Matcher::addClient( const ClientPtr& client )
 {
     if( ! clients.insert( client ).second )
     {
+//         log( log::warning, strings::clientAlreadyAdded );
+
         client->notifyError( strings::clientAlreadyAdded );
 
         PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded.c_str() );
@@ -141,6 +158,8 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
+//         log( log::warning, strings::clientDoesNotExist );
+
         client->notifyError( strings::clientDoesNotExist );
 
         PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist.c_str() );
@@ -159,6 +178,8 @@ void Matcher::addTrader( const TraderPtr& trader )
 {
     if( ! traders.insert( trader ).second )
     {
+//         log( log::warning, strings::traderAlreadyAdded );
+
         trader->notifyError( strings::traderAlreadyAdded );
 
         PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded.c_str() );
@@ -184,6 +205,8 @@ void Matcher::removeTrader( const TraderPtr& trader )
     }
     else
     {
+//         log( log::warning, strings::traderDoesNotExist );
+
         trader->notifyError( strings::traderDoesNotExist );
 
         PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist.c_str() );
@@ -203,6 +226,8 @@ bool Matcher::checkRegistered( const TraderPtr& trader ) const
 
     if( ! traderExist )
     {
+//         log( log::warning, strings::traderDoesNotExist );
+
         trader->notifyError( strings::traderDoesNotExist );
 
         PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist.c_str() );
