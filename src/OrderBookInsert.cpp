@@ -29,21 +29,28 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
 
     if( result.second )
     {
-        handleSelfMatch<OppOrderContainer>( oppOrders, matcher, trader, order );
-        handleExecution<OppOrderContainer>( oppOrders, matcher, trader, order );
-
-        if( order->quantity > 0 )
+        if( handleSelfMatch<OppOrderContainer>( oppOrders, matcher, trader, order ) )
         {
-            trader->notifyCreateOrderSuccess( order->orderId );
+            handleExecution<OppOrderContainer>( oppOrders, matcher, trader, order );
 
-            aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
+            if( order->quantity > 0 )
+            {
+                trader->notifyCreateOrderSuccess( order->orderId );
 
-            matcher->log( log::info, boost::format( format::traderAddedOrder ) % trader->getName()
-                          % side::toBuySell( order->side ) % order->orderId % order->price % order->quantity );
+                aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
+
+                matcher->log( log::info, boost::format( format::traderAddedOrder ) % trader->getName()
+                            % side::toBuySell( order->side ) % order->orderId % order->price % order->quantity );
+            }
+            else
+            {
+                // order has no resting quantity (was executed), so remove it
+                orders.template erase( result.first );
+            }
         }
         else
         {
-            // order has no resting quantity (was executed), so remove it
+            // self-match prevention, erase order
             orders.template erase( result.first );
         }
     }

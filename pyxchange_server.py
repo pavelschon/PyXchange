@@ -192,8 +192,7 @@ if __name__ == '__main__':
     reactor.listenTCP(interface=private_ip, port=private_port, factory=trader_factory)
     reactor.listenTCP(interface=public_ip,  port=public_port,  factory=client_factory)
 
-    logger.warning('Listeting on %s (trading), %s (market-data)',
-                   options.private, options.public)
+    logger.info('Listeting on %s (trading), %s (market data)', options.private, options.public)
 
     reactor.run()
 

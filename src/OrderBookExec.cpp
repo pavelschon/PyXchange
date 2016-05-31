@@ -6,6 +6,7 @@
 
 
 #include "OrderBook.hpp"
+#include "Matcher.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -69,7 +70,7 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
  *
  */
 template<typename OrderContainer>
-void OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+bool OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
                                  const TraderPtr& trader, const OrderConstPtr& order ) const
 {
     Order order_ = *order; // copy of order
@@ -84,13 +85,17 @@ void OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, co
         {
             trader->notifyCreateOrderError( order_.orderId, strings::orderSelfMatch );
 
-            PyErr_SetString( PyExc_ValueError, strings::orderSelfMatch.c_str() );
+            matcher->log( log::info, boost::format( format::traderSelfMatch ) % trader->getName()
+                          % side::toBuySell( order_.side ) % order_.orderId % side::toBuySell( oppOrder->side )
+                          % oppOrder->orderId % oppOrder->price );
 
-            py::throw_error_already_set();
+            return false;
         }
 
         order_.quantity -= std::min( order_.quantity, oppOrder->quantity );
     }
+
+    return true;
 }
 
 
@@ -102,11 +107,11 @@ template void OrderBook::handleExecution<AskOrderContainer>(
     AskOrderContainer::type& orders, const MatcherConstPtr& matcher,
     const TraderPtr& trader, const OrderPtr& order );
 
-template void OrderBook::handleSelfMatch<BidOrderContainer>(
+template bool OrderBook::handleSelfMatch<BidOrderContainer>(
     const BidOrderContainer::type& orders, const MatcherConstPtr& matcher,
     const TraderPtr& trader, const OrderConstPtr& order ) const;
 
-template void OrderBook::handleSelfMatch<AskOrderContainer>(
+template bool OrderBook::handleSelfMatch<AskOrderContainer>(
     const AskOrderContainer::type& orders, const MatcherConstPtr& matcher,
     const TraderPtr& trader, const OrderConstPtr& order ) const;
 

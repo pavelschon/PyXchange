@@ -78,7 +78,7 @@ private:
                                             );
 
     template<typename OrderContainer>
-    void                                    handleSelfMatch(
+    bool                                    handleSelfMatch(
                                                 const typename OrderContainer::type& orders,
                                                 const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
