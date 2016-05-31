@@ -16,11 +16,11 @@ namespace pyxchange
 {
 
 
-class Matcher
+class Matcher: public std::enable_shared_from_this<Matcher>
 {
 private:
     const OrderBookPtr                      orderbook;
-    boost::python::object                   logger;
+    const boost::python::object             logger;
 
     TraderSet                               traders;
     ClientSet                               clients;
@@ -31,14 +31,12 @@ public:
                                             Matcher( const Matcher& ) = delete;
                                             Matcher& operator=( const Matcher& ) = delete;
 
-    static void                             handleMessageStr(
-                                                const MatcherPtr& matcher,
+    void                                    handleMessageStr(
                                                 const TraderPtr& trader,
                                                 const std::string& data
                                             );
 
-    static void                             handleMessageDict(
-                                                const MatcherPtr& matcher,
+    void                                    handleMessageDict(
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
                                             );
@@ -46,19 +44,15 @@ public:
     void                                    log(
                                                 const std::string& level,
                                                 const std::string& message
-                                            );
+                                            ) const;
 
 private:
-    static void                             handleMessageImpl(
-                                                const MatcherPtr& matcher,
+    void                                    handleMessageImpl(
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
                                             );
 
-    static size_t                           cancelAllOrders(
-                                                const MatcherPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
+    size_t                                  cancelAllOrders( const TraderPtr& trader );
 
     friend void                             Client::addClient(
                                                 const MatcherPtr& matcher,

@@ -46,7 +46,7 @@ Matcher::Matcher( const boost::python::object& logger_):
  * @brief FIXME
  *
  */
-void Matcher::log( const std::string& level, const std::string& message )
+void Matcher::log( const std::string& level, const std::string& message ) const
 {
     if( logger != py::object() ) // if logger is not None
     {
@@ -59,13 +59,13 @@ void Matcher::log( const std::string& level, const std::string& message )
  * @brief FIXME
  *
  */
-void Matcher::handleMessageStr( const MatcherPtr& matcher, const TraderPtr& trader, const std::string& data )
+void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
-    if( Trader::checkRegistered( matcher, trader ) )
+    if( Trader::checkRegistered( shared_from_this(), trader ) )
     {
         const py::dict decoded( json::loads( data ) );
 
-        handleMessageImpl( matcher, trader, decoded );
+        handleMessageImpl( trader, decoded );
     }
 }
 
@@ -74,11 +74,11 @@ void Matcher::handleMessageStr( const MatcherPtr& matcher, const TraderPtr& trad
  * @brief FIXME
  *
  */
-void Matcher::handleMessageDict( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    if( Trader::checkRegistered( matcher, trader ) )
+    if( Trader::checkRegistered( shared_from_this(), trader ) )
     {
-        handleMessageImpl( matcher, trader, decoded );
+        handleMessageImpl( trader, decoded );
     }
 }
 
@@ -87,17 +87,17 @@ void Matcher::handleMessageDict( const MatcherPtr& matcher, const TraderPtr& tra
  * @brief FIXME
  *
  */
-void Matcher::handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded )
 {
     const py::str message_type( decoded[ keys::message ] );
 
     if( message_type == message::createOrder )
     {
-        matcher->orderbook->createOrder( matcher, trader, decoded );
+        orderbook->createOrder( shared_from_this(), trader, decoded );
     }
     else if( message_type == message::cancelOrder )
     {
-        matcher->orderbook->cancelOrder( matcher, trader, decoded );
+        orderbook->cancelOrder( shared_from_this(), trader, decoded );
     }
     else
     {
@@ -114,9 +114,9 @@ void Matcher::handleMessageImpl( const MatcherPtr& matcher, const TraderPtr& tra
  * @brief FIXME
  *
  */
-size_t Matcher::cancelAllOrders( const MatcherPtr& matcher, const TraderPtr& trader )
+size_t Matcher::cancelAllOrders( const TraderPtr& trader )
 {
-    return matcher->orderbook->cancelAllOrders( matcher, trader );
+    return orderbook->cancelAllOrders( shared_from_this(), trader );
 }
 
 
