@@ -23,8 +23,7 @@ class ClientProtocol(protocol.Protocol):
 
     def connectionMade(self):
         self.logger.info('Registering client %s', self.name)
-        self.client = pyxchange.Client(self.name, self.transport)
-        self.matcher.addClient(self.client)
+        self.client = self.matcher.getClient(self.name, self.transport)
 
 
     def connectionLost(self, reason):
@@ -54,8 +53,7 @@ class TraderProtocol(protocol.Protocol):
 
     def connectionMade(self):
         self.logger.info('Registering trader %s', self.name)
-        self.trader = pyxchange.Trader(self.name, self.transport)
-        self.matcher.addTrader(self.trader)
+        self.trader = self.matcher.getTrader(self.name, self.transport)
 
 
     def connectionLost(self, reason):

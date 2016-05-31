@@ -30,12 +30,18 @@ public:
                                             Matcher( const Matcher& ) = delete;
                                             Matcher& operator=( const Matcher& ) = delete;
 
-    void                                    addClient( const ClientPtr& client );
     void                                    removeClient( const ClientPtr& client );
-
-    void                                    addTrader( const TraderPtr& trader );
     void                                    removeTrader( const TraderPtr& trader );
 
+    ClientPtr                               getClient(
+                                                const std::string& name,
+                                                const boost::python::object& transport
+                                            );
+
+    TraderPtr                               getTrader(
+                                                const std::string& name,
+                                                const boost::python::object& transport
+                                            );
 
     void                                    notifyAllClients(
                                                 const boost::python::object& data
@@ -60,14 +66,6 @@ public:
                                                 const std::string& level,
                                                 const boost::format& message
                                             ) const;
-
-private:
-    bool                                    checkRegistered( const TraderPtr& trader ) const;
-
-    void                                    handleMessageImpl(
-                                                const TraderPtr& trader,
-                                                const boost::python::dict& decoded
-                                            );
 };
 
 
