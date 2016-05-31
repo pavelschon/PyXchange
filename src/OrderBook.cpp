@@ -34,7 +34,19 @@ OrderBook::OrderBook()
  */
 void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& trader, const py::dict& decoded )
 {
-    const auto& order = std::make_shared<Order>( trader, decoded );
+
+    OrderPtr order;
+
+    try
+    {
+        order = std::make_shared<Order>( trader, decoded );
+    }
+    catch( const side::WrongSide& )
+    {
+        trader->notifyError( strings::unknownSide );
+
+        return;
+    }
 
     if( order->isBid() && order->quantity > 0 )
     {

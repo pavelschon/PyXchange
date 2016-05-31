@@ -6,7 +6,6 @@
 
 
 #include "Order.hpp"
-#include "Trader.hpp"
 #include "Utils.hpp"
 
 
@@ -51,12 +50,7 @@ side_t Order::extractSide( const TraderPtr& trader, const boost::python::dict& d
     }
     else
     {
-        trader->notifyError( strings::unknownSide );
-
-        PyErr_SetString( PyExc_ValueError, strings::unknownSide.c_str() );
-
-        py::throw_error_already_set();
-        throw; // suppress warning
+        throw side::WrongSide();
     }
 }
 

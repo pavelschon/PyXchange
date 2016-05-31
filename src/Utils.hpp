@@ -114,6 +114,12 @@ inline std::string toBidAsk( const side_t side_ )
 }
 
 
+class WrongSide: public std::exception
+{
+
+};
+
+
 } /* namespace side */
 
 

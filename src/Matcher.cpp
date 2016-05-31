@@ -7,6 +7,8 @@
 
 #include "Matcher.hpp"
 #include "OrderBook.hpp"
+#include "Client.hpp"
+#include "Trader.hpp"
 #include "Json.hpp"
 #include "Utils.hpp"
 

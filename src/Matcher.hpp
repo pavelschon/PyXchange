@@ -9,7 +9,6 @@
 
 #include "PyXchangeFwd.hpp"
 #include "Client.hpp"
-#include "Trader.hpp"
 
 
 namespace pyxchange
