@@ -20,12 +20,14 @@ class Matcher
 {
 private:
     const OrderBookPtr                      orderbook;
+    boost::python::object                   logger;
 
     TraderSet                               traders;
     ClientSet                               clients;
 
 public:
                                             Matcher();
+    explicit                                Matcher( const boost::python::object& logger_ );
                                             Matcher( const Matcher& ) = delete;
                                             Matcher& operator=( const Matcher& ) = delete;
 
@@ -39,6 +41,11 @@ public:
                                                 const MatcherPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
+                                            );
+
+    void                                    log(
+                                                const std::string& level,
+                                                const std::string& message
                                             );
 
 private:

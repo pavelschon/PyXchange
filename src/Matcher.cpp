@@ -20,11 +20,38 @@ namespace py = boost::python;
 
 /**
  * @brief Constructor
+ *
+ */
+Matcher::Matcher():
+      orderbook{ std::make_shared<OrderBook>() }
+{
+    log( log::info, "Matcher is ready" );
+}
+
+
+
+/**
+ * @brief Constructor
  * 
  */
-Matcher::Matcher(): orderbook{ std::make_shared<OrderBook>() }
+Matcher::Matcher( const boost::python::object& logger_):
+      orderbook{ std::make_shared<OrderBook>() }
+    , logger{ logger_ }
 {
+    log( log::info, "Matcher is ready" );
+}
 
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::log( const std::string& level, const std::string& message )
+{
+    if( logger != py::object() ) // if logger is not None
+    {
+        logger.attr( level.c_str() )( message );
+    }
 }
 
 

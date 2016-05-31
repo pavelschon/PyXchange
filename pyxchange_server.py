@@ -184,7 +184,7 @@ if __name__ == '__main__':
     private_ip, private_port = parse_ip_port(options.private)
     public_ip,  public_port  = parse_ip_port(options.public)
 
-    matcher = pyxchange.Matcher()
+    matcher = pyxchange.Matcher(logger)
 
     trader_factory = TraderFactory(matcher, disconnect=options.disconnect)
     client_factory = ClientFactory(matcher, disconnect=options.disconnect)

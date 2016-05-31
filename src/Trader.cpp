@@ -35,6 +35,7 @@ Trader::Trader( const boost::python::object& write_ ):
 void Trader::writeString( const std::string& data )
 {
     write( data );
+    write( '\n' );
 }
 
 
@@ -45,6 +46,7 @@ void Trader::writeString( const std::string& data )
 void Trader::writeData( const boost::python::object& data )
 {
     write( json::dumps<const std::string>( data ) );
+    write( '\n' );
 }
 
 

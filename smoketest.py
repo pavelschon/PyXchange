@@ -46,7 +46,7 @@ class ClientTest(unittest.TestCase):
 
         client.write(msg)
 
-        assert self.transport.getvalue() == 'data'
+        assert self.transport.getvalue() == msg + '\n'
 
 
     def testBadWrite(self):
@@ -87,7 +87,7 @@ class TraderTest(unittest.TestCase):
 
         trader.write(msg)
 
-        assert self.transport.getvalue() == msg
+        assert self.transport.getvalue() == msg + '\n'
 
 
     def testBadWrite(self):

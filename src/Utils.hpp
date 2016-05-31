@@ -14,6 +14,17 @@ namespace pyxchange
 {
 
 
+namespace log
+{
+
+const std::string debug     = "debug";
+const std::string info      = "info";
+const std::string warning   = "warning";
+const std::string error     = "error";
+
+} /* namespace log */
+
+
 namespace message
 {
 

@@ -34,6 +34,7 @@ Client::Client( const boost::python::object& write_ ):
 void Client::writeString( const std::string& data )
 {
     write( data );
+    write( '\n' );
 }
 
 
@@ -44,6 +45,7 @@ void Client::writeString( const std::string& data )
 void Client::writeData( const boost::python::object& data )
 {
     write( json::dumps<const std::string>( data ) );
+    write( '\n' );
 }
 
 

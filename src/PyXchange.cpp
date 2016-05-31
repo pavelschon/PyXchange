@@ -39,6 +39,7 @@ BOOST_PYTHON_MODULE( pyxchange )
 
     class_<Matcher, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
+        .def( "__init__", make_constructor( &make_shared_<Matcher, const object&> ) )
         .def( "addTrader", &Trader::addTrader, args( "trader" ) )
         .def( "addClient", &Client::addClient, args( "client" ) )
         .def( "removeTrader", &Trader::removeTrader, args( "trader" ) )
