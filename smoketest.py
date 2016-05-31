@@ -7,6 +7,32 @@ import io
 import json
 
 
+class Transport(object):
+    def __init__(self):
+        self.out = io.BytesIO()
+
+    def write(self, data):
+        self.out.write(data)
+
+
+    def assertOutput(self, msg):
+        assert self.out.getvalue().strip() == msg
+
+        self.out.truncate(0)
+        self.out.seek(0)
+
+
+    def assertObj(self, obj):
+        obj_ = json.loads(self.out.getvalue().strip())
+        assert obj == obj_
+        self.out.truncate(0)
+        self.out.seek(0)
+
+
+    def loseConnection(self):
+        pass
+
+
 class JsonTest(unittest.TestCase):
     dct, sdct = { 'key': None }, '{"key": null}'
 
@@ -77,33 +103,24 @@ class ClientTest(unittest.TestCase):
 
 class TraderTest(unittest.TestCase):
     def setUp(self):
-        self.transport = io.BytesIO()
+        self.transport = Transport()
 
 
     def testWrite(self):
         """ Test writing data into trader's write function """
 
-        trader, msg = pyxchange.Trader('trader', self.transport.write), 'data'
+        trader, msg = pyxchange.Trader('trader', self.transport), 'data'
 
         trader.write(msg)
 
-        assert self.transport.getvalue() == msg + '\n'
-
-
-    def testBadWrite(self):
-        """ Test whether client throws error on bad write """
-
-        trader, msg = pyxchange.Trader('trader', None), 'data'
-
-        with self.assertRaises(TypeError):
-            trader.write(msg)
+        self.transport.assertOutput(msg)
 
 
     def testAddTrader(self):
         """ Test add/remove trader into matcher """
 
         matcher = pyxchange.Matcher()
-        trader = pyxchange.Trader('trader', self.transport.write)
+        trader = pyxchange.Trader('trader', self.transport)
 
         matcher.addTrader(trader)
 
@@ -131,17 +148,10 @@ class MatcherTest(unittest.TestCase):
 
 
     def setUp(self):
-        self.transport = io.BytesIO()
-        self.trader = pyxchange.Trader('trader', self.transport.write)
+        self.transport = Transport()
+        self.trader = pyxchange.Trader('trader', self.transport)
         self.matcher = pyxchange.Matcher()
         self.matcher.addTrader(self.trader)
-
-
-    def assertOutput(self, message):
-        assert pyxchange.json_loads(self.transport.getvalue()) == message
-
-        self.transport.truncate(0)
-        self.transport.seek(0)
 
 
     def testMalformedMessage(self):
@@ -157,22 +167,16 @@ class MatcherTest(unittest.TestCase):
         """ Test create/cancel order """
 
         self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
+        self.transport.assertObj(self.createOrderResponse)
 
-        self.assertOutput(self.createOrderResponse)
-
-        with self.assertRaises(ValueError):
-            self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
-
-        self.assertOutput(self.createOrderError)
+        self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
+        self.transport.assertObj(self.createOrderError)
 
         self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
+        self.transport.assertObj(self.cancelOrderResponse)
 
-        self.assertOutput(self.cancelOrderResponse)
-
-        with self.assertRaises(ValueError):
-            self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
-
-        self.assertOutput(self.cancelOrderError)
+        self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
+        self.transport.assertObj(self.cancelOrderError)
 
 
 class TradingTest(unittest.TestCase):
@@ -188,10 +192,10 @@ class TradingTest(unittest.TestCase):
                     u'side': u'SELL', u'quantity': 10 } ]
 
     def setUp(self):
-        self.transport1 = io.BytesIO()
-        self.transport2 = io.BytesIO()
-        self.trader1 = pyxchange.Trader('trader1', self.transport1.write)
-        self.trader2 = pyxchange.Trader('trader2', self.transport2.write)
+        self.transport1 = Transport()
+        self.transport2 = Transport()
+        self.trader1 = pyxchange.Trader('trader1', self.transport1)
+        self.trader2 = pyxchange.Trader('trader2', self.transport2)
         self.matcher = pyxchange.Matcher()
         self.matcher.addTrader(self.trader1)
         self.matcher.addTrader(self.trader2)
