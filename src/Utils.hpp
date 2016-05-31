@@ -40,8 +40,18 @@ namespace format
 {
 
 const boost::format traderAddedOrder( "Trader %|| added %|| order id %|| at price %|| of quantity %||" );
+const boost::format traderCanceledAll( "Trader %|| cancelled all %|| bid orders, %|| ask orders" );
+const boost::format logOrderAlreadyExist( "Trader %|| adding order id %||, but it already exists" );
+const boost::format logOrderDoesNotExist( "Trader %|| canceling order id %||, but it does not exists" );
 
 } /* namespace message */
+
+
+namespace attr
+{
+    const char* const loseConnection    = "loseConnection";
+    const char* const write             = "write";
+}
 
 
 namespace side

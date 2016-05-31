@@ -6,6 +6,7 @@
 
 
 #include "OrderBook.hpp"
+#include "Matcher.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -21,15 +22,15 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
-size_t OrderBook::cancelAllOrders( const MatcherConstPtr& matcher, const TraderPtr& trader )
+void OrderBook::cancelAllOrders( const MatcherConstPtr& matcher, const TraderPtr& trader )
 {
-    size_t n = 0;
+    const size_t numBid = cancelAllOrders<BidOrderContainer>( bidOrders, matcher, trader, side::bid_ );
+    const size_t numAsk = cancelAllOrders<AskOrderContainer>( askOrders, matcher, trader, side::ask_ );
 
-    // we don't know if order is buy or sell, so we cancel it in both containers
-    n += cancelAllOrders<BidOrderContainer>( bidOrders, matcher, trader, side::bid_ );
-    n += cancelAllOrders<AskOrderContainer>( askOrders, matcher, trader, side::ask_ );
-
-    return n;
+    if( numBid || numAsk )
+    {
+        matcher->log( log::info, boost::format( format::traderCanceledAll ) % trader->getName() % numBid % numAsk );
+    }
 }
 
 

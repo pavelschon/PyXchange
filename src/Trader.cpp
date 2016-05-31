@@ -21,9 +21,9 @@ namespace py = boost::python;
  * @brief Constructor
  *
  */
-Trader::Trader( const std::string& name_, const boost::python::object& write_ ):
+Trader::Trader( const std::string& name_, const boost::python::object& transport_ ):
       name( name_ )
-    , write( write_ )
+    , transport( transport_ )
 {
 
 }
@@ -45,8 +45,8 @@ std::string Trader::getName( void ) const
  */
 void Trader::writeString( const std::string& data )
 {
-    write( data );
-    write( '\n' );
+    transport.attr( attr::write )( data );
+    transport.attr( attr::write )( '\n' );
 }
 
 
@@ -56,8 +56,18 @@ void Trader::writeString( const std::string& data )
  */
 void Trader::writeData( const boost::python::object& data )
 {
-    write( json::dumps<const std::string>( data ) );
-    write( '\n' );
+    transport.attr( attr::write )( json::dumps<const std::string>( data ) );
+    transport.attr( attr::write )( '\n' );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Trader::disconnect( void )
+{
+    transport.attr( attr::loseConnection )();
 }
 
 

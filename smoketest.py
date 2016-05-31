@@ -83,7 +83,7 @@ class TraderTest(unittest.TestCase):
     def testWrite(self):
         """ Test writing data into trader's write function """
 
-        trader, msg = pyxchange.Trader(self.transport.write), 'data'
+        trader, msg = pyxchange.Trader('trader', self.transport.write), 'data'
 
         trader.write(msg)
 
@@ -93,7 +93,7 @@ class TraderTest(unittest.TestCase):
     def testBadWrite(self):
         """ Test whether client throws error on bad write """
 
-        trader, msg = pyxchange.Trader(None), 'data'
+        trader, msg = pyxchange.Trader('trader', None), 'data'
 
         with self.assertRaises(TypeError):
             trader.write(msg)
@@ -103,7 +103,7 @@ class TraderTest(unittest.TestCase):
         """ Test add/remove trader into matcher """
 
         matcher = pyxchange.Matcher()
-        trader = pyxchange.Trader(self.transport.write)
+        trader = pyxchange.Trader('trader', self.transport.write)
 
         matcher.addTrader(trader)
 
@@ -132,7 +132,7 @@ class MatcherTest(unittest.TestCase):
 
     def setUp(self):
         self.transport = io.BytesIO()
-        self.trader = pyxchange.Trader(self.transport.write)
+        self.trader = pyxchange.Trader('trader', self.transport.write)
         self.matcher = pyxchange.Matcher()
         self.matcher.addTrader(self.trader)
 
@@ -190,8 +190,8 @@ class TradingTest(unittest.TestCase):
     def setUp(self):
         self.transport1 = io.BytesIO()
         self.transport2 = io.BytesIO()
-        self.trader1 = pyxchange.Trader(self.transport1.write)
-        self.trader2 = pyxchange.Trader(self.transport2.write)
+        self.trader1 = pyxchange.Trader('trader1', self.transport1.write)
+        self.trader2 = pyxchange.Trader('trader2', self.transport2.write)
         self.matcher = pyxchange.Matcher()
         self.matcher.addTrader(self.trader1)
         self.matcher.addTrader(self.trader2)

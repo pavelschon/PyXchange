@@ -49,11 +49,12 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
     }
     else
     {
+        matcher->log( log::warning, boost::format( format::logOrderAlreadyExist )
+                      % trader->getName() % order->orderId );
+
         trader->notifyCreateOrderError( order->orderId, strings::orderAlreadyExist );
 
-        PyErr_SetString( PyExc_ValueError, strings::orderAlreadyExist.c_str() );
-
-        py::throw_error_already_set();
+        trader->disconnect();
     }
 }
 

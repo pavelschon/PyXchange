@@ -38,7 +38,7 @@ public:
                                                 const boost::python::dict& decoded
                                             );
 
-    size_t                                  cancelAllOrders(
+    void                                    cancelAllOrders(
                                                 const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader
                                             );

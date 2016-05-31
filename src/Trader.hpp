@@ -18,19 +18,21 @@ class Trader
 {
 private:
     const std::string                       name;
-    const boost::python::object             write; // callback
+    const boost::python::object             transport;
 
 
 public:
     explicit                                Trader(
                                                 const std::string& name_,
-                                                const boost::python::object& write_
+                                                const boost::python::object& transport_
                                             );
 
                                             Trader( const Trader& ) = delete;
                                             Trader& operator=( const Trader& ) = delete;
 
     std::string                             getName( void ) const;
+
+    void                                    disconnect( void );
 
     void                                    writeString( const std::string& data );
     void                                    writeData( const boost::python::object& data );

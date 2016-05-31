@@ -52,7 +52,7 @@ class TraderProtocol(protocol.Protocol):
 
     def connectionMade(self):
         self.logger.info('Registering trader %s', self.name)
-        self.trader = pyxchange.Trader(self.transport.write)
+        self.trader = pyxchange.Trader(self.name, self.transport)
         self.matcher.addTrader(self.trader)
 
 

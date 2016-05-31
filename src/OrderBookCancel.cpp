@@ -6,6 +6,7 @@
 
 
 #include "OrderBook.hpp"
+#include "Matcher.hpp"
 #include "Trader.hpp"
 #include "Utils.hpp"
 
@@ -37,11 +38,12 @@ void OrderBook::cancelOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
     }
     else
     {
+        matcher->log( log::warning, boost::format( format::logOrderDoesNotExist )
+                      % trader->getName() % orderId );
+
         trader->notifyCancelOrderError( orderId, strings::orderDoesNotExist );
 
-        PyErr_SetString( PyExc_ValueError, strings::orderDoesNotExist.c_str() );
-
-        py::throw_error_already_set();
+        trader->disconnect();
     }
 }
 
