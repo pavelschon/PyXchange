@@ -61,7 +61,7 @@ void Matcher::log( const std::string& level, const std::string& message ) const
  */
 void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
-    if( Trader::checkRegistered( shared_from_this(), trader ) )
+    if( checkRegistered( trader ) )
     {
         const py::dict decoded( json::loads( data ) );
 
@@ -74,9 +74,9 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
  * @brief FIXME
  *
  */
-void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decoded )
 {
-    if( Trader::checkRegistered( shared_from_this(), trader ) )
+    if( checkRegistered( trader ) )
     {
         handleMessageImpl( trader, decoded );
     }
@@ -87,7 +87,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const boost::python::d
  * @brief FIXME
  *
  */
-void Matcher::handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded )
+void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded )
 {
     const py::str message_type( decoded[ keys::message ] );
 
@@ -114,14 +114,107 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const boost::python::d
  * @brief FIXME
  *
  */
-size_t Matcher::cancelAllOrders( const TraderPtr& trader )
+void Matcher::addClient( const ClientPtr& client )
 {
-    return orderbook->cancelAllOrders( shared_from_this(), trader );
+    if( ! clients.insert( client ).second )
+    {
+        client->notifyError( strings::clientAlreadyAdded );
+
+        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded.c_str() );
+
+        py::throw_error_already_set();
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::removeClient( const ClientPtr& client )
+{
+    const auto& it = clients.find( client );
+
+    if( it != clients.cend() )
+    {
+        clients.erase( it );
+    }
+    else
+    {
+        client->notifyError( strings::clientDoesNotExist );
+
+        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist.c_str() );
+
+        py::throw_error_already_set();
+    }
+}
+
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::addTrader( const TraderPtr& trader )
+{
+    if( ! traders.insert( trader ).second )
+    {
+        trader->notifyError( strings::traderAlreadyAdded );
+
+        PyErr_SetString( PyExc_ValueError, strings::traderAlreadyAdded.c_str() );
+
+        py::throw_error_already_set();
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::removeTrader( const TraderPtr& trader )
+{
+    const auto& it = traders.find( trader );
+
+    if( it != traders.cend() )
+    {
+        orderbook->cancelAllOrders( shared_from_this(), trader );
+
+        traders.erase( it );
+    }
+    else
+    {
+        trader->notifyError( strings::traderDoesNotExist );
+
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist.c_str() );
+
+        py::throw_error_already_set();
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+bool Matcher::checkRegistered( const TraderPtr& trader ) const
+{
+    const bool traderExist = traders.count( trader ) > 0;
+
+    if( ! traderExist )
+    {
+        trader->notifyError( strings::traderDoesNotExist );
+
+        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist.c_str() );
+
+        py::throw_error_already_set();
+    }
+
+    return traderExist;
 }
 
 
 } /* namespace pyxchange */
-
 
 
 /* EOF */

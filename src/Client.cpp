@@ -67,47 +67,6 @@ void Client::writeAll( const MatcherConstPtr& matcher, const boost::python::obje
 }
 
 
-
-/**
- * @brief FIXME
- *
- */
-void Client::addClient( const MatcherPtr& matcher, const ClientPtr& client )
-{
-    if( ! matcher->clients.insert( client ).second )
-    {
-        client->notifyError( strings::clientAlreadyAdded );
-
-        PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded.c_str() );
-
-        py::throw_error_already_set();
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Client::removeClient( const MatcherPtr& matcher, const ClientPtr& client )
-{
-    const auto& it = matcher->clients.find( client );
-
-    if( it != matcher->clients.cend() )
-    {
-        matcher->clients.erase( it );
-    }
-    else
-    {
-        client->notifyError( strings::clientDoesNotExist );
-
-        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist.c_str() );
-
-        py::throw_error_already_set();
-    }
-}
-
-
 /**
  * @brief FIXME
  *

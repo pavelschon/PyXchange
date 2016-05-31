@@ -41,21 +41,6 @@ public:
                                                 const orderId_t orderId,
                                                 const std::string& text
                                             );
-
-    static void                             addTrader(
-                                                const MatcherPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
-
-    static void                             removeTrader(
-                                                const MatcherPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
-
-    static bool                             checkRegistered(
-                                                const MatcherConstPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
 };
 
 

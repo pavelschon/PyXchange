@@ -27,13 +27,13 @@ public:
                                             OrderBook& operator=( const OrderBook& ) = delete;
 
     void                                    createOrder(
-                                                const MatcherPtr& matcher,
+                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
                                             );
 
     void                                    cancelOrder(
-                                                const MatcherPtr& matcher,
+                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
                                             );

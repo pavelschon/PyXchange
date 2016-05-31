@@ -31,6 +31,12 @@ public:
                                             Matcher( const Matcher& ) = delete;
                                             Matcher& operator=( const Matcher& ) = delete;
 
+    void                                    addClient( const ClientPtr& client );
+    void                                    removeClient( const ClientPtr& client );
+
+    void                                    addTrader( const TraderPtr& trader );
+    void                                    removeTrader( const TraderPtr& trader );
+
     void                                    handleMessageStr(
                                                 const TraderPtr& trader,
                                                 const std::string& data
@@ -47,41 +53,16 @@ public:
                                             ) const;
 
 private:
+    bool                                    checkRegistered( const TraderPtr& trader ) const;
+
     void                                    handleMessageImpl(
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
                                             );
 
-    size_t                                  cancelAllOrders( const TraderPtr& trader );
-
-    friend void                             Client::addClient(
-                                                const MatcherPtr& matcher,
-                                                const ClientPtr& client
-                                            );
-
-    friend void                             Client::removeClient(
-                                                const MatcherPtr& matcher,
-                                                const ClientPtr& client
-                                            );
-
     friend void                             Client::writeAll(
                                                 const MatcherConstPtr& matcher,
                                                 const boost::python::object& data
-                                            );
-
-    friend void                             Trader::addTrader(
-                                                const MatcherPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
-
-    friend void                             Trader::removeTrader(
-                                                const MatcherPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
-
-    friend bool                             Trader::checkRegistered(
-                                                const MatcherConstPtr& matcher,
-                                                const TraderPtr& trader
                                             );
 };
 
