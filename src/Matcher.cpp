@@ -135,10 +135,6 @@ void Matcher::addClient( const ClientPtr& client )
 {
     if( ! clients.insert( client ).second )
     {
-//         log( log::warning, strings::clientAlreadyAdded );
-
-        client->notifyError( strings::clientAlreadyAdded );
-
         PyErr_SetString( PyExc_ValueError, strings::clientAlreadyAdded.c_str() );
 
         py::throw_error_already_set();
@@ -160,10 +156,6 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
-//         log( log::warning, strings::clientDoesNotExist );
-
-        client->notifyError( strings::clientDoesNotExist );
-
         PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist.c_str() );
 
         py::throw_error_already_set();
@@ -238,6 +230,24 @@ bool Matcher::checkRegistered( const TraderPtr& trader ) const
     }
 
     return traderExist;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::notifyAllClients( const boost::python::object& data ) const
+{
+    for( const auto& client : clients )
+    {
+        const auto& client_ = client.lock(); // from weak_ptr to shared_ptr
+
+        if( client_ )
+        {
+            client_->writeData( data );
+        }
+    }
 }
 
 

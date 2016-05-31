@@ -6,7 +6,9 @@
 
 
 #include "OrderBook.hpp"
-#include "Client.hpp"
+#include "Matcher.hpp"
+#include "Trader.hpp"
+#include "Utils.hpp"
 
 
 namespace pyxchange
@@ -50,7 +52,14 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
         quantity += order->quantity;
     }
 
-    Client::notifyAllOrderBook( matcher, priceLevel, side_, quantity );
+    boost::python::dict response;
+
+    response[ keys::message  ] = message::orderBook;
+    response[ keys::side     ] = side::toBidAsk( side_ );
+    response[ keys::price    ] = priceLevel;
+    response[ keys::quantity ] = quantity;
+
+    matcher->notifyAllClients( response );
 }
 
 

@@ -36,6 +36,11 @@ public:
     void                                    addTrader( const TraderPtr& trader );
     void                                    removeTrader( const TraderPtr& trader );
 
+
+    void                                    notifyAllClients(
+                                                const boost::python::object& data
+                                            ) const;
+
     void                                    handleMessageStr(
                                                 const TraderPtr& trader,
                                                 const std::string& data
@@ -62,11 +67,6 @@ private:
     void                                    handleMessageImpl(
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
-                                            );
-
-    friend void                             Client::writeAll(
-                                                const MatcherConstPtr& matcher,
-                                                const boost::python::object& data
                                             );
 };
 
