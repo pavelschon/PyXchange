@@ -34,7 +34,6 @@ OrderBook::OrderBook()
  */
 void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& trader, const py::dict& decoded )
 {
-
     OrderPtr order;
 
     try
@@ -58,11 +57,10 @@ void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
     }
     else
     {
+        matcher->log( log::warning, strings::orderInvalid );
+
         trader->notifyCreateOrderError( order->orderId, strings::orderInvalid );
-
-        PyErr_SetString( PyExc_ValueError, strings::orderInvalid.c_str() );
-
-        py::throw_error_already_set();
+        trader->disconnect();
     }
 }
 

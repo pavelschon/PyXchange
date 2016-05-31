@@ -100,13 +100,10 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     }
     else
     {
-//         log( log::warning, strings::unknownMessage );
+        log( log::warning, strings::unknownMessage );
 
         trader->notifyError( strings::unknownMessage );
-
-        PyErr_SetString( PyExc_KeyError, strings::unknownMessage.c_str() );
-
-        py::throw_error_already_set();
+        trader->disconnect();
     }
 }
 
@@ -153,9 +150,7 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, strings::clientDoesNotExist.c_str() );
-
-        py::throw_error_already_set();
+        log( log::warning, boost::format( format::traderDoesNotExist ) % client->getName() );
     }
 }
 
@@ -176,9 +171,7 @@ void Matcher::removeTrader( const TraderPtr& trader )
     }
     else
     {
-        PyErr_SetString( PyExc_KeyError, strings::traderDoesNotExist.c_str() );
-
-        py::throw_error_already_set();
+        log( log::warning, boost::format( format::traderDoesNotExist ) % trader->getName() );
     }
 }
 

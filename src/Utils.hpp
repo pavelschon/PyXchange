@@ -39,6 +39,8 @@ const std::string orderBook          = "orderbook";
 namespace format
 {
 
+const boost::format clientDoesNotExist( "Client %|| does not exists" );
+const boost::format traderDoesNotExist( "Trader %|| does not exists" );
 const boost::format traderAddedOrder( "Trader %|| added %|| order id %|| at price %|| of quantity %||" );
 const boost::format traderCanceledAll( "Trader %|| cancelled all %|| bid orders, %|| ask orders" );
 const boost::format traderSelfMatch( "Trader %|| self-match prevention rejected %|| order id %|| "
@@ -141,12 +143,6 @@ const std::string orderDoesNotExist     = "order does not exists";
 const std::string orderAlreadyExist     = "order already exists";
 const std::string orderInvalid          = "order is invalid";
 const std::string orderSelfMatch        = "order self-match rejected";
-
-const std::string traderAlreadyAdded    = "trader already added";
-const std::string clientAlreadyAdded    = "client already added";
-
-const std::string traderDoesNotExist    = "trader does not exist";
-const std::string clientDoesNotExist    = "client does not exist";
 
 const std::string jsonError             = "json decode error";
 
