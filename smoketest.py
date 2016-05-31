@@ -62,33 +62,24 @@ class JsonTest(unittest.TestCase):
 
 class ClientTest(unittest.TestCase):
     def setUp(self):
-        self.transport = io.BytesIO()
+        self.transport = Transport()
 
 
-    def testWrite(self):
-        """ Test writing data into client's write function """
+    #def testWrite(self):
+        #""" Test writing data into client's write function """
 
-        client, msg = pyxchange.Client(self.transport.write), 'data'
+        #client, msg = pyxchange.Client('client', self.transport), 'data'
 
-        client.write(msg)
+        #client.write(msg)
 
-        assert self.transport.getvalue() == msg + '\n'
-
-
-    def testBadWrite(self):
-        """ Test whether client throws error on bad write """
-
-        client, msg = pyxchange.Client(None), 'data'
-
-        with self.assertRaises(TypeError):
-            client.write(msg)
+        #assert self.transport.assertOutput(msg)
 
 
     def testAddRemoveClient(self):
         """ Test add/remove client into matcher """
 
         matcher = pyxchange.Matcher()
-        client = pyxchange.Client(self.transport.write)
+        client = pyxchange.Client('client', self.transport)
 
         matcher.addClient(client)
 
