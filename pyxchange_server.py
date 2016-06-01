@@ -22,20 +22,17 @@ class ClientProtocol(protocol.Protocol):
 
 
     def connectionMade(self):
-        self.logger.info('Registering client %s', self.name)
         self.client = self.matcher.getClient(self.name, self.transport)
 
 
     def connectionLost(self, reason):
-        logger.info('Unregistering client %s', self.name)
-
         self.matcher.removeClient(self.client)
 
 
     def dataReceived(self, data):
         if self.disconnect:
             logger.warning('Unexpected data on market-data interface, '
-                           'force disconnect %s', self.name)
+                           'force disconnect %s', self.client)
 
             self.transport.loseConnection()
 
@@ -52,12 +49,10 @@ class TraderProtocol(protocol.Protocol):
 
 
     def connectionMade(self):
-        self.logger.info('Registering trader %s', self.name)
         self.trader = self.matcher.getTrader(self.name, self.transport)
 
 
     def connectionLost(self, reason):
-        logger.info('Unregistering trader %s', self.name)
         self.matcher.removeTrader(self.trader)
 
 
@@ -71,10 +66,10 @@ class TraderProtocol(protocol.Protocol):
 
 
     def onException(self):
-        self.logger.exception('Error on trading interface, trader %s' % self.name)
+        self.logger.exception('%s caused error on trading interface' % self.trader)
 
         if self.disconnect:
-            logger.warning('Force disconnect %s', self.name)
+            logger.warning('Force disconnect %s', self.trader)
             self.transport.loseConnection()
 
 

@@ -1,6 +1,6 @@
 /**
  * @brief This module implements simulator of exchange
- * @file OrderBook.hpp
+ * @file Trader.hpp
  *
  */
 

@@ -6,7 +6,6 @@
 
 
 #include "Matcher.hpp"
-#include "OrderBook.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
 #include "Json.hpp"
@@ -24,10 +23,9 @@ namespace py = boost::python;
  * @brief Constructor
  *
  */
-Matcher::Matcher():
-      orderbook{ std::make_shared<OrderBook>() }
+Matcher::Matcher()
 {
-    log( log::info, "Matcher is ready" );
+
 }
 
 
@@ -37,10 +35,9 @@ Matcher::Matcher():
  * 
  */
 Matcher::Matcher( const boost::python::object& logger_):
-      orderbook{ std::make_shared<OrderBook>() }
-    , logger{ logger_ }
+    logger{ logger_ }
 {
-    log( log::info, "Matcher is ready" );
+    log( log::info, format::logMatcherReady );
 }
 
 
@@ -92,11 +89,11 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
 
     if( message_type == message::createOrder )
     {
-        orderbook->createOrder( shared_from_this(), trader, decoded );
+        orderbook.createOrder( shared_from_this(), trader, decoded );
     }
     else if( message_type == message::cancelOrder )
     {
-        orderbook->cancelOrder( shared_from_this(), trader, decoded );
+        orderbook.cancelOrder( shared_from_this(), trader, decoded );
     }
     else
     {
@@ -114,9 +111,11 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
  */
 ClientPtr Matcher::getClient( const std::string& name, const boost::python::object& transport )
 {
-    const ClientPtr& client = std::make_shared<Client>( name, transport );
+    const ClientPtr& client = std::make_shared<Client>( ( boost::format( format::client ) % name ).str(), transport );
 
     clients.insert( client );
+
+    log( log::info, boost::format( format::logGetClient ) % client->getName() );
 
     return client;
 }
@@ -128,9 +127,11 @@ ClientPtr Matcher::getClient( const std::string& name, const boost::python::obje
  */
 TraderPtr Matcher::getTrader( const std::string& name, const boost::python::object& transport )
 {
-    const TraderPtr& trader = std::make_shared<Trader>( name, transport );
+    const TraderPtr& trader = std::make_shared<Trader>( ( boost::format( format::trader ) % name ).str(), transport );
 
     traders.insert( trader );
+
+    log( log::info, boost::format( format::logGetClient ) % trader->getName() );
 
     return trader;
 }
@@ -147,6 +148,8 @@ void Matcher::removeClient( const ClientPtr& client )
     if( it != clients.cend() )
     {
         clients.erase( it );
+
+        log( log::info, boost::format( format::logRemoveClient ) % client->getName() );
     }
     else
     {
@@ -165,9 +168,11 @@ void Matcher::removeTrader( const TraderPtr& trader )
 
     if( it != traders.cend() )
     {
-        orderbook->cancelAllOrders( shared_from_this(), trader );
+        orderbook.cancelAllOrders( shared_from_this(), trader );
 
         traders.erase( it );
+
+        log( log::info, boost::format( format::logRemoveClient ) % trader->getName() );
     }
     else
     {

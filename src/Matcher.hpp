@@ -8,7 +8,7 @@
 #define MATCHER
 
 #include "PyXchangeFwd.hpp"
-#include "Client.hpp"
+#include "OrderBook.hpp"
 
 
 namespace pyxchange
@@ -18,8 +18,9 @@ namespace pyxchange
 class Matcher: public std::enable_shared_from_this<Matcher>
 {
 private:
-    const OrderBookPtr                      orderbook;
     const boost::python::object             logger;
+
+    OrderBook                               orderbook;
 
     TraderSet                               traders;
     ClientSet                               clients;
@@ -67,6 +68,17 @@ public:
                                                 const boost::format& message
                                             ) const;
 };
+
+
+namespace log
+{
+
+    const std::string debug     = "debug";
+    const std::string info      = "info";
+    const std::string warning   = "warning";
+    const std::string error     = "error";
+
+} /* namespace log */
 
 
 } /* namespace pyxchange */

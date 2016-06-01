@@ -16,6 +16,13 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace attr
+{
+    const char* const loseConnection    = "loseConnection";
+    const char* const write             = "write";
+}
+
+
 /**
  * @brief Constructor
  *

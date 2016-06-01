@@ -28,12 +28,12 @@ BOOST_PYTHON_MODULE( pyxchange )
     using namespace ::pyxchange;
 
     class_<Client, ClientPtr, boost::noncopyable>( "Client", no_init )
-        .def( "__init__", make_constructor( &make_shared_<Client, const std::string&, const object&> ) )
+        .def( "__repr__", &Client::getName )
         .def( "write", &Client::writeString, args( "data" ) )
         ;
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
-        .def( "__init__", make_constructor( &make_shared_<Trader, const std::string&, const object&> ) )
+        .def( "__repr__", &Trader::getName )
         .def( "write", &Trader::writeString, args( "data" ) )
     ;
 

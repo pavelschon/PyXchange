@@ -14,17 +14,6 @@ namespace pyxchange
 {
 
 
-namespace log
-{
-
-const std::string debug     = "debug";
-const std::string info      = "info";
-const std::string warning   = "warning";
-const std::string error     = "error";
-
-} /* namespace log */
-
-
 namespace message
 {
 
@@ -39,23 +28,22 @@ const std::string orderBook          = "orderbook";
 namespace format
 {
 
-const boost::format clientDoesNotExist( "Client %|| does not exists" );
-const boost::format traderDoesNotExist( "Trader %|| does not exists" );
-const boost::format traderAddedOrder( "Trader %|| added %|| order id %|| at price %|| of quantity %||" );
-const boost::format traderCanceledAll( "Trader %|| cancelled all %|| bid orders, %|| ask orders" );
-const boost::format traderSelfMatch( "Trader %|| self-match prevention rejected %|| order id %|| "
+const boost::format client( "<Client %||>" );
+const boost::format trader( "<Trader %||>" );
+const boost::format clientDoesNotExist( "%|| does not exists" );
+const boost::format traderDoesNotExist( "%|| does not exists" );
+const boost::format traderAddedOrder( "%|| added %|| order id %|| at price %|| of quantity %||" );
+const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
+const boost::format traderSelfMatch( "%|| self-match prevention rejected %|| order id %|| "
                                      "matching with %|| order id %|| at price %||" );
-const boost::format logOrderAlreadyExist( "Trader %|| adding order id %||, but it already exists" );
-const boost::format logOrderDoesNotExist( "Trader %|| canceling order id %||, but it does not exists" );
+const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
+const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
+const boost::format logMatcherReady( "Matcher is ready" );
+const boost::format logGetClient( "%|| created" );
+const boost::format logRemoveClient( "%|| removed" );
+
 
 } /* namespace message */
-
-
-namespace attr
-{
-    const char* const loseConnection    = "loseConnection";
-    const char* const write             = "write";
-}
 
 
 namespace side
@@ -125,17 +113,6 @@ class WrongSide: public std::exception
 } /* namespace side */
 
 
-namespace report
-{
-
-const std::string new_   = "NEW";
-const std::string cancel = "CANCELED";
-const std::string fill   = "FILL";
-const std::string err    = "ERROR";
-
-} /* namespace report */
-
-
 namespace strings
 {
 
@@ -143,8 +120,6 @@ const std::string orderDoesNotExist     = "order does not exists";
 const std::string orderAlreadyExist     = "order already exists";
 const std::string orderInvalid          = "order is invalid";
 const std::string orderSelfMatch        = "order self-match rejected";
-
-const std::string jsonError             = "json decode error";
 
 const std::string unknownMessage        = "unknown message";
 const std::string unknownSide           = "unknown side";

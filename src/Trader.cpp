@@ -15,6 +15,17 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace report
+{
+
+const std::string new_   = "NEW";
+const std::string cancel = "CANCELED";
+const std::string fill   = "FILL";
+const std::string err    = "ERROR";
+
+} /* namespace report */
+
+
 /**
  * @brief FIXME
  *

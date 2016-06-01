@@ -30,8 +30,6 @@ typedef unsigned short                                                  side_t;
 
 
 class OrderBook;
-typedef std::shared_ptr<OrderBook>                                      OrderBookPtr;
-
 
 class Order;
 typedef std::shared_ptr<Order>                                          OrderPtr;
