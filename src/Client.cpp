@@ -15,6 +15,14 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace message
+{
+
+const std::string orderBook          = "orderbook";
+
+} /* namespace message */
+
+
 /**
  * @brief FIXME
  *

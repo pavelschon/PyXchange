@@ -20,7 +20,6 @@ namespace py = boost::python;
  *
  */
 Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
-
       trader( trader_ )
     , side( extractSide( trader_, decoded ) )
     , time( std::chrono::high_resolution_clock::now() )

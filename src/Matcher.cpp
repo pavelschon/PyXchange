@@ -34,6 +34,15 @@ const boost::format logRemoveClient( "%|| removed" );
 } /* namespace message */
 
 
+namespace message
+{
+
+const std::string createOrder        = "createOrder";
+const std::string cancelOrder        = "cancelOrder";
+
+} /* namespace message */
+
+
 /**
  * @brief Constructor
  *

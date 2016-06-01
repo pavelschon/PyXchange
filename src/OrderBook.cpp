@@ -18,6 +18,14 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace format
+{
+
+const boost::format orderWrongSide( "order has wrong side" );
+
+} /* namespace message */
+
+
 /**
  * @brief Constructor
  *
@@ -42,6 +50,8 @@ void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
     }
     catch( const side::WrongSide& )
     {
+        matcher->log( log::warning, format::orderWrongSide );
+
         trader->notifyError( strings::unknownSide );
 
         return;
@@ -55,12 +65,17 @@ void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
     {
         insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, matcher, trader, order );
     }
-    else
+    else if( order->quantity < 1 )
     {
-        matcher->log( log::warning, strings::orderInvalid );
 
-        trader->notifyCreateOrderError( order->orderId, strings::orderInvalid );
-        trader->disconnect();
+    }
+    else if( order->price < 1 )
+    {
+
+    }
+    else if( order->price < 1 )
+    {
+
     }
 }
 

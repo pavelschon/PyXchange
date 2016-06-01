@@ -18,6 +18,14 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace message
+{
+
+const std::string orderBook          = "orderbook";
+
+} /* namespace message */
+
+
 template<typename OrderContainer>
 void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::type& orders,
                                          const typename OrderContainer::price_set& priceLevels,

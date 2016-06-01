@@ -26,6 +26,24 @@ const std::string err    = "ERROR";
 } /* namespace report */
 
 
+namespace message
+{
+
+const std::string executionReport    = "executionReport";
+
+} /* namespace message */
+
+
+namespace format
+{
+
+const boost::format orderDoesNotExist( "order does not exists" );
+const boost::format orderAlreadyExist( "order already exists" );
+const boost::format selfMatch( "self-match rejected" );
+
+} /* namespace format */
+
+
 /**
  * @brief FIXME
  *
@@ -60,18 +78,36 @@ void Trader::notifyCreateOrderSuccess( const orderId_t orderId )
 }
 
 
-
 /**
  * @brief FIXME
  *
  */
-void Trader::notifyCreateOrderError( const orderId_t orderId, const std::string& text )
+void Trader::notifyOrderAlreadyExist( const orderId_t orderId )
 {
     py::dict response;
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
-    response[ keys::text    ] = text;
+    response[ keys::text    ] = boost::format( format::orderAlreadyExist ).str();
+    response[ keys::orderId ] = orderId;
+
+    // send response
+    writeData( response );
+}
+
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Trader::notifyOrderDoesNotExist( const orderId_t orderId )
+{
+    py::dict response;
+
+    response[ keys::message ] = message::executionReport;
+    response[ keys::report  ] = report::err;
+    response[ keys::text    ] = boost::format( format::orderDoesNotExist ).str();
     response[ keys::orderId ] = orderId;
 
     // send response
@@ -100,13 +136,13 @@ void Trader::notifyCancelOrderSuccess( const orderId_t orderId )
  * @brief FIXME
  *
  */
-void Trader::notifyCancelOrderError( const orderId_t orderId, const std::string& text )
+void Trader::notifySelfMatch( const orderId_t orderId, const orderId_t oppOrderId )
 {
     py::dict response;
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
-    response[ keys::text    ] = text;
+    response[ keys::text    ] = boost::format( format::selfMatch ).str();
     response[ keys::orderId ] = orderId;
 
     // send response

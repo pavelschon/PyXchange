@@ -46,7 +46,7 @@ void OrderBook::cancelOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
         matcher->log( log::warning, boost::format( format::logOrderDoesNotExist )
                       % trader->getName() % orderId );
 
-        trader->notifyCancelOrderError( orderId, strings::orderDoesNotExist );
+        trader->notifyOrderDoesNotExist( orderId );
 
         trader->disconnect();
     }
