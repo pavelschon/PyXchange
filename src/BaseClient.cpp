@@ -7,7 +7,6 @@
 
 #include "BaseClient.hpp"
 #include "Json.hpp"
-#include "Utils.hpp"
 
 
 namespace pyxchange

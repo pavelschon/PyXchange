@@ -9,7 +9,6 @@
 #include "Client.hpp"
 #include "Trader.hpp"
 #include "Json.hpp"
-#include "Utils.hpp"
 
 
 namespace pyxchange

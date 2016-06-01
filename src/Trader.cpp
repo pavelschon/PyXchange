@@ -6,7 +6,6 @@
 
 
 #include "Trader.hpp"
-#include "Utils.hpp"
 
 
 namespace pyxchange
