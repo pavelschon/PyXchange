@@ -17,6 +17,15 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace format
+{
+
+const boost::format traderAddedOrder( "%|| added %|| order id %|| at price %|| of quantity %||" );
+const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
+
+} /* namespace message */
+
+
 /**
  * @brief FIXME
  *
@@ -40,7 +49,7 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
                 aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
 
                 matcher->log( log::info, boost::format( format::traderAddedOrder ) % trader->getName()
-                            % side::toBuySell( order->side ) % order->orderId % order->price % order->quantity );
+                            % side::toBidAsk( order->side ) % order->orderId % order->price % order->quantity );
             }
             else
             {

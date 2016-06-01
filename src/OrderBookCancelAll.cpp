@@ -18,6 +18,14 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace format
+{
+
+const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
+
+} /* namespace message */
+
+
 /**
  * @brief FIXME
  *

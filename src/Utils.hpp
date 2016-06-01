@@ -25,27 +25,6 @@ const std::string orderBook          = "orderbook";
 } /* namespace message */
 
 
-namespace format
-{
-
-const boost::format client( "<Client %||>" );
-const boost::format trader( "<Trader %||>" );
-const boost::format clientDoesNotExist( "%|| does not exists" );
-const boost::format traderDoesNotExist( "%|| does not exists" );
-const boost::format traderAddedOrder( "%|| added %|| order id %|| at price %|| of quantity %||" );
-const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
-const boost::format traderSelfMatch( "%|| self-match prevention rejected %|| order id %|| "
-                                     "matching with %|| order id %|| at price %||" );
-const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
-const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
-const boost::format logMatcherReady( "Matcher is ready" );
-const boost::format logGetClient( "%|| created" );
-const boost::format logRemoveClient( "%|| removed" );
-
-
-} /* namespace message */
-
-
 namespace side
 {
 

@@ -9,24 +9,16 @@ import json
 
 class Transport(object):
     def __init__(self):
-        self.out = io.BytesIO()
+        self.messages = []
+
 
     def write(self, data):
-        self.out.write(data)
+        for message in data.split('\n'):
+            self.messages.append(pyxchange.json_loads(message))
 
 
-    def assertOutput(self, msg):
-        assert self.out.getvalue().strip() == msg
-
-        self.out.truncate(0)
-        self.out.seek(0)
-
-
-    def assertObj(self, obj):
-        obj_ = json.loads(self.out.getvalue().strip())
-        assert obj == obj_
-        self.out.truncate(0)
-        self.out.seek(0)
+    def assertMessage(self, message):
+        assert message in self.messages
 
 
     def loseConnection(self):
@@ -60,70 +52,6 @@ class JsonTest(unittest.TestCase):
             assert pyxchange.json_dumps(object)
 
 
-class ClientTest(unittest.TestCase):
-    def setUp(self):
-        self.transport = Transport()
-
-
-    #def testWrite(self):
-        #""" Test writing data into client's write function """
-
-        #client, msg = pyxchange.Client('client', self.transport), 'data'
-
-        #client.write(msg)
-
-        #assert self.transport.assertOutput(msg)
-
-
-    def testAddRemoveClient(self):
-        """ Test add/remove client into matcher """
-
-        matcher = pyxchange.Matcher()
-        client = pyxchange.Client('client', self.transport)
-
-        matcher.addClient(client)
-
-        with self.assertRaises(ValueError):
-            matcher.addClient(client)
-
-        matcher.removeClient(client)
-
-        with self.assertRaises(KeyError):
-            matcher.removeClient(client)
-
-
-class TraderTest(unittest.TestCase):
-    def setUp(self):
-        self.transport = Transport()
-
-
-    def testWrite(self):
-        """ Test writing data into trader's write function """
-
-        trader, msg = pyxchange.Trader('trader', self.transport), 'data'
-
-        trader.write(msg)
-
-        self.transport.assertOutput(msg)
-
-
-    def testAddTrader(self):
-        """ Test add/remove trader into matcher """
-
-        matcher = pyxchange.Matcher()
-        trader = pyxchange.Trader('trader', self.transport)
-
-        matcher.addTrader(trader)
-
-        with self.assertRaises(ValueError):
-            matcher.addTrader(trader)
-
-        matcher.removeTrader(trader)
-
-        with self.assertRaises(KeyError):
-            matcher.removeTrader(trader)
-
-
 class MatcherTest(unittest.TestCase):
     createOrderRequest  = { u'orderId': 662688, u'price': 145,
                             u'message': u'createOrder', u'side': u'BUY', u'quantity': 350 }
@@ -140,9 +68,11 @@ class MatcherTest(unittest.TestCase):
 
     def setUp(self):
         self.transport = Transport()
-        self.trader = pyxchange.Trader('trader', self.transport)
         self.matcher = pyxchange.Matcher()
-        self.matcher.addTrader(self.trader)
+        self.trader = self.matcher.getTrader('trader-1', self.transport)
+
+    def tearDown(self):
+        self.matcher.removeTrader(self.trader)
 
 
     def testMalformedMessage(self):
@@ -158,16 +88,16 @@ class MatcherTest(unittest.TestCase):
         """ Test create/cancel order """
 
         self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
-        self.transport.assertObj(self.createOrderResponse)
+        self.transport.assertMessage(self.createOrderResponse)
 
         self.matcher.handleMessageDict(self.trader, self.createOrderRequest)
-        self.transport.assertObj(self.createOrderError)
+        self.transport.assertMessage(self.createOrderError)
 
         self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
-        self.transport.assertObj(self.cancelOrderResponse)
+        self.transport.assertMessage(self.cancelOrderResponse)
 
         self.matcher.handleMessageDict(self.trader, self.cancelOrderRequest)
-        self.transport.assertObj(self.cancelOrderError)
+        self.transport.assertMessage(self.cancelOrderError)
 
 
 class TradingTest(unittest.TestCase):
@@ -185,11 +115,14 @@ class TradingTest(unittest.TestCase):
     def setUp(self):
         self.transport1 = Transport()
         self.transport2 = Transport()
-        self.trader1 = pyxchange.Trader('trader1', self.transport1)
-        self.trader2 = pyxchange.Trader('trader2', self.transport2)
         self.matcher = pyxchange.Matcher()
-        self.matcher.addTrader(self.trader1)
-        self.matcher.addTrader(self.trader2)
+        self.trader1 = self.matcher.getTrader('trader-1', self.transport1)
+        self.trader2 = self.matcher.getTrader('trader-2', self.transport2)
+
+
+    def tearDown(self):
+        self.matcher.removeTrader(self.trader1)
+        self.matcher.removeTrader(self.trader2)
 
 
     def testBidMatchEvent(self):

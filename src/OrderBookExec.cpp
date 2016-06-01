@@ -18,6 +18,15 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace format
+{
+
+const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order id %|| "
+                                     "matching with %|| order id %|| at price %||" );
+
+} /* namespace message */
+
+
 /**
  * @brief FIXME
  *
@@ -85,8 +94,8 @@ bool OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, co
         {
             trader->notifyCreateOrderError( order_.orderId, strings::orderSelfMatch );
 
-            matcher->log( log::info, boost::format( format::traderSelfMatch ) % trader->getName()
-                          % side::toBuySell( order_.side ) % order_.orderId % side::toBuySell( oppOrder->side )
+            matcher->log( log::info, boost::format( format::logSelfMatch ) % trader->getName()
+                          % side::toBidAsk( order_.side ) % order_.orderId % side::toBidAsk( oppOrder->side )
                           % oppOrder->orderId % oppOrder->price );
 
             return false;

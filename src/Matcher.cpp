@@ -19,6 +19,21 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace format
+{
+
+const boost::format client( "<Client %||>" );
+const boost::format trader( "<Trader %||>" );
+const boost::format clientDoesNotExist( "%|| does not exists" );
+const boost::format traderDoesNotExist( "%|| does not exists" );
+const boost::format logMatcherReady( "Matcher is ready" );
+const boost::format logGetClient( "%|| created" );
+const boost::format logRemoveClient( "%|| removed" );
+
+
+} /* namespace message */
+
+
 /**
  * @brief Constructor
  *

@@ -18,6 +18,15 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+namespace format
+{
+
+const boost::format traderCanceledOne( "%|| cancelled %|| order id %||" );
+const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
+
+} /* namespace message */
+
+
 /**
  * @brief FIXME
  *
@@ -32,11 +41,7 @@ void OrderBook::cancelOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
     n += cancelOrder<BidOrderContainer>( bidOrders, matcher, trader, orderId );
     n += cancelOrder<AskOrderContainer>( askOrders, matcher, trader, orderId );
 
-    if( n > 0 )
-    {
-        trader->notifyCancelOrderSuccess( orderId );
-    }
-    else
+    if( ! n )
     {
         matcher->log( log::warning, boost::format( format::logOrderDoesNotExist )
                       % trader->getName() % orderId );
@@ -62,13 +67,16 @@ size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const Matc
 
     if( it != idx.end() )
     {
-        const auto& order   = *it; // no reference here!
-        const price_t price = order->price;
-        const side_t side   = order->side;
+        const auto order    = *it; // no reference here!
 
         idx.erase( it );
 
-        aggregatePriceLevel<OrderContainer>( orders, matcher, price, side );
+        trader->notifyCancelOrderSuccess( order->orderId );
+
+        matcher->log( log::info, boost::format( format::traderCanceledOne ) % trader->getName()
+                      % side::toBidAsk( order->side ) % order->orderId );
+
+        aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
 
         return 1;
     }
