@@ -31,15 +31,15 @@ const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it alrea
  */
 template<typename OrderContainer, typename OppOrderContainer>
 void OrderBook::insertOrder( typename OrderContainer::type& orders, typename OppOrderContainer::type& oppOrders,
-                             const MatcherConstPtr& matcher, const TraderPtr& trader, const OrderPtr& order )
+                             const TraderPtr& trader, const OrderPtr& order )
 {
     const auto& result = orders.template insert( order );
 
     if( result.second )
     {
-        if( handleSelfMatch<OppOrderContainer>( oppOrders, matcher, trader, order ) )
+        if( handleSelfMatch<OppOrderContainer>( oppOrders, trader, order ) )
         {
-            handleExecution<OppOrderContainer>( oppOrders, matcher, trader, order );
+            handleExecution<OppOrderContainer>( oppOrders, trader, order );
 
             if( order->quantity > 0 )
             {
@@ -75,11 +75,11 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
 
 template void OrderBook::insertOrder<BidOrderContainer, AskOrderContainer>(
     BidOrderContainer::type& orders, AskOrderContainer::type& oppOrders,
-    const MatcherConstPtr& matcher, const TraderPtr& trader, const OrderPtr& order );
+    const TraderPtr& trader, const OrderPtr& order );
 
 template void OrderBook::insertOrder<AskOrderContainer, BidOrderContainer>(
     AskOrderContainer::type& orders, BidOrderContainer::type& oppOrders,
-    const MatcherConstPtr& matcher, const TraderPtr& trader, const OrderPtr& order );
+    const TraderPtr& trader, const OrderPtr& order );
 
 
 } /* namespace pyxchange */

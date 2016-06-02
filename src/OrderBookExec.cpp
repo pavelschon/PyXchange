@@ -31,8 +31,7 @@ const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order 
  *
  */
 template<typename OrderContainer>
-void OrderBook::handleExecution( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                                 const TraderPtr& trader, const OrderPtr& order )
+void OrderBook::handleExecution( typename OrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order )
 {
     typename OrderContainer::price_set priceLevels;
 
@@ -78,7 +77,7 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Ma
  *
  */
 template<typename OrderContainer>
-bool OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
+bool OrderBook::handleSelfMatch( const typename OrderContainer::type& orders,
                                  const TraderPtr& trader, const OrderConstPtr& order ) const
 {
     Order order_ = *order; // copy of order
@@ -108,20 +107,17 @@ bool OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, co
 
 
 template void OrderBook::handleExecution<BidOrderContainer>(
-    BidOrderContainer::type& orders, const MatcherConstPtr& matcher,
-    const TraderPtr& trader, const OrderPtr& order );
+    BidOrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
 
 template void OrderBook::handleExecution<AskOrderContainer>(
-    AskOrderContainer::type& orders, const MatcherConstPtr& matcher,
-    const TraderPtr& trader, const OrderPtr& order );
+    AskOrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
 
 template bool OrderBook::handleSelfMatch<BidOrderContainer>(
-    const BidOrderContainer::type& orders, const MatcherConstPtr& matcher,
-    const TraderPtr& trader, const OrderConstPtr& order ) const;
+    const BidOrderContainer::type& orders, const TraderPtr& trader, const OrderConstPtr& order ) const;
 
 template bool OrderBook::handleSelfMatch<AskOrderContainer>(
-    const AskOrderContainer::type& orders, const MatcherConstPtr& matcher,
-    const TraderPtr& trader, const OrderConstPtr& order ) const;
+    const AskOrderContainer::type& orders, const TraderPtr& trader, const OrderConstPtr& order ) const;
+
 
 } /* namespace pyxchange */
 

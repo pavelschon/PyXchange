@@ -55,7 +55,7 @@ OrderBook::OrderBook( const Logger& logger_ ):
  * @brief FIXME
  *
  */
-void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& trader, const py::dict& decoded )
+void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
 {
     OrderPtr order;
 
@@ -74,11 +74,11 @@ void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
 
     if( order->isBid() && order->quantity > 0 )
     {
-        insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, matcher, trader, order );
+        insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, trader, order );
     }
     else if( order->isAsk() && order->quantity > 0 )
     {
-        insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, matcher, trader, order );
+        insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
     }
     else if( order->quantity < 1 )
     {

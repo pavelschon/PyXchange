@@ -95,7 +95,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
 
     if( message_type == message::createOrder )
     {
-        orderbook.createOrder( shared_from_this(), trader, decoded );
+        orderbook.createOrder( trader, decoded );
     }
     else if( message_type == message::cancelOrder )
     {

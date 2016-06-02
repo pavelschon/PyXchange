@@ -25,7 +25,6 @@ public:
                                             OrderBook& operator=( const OrderBook& ) = delete;
 
     void                                    createOrder(
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
                                             );
@@ -55,7 +54,6 @@ private:
     void                                    insertOrder(
                                                 typename OrderContainer::type& orders,
                                                 typename OppOrderContainer::type& oppOrders, // opposite orders
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const OrderPtr& order
                                             );
@@ -77,7 +75,6 @@ private:
     template<typename OrderContainer>
     void                                    handleExecution(
                                                 typename OrderContainer::type& orders,
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const OrderPtr& order
                                             );
@@ -85,7 +82,6 @@ private:
     template<typename OrderContainer>
     bool                                    handleSelfMatch(
                                                 const typename OrderContainer::type& orders,
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const OrderConstPtr& order
                                             ) const;

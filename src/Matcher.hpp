@@ -16,7 +16,7 @@ namespace pyxchange
 {
 
 
-class Matcher: public std::enable_shared_from_this<Matcher>
+class Matcher
 {
 public:
                                             Matcher();
