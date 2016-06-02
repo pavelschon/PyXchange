@@ -99,7 +99,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     }
     else if( message_type == message::cancelOrder )
     {
-        orderbook.cancelOrder( shared_from_this(), trader, decoded );
+        orderbook.cancelOrder( trader, decoded );
     }
     else
     {
@@ -137,7 +137,7 @@ void Matcher::removeTrader( const TraderPtr& trader )
 
     if( it != traders.cend() )
     {
-        orderbook.cancelAllOrders( shared_from_this(), trader );
+        orderbook.cancelAllOrders( trader );
 
         traders.erase( it );
 

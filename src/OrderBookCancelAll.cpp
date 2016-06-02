@@ -29,10 +29,10 @@ const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| as
  * @brief FIXME
  *
  */
-void OrderBook::cancelAllOrders( const MatcherConstPtr& matcher, const TraderPtr& trader )
+void OrderBook::cancelAllOrders( const TraderPtr& trader )
 {
-    const size_t numBid = cancelAllOrders<BidOrderContainer>( bidOrders, matcher, trader, side::bid_ );
-    const size_t numAsk = cancelAllOrders<AskOrderContainer>( askOrders, matcher, trader, side::ask_ );
+    const size_t numBid = cancelAllOrders<BidOrderContainer>( bidOrders, trader, side::bid_ );
+    const size_t numAsk = cancelAllOrders<AskOrderContainer>( askOrders, trader, side::ask_ );
 
     if( numBid || numAsk )
     {
@@ -46,8 +46,7 @@ void OrderBook::cancelAllOrders( const MatcherConstPtr& matcher, const TraderPtr
  *
  */
 template<typename OrderContainer>
-size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                                   const TraderPtr& trader, const side_t side_ )
+size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders, const TraderPtr& trader, const side_t side_ )
 {
     typename OrderContainer::price_set priceLevels;
 
@@ -72,16 +71,6 @@ size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders, const 
 
     return n;
 }
-
-
-template size_t OrderBook::cancelAllOrders<BidOrderContainer>(
-    BidOrderContainer::type& orders, const MatcherConstPtr& matcher,
-    const TraderPtr& trader, const side_t side_ );
-
-
-template size_t OrderBook::cancelAllOrders<AskOrderContainer>(
-    AskOrderContainer::type& orders, const MatcherConstPtr& matcher,
-    const TraderPtr& trader, const side_t side_ );
 
 
 } /* namespace pyxchange */

@@ -6,7 +6,6 @@
 
 
 #include "OrderBook.hpp"
-#include "Matcher.hpp"
 #include "Trader.hpp"
 
 
@@ -30,15 +29,15 @@ const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it do
  * @brief FIXME
  *
  */
-void OrderBook::cancelOrder( const MatcherConstPtr& matcher, const TraderPtr& trader, const py::dict& decoded )
+void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
 {
     const orderId_t orderId = py::extract<const orderId_t>( decoded[ keys::orderId ] );
 
     size_t n = 0;
 
     // we don't know if order is buy or sell, so we cancel it in both containers
-    n += cancelOrder<BidOrderContainer>( bidOrders, matcher, trader, orderId );
-    n += cancelOrder<AskOrderContainer>( askOrders, matcher, trader, orderId );
+    n += cancelOrder<BidOrderContainer>( bidOrders, trader, orderId );
+    n += cancelOrder<AskOrderContainer>( askOrders, trader, orderId );
 
     if( ! n )
     {
@@ -56,8 +55,7 @@ void OrderBook::cancelOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
  *
  */
 template<typename OrderContainer>
-size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const MatcherConstPtr& matcher,
-                               const TraderPtr& trader, const orderId_t orderId )
+size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const TraderPtr& trader, const orderId_t orderId )
 {
           auto& idx = orders.template get<tags::idxTraderOrderId>();
     const auto& key = std::make_tuple( trader, orderId );

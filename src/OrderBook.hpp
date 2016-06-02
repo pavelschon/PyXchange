@@ -31,13 +31,11 @@ public:
                                             );
 
     void                                    cancelOrder(
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const boost::python::dict& decoded
                                             );
 
     void                                    cancelAllOrders(
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader
                                             );
 
@@ -65,7 +63,6 @@ private:
     template<typename OrderContainer>
     size_t                                  cancelOrder(
                                                 typename OrderContainer::type& orders,
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const orderId_t orderId
                                             );
@@ -73,7 +70,6 @@ private:
     template<typename OrderContainer>
     size_t                                  cancelAllOrders(
                                                 typename OrderContainer::type& orders,
-                                                const MatcherConstPtr& matcher,
                                                 const TraderPtr& trader,
                                                 const side_t side_
                                             );
