@@ -83,7 +83,8 @@ Matcher::Matcher( const boost::python::object& logger_):
 void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
     const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
-    const std::function<py::dict(void)> decode = std::bind( &json::loads<std::string, py::dict>, data );
+    const auto decode_ = std::bind( &json::loads<std::string, py::dict>, data );
+    const std::function<py::dict(void)> decode = decode_;
 
     try
     {
@@ -107,7 +108,8 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
 void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decoded )
 {
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
-    const std::function<py::str(void)> decode = [ &decoded ](){ return py::str( decoded[ keys::message ] ); };
+    const std::function<py::str(void)> decode = (
+        [ &decoded ](){ return py::str( decoded[ keys::message ] ); } );
 
     py::str message_type;
 

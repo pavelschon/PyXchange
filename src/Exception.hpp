@@ -34,8 +34,8 @@ class MalformedMessage: public std::exception
  * @brief Generic Python-to-C++ exception translator
  *
  */
-template<typename T, typename E, typename ITERABLE>
-inline T translate( const std::function<T(void)>& callback, const E& exc, const ITERABLE& types )
+template<typename CALLBACK, typename EXC, typename ITERABLE>
+inline auto translate( const CALLBACK& callback, const EXC& exc, const ITERABLE& types ) -> decltype( CALLBACK()() )
 {
     try
     {
