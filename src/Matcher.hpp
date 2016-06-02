@@ -9,6 +9,7 @@
 
 #include "PyXchangeFwd.hpp"
 #include "OrderBook.hpp"
+#include "Logger.hpp"
 
 
 namespace pyxchange
@@ -42,11 +43,6 @@ public:
 
     void                                    log(
                                                 const std::string& level,
-                                                const std::string& message
-                                            ) const;
-
-    void                                    log(
-                                                const std::string& level,
                                                 const boost::format& message
                                             ) const;
 
@@ -62,7 +58,7 @@ private:
                                                 const ClientPtr& client
                                             );
 
-    const boost::python::object             logger;
+    const Logger                            logger;
 
     OrderBook                               orderbook;
 

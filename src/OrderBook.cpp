@@ -41,6 +41,17 @@ OrderBook::OrderBook()
 
 
 /**
+ * @brief Constructor
+ *
+ */
+OrderBook::OrderBook( const Logger& logger_ ):
+    logger{ logger_ }
+{
+
+}
+
+
+/**
  * @brief FIXME
  *
  */

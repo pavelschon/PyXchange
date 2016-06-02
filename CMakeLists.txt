@@ -21,6 +21,7 @@ include_directories(
 
 
 add_library( pyxchange SHARED
+    src/Logger.cpp
     src/Order.cpp
     src/BaseClient.cpp
     src/Client.cpp

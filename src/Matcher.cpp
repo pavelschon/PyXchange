@@ -56,7 +56,8 @@ Matcher::Matcher()
  * 
  */
 Matcher::Matcher( const boost::python::object& logger_):
-    logger{ logger_ }
+      logger{ logger_ }
+    , orderbook{ logger }
 {
     log( log::info, format::logMatcherReady );
 }
@@ -66,25 +67,9 @@ Matcher::Matcher( const boost::python::object& logger_):
  * @brief FIXME
  *
  */
-void Matcher::log( const std::string& level, const std::string& message ) const
-{
-    if( logger != py::object() ) // if logger is not None
-    {
-        logger.attr( level.c_str() )( message );
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
 void Matcher::log( const std::string& level, const boost::format& message ) const
 {
-    if( logger != py::object() ) // if logger is not None
-    {
-        logger.attr( level.c_str() )( message.str() );
-    }
+    logger.log( level, message );
 }
 
 
@@ -118,7 +103,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     }
     else
     {
-        log( log::warning, strings::unknownMessage );
+//         log( log::warning, strings::unknownMessage );
 
         trader->notifyError( strings::unknownMessage );
         trader->disconnect();

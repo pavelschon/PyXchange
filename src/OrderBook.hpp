@@ -9,6 +9,7 @@
 
 #include "PyXchangeFwd.hpp"
 #include "OrderContainer.hpp"
+#include "Logger.hpp"
 
 
 namespace pyxchange
@@ -19,6 +20,7 @@ class OrderBook
 {
 public:
                                             OrderBook();
+    explicit                                OrderBook( const Logger& logger_ );
                                             OrderBook( const OrderBook& ) = delete;
                                             OrderBook& operator=( const OrderBook& ) = delete;
 
@@ -113,6 +115,8 @@ private:
                                             ) const;
 
 private:
+    const Logger                            logger;
+
     BidOrderContainer::type                 bidOrders;
     AskOrderContainer::type                 askOrders;
 
