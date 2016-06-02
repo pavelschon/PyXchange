@@ -17,8 +17,10 @@ namespace py = boost::python;
 
 namespace attr
 {
-    const char* const loseConnection    = "loseConnection";
-    const char* const write             = "write";
+
+const char* const loseConnection    = "loseConnection";
+const char* const write             = "write";
+
 }
 
 
@@ -61,7 +63,7 @@ std::string BaseClient::getName( void ) const
 void BaseClient::writeString( const std::string& data )
 {
     transport.attr( attr::write )( data );
-    //transport.attr( attr::write )( '\n' );
+    transport.attr( attr::write )( '\n' );
 }
 
 
@@ -72,7 +74,7 @@ void BaseClient::writeString( const std::string& data )
 void BaseClient::writeData( const boost::python::object& data )
 {
     transport.attr( attr::write )( json::dumps<const std::string>( data ) );
-//     transport.attr( attr::write )( '\n' );
+    transport.attr( attr::write )( '\n' );
 }
 
 

@@ -14,7 +14,8 @@ class Transport(object):
 
     def write(self, data):
         for message in data.split('\n'):
-            self.messages.append(pyxchange.json_loads(message))
+            if message:
+                self.messages.append(pyxchange.json_loads(message))
 
 
     def assertMessage(self, message):
@@ -73,15 +74,6 @@ class MatcherTest(unittest.TestCase):
 
     def tearDown(self):
         self.matcher.removeTrader(self.trader)
-
-
-    def testMalformedMessage(self):
-        """ Test malformed message """
-
-        message = 'malformed'
-
-        with self.assertRaises(ValueError):
-            self.matcher.handleMessageStr(self.trader, message)
 
 
     def testCreateCancelOrder(self):

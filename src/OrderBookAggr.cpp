@@ -59,7 +59,7 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
 
     boost::python::dict response;
 
-    response[ keys::message  ] = message::orderBook;
+    response[ keys::type     ] = message::orderBook;
     response[ keys::side     ] = side::toBidAsk( side_ );
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;

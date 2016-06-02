@@ -21,20 +21,30 @@ namespace json
 const auto json_module = boost::python::import( "json" );
 
 /**
-    * @brief FIXME
-    *
-    */
+  * @brief FIXME
+  *
+  */
 template<typename T>
 inline boost::python::object loads( T value )
 {
     return json_module.attr( "loads" )( value );
 }
 
+/**
+ * @brief FIXME
+ *
+ */
+template<typename T, typename R>
+inline R loads( T value )
+{
+    return boost::python::extract<R>( json_module.attr( "loads" )( value ) );
+}
+
 
 /**
-    * @brief FIXME
-    *
-    */
+ * @brief FIXME
+ *
+ */
 template<typename T>
 inline T dumps( const boost::python::object& obj )
 {

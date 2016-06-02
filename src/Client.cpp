@@ -30,7 +30,7 @@ void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, cons
 {
     boost::python::dict response;
 
-    response[ keys::message  ] = message::orderBook;
+    response[ keys::type  ] = message::orderBook;
     response[ keys::side     ] = side::toBidAsk( side_ );
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;

@@ -9,6 +9,7 @@
 #include "OrderBook.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
+#include "Exception.hpp"
 #include "Json.hpp"
 
 
@@ -23,7 +24,6 @@ namespace format
 {
 
 
-const boost::format logMatcherReady( "Matcher is ready" );
 const boost::format client( "<Client %||>" );
 const boost::format trader( "<Trader %||>" );
 const boost::format logGetClient( "%|| created" );
@@ -31,16 +31,19 @@ const boost::format logRemoveClient( "%|| removed" );
 const boost::format clientDoesNotExist( "%|| does not exists" );
 const boost::format traderDoesNotExist( "%|| does not exists" );
 const boost::format orderWrongSide( "order has wrong side" );
+const boost::format jsonDecodeError( "%|| JSON decode error" );
+const boost::format malformedMessage( "%|| malformed message" );
+const boost::format logMatcherReady( "Matcher is ready" );
 
 
-} /* namespace message */
+} /* namespace format */
 
 
 namespace message
 {
 
-const std::string createOrder        = "createOrder";
-const std::string cancelOrder        = "cancelOrder";
+const std::string createOrder = "createOrder";
+const std::string cancelOrder = "cancelOrder";
 
 } /* namespace message */
 
@@ -53,7 +56,6 @@ Matcher::Matcher():
       traders{ std::make_shared<TraderSet>() }
     , clients{ std::make_shared<ClientSet>() }
     , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
-    //, orderbook{ clients, logger }
 {
 
 }
@@ -69,7 +71,6 @@ Matcher::Matcher( const boost::python::object& logger_):
     , traders{ std::make_unique<TraderSet>() }
     , clients{ std::make_shared<ClientSet>() }
     , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
-    //, orderbook{ clients, logger }
 {
     logger.info( format::logMatcherReady );
 }
@@ -81,9 +82,21 @@ Matcher::Matcher( const boost::python::object& logger_):
  */
 void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
-    const py::dict decoded( json::loads( data ) );
+    const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
+    const std::function<py::dict(void)> decode = std::bind( &json::loads<std::string, py::dict>, data );
 
-    handleMessageDict( trader, decoded );
+    try
+    {
+        const py::dict decoded{ pyexc::translate( decode, pyexc::JsonDecodeError(), exceptions ) };
+
+        handleMessageDict( trader, decoded );
+    }
+    catch( const pyexc::JsonDecodeError& )
+    {
+        logger.error( boost::format( format::jsonDecodeError ) % trader->getName() );
+
+        trader->disconnect();
+    }
 }
 
 
@@ -93,7 +106,23 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
  */
 void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decoded )
 {
-    const py::str message_type( decoded[ keys::message ] );
+    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+    const std::function<py::str(void)> decode = [ &decoded ](){ return py::str( decoded[ keys::message ] ); };
+
+    py::str message_type;
+
+    try
+    {
+        message_type = pyexc::translate( decode, pyexc::MalformedMessage(), exceptions );
+    }
+    catch( const pyexc::MalformedMessage& )
+    {
+        logger.error( boost::format( format::malformedMessage ) % trader->getName() );
+
+        trader->disconnect();
+
+        return;
+    }
 
     if( message_type == message::createOrder )
     {
@@ -105,9 +134,8 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     }
     else
     {
-//         log( log::warning, strings::unknownMessage );
-
         trader->notifyError( strings::unknownMessage );
+
         trader->disconnect();
     }
 }
@@ -117,7 +145,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
  * @brief FIXME
  *
  */
-TraderPtr Matcher::getTrader( const std::string& name, const boost::python::object& transport )
+TraderPtr Matcher::getTrader( const std::string& name, const py::object& transport )
 {
     const TraderPtr& trader = std::make_shared<Trader>( ( boost::format( format::trader ) % name ).str(), transport );
 
@@ -156,7 +184,7 @@ void Matcher::removeTrader( const TraderPtr& trader )
  * @brief FIXME
  *
  */
-ClientPtr Matcher::getClient( const std::string& name, const boost::python::object& transport )
+ClientPtr Matcher::getClient( const std::string& name, const py::object& transport )
 {
     const ClientPtr& client = std::make_shared<Client>( ( boost::format( format::client ) % name ).str(), transport );
 
