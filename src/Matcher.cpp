@@ -21,11 +21,8 @@ namespace py = boost::python;
 namespace format
 {
 
-const boost::format trader( "<Trader %||>" );
-const boost::format traderDoesNotExist( "%|| does not exists" );
+
 const boost::format logMatcherReady( "Matcher is ready" );
-const boost::format logGetClient( "%|| created" );
-const boost::format logRemoveClient( "%|| removed" );
 
 
 } /* namespace message */
@@ -107,45 +104,6 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
 
         trader->notifyError( strings::unknownMessage );
         trader->disconnect();
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-TraderPtr Matcher::getTrader( const std::string& name, const boost::python::object& transport )
-{
-    const TraderPtr& trader = std::make_shared<Trader>( ( boost::format( format::trader ) % name ).str(), transport );
-
-    traders.insert( trader );
-
-    log( log::info, boost::format( format::logGetClient ) % trader->getName() );
-
-    return trader;
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::removeTrader( const TraderPtr& trader )
-{
-    const auto& it = traders.find( trader );
-
-    if( it != traders.cend() )
-    {
-        orderbook.cancelAllOrders( trader );
-
-        traders.erase( it );
-
-        log( log::info, boost::format( format::logRemoveClient ) % trader->getName() );
-    }
-    else
-    {
-        log( log::warning, boost::format( format::traderDoesNotExist ) % trader->getName() );
     }
 }
 

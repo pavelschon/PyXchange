@@ -47,6 +47,17 @@ public:
                                             ) const;
 
 private:
+    friend void                             OrderBook::removeTrader(
+                                                const MatcherPtr& matcher,
+                                                const TraderPtr& trader
+                                            );
+
+    friend TraderPtr                        OrderBook::getTrader(
+                                                const MatcherPtr& matcher,
+                                                const std::string& name,
+                                                const boost::python::object& transport
+                                            );
+
     friend ClientPtr                        OrderBook::getClient(
                                                 const MatcherPtr& matcher,
                                                 const std::string& name,
@@ -58,11 +69,9 @@ private:
                                                 const ClientPtr& client
                                             );
 
+
     const Logger                            logger;
-
     OrderBook                               orderbook;
-
-    TraderSet                               traders;
 };
 
 
