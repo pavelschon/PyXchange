@@ -19,8 +19,9 @@ namespace pyxchange
 class OrderBook
 {
 public:
-                                            OrderBook();
-    explicit                                OrderBook( const Logger& logger_ );
+    explicit                                OrderBook( const ClientSetConstPtr & clients_ );
+                                            OrderBook( const ClientSetConstPtr & clients_,
+                                                       const Logger& logger_ );
                                             OrderBook( const OrderBook& ) = delete;
                                             OrderBook& operator=( const OrderBook& ) = delete;
 
@@ -36,17 +37,6 @@ public:
 
     void                                    cancelAllOrders(
                                                 const TraderPtr& trader
-                                            );
-
-    static ClientPtr                        getClient(
-                                                const MatcherPtr& matcher,
-                                                const std::string& name,
-                                                const boost::python::object& transport
-                                            );
-
-    static void                             removeClient(
-                                                const MatcherPtr& matcher,
-                                                const ClientPtr& client
                                             );
 
 private:
@@ -106,11 +96,10 @@ private:
 
 private:
     const Logger                            logger;
+    const ClientSetConstPtr                 clients;
 
     BidOrderContainer::type                 bidOrders;
     AskOrderContainer::type                 askOrders;
-
-    ClientSet                               clients;
 };
 
 

@@ -8,7 +8,7 @@
 #define MATCHER
 
 #include "PyXchangeFwd.hpp"
-#include "OrderBook.hpp"
+//#include "OrderBook.hpp"
 #include "Logger.hpp"
 
 
@@ -43,24 +43,20 @@ public:
                                                 const TraderPtr& trader
                                             );
 
-private:
-    friend ClientPtr                        OrderBook::getClient(
-                                                const MatcherPtr& matcher,
+    ClientPtr                               getClient(
                                                 const std::string& name,
                                                 const boost::python::object& transport
                                             );
 
-    friend void                             OrderBook::removeClient(
-                                                const MatcherPtr& matcher,
+    void                                    removeClient(
                                                 const ClientPtr& client
                                             );
 
-
+private:
     const Logger                            logger;
-
-    OrderBook                               orderbook;
-
-    TraderSet                               traders;
+    const TraderSetPtr                      traders;
+    const ClientSetPtr                      clients;
+    const OrderBookPtr                      orderbook;
 };
 
 

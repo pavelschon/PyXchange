@@ -30,6 +30,7 @@ typedef unsigned short                                                  side_t;
 
 
 class OrderBook;
+typedef std::unique_ptr<OrderBook>                                      OrderBookPtr;
 
 class Order;
 typedef std::shared_ptr<Order>                                          OrderPtr;
@@ -58,13 +59,17 @@ struct CompareWeakPtr
 class Client;
 typedef std::shared_ptr<Client>                                         ClientPtr;
 typedef std::weak_ptr<Client>                                           ClientWPtr;
+
 typedef std::set<ClientWPtr, CompareWeakPtr<Client> >                   ClientSet;
+typedef std::shared_ptr<ClientSet>                                      ClientSetPtr;
+typedef std::shared_ptr<ClientSet const>                                ClientSetConstPtr;
 
 
 class Trader;
 typedef std::shared_ptr<Trader>                                         TraderPtr;
 typedef std::weak_ptr<Trader>                                           TraderWPtr;
 typedef std::set<TraderWPtr, CompareWeakPtr<Trader> >                   TraderSet;
+typedef std::shared_ptr<TraderSet>                                      TraderSetPtr;
 typedef std::tuple<const TraderPtr, const orderId_t>                    TraderOrderId;
 
 
