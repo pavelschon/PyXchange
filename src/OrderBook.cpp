@@ -7,6 +7,7 @@
 
 #include "OrderBook.hpp"
 #include "Matcher.hpp"
+#include "Client.hpp"
 #include "Trader.hpp"
 
 
@@ -20,6 +21,10 @@ namespace py = boost::python;
 namespace format
 {
 
+const boost::format client( "<Client %||>" );
+const boost::format logGetClient( "%|| created" );
+const boost::format logRemoveClient( "%|| removed" );
+const boost::format clientDoesNotExist( "%|| does not exists" );
 const boost::format orderWrongSide( "order has wrong side" );
 
 } /* namespace message */
@@ -75,6 +80,62 @@ void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
     else if( order->price < 1 )
     {
 
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+ClientPtr OrderBook::getClient( const MatcherPtr& matcher, const std::string& name, const boost::python::object& transport )
+{
+    const ClientPtr& client = std::make_shared<Client>( ( boost::format( format::client ) % name ).str(), transport );
+
+    matcher->orderbook.clients.insert( client );
+
+    matcher->log( log::info, boost::format( format::logGetClient ) % client->getName() );
+
+    return client;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void OrderBook::removeClient( const MatcherPtr& matcher, const ClientPtr& client )
+{
+    const auto& it = matcher->orderbook.clients.find( client );
+
+    if( it != matcher->orderbook.clients.cend() )
+    {
+        matcher->orderbook.clients.erase( it );
+
+        matcher->log( log::info, boost::format( format::logRemoveClient ) % client->getName() );
+    }
+    else
+    {
+        matcher->log( log::warning, boost::format( format::clientDoesNotExist ) % client->getName() );
+    }
+}
+
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void OrderBook::notifyAllClients( const boost::python::object& data ) const
+{
+    for( const auto& client : clients )
+    {
+        const auto& client_ = client.lock(); // from weak_ptr to shared_ptr
+
+        if( client_ )
+        {
+            client_->writeData( data );
+        }
     }
 }
 

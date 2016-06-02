@@ -17,36 +17,18 @@ namespace pyxchange
 
 class Matcher: public std::enable_shared_from_this<Matcher>
 {
-private:
-    const boost::python::object             logger;
-
-    OrderBook                               orderbook;
-
-    TraderSet                               traders;
-    ClientSet                               clients;
-
 public:
                                             Matcher();
     explicit                                Matcher( const boost::python::object& logger_ );
                                             Matcher( const Matcher& ) = delete;
                                             Matcher& operator=( const Matcher& ) = delete;
 
-    void                                    removeClient( const ClientPtr& client );
     void                                    removeTrader( const TraderPtr& trader );
-
-    ClientPtr                               getClient(
-                                                const std::string& name,
-                                                const boost::python::object& transport
-                                            );
 
     TraderPtr                               getTrader(
                                                 const std::string& name,
                                                 const boost::python::object& transport
                                             );
-
-    void                                    notifyAllClients(
-                                                const boost::python::object& data
-                                            ) const;
 
     void                                    handleMessageStr(
                                                 const TraderPtr& trader,
@@ -67,6 +49,24 @@ public:
                                                 const std::string& level,
                                                 const boost::format& message
                                             ) const;
+
+private:
+    friend ClientPtr                        OrderBook::getClient(
+                                                const MatcherPtr& matcher,
+                                                const std::string& name,
+                                                const boost::python::object& transport
+                                            );
+
+    friend void                             OrderBook::removeClient(
+                                                const MatcherPtr& matcher,
+                                                const ClientPtr& client
+                                            );
+
+    const boost::python::object             logger;
+
+    OrderBook                               orderbook;
+
+    TraderSet                               traders;
 };
 
 

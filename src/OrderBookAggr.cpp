@@ -66,7 +66,7 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;
 
-    matcher->notifyAllClients( response );
+    notifyAllClients( response );
 }
 
 

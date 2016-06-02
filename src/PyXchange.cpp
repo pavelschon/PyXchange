@@ -8,6 +8,7 @@
 #include "Client.hpp"
 #include "Trader.hpp"
 #include "Matcher.hpp"
+#include "OrderBook.hpp"
 #include "Json.hpp"
 
 
@@ -41,9 +42,9 @@ BOOST_PYTHON_MODULE( pyxchange )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
         .def( "__init__", make_constructor( &make_shared_<Matcher, const object&> ) )
         .def( "getTrader", &Matcher::getTrader, args( "name", "transport" ) )
-        .def( "getClient", &Matcher::getClient, args( "name", "transport" ) )
+        .def( "getClient", &OrderBook::getClient, args( "name", "transport" ) )
         .def( "removeTrader", &Matcher::removeTrader, args( "trader" ) )
-        .def( "removeClient", &Matcher::removeClient, args( "client" ) )
+        .def( "removeClient", &OrderBook::removeClient, args( "client" ) )
         .def( "handleMessageStr", &Matcher::handleMessageStr, args( "trader", "data" ) )
         .def( "handleMessageDict", &Matcher::handleMessageDict, args( "trader", "data" ) )
     ;
