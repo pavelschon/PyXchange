@@ -6,7 +6,6 @@
 
 
 #include "OrderBook.hpp"
-#include "Matcher.hpp"
 #include "Trader.hpp"
 
 

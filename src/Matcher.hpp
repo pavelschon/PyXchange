@@ -41,11 +41,6 @@ public:
                                                 const boost::python::dict& decoded
                                             );
 
-    void                                    log(
-                                                const std::string& level,
-                                                const boost::format& message
-                                            ) const;
-
 private:
     friend void                             OrderBook::removeTrader(
                                                 const MatcherPtr& matcher,

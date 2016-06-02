@@ -56,17 +56,7 @@ Matcher::Matcher( const boost::python::object& logger_):
       logger{ logger_ }
     , orderbook{ logger }
 {
-    log( log::info, format::logMatcherReady );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::log( const std::string& level, const boost::format& message ) const
-{
-    logger.log( level, message );
+    logger.info( format::logMatcherReady );
 }
 
 
