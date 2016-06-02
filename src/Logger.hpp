@@ -17,23 +17,19 @@ namespace pyxchange
 class Logger
 {
 public:
-                                            Logger();
-    explicit                                Logger(
-                                                const boost::python::object& logger
-                                            );
+                Logger();
+    explicit    Logger( const boost::python::object& logger );
 
-    void                                    debug( const boost::format& message ) const;
-    void                                    info( const boost::format& message )  const;
-    void                                    warning( const boost::format& message )  const;
-    void                                    error( const boost::format& message )  const;
+    void        debug( const boost::format& message ) const;
+    void        info( const boost::format& message )  const;
+    void        warning( const boost::format& message )  const;
+    void        error( const boost::format& message )  const;
 
 public:
-    void                                    log(
-                                                const std::string& level,
-                                                const boost::format& message
-                                            ) const;
+    void        log( const std::string& level,
+                     const boost::format& message ) const;
 private:
-    const boost::python::object             logger;
+    const boost::python::object logger;
 };
 
 

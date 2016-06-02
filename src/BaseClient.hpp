@@ -16,27 +16,24 @@ namespace pyxchange
 
 class BaseClient
 {
-private:
-    const std::string                       name;
-    const boost::python::object             transport;
-
-
 public:
-                                            BaseClient(
-                                                const std::string& name_,
-                                                const boost::python::object& transport_
-                                            );
+                BaseClient( const std::string& name_,
+                            const boost::python::object& transport_ );
 
-                                            BaseClient( const Trader& ) = delete;
-                                            BaseClient& operator=( const Trader& ) = delete;
-    virtual                                 ~BaseClient();
+                BaseClient( const Trader& ) = delete;
+                BaseClient& operator=( const Trader& ) = delete;
+    virtual     ~BaseClient();
 
-    std::string                             getName( void ) const;
+    std::string getName( void ) const;
 
-    void                                    disconnect( void );
+    void        disconnect( void );
 
-    void                                    writeString( const std::string& data );
-    void                                    writeData( const boost::python::object& data );
+    void        writeString( const std::string& data );
+    void        writeData( const boost::python::object& data );
+
+private:
+    const std::string name;
+    const boost::python::object transport;
 };
 
 

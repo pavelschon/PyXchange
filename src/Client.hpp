@@ -20,14 +20,11 @@ class Client: public BaseClient
 public:
     using BaseClient::BaseClient;
 
-                                            Client( const Client& ) = delete;
-                                            Client& operator=( const Client& ) = delete;
+                Client( const Client& ) = delete;
+                Client& operator=( const Client& ) = delete;
 
-    void                                    notifyOrderBook(
-                                                const price_t priceLevel,
-                                                const side_t side_,
-                                                const quantity_t quantity
-                                            );
+    void        notifyOrderBook( const price_t priceLevel,
+                                 const side_t side_, const quantity_t quantity );
 };
 
 
