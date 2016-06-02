@@ -45,7 +45,7 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
             {
                 trader->notifyCreateOrderSuccess( order->orderId );
 
-                aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
+                aggregatePriceLevel<OrderContainer>( orders, order->price, order->side );
 
                 logger.info( boost::format( format::traderAddedOrder ) % trader->getName()
                              % side::toBidAsk( order->side ) % order->orderId % order->price % order->quantity );

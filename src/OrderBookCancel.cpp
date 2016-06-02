@@ -74,7 +74,7 @@ size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const Matc
         logger.info( boost::format( format::traderCanceledOne ) % trader->getName()
                      % side::toBidAsk( order->side ) % order->orderId );
 
-        aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
+        aggregatePriceLevel<OrderContainer>( orders, order->price, order->side );
 
         return 1;
     }
