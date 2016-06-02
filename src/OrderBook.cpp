@@ -22,11 +22,9 @@ namespace format
 {
 
 const boost::format client( "<Client %||>" );
-const boost::format trader( "<Trader %||>" );
 const boost::format logGetClient( "%|| created" );
 const boost::format logRemoveClient( "%|| removed" );
 const boost::format clientDoesNotExist( "%|| does not exists" );
-const boost::format traderDoesNotExist( "%|| does not exists" );
 const boost::format orderWrongSide( "order has wrong side" );
 
 } /* namespace message */
@@ -93,45 +91,6 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
     else if( order->price < 1 )
     {
 
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-TraderPtr OrderBook::getTrader( const MatcherPtr& matcher, const std::string& name, const boost::python::object& transport )
-{
-    const TraderPtr& trader = std::make_shared<Trader>( ( boost::format( format::trader ) % name ).str(), transport );
-
-    matcher->orderbook.traders.insert( trader );
-
-    matcher->orderbook.logger.info( boost::format( format::logGetClient ) % trader->getName() );
-
-    return trader;
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void OrderBook::removeTrader( const MatcherPtr& matcher, const TraderPtr& trader )
-{
-    const auto& it = matcher->orderbook.traders.find( trader );
-
-    if( it != matcher->orderbook.traders.cend() )
-    {
-        matcher->orderbook.cancelAllOrders( trader );
-
-        matcher->orderbook.traders.erase( it );
-
-        matcher->orderbook.logger.info( boost::format( format::logRemoveClient ) % trader->getName() );
-    }
-    else
-    {
-        matcher->orderbook.logger.warning( boost::format( format::traderDoesNotExist ) % trader->getName() );
     }
 }
 

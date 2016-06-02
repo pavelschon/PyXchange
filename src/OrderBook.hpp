@@ -34,15 +34,8 @@ public:
                                                 const boost::python::dict& decoded
                                             );
 
-    static void                             removeTrader(
-                                                const MatcherPtr& matcher,
+    void                                    cancelAllOrders(
                                                 const TraderPtr& trader
-                                            );
-
-    static TraderPtr                        getTrader(
-                                                const MatcherPtr& matcher,
-                                                const std::string& name,
-                                                const boost::python::object& transport
                                             );
 
     static ClientPtr                        getClient(
@@ -107,10 +100,6 @@ private:
                                                 const side_t side_
                                             ) const;
 
-    void                                    cancelAllOrders(
-                                                const TraderPtr& trader
-                                            );
-
     void                                    notifyAllClients(
                                                 const boost::python::object& data
                                             ) const;
@@ -121,7 +110,6 @@ private:
     BidOrderContainer::type                 bidOrders;
     AskOrderContainer::type                 askOrders;
 
-    TraderSet                               traders;
     ClientSet                               clients;
 };
 

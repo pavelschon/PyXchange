@@ -66,8 +66,6 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders, typename Opp
         logger.warning( boost::format( format::logOrderAlreadyExist ) % trader->getName() % order->orderId );
 
         trader->notifyOrderAlreadyExist( order->orderId );
-
-        trader->disconnect();
     }
 }
 

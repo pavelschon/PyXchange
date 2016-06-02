@@ -24,13 +24,6 @@ public:
                                             Matcher( const Matcher& ) = delete;
                                             Matcher& operator=( const Matcher& ) = delete;
 
-    void                                    removeTrader( const TraderPtr& trader );
-
-    TraderPtr                               getTrader(
-                                                const std::string& name,
-                                                const boost::python::object& transport
-                                            );
-
     void                                    handleMessageStr(
                                                 const TraderPtr& trader,
                                                 const std::string& data
@@ -41,18 +34,16 @@ public:
                                                 const boost::python::dict& decoded
                                             );
 
-private:
-    friend void                             OrderBook::removeTrader(
-                                                const MatcherPtr& matcher,
-                                                const TraderPtr& trader
-                                            );
-
-    friend TraderPtr                        OrderBook::getTrader(
-                                                const MatcherPtr& matcher,
+    TraderPtr                               getTrader(
                                                 const std::string& name,
                                                 const boost::python::object& transport
                                             );
 
+    void                                    removeTrader(
+                                                const TraderPtr& trader
+                                            );
+
+private:
     friend ClientPtr                        OrderBook::getClient(
                                                 const MatcherPtr& matcher,
                                                 const std::string& name,
@@ -66,7 +57,10 @@ private:
 
 
     const Logger                            logger;
+
     OrderBook                               orderbook;
+
+    TraderSet                               traders;
 };
 
 

@@ -44,8 +44,6 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
         logger.warning( boost::format( format::logOrderDoesNotExist ) % trader->getName() % orderId );
 
         trader->notifyOrderDoesNotExist( orderId );
-
-        trader->disconnect();
     }
 }
 
