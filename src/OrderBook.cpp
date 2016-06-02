@@ -65,7 +65,7 @@ void OrderBook::createOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
     }
     catch( const side::WrongSide& )
     {
-        matcher->log( log::warning, format::orderWrongSide );
+        logger.warning( format::orderWrongSide );
 
         trader->notifyError( strings::unknownSide );
 
@@ -105,7 +105,7 @@ ClientPtr OrderBook::getClient( const MatcherPtr& matcher, const std::string& na
 
     matcher->orderbook.clients.insert( client );
 
-    matcher->log( log::info, boost::format( format::logGetClient ) % client->getName() );
+    matcher->orderbook.logger.info( boost::format( format::logGetClient ) % client->getName() );
 
     return client;
 }
@@ -123,11 +123,11 @@ void OrderBook::removeClient( const MatcherPtr& matcher, const ClientPtr& client
     {
         matcher->orderbook.clients.erase( it );
 
-        matcher->log( log::info, boost::format( format::logRemoveClient ) % client->getName() );
+        matcher->orderbook.logger.info( boost::format( format::logRemoveClient ) % client->getName() );
     }
     else
     {
-        matcher->log( log::warning, boost::format( format::clientDoesNotExist ) % client->getName() );
+        matcher->orderbook.logger.warning( boost::format( format::clientDoesNotExist ) % client->getName() );
     }
 }
 

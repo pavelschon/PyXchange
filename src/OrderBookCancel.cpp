@@ -42,8 +42,7 @@ void OrderBook::cancelOrder( const MatcherConstPtr& matcher, const TraderPtr& tr
 
     if( ! n )
     {
-        matcher->log( log::warning, boost::format( format::logOrderDoesNotExist )
-                      % trader->getName() % orderId );
+        logger.warning( boost::format( format::logOrderDoesNotExist ) % trader->getName() % orderId );
 
         trader->notifyOrderDoesNotExist( orderId );
 
@@ -72,8 +71,8 @@ size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const Matc
 
         trader->notifyCancelOrderSuccess( order->orderId );
 
-        matcher->log( log::info, boost::format( format::traderCanceledOne ) % trader->getName()
-                      % side::toBidAsk( order->side ) % order->orderId );
+        logger.info( boost::format( format::traderCanceledOne ) % trader->getName()
+                     % side::toBidAsk( order->side ) % order->orderId );
 
         aggregatePriceLevel<OrderContainer>( orders, matcher, order->price, order->side );
 

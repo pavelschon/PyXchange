@@ -93,9 +93,9 @@ bool OrderBook::handleSelfMatch( const typename OrderContainer::type& orders, co
         {
             trader->notifySelfMatch( order_.orderId, oppOrder->orderId );
 
-            matcher->log( log::info, boost::format( format::logSelfMatch ) % trader->getName()
-                          % side::toBidAsk( order_.side ) % order_.orderId % side::toBidAsk( oppOrder->side )
-                          % oppOrder->orderId % oppOrder->price );
+            logger.info( boost::format( format::logSelfMatch ) % trader->getName()
+                         % side::toBidAsk( order_.side ) % order_.orderId % side::toBidAsk( oppOrder->side )
+                         % oppOrder->orderId % oppOrder->price );
 
             return false;
         }
