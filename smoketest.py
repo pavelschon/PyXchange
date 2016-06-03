@@ -1,6 +1,7 @@
 #!/usr/bin/env python2.7
 
 
+import collections
 import pyxchange
 import unittest
 import io
@@ -9,7 +10,7 @@ import json
 
 class Transport(object):
     def __init__(self):
-        self.messages = []
+        self.messages = collections.deque()
 
 
     def write(self, data):
@@ -19,7 +20,7 @@ class Transport(object):
 
 
     def assertMessage(self, message):
-        assert message in self.messages
+        assert message == self.messages.popleft()
 
 
     def loseConnection(self):
