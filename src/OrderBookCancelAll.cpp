@@ -28,7 +28,7 @@ void OrderBook::cancelAllOrders( const TraderPtr& trader )
 
     if( numBid || numAsk )
     {
-        logger.info( boost::format( format::traderCanceledAll ) % trader->getName() % numBid % numAsk );
+        logger.info( boost::format( format::f3::traderCanceledAll ) % trader->getName() % numBid % numAsk );
     }
 }
 

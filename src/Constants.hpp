@@ -17,16 +17,30 @@ namespace pyxchange
 namespace format
 {
 
+namespace f0
+{
 
 const boost::format wrongSide( "order has wrong side" );
 const boost::format wrongOrderId( "order has wrong order id" );
 const boost::format wrongPrice( "order has wrong price" );
 const boost::format wrongQuantity( "order has wrong quantity" );
 
-const boost::format logWrongSide( "%|| inserting order with invalid side" );
-const boost::format logWrongOrderId( "%|| inserting order with invalid order id" );
-const boost::format logWrongPrice( "%|| inserting order with invalid price" );
-const boost::format logWrongQuantity( "%|| inserting order with invalid quantity" );
+const boost::format orderDoesNotExist( "order does not exists" );
+const boost::format orderAlreadyExist( "order already exists" );
+
+const boost::format logMatcherReady( "Matcher is ready" );
+const boost::format unknownMessage( "unknown message" );
+
+const boost::format selfMatch( "self-match rejected" );
+
+} /* namespace f0 */
+
+
+namespace f1
+{
+
+const boost::format client( "<Client %||>" );
+const boost::format trader( "<Trader %||>" );
 
 const boost::format logGetClient( "%|| created" );
 const boost::format logRemoveClient( "%|| removed" );
@@ -34,32 +48,53 @@ const boost::format logRemoveClient( "%|| removed" );
 const boost::format clientDoesNotExist( "%|| does not exists" );
 const boost::format traderDoesNotExist( "%|| does not exists" );
 
-const boost::format orderDoesNotExist( "order does not exists" );
-const boost::format orderAlreadyExist( "order already exists" );
+const boost::format jsonDecodeError( "%|| JSON decode error" );
+const boost::format logMalformedMessage( "%|| sent malformed message" );
+const boost::format logUnknownMessage( "%|| sent unknown message" );
+
+const boost::format logWrongSide( "%|| inserting order with invalid side" );
+const boost::format logWrongOrderId( "%|| inserting order with invalid order id" );
+const boost::format logWrongPrice( "%|| inserting order with invalid price" );
+const boost::format logWrongQuantity( "%|| inserting order with invalid quantity" );
+
+} /* namespace f1 */
+
+
+namespace f2
+{
 
 const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
 const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
 
-const boost::format selfMatch( "self-match rejected" );
+} /* namespace f2 */
 
-const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order id %|| "
-                                  "matching with %|| order id %|| at price %||" );
 
-const boost::format traderAddedOrder( "%|| added %|| order id %|| at price %|| of quantity %||" );
+namespace f3
+{
+
 const boost::format traderCanceledOne( "%|| cancelled %|| order id %||" );
 const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
 
-const boost::format client( "<Client %||>" );
-const boost::format trader( "<Trader %||>" );
-
-const boost::format unknownMessage( "unknown message" );
-const boost::format jsonDecodeError( "%|| JSON decode error" );
-const boost::format logMatcherReady( "Matcher is ready" );
-const boost::format logMalformedMessage( "%|| sent malformed message" );
-const boost::format logUnknownMessage( "%|| sent unknown message" );
+} /* namespace f3 */
 
 
-} /* namespace message */
+namespace f5
+{
+
+const boost::format traderAddedOrder( "%|| added %|| order id %|| at price %|| of quantity %||" );
+
+} /* namespace f5 */
+
+
+namespace f6
+{
+
+const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order id %|| "
+                                   "matching with %|| order id %|| at price %||" );
+} /* namespace f6 */
+
+
+} /* namespace format */
 
 
 namespace message

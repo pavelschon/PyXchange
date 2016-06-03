@@ -44,7 +44,7 @@ Matcher::Matcher( const boost::python::object& logger_):
     , clients{ std::make_shared<ClientSet>() }
     , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
 {
-    logger.info( format::logMatcherReady );
+    logger.info( format::f0::logMatcherReady );
 }
 
 
@@ -65,7 +65,7 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
     }
     catch( const pyexc::JsonDecodeError& )
     {
-        logger.error( boost::format( format::jsonDecodeError ) % trader->getName() );
+        logger.error( boost::format( format::f1::jsonDecodeError ) % trader->getName() );
 
         trader->disconnect();
     }
@@ -93,7 +93,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     }
     catch( const pyexc::MalformedMessage& )
     {
-        logger.error( boost::format( format::logMalformedMessage ) % trader->getName() );
+        logger.error( boost::format( format::f1::logMalformedMessage ) % trader->getName() );
 
         trader->disconnect();
 
@@ -101,9 +101,9 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     }
     catch( const pyexc::UnknownMessage& )
     {
-        trader->notifyError( format::unknownMessage.str() );
+        trader->notifyError( format::f0::unknownMessage.str() );
 
-        logger.error( boost::format( format::logUnknownMessage ) % trader->getName() );
+        logger.error( boost::format( format::f1::logUnknownMessage ) % trader->getName() );
 
         return;
     }
@@ -139,11 +139,11 @@ std::wstring Matcher::extractMessage( const py::dict& decoded )
  */
 TraderPtr Matcher::getTrader( const std::string& name, const py::object& transport )
 {
-    const TraderPtr& trader = std::make_shared<Trader>( ( boost::format( format::trader ) % name ).str(), transport );
+    const TraderPtr& trader = std::make_shared<Trader>( ( boost::format( format::f1::trader ) % name ).str(), transport );
 
     traders->insert( trader );
 
-    logger.info( boost::format( format::logGetClient ) % trader->getName() );
+    logger.info( boost::format( format::f1::logGetClient ) % trader->getName() );
 
     return trader;
 }
@@ -163,11 +163,11 @@ void Matcher::removeTrader( const TraderPtr& trader )
 
         traders->erase( it );
 
-        logger.info( boost::format( format::logRemoveClient ) % trader->getName() );
+        logger.info( boost::format( format::f1::logRemoveClient ) % trader->getName() );
     }
     else
     {
-        logger.warning( boost::format( format::traderDoesNotExist ) % trader->getName() );
+        logger.warning( boost::format( format::f1::traderDoesNotExist ) % trader->getName() );
     }
 }
 
@@ -178,11 +178,11 @@ void Matcher::removeTrader( const TraderPtr& trader )
  */
 ClientPtr Matcher::getClient( const std::string& name, const py::object& transport )
 {
-    const ClientPtr& client = std::make_shared<Client>( ( boost::format( format::client ) % name ).str(), transport );
+    const ClientPtr& client = std::make_shared<Client>( ( boost::format( format::f1::client ) % name ).str(), transport );
 
     clients->insert( client );
 
-    logger.info( boost::format( format::logGetClient ) % client->getName() );
+    logger.info( boost::format( format::f1::logGetClient ) % client->getName() );
 
     return client;
 }
@@ -200,11 +200,11 @@ void Matcher::removeClient( const ClientPtr& client )
     {
         clients->erase( it );
 
-        logger.info( boost::format( format::logRemoveClient ) % client->getName() );
+        logger.info( boost::format( format::f1::logRemoveClient ) % client->getName() );
     }
     else
     {
-        logger.warning( boost::format( format::clientDoesNotExist ) % client->getName() );
+        logger.warning( boost::format( format::f1::clientDoesNotExist ) % client->getName() );
     }
 }
 

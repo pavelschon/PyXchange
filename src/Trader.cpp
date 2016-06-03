@@ -59,7 +59,7 @@ void Trader::notifyOrderAlreadyExist( const orderId_t orderId )
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
-    response[ keys::text    ] = boost::format( format::orderAlreadyExist ).str();
+    response[ keys::text    ] = boost::format( format::f0::orderAlreadyExist ).str();
     response[ keys::orderId ] = orderId;
 
     // send response
@@ -78,7 +78,7 @@ void Trader::notifyOrderDoesNotExist( const orderId_t orderId )
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
-    response[ keys::text    ] = boost::format( format::orderDoesNotExist ).str();
+    response[ keys::text    ] = boost::format( format::f0::orderDoesNotExist ).str();
     response[ keys::orderId ] = orderId;
 
     // send response
@@ -113,7 +113,7 @@ void Trader::notifySelfMatch( const orderId_t orderId, const orderId_t oppOrderI
 
     response[ keys::message ] = message::executionReport;
     response[ keys::report  ] = report::err;
-    response[ keys::text    ] = boost::format( format::selfMatch ).str();
+    response[ keys::text    ] = boost::format( format::f0::selfMatch ).str();
     response[ keys::orderId ] = orderId;
 
     // send response

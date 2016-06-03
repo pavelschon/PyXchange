@@ -57,27 +57,27 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
     }
     catch( const side::WrongSide& )
     {
-        logger.warning( boost::format( format::logWrongSide ) % trader->getName() );
+        logger.warning( boost::format( format::f1::logWrongSide ) % trader->getName() );
 
-        trader->notifyError( format::wrongSide.str() );
+        trader->notifyError( format::f0::wrongSide.str() );
     }
     catch( const pyexc::OrderIdError& )
     {
-        logger.warning( boost::format( format::logWrongOrderId ) % trader->getName() );
+        logger.warning( boost::format( format::f1::logWrongOrderId ) % trader->getName() );
 
-        trader->notifyError( format::wrongOrderId.str() );
+        trader->notifyError( format::f0::wrongOrderId.str() );
     }
     catch( const pyexc::PriceError& )
     {
-        logger.warning( boost::format( format::logWrongPrice ) % trader->getName() );
+        logger.warning( boost::format( format::f1::logWrongPrice ) % trader->getName() );
 
-        trader->notifyError( format::wrongPrice.str() );
+        trader->notifyError( format::f0::wrongPrice.str() );
     }
     catch( const pyexc::QuantityError& )
     {
-        logger.warning( boost::format( format::logWrongQuantity ) % trader->getName() );
+        logger.warning( boost::format( format::f1::logWrongQuantity ) % trader->getName() );
 
-        trader->notifyError( format::wrongQuantity.str() );
+        trader->notifyError( format::f0::wrongQuantity.str() );
     }
 
     if( order && order->isBid() )
