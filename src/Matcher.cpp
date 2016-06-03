@@ -43,10 +43,14 @@ const boost::format logUnknownMessage( "%|| sent unknown message" );
 namespace message
 {
 
-const std::string createOrder = "createOrder";
-const std::string cancelOrder = "cancelOrder";
 
-const auto all = { createOrder, cancelOrder };
+const std::string   createOrder = "createOrder";
+const std::string   cancelOrder = "cancelOrder";
+const std::wstring wCreateOrder( createOrder.begin(), createOrder.end() );
+const std::wstring wCancelOrder( cancelOrder.begin(), cancelOrder.end() );
+
+const auto all = { wCreateOrder, wCancelOrder };
+
 
 } /* namespace message */
 
@@ -135,13 +139,13 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
 {
     try
     {
-        const py::str message_( extractMessage( decoded ) );
+        const std::wstring message_ = extractMessage( decoded );
 
-        if( message_ == message::createOrder )
+        if( message_ == message::wCreateOrder )
         {
             orderbook->createOrder( trader, decoded );
         }
-        else if( message_ == message::cancelOrder )
+        else if( message_ == message::wCancelOrder )
         {
             orderbook->cancelOrder( trader, decoded );
         }
@@ -169,19 +173,16 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
  * @brief FIXME
  *
  */
-py::str Matcher::extractMessage( const py::dict& decoded )
+std::wstring Matcher::extractMessage( const py::dict& decoded )
 {
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
-        const auto& message_ = py::str( decoded[ keys::message ] );
+        const std::wstring message_ = py::extract<std::wstring>( decoded[ keys::message ] );
 
-        for( const auto& oneMessage : message::all )
+        if( std::count( message::all.begin(), message::all.end(), message_ ) )
         {
-            if( message_ == oneMessage )
-            {
-                return message_;
-            }
+            return message_;
         }
 
         throw pyexc::UnknownMessage();

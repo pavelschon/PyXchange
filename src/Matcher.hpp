@@ -34,7 +34,7 @@ public:
     void                removeClient( const ClientPtr& client );
 
 private:
-    static boost::python::str extractMessage( const boost::python::dict& decoded );
+    static std::wstring extractMessage( const boost::python::dict& decoded );
 
     const Logger        logger;
     const TraderSetPtr  traders;
