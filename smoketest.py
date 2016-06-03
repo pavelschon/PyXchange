@@ -56,15 +56,12 @@ class JsonTest(unittest.TestCase):
 class MatcherTest(unittest.TestCase):
     createOrderRequest  = { u'orderId': 662688, u'price': 145,
                             u'message': u'createOrder', u'side': u'BUY', u'quantity': 350 }
-    createOrderResponse = { u'report': u'NEW', u'orderId': 662688,
-                            u'message': u'executionReport' }
-    createOrderError = { u'report': u'ERROR', u'text': u'order already exists',
-                         u'message': u'executionReport', u'orderId': 662688 }
+    createOrderResponse = { u'report': u'NEW', u'orderId': 662688, u'message': u'executionReport' }
+    createOrderError = { u'text': u'order already exists', u'message': u'error' }
 
     cancelOrderRequest  = { u'orderId': 662688, u'message': u'cancelOrder' }
     cancelOrderResponse = { u'orderId': 662688, u'message': u'executionReport', 'report': u'CANCELED' }
-    cancelOrderError = { u'report': u'ERROR', u'text': u'order does not exists',
-                         u'message': u'executionReport', u'orderId': 662688 }
+    cancelOrderError = { u'text': u'order does not exists', u'message': u'error' }
 
 
     def setUp(self):

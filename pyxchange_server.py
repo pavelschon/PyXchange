@@ -29,14 +29,6 @@ class ClientProtocol(protocol.Protocol):
         self.matcher.removeClient(self.client)
 
 
-    def dataReceived(self, data):
-        if self.disconnect:
-            logger.warning('Unexpected data on market-data interface, '
-                           'force disconnect %s', self.client)
-
-            self.transport.loseConnection()
-
-
 class TraderProtocol(protocol.Protocol):
     """ Trader protocol of market participants """
 

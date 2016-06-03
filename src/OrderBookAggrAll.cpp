@@ -36,13 +36,27 @@ template<typename OrderContainer>
 inline void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::type& orders,
                                                 const ClientPtr& client, const side_t side_ ) const
 {
-    const auto& priceTimeIdx = orders.template get<tags::idxPriceTime>();
-    const auto& priceIdx     = orders.template get<tags::idxPrice>();
-    auto it = priceTimeIdx.begin();
+    const auto& outerIdx = orders.template get<tags::idxPrice>();
+    const auto& innerIdx = orders.template get<tags::idxPriceTime>();
+    auto it = outerIdx.begin();
 
-    while( it != priceTimeIdx.end() )
+    while( it != outerIdx.end() )
     {
+        const price_t priceLevel = (*it)->price;
+        quantity_t quantity = 0;
 
+        const auto  end = innerIdx.upper_bound( priceLevel );
+              auto  it2 = innerIdx.lower_bound( priceLevel );
+
+        while( it2 != end )
+        {
+            quantity += (*it2)->quantity;
+
+            ++it;
+            ++it2;
+        }
+
+        client->notifyOrderBook( priceLevel, side_, quantity );
     }
 }
 

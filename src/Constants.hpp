@@ -100,11 +100,14 @@ const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order 
 namespace message
 {
 
-const std::string executionReport = "executionReport";
-const std::string orderBook       = "orderbook";
+const std::string executionReport   = "executionReport";
+const std::string orderBook         = "orderbook";
+const std::string error             = "error";
+const std::string trade             = "trade";
 
-const std::string  createOrder = "createOrder";
-const std::string  cancelOrder = "cancelOrder";
+const std::string  createOrder      = "createOrder";
+const std::string  cancelOrder      = "cancelOrder";
+
 const std::wstring wCreateOrder( createOrder.begin(), createOrder.end() );
 const std::wstring wCancelOrder( cancelOrder.begin(), cancelOrder.end() );
 
@@ -121,7 +124,6 @@ namespace report
 const std::string new_   = "NEW";
 const std::string cancel = "CANCELED";
 const std::string fill   = "FILL";
-const std::string err    = "ERROR";
 
 
 } /* namespace report */
