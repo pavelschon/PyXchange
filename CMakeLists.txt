@@ -33,6 +33,7 @@ add_library( pyxchange SHARED
     src/OrderBookInsert.cpp
     src/OrderBookCancel.cpp
     src/OrderBookCancelAll.cpp
+    src/OrderBookSelfMatch.cpp
     src/PyXchange.cpp
 )
 
