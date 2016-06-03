@@ -40,13 +40,13 @@ side_t Order::extractSide( const py::dict& decoded )
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
-        const auto& side_ = py::str( decoded[ keys::side ] );
+        const std::wstring side_ = py::extract<std::wstring>( decoded[ keys::side ] );
 
-        if( side_ == side::buy )
+        if( side_ == side::wBuy )
         {
             return side::bid_;
         }
-        else if( side_ == side::sell )
+        else if( side_ == side::wSell )
         {
             return side::ask_;
         }

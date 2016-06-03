@@ -88,23 +88,14 @@ const std::string type      = "type";
 } /* namespace keys */
 
 
-namespace strings
-{
-
-const std::string orderAlreadyExist     = "order already exists";
-const std::string orderInvalid          = "order is invalid";
-
-const std::string unknownMessage        = "unknown message";
-const std::string unknownSide           = "unknown side";
-
-} /* namespace strings */
-
-
 namespace side
 {
 
 const std::string buy   = "BUY";
 const std::string sell  = "SELL";
+
+const std::wstring wBuy(  buy.begin(),  buy.end() );
+const std::wstring wSell( sell.begin(), sell.end() );
 
 const std::string bid   = "bid";
 const std::string ask   = "ask";
