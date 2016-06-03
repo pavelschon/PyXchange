@@ -135,6 +135,27 @@ quantity_t Order::extractQuantity( const py::dict& decoded )
 }
 
 
+/**
+ * @brief FIXME
+ *
+ */
+bool Order::comparePrice( const OrderConstPtr& order ) const
+{
+    if( isBid() && order->isAsk() )
+    {
+        return price >= order->price;
+    }
+    else if( isAsk() && order->isBid() )
+    {
+        return price <= order->price;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
 
 /**
  * @brief FIXME
@@ -202,27 +223,6 @@ TraderPtr Order::getTrader( void ) const
 TraderOrderId Order::getUnique( void ) const
 {
     return std::make_tuple( trader.lock(), orderId );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-bool Order::comparePrice( const OrderConstPtr& order ) const
-{
-    if( isBid() && order->isAsk() )
-    {
-        return price >= order->price;
-    }
-    else if( isAsk() && order->isBid() )
-    {
-        return price <= order->price;
-    }
-    else
-    {
-        return false;
-    }
 }
 
 

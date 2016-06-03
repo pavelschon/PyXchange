@@ -62,18 +62,11 @@ OrderBook::OrderBook( const ClientSetConstPtr & clients_, const Logger& logger_ 
  */
 void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
 {
+    OrderPtr order;
+
     try
     {
-        const OrderPtr& order = std::make_shared<Order>( trader, decoded );
-
-        if( order->isBid() )
-        {
-            insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, trader, order );
-        }
-        else if( order->isAsk() )
-        {
-            insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
-        }
+        order = std::make_shared<Order>( trader, decoded );
     }
     catch( const side::WrongSide& )
     {
@@ -98,6 +91,15 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
         logger.warning( boost::format( format::logWrongQuantity ) % trader->getName() );
 
         trader->notifyError( format::wrongQuantity.str() );
+    }
+
+    if( order && order->isBid() )
+    {
+        insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, trader, order );
+    }
+    else if( order && order->isAsk() )
+    {
+        insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
     }
 }
 

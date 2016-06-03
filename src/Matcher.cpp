@@ -30,10 +30,11 @@ const boost::format logGetClient( "%|| created" );
 const boost::format logRemoveClient( "%|| removed" );
 const boost::format clientDoesNotExist( "%|| does not exists" );
 const boost::format traderDoesNotExist( "%|| does not exists" );
-const boost::format orderWrongSide( "order has wrong side" );
 const boost::format jsonDecodeError( "%|| JSON decode error" );
-const boost::format malformedMessage( "%|| malformed message" );
+const boost::format unknownMessage( "unknown message" );
 const boost::format logMatcherReady( "Matcher is ready" );
+const boost::format logMalformedMessage( "%|| sent malformed message" );
+const boost::format logUnknownMessage( "%|| sent unknown message" );
 
 
 } /* namespace format */
@@ -44,6 +45,8 @@ namespace message
 
 const std::string createOrder = "createOrder";
 const std::string cancelOrder = "cancelOrder";
+
+const auto all = { createOrder, cancelOrder };
 
 } /* namespace message */
 
@@ -61,6 +64,13 @@ class MalformedMessage: public std::exception
 {
 
 };
+
+
+class UnknownMessage: public std::exception
+{
+
+};
+
 
 } /* namespace pyexc */
 
@@ -123,38 +133,61 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
  */
 void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decoded )
 {
-    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
-    const auto decode = [ &decoded ]() { return py::str( decoded[ keys::message ] ); };
-
-    py::str message_type;
-
     try
     {
-        message_type = pyexc::translate<pyexc::MalformedMessage>( decode, exceptions );
+        const py::str message_( extractMessage( decoded ) );
+
+        if( message_ == message::createOrder )
+        {
+            orderbook->createOrder( trader, decoded );
+        }
+        else if( message_ == message::cancelOrder )
+        {
+            orderbook->cancelOrder( trader, decoded );
+        }
     }
     catch( const pyexc::MalformedMessage& )
     {
-        logger.error( boost::format( format::malformedMessage ) % trader->getName() );
+        logger.error( boost::format( format::logMalformedMessage ) % trader->getName() );
 
         trader->disconnect();
 
         return;
     }
+    catch( const pyexc::UnknownMessage& )
+    {
+        trader->notifyError( format::unknownMessage.str() );
 
-    if( message_type == message::createOrder )
-    {
-        orderbook->createOrder( trader, decoded );
-    }
-    else if( message_type == message::cancelOrder )
-    {
-        orderbook->cancelOrder( trader, decoded );
-    }
-    else
-    {
-        trader->notifyError( strings::unknownMessage );
+        logger.error( boost::format( format::logUnknownMessage ) % trader->getName() );
 
-        trader->disconnect();
+        return;
     }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+py::str Matcher::extractMessage( const py::dict& decoded )
+{
+    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+
+    const auto decode = [ &decoded ]() {
+        const auto& message_ = py::str( decoded[ keys::message ] );
+
+        for( const auto& oneMessage : message::all )
+        {
+            if( message_ == oneMessage )
+            {
+                return message_;
+            }
+        }
+
+        throw pyexc::UnknownMessage();
+    };
+
+    return pyexc::translate<pyexc::MalformedMessage>( decode, exceptions );
 }
 
 
