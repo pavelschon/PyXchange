@@ -29,6 +29,7 @@ add_library( pyxchange SHARED
     src/Matcher.cpp
     src/OrderBook.cpp
     src/OrderBookAggr.cpp
+    src/OrderBookAggrAll.cpp
     src/OrderBookExec.cpp
     src/OrderBookInsert.cpp
     src/OrderBookCancel.cpp

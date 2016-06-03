@@ -26,7 +26,7 @@ public:
     void        notifyOrderBook( const price_t priceLevel,
                                  const side_t side_, const quantity_t quantity );
 
-    static void notifyOrderBook( const ClientSet& clients, const price_t priceLevel,
+    static void notifyOrderBook( const ClientSetConstPtr& clients, const price_t priceLevel,
                                  const side_t side_, const quantity_t quantity );
 };
 

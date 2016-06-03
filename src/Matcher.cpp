@@ -182,6 +182,8 @@ ClientPtr Matcher::getClient( const std::string& name, const py::object& transpo
 
     clients->insert( client );
 
+    orderbook->aggregateAllPriceLevels( client );
+
     logger.info( boost::format( format::f1::logGetClient ) % client->getName() );
 
     return client;

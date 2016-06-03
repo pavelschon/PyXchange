@@ -7,7 +7,7 @@
 
 #include "OrderBook.hpp"
 #include "Constants.hpp"
-#include "Trader.hpp"
+#include "Client.hpp"
 #include "Side.hpp"
 
 
@@ -50,14 +50,7 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
         quantity += order->quantity;
     }
 
-    py::dict response;
-
-    response[ keys::type     ] = message::orderBook;
-    response[ keys::side     ] = side::toBidAsk( side_ );
-    response[ keys::price    ] = priceLevel;
-    response[ keys::quantity ] = quantity;
-
-    notifyAllClients( response );
+    Client::notifyOrderBook( clients, priceLevel, side_, quantity );
 }
 
 

@@ -28,6 +28,8 @@ public:
     void        cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     void        cancelAllOrders( const TraderPtr& trader );
 
+    void        aggregateAllPriceLevels( const ClientPtr& client ) const;
+
 private:
     template<typename OrderContainer, typename OppOrderContainer>
     void        insertOrder(        typename OrderContainer::type& orders,
@@ -59,7 +61,9 @@ private:
     void        aggregatePriceLevel( const typename OrderContainer::type& orders,
                                      const price_t price, const side_t side_ ) const;
 
-    void        notifyAllClients( const boost::python::object& data ) const;
+    template<typename OrderContainer>
+    void        aggregateAllPriceLevels( const typename OrderContainer::type& orders,
+                                         const ClientPtr& client, const side_t side_ ) const;
 
 private:
     const Logger                    logger;

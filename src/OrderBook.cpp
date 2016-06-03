@@ -8,7 +8,6 @@
 #include "OrderBook.hpp"
 #include "Exception.hpp"
 #include "Constants.hpp"
-#include "Client.hpp"
 #include "Trader.hpp"
 #include "Side.hpp"
 
@@ -87,25 +86,6 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
     else if( order && order->isAsk() )
     {
         insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
-    }
-}
-
-
-
-/**
- * @brief FIXME
- *
- */
-void OrderBook::notifyAllClients( const boost::python::object& data ) const
-{
-    for( const auto& client : *clients )
-    {
-        const auto& client_ = client.lock(); // from weak_ptr to shared_ptr
-
-        if( client_ )
-        {
-            client_->writeData( data );
-        }
     }
 }
 
