@@ -6,6 +6,7 @@
 
 
 #include "Order.hpp"
+#include "Exception.hpp"
 
 
 namespace pyxchange
@@ -18,13 +19,13 @@ namespace py = boost::python;
  * @brief Constructor
  *
  */
-Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
+Order::Order( const TraderPtr& trader_, const py::dict& decoded ):
       trader( trader_ )
-    , side( extractSide( trader_, decoded ) )
     , time( std::chrono::high_resolution_clock::now() )
-    , orderId( py::extract<const orderId_t>( decoded[ keys::orderId ] ) )
-    , price( py::extract<const price_t>( decoded[ keys::price ] ) )
-    , quantity( py::extract<const quantity_t>( decoded[ keys::quantity ] ) )
+    , side( extractSide( decoded ) )
+    , orderId( extractOrderId( decoded ) )
+    , price( extractPrice( decoded ) )
+    , quantity( extractQuantity( decoded ) )
 {
 
 }
@@ -34,23 +35,105 @@ Order::Order( const TraderPtr& trader_, const boost::python::dict& decoded ):
  * @brief FIXME
  *
  */
-side_t Order::extractSide( const TraderPtr& trader, const boost::python::dict& decoded )
+side_t Order::extractSide( const py::dict& decoded )
 {
-    const auto& side_ = decoded[ keys::side ];
+    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
-    if( side_ == side::buy )
-    {
-        return side::bid_;
-    }
-    else if( side_ == side::sell )
-    {
-        return side::ask_;
-    }
-    else
-    {
-        throw side::WrongSide();
-    }
+    const auto decode = [ &decoded ]() {
+        const auto& side_ = py::str( decoded[ keys::side ] );
+
+        if( side_ == side::buy )
+        {
+            return side::bid_;
+        }
+        else if( side_ == side::sell )
+        {
+            return side::ask_;
+        }
+        else
+        {
+            throw side::WrongSide();
+        }
+    };
+
+    return pyexc::translate<side::WrongSide>( decode, exceptions );
 }
+
+
+/**
+ * @brief FIXME
+ *
+ */
+orderId_t Order::extractOrderId( const py::dict& decoded )
+{
+    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+
+    const auto decode = [ &decoded ]() {
+        const orderId_t orderId_ = py::extract<const orderId_t>( decoded[ keys::orderId ] );
+
+        if( orderId_ > 0 )
+        {
+            return orderId_;
+        }
+        else
+        {
+            throw pyexc::OrderIdError();
+        }
+    };
+
+    return pyexc::translate<pyexc::OrderIdError>( decode, exceptions );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+price_t Order::extractPrice( const py::dict& decoded )
+{
+    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+
+    const auto decode = [ &decoded ]() {
+        const price_t price_ = py::extract<const price_t>( decoded[ keys::price ] );
+
+        if( price_ > 0 )
+        {
+            return price_;
+        }
+        else
+        {
+            throw pyexc::PriceError();
+        }
+    };
+
+    return pyexc::translate<pyexc::PriceError>( decode, exceptions );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+quantity_t Order::extractQuantity( const py::dict& decoded )
+{
+    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+
+    const auto decode = [ &decoded ]() {
+        const quantity_t quantity_ = py::extract<const quantity_t>( decoded[ keys::quantity ] );
+
+        if( quantity_ > 0 )
+        {
+            return quantity_;
+        }
+        else
+        {
+            throw pyexc::QuantityError();
+        }
+    };
+
+    return pyexc::translate<pyexc::QuantityError>( decode, exceptions );
+}
+
 
 
 /**

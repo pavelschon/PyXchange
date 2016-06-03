@@ -20,7 +20,15 @@ namespace py = boost::python;
 namespace format
 {
 
-const boost::format orderWrongSide( "order has wrong side" );
+const boost::format wrongSide( "order has wrong side" );
+const boost::format wrongOrderId( "order has wrong order id" );
+const boost::format wrongPrice( "order has wrong price" );
+const boost::format wrongQuantity( "order has wrong quantity" );
+
+const boost::format logWrongSide( "%|| inserting order with invalid side" );
+const boost::format logWrongOrderId( "%|| inserting order with invalid order id" );
+const boost::format logWrongPrice( "%|| inserting order with invalid price" );
+const boost::format logWrongQuantity( "%|| inserting order with invalid quantity" );
 
 } /* namespace message */
 
@@ -54,40 +62,42 @@ OrderBook::OrderBook( const ClientSetConstPtr & clients_, const Logger& logger_ 
  */
 void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
 {
-    OrderPtr order;
-
     try
     {
-        order = std::make_shared<Order>( trader, decoded );
+        const OrderPtr& order = std::make_shared<Order>( trader, decoded );
+
+        if( order->isBid() )
+        {
+            insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, trader, order );
+        }
+        else if( order->isAsk() )
+        {
+            insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
+        }
     }
     catch( const side::WrongSide& )
     {
-        logger.warning( format::orderWrongSide );
+        logger.warning( boost::format( format::logWrongSide ) % trader->getName() );
 
-        trader->notifyError( strings::unknownSide );
-
-        return;
+        trader->notifyError( format::wrongSide.str() );
     }
+    catch( const pyexc::OrderIdError& )
+    {
+        logger.warning( boost::format( format::logWrongOrderId ) % trader->getName() );
 
-    if( order->isBid() && order->quantity > 0 )
-    {
-        insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, trader, order );
+        trader->notifyError( format::wrongOrderId.str() );
     }
-    else if( order->isAsk() && order->quantity > 0 )
+    catch( const pyexc::PriceError& )
     {
-        insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
-    }
-    else if( order->quantity < 1 )
-    {
+        logger.warning( boost::format( format::logWrongPrice ) % trader->getName() );
 
+        trader->notifyError( format::wrongPrice.str() );
     }
-    else if( order->price < 1 )
+    catch( const pyexc::QuantityError& )
     {
+        logger.warning( boost::format( format::logWrongQuantity ) % trader->getName() );
 
-    }
-    else if( order->price < 1 )
-    {
-
+        trader->notifyError( format::wrongQuantity.str() );
     }
 }
 

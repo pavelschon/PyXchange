@@ -23,9 +23,9 @@ namespace pyxchange
 
 
 typedef std::chrono::time_point<std::chrono::high_resolution_clock>     prio_t;
-typedef unsigned int                                                    price_t;
-typedef unsigned int                                                    quantity_t;
-typedef unsigned int                                                    orderId_t;
+typedef int                                                             price_t;
+typedef int                                                             quantity_t;
+typedef int                                                             orderId_t;
 typedef unsigned short                                                  side_t;
 
 

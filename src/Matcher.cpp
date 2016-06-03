@@ -48,6 +48,23 @@ const std::string cancelOrder = "cancelOrder";
 } /* namespace message */
 
 
+namespace pyexc
+{
+
+class JsonDecodeError: public std::exception
+{
+
+};
+
+
+class MalformedMessage: public std::exception
+{
+
+};
+
+} /* namespace pyexc */
+
+
 /**
  * @brief Constructor
  *

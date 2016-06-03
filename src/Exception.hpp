@@ -18,17 +18,6 @@ namespace pyexc
 {
 
 
-class JsonDecodeError: public std::exception
-{
-
-};
-
-
-class MalformedMessage: public std::exception
-{
-
-};
-
 
 /**
  * @brief Generic Python-to-C++ exception translator
