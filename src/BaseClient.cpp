@@ -6,6 +6,7 @@
 
 
 #include "BaseClient.hpp"
+#include "Constants.hpp"
 #include "Json.hpp"
 
 
@@ -13,15 +14,6 @@ namespace pyxchange
 {
 
 namespace py = boost::python;
-
-
-namespace attr
-{
-
-const char* const loseConnection    = "loseConnection";
-const char* const write             = "write";
-
-}
 
 
 /**

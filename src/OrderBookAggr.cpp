@@ -6,22 +6,15 @@
 
 
 #include "OrderBook.hpp"
+#include "Constants.hpp"
 #include "Trader.hpp"
+#include "Side.hpp"
 
 
 namespace pyxchange
 {
 
-
 namespace py = boost::python;
-
-
-namespace message
-{
-
-const std::string orderBook          = "orderbook";
-
-} /* namespace message */
 
 
 template<typename OrderContainer>
@@ -57,7 +50,7 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
         quantity += order->quantity;
     }
 
-    boost::python::dict response;
+    py::dict response;
 
     response[ keys::type     ] = message::orderBook;
     response[ keys::side     ] = side::toBidAsk( side_ );

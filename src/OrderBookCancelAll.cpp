@@ -6,22 +6,15 @@
 
 
 #include "OrderBook.hpp"
+#include "Constants.hpp"
 #include "Trader.hpp"
+#include "Side.hpp"
 
 
 namespace pyxchange
 {
 
-
 namespace py = boost::python;
-
-
-namespace format
-{
-
-const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
-
-} /* namespace message */
 
 
 /**

@@ -6,7 +6,9 @@
 
 
 #include "OrderBook.hpp"
+#include "Constants.hpp"
 #include "Trader.hpp"
+#include "Side.hpp"
 
 
 namespace pyxchange
@@ -15,21 +17,13 @@ namespace pyxchange
 namespace py = boost::python;
 
 
-namespace format
-{
-
-const boost::format traderAddedOrder( "%|| added %|| order id %|| at price %|| of quantity %||" );
-const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
-
-} /* namespace message */
-
-
 /**
  * @brief FIXME
  *
  */
 template<typename OrderContainer, typename OppOrderContainer>
-void OrderBook::insertOrder( typename OrderContainer::type& orders, typename OppOrderContainer::type& oppOrders,
+void OrderBook::insertOrder( typename OrderContainer::type& orders,
+                             typename OppOrderContainer::type& oppOrders,
                              const TraderPtr& trader, const OrderPtr& order )
 {
     const auto& result = orders.template insert( order );

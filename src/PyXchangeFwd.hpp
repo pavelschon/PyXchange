@@ -4,14 +4,15 @@
  * 
  */
 
-#ifndef PYXCHANGEFWD
-#define PYXCHANGEFWD
+#ifndef PYXCHANGEFWD_HPP
+#define PYXCHANGEFWD_HPP
 
 #include <boost/format.hpp>
 #include <boost/python.hpp>
 
 #include <algorithm>
 #include <functional>
+#include <initializer_list>
 #include <memory>
 #include <chrono>
 #include <string>
@@ -73,94 +74,10 @@ typedef std::shared_ptr<TraderSet>                                      TraderSe
 typedef std::tuple<const TraderPtr, const orderId_t>                    TraderOrderId;
 
 
-namespace keys
-{
-
-const std::string message   = "message";
-const std::string report    = "report";
-const std::string price     = "price";
-const std::string orderId   = "orderId";
-const std::string quantity  = "quantity";
-const std::string side      = "side";
-const std::string text      = "text";
-const std::string type      = "type";
-
-} /* namespace keys */
-
-
-namespace side
-{
-
-const std::string buy   = "BUY";
-const std::string sell  = "SELL";
-
-const std::wstring wBuy(  buy.begin(),  buy.end() );
-const std::wstring wSell( sell.begin(), sell.end() );
-
-const std::string bid   = "bid";
-const std::string ask   = "ask";
-
-const side_t bid_       = 1;
-const side_t ask_       = 2;
-
-class WrongSide: public std::exception
-{
-
-};
-
-
-/**
- * @brief FIXME
- *
- */
-inline side_t opposite( const side_t side_ )
-{
-    switch( side_ )
-    {
-        case bid_: return ask_;
-        case ask_: return bid_;
-        default:   throw WrongSide();
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-inline std::string toBuySell( const side_t side_ )
-{
-    switch( side_ )
-    {
-        case bid_: return buy;
-        case ask_: return sell;
-        default:   throw WrongSide();
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-inline std::string toBidAsk( const side_t side_ )
-{
-    switch( side_ )
-    {
-        case bid_: return bid;
-        case ask_: return ask;
-        default:   throw WrongSide();
-    }
-}
-
-
-} /* namespace side */
-
-
 } /* namespace pyxchange */
 
 
-#endif /* PYXCHANGEFWD */
+#endif /* PYXCHANGEFWD_HPP */
 
 
 /* EOF */

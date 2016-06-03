@@ -48,31 +48,6 @@ private:
 };
 
 
-namespace pyexc
-{
-
-
-class PriceError: public std::exception
-{
-
-};
-
-
-class QuantityError: public std::exception
-{
-
-};
-
-
-class OrderIdError: public std::exception
-{
-
-};
-
-
-} /* namespace pyexc */
-
-
 } /* namespace pyxchange */
 
 

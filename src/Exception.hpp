@@ -1,11 +1,11 @@
 /**
  * @brief This module implements simulator of exchange
- * @file Order.hpp
+ * @file Exception.hpp
  *
  */
 
-#ifndef EXCEPTION
-#define EXCEPTION
+#ifndef EXCEPTION_HPP
+#define EXCEPTION_HPP
 
 #include "PyXchangeFwd.hpp"
 
@@ -16,7 +16,6 @@ namespace pyxchange
 
 namespace pyexc
 {
-
 
 
 /**
@@ -50,6 +49,42 @@ inline auto translate( const CALLBACK& callback, const ITERABLE& types, Params..
 }
 
 
+class JsonDecodeError: public std::exception
+{
+
+};
+
+
+class MalformedMessage: public std::exception
+{
+
+};
+
+
+class UnknownMessage: public std::exception
+{
+
+};
+
+
+class PriceError: public std::exception
+{
+
+};
+
+
+class QuantityError: public std::exception
+{
+
+};
+
+
+class OrderIdError: public std::exception
+{
+
+};
+
+
 } /* namespace pyexc */
 
 
@@ -57,7 +92,7 @@ inline auto translate( const CALLBACK& callback, const ITERABLE& types, Params..
 } /* namespace pyxchange */
 
 
-#endif /* EXCEPTION */
+#endif /* EXCEPTION_HPP */
 
 
 /* EOF */

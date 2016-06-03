@@ -6,23 +6,15 @@
 
 
 #include "OrderBook.hpp"
+#include "Constants.hpp"
 #include "Trader.hpp"
+#include "Side.hpp"
 
 
 namespace pyxchange
 {
 
-
 namespace py = boost::python;
-
-
-namespace format
-{
-
-const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order id %|| "
-                                     "matching with %|| order id %|| at price %||" );
-
-} /* namespace message */
 
 
 /**
@@ -30,7 +22,8 @@ const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order 
  *
  */
 template<typename OrderContainer>
-void OrderBook::handleExecution( typename OrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order )
+void OrderBook::handleExecution( typename OrderContainer::type& orders,
+                                 const TraderPtr& trader, const OrderPtr& order )
 {
     typename OrderContainer::price_set priceLevels;
 

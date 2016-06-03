@@ -6,41 +6,13 @@
 
 
 #include "Trader.hpp"
+#include "Constants.hpp"
 
 
 namespace pyxchange
 {
 
 namespace py = boost::python;
-
-
-namespace report
-{
-
-const std::string new_   = "NEW";
-const std::string cancel = "CANCELED";
-const std::string fill   = "FILL";
-const std::string err    = "ERROR";
-
-} /* namespace report */
-
-
-namespace message
-{
-
-const std::string executionReport    = "executionReport";
-
-} /* namespace message */
-
-
-namespace format
-{
-
-const boost::format orderDoesNotExist( "order does not exists" );
-const boost::format orderAlreadyExist( "order already exists" );
-const boost::format selfMatch( "self-match rejected" );
-
-} /* namespace format */
 
 
 /**

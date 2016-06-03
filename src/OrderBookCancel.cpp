@@ -6,7 +6,9 @@
 
 
 #include "OrderBook.hpp"
+#include "Constants.hpp"
 #include "Trader.hpp"
+#include "Side.hpp"
 
 
 namespace pyxchange
@@ -14,15 +16,6 @@ namespace pyxchange
 
 
 namespace py = boost::python;
-
-
-namespace format
-{
-
-const boost::format traderCanceledOne( "%|| cancelled %|| order id %||" );
-const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
-
-} /* namespace message */
 
 
 /**

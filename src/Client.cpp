@@ -6,6 +6,8 @@
 
 
 #include "Client.hpp"
+#include "Constants.hpp"
+#include "Side.hpp"
 
 
 namespace pyxchange
@@ -14,21 +16,13 @@ namespace pyxchange
 namespace py = boost::python;
 
 
-namespace message
-{
-
-const std::string orderBook          = "orderbook";
-
-} /* namespace message */
-
-
 /**
  * @brief FIXME
  *
  */
 void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, const quantity_t quantity )
 {
-    boost::python::dict response;
+    py::dict response;
 
     response[ keys::type  ] = message::orderBook;
     response[ keys::side     ] = side::toBidAsk( side_ );

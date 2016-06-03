@@ -6,8 +6,11 @@
 
 
 #include "OrderBook.hpp"
+#include "Exception.hpp"
+#include "Constants.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
+#include "Side.hpp"
 
 
 namespace pyxchange
@@ -15,22 +18,6 @@ namespace pyxchange
 
 
 namespace py = boost::python;
-
-
-namespace format
-{
-
-const boost::format wrongSide( "order has wrong side" );
-const boost::format wrongOrderId( "order has wrong order id" );
-const boost::format wrongPrice( "order has wrong price" );
-const boost::format wrongQuantity( "order has wrong quantity" );
-
-const boost::format logWrongSide( "%|| inserting order with invalid side" );
-const boost::format logWrongOrderId( "%|| inserting order with invalid order id" );
-const boost::format logWrongPrice( "%|| inserting order with invalid price" );
-const boost::format logWrongQuantity( "%|| inserting order with invalid quantity" );
-
-} /* namespace message */
 
 
 /**

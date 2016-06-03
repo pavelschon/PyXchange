@@ -7,6 +7,7 @@
 
 #include "Matcher.hpp"
 #include "OrderBook.hpp"
+#include "Constants.hpp"
 #include "Client.hpp"
 #include "Trader.hpp"
 #include "Exception.hpp"
@@ -16,67 +17,7 @@
 namespace pyxchange
 {
 
-
 namespace py = boost::python;
-
-
-namespace format
-{
-
-
-const boost::format client( "<Client %||>" );
-const boost::format trader( "<Trader %||>" );
-const boost::format logGetClient( "%|| created" );
-const boost::format logRemoveClient( "%|| removed" );
-const boost::format clientDoesNotExist( "%|| does not exists" );
-const boost::format traderDoesNotExist( "%|| does not exists" );
-const boost::format jsonDecodeError( "%|| JSON decode error" );
-const boost::format unknownMessage( "unknown message" );
-const boost::format logMatcherReady( "Matcher is ready" );
-const boost::format logMalformedMessage( "%|| sent malformed message" );
-const boost::format logUnknownMessage( "%|| sent unknown message" );
-
-
-} /* namespace format */
-
-
-namespace message
-{
-
-
-const std::string   createOrder = "createOrder";
-const std::string   cancelOrder = "cancelOrder";
-const std::wstring wCreateOrder( createOrder.begin(), createOrder.end() );
-const std::wstring wCancelOrder( cancelOrder.begin(), cancelOrder.end() );
-
-const auto all = { wCreateOrder, wCancelOrder };
-
-
-} /* namespace message */
-
-
-namespace pyexc
-{
-
-class JsonDecodeError: public std::exception
-{
-
-};
-
-
-class MalformedMessage: public std::exception
-{
-
-};
-
-
-class UnknownMessage: public std::exception
-{
-
-};
-
-
-} /* namespace pyexc */
 
 
 /**
