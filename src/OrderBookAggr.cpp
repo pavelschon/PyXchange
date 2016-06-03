@@ -18,7 +18,7 @@ namespace py = boost::python;
 
 
 template<typename OrderContainer>
-void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::type& orders,
+void OrderBook::aggregateSetPriceLevels( const typename OrderContainer::type& orders,
                                          const typename OrderContainer::price_set& priceLevels,
                                          const side_t side_ ) const
 {
@@ -61,12 +61,12 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
 }
 
 
-template void OrderBook::aggregateAllPriceLevels<BidOrderContainer>(
+template void OrderBook::aggregateSetPriceLevels<BidOrderContainer>(
     const BidOrderContainer::type& orders,
     const BidOrderContainer::price_set& priceLevels,
     const side_t side_ ) const;
 
-template void OrderBook::aggregateAllPriceLevels<AskOrderContainer>(
+template void OrderBook::aggregateSetPriceLevels<AskOrderContainer>(
     const AskOrderContainer::type& orders,
     const AskOrderContainer::price_set& priceLevels,
     const side_t side_ ) const;

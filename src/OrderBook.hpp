@@ -51,7 +51,7 @@ private:
                                     const TraderPtr& trader, const OrderConstPtr& order) const;
 
     template<typename OrderContainer>
-    void        aggregateAllPriceLevels( const typename OrderContainer::type& orders,
+    void        aggregateSetPriceLevels( const typename OrderContainer::type& orders,
                                     const typename OrderContainer::price_set& priceLevels,
                                     const side_t side_ ) const;
 
