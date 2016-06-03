@@ -37,23 +37,23 @@ inline void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::t
                                                 const ClientPtr& client, const side_t side_ ) const
 {
     const auto& outerIdx = orders.template get<tags::idxPrice>();
-    const auto& innerIdx = orders.template get<tags::idxPriceTime>();
-    auto it = outerIdx.begin();
+    const auto& innerIdx = orders.template get<tags::idxPrice>();
+    auto outerIt = outerIdx.begin();
 
-    while( it != outerIdx.end() )
+    while( outerIt != outerIdx.end() )
     {
-        const price_t priceLevel = (*it)->price;
+        const price_t priceLevel = (*outerIt)->price;
         quantity_t quantity = 0;
 
-        const auto  end = innerIdx.upper_bound( priceLevel );
-              auto  it2 = innerIdx.lower_bound( priceLevel );
+        const auto  innerEnd = innerIdx.upper_bound( priceLevel );
+              auto  innerIt  = innerIdx.lower_bound( priceLevel );
 
-        while( it2 != end )
+        while( innerIt != innerEnd )
         {
-            quantity += (*it2)->quantity;
+            quantity += (*innerIt)->quantity;
 
-            ++it;
-            ++it2;
+            ++outerIt;
+            ++innerIt;
         }
 
         client->notifyOrderBook( priceLevel, side_, quantity );
