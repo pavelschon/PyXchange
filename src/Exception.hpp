@@ -35,7 +35,7 @@ class MalformedMessage: public std::exception
  *
  */
 template<typename CALLBACK, typename EXC, typename ITERABLE>
-inline auto translate( const CALLBACK& callback, const EXC& exc, const ITERABLE& types ) -> decltype( CALLBACK()() )
+inline auto translate( const CALLBACK& callback, const EXC& exc, const ITERABLE& types ) -> decltype( callback() )
 {
     try
     {
