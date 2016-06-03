@@ -34,12 +34,12 @@ class MalformedMessage: public std::exception
  * @brief Generic Python-to-C++ exception translator
  *
  */
-template<typename CALLBACK, typename EXC, typename ITERABLE>
-inline auto translate( const CALLBACK& callback, const EXC& exc, const ITERABLE& types ) -> decltype( callback() )
+template<typename EXC, typename CALLBACK, typename ITERABLE, typename... Params>
+inline auto translate( const CALLBACK& callback, const ITERABLE& types, Params... params ) -> decltype( callback( params... ) )
 {
     try
     {
-        return callback();
+        return callback( params... );
     }
     catch( const boost::python::error_already_set& )
     {
@@ -50,7 +50,7 @@ inline auto translate( const CALLBACK& callback, const EXC& exc, const ITERABLE&
         {
             if( PyErr_GivenExceptionMatches( type, type_ ) )
             {
-                throw exc;
+                throw EXC();
             }
         }
 

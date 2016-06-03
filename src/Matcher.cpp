@@ -87,7 +87,7 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
 
     try
     {
-        const py::dict decoded{ pyexc::translate( decode, pyexc::JsonDecodeError(), exceptions ) };
+        const py::dict decoded{ pyexc::translate<pyexc::JsonDecodeError>( decode, exceptions ) };
 
         handleMessageDict( trader, decoded );
     }
@@ -113,7 +113,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
 
     try
     {
-        message_type = pyexc::translate( decode, pyexc::MalformedMessage(), exceptions );
+        message_type = pyexc::translate<pyexc::MalformedMessage>( decode, exceptions );
     }
     catch( const pyexc::MalformedMessage& )
     {
