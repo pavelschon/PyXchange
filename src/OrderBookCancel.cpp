@@ -58,7 +58,7 @@ size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const Trad
 
         idx.erase( it );
 
-        trader->notifyCancelOrderSuccess( order->orderId );
+        trader->notifyCancelOrderSuccess( order->orderId, order->quantity );
 
         logger.info( boost::format( format::f3::traderCanceledOne ) % trader->getName()
                      % side::toBidAsk( order->side ) % order->orderId );

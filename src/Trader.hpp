@@ -24,8 +24,15 @@ public:
                 Trader& operator=( const Trader& ) = delete;
 
     void        notifyError( const std::string& text );
-    void        notifyCreateOrderSuccess( const orderId_t orderId );
-    void        notifyCancelOrderSuccess( const orderId_t orderId );
+
+    void        notifyCancelOrderSuccess( const orderId_t orderId,
+                                          const quantity_t quantity );
+
+    void        notifyCreateOrderSuccess( const orderId_t orderId,
+                                          const quantity_t quantity );
+
+    void        notifyTrade( const orderId_t orderId, const price_t price,
+                             const quantity_t quantity );
 };
 
 

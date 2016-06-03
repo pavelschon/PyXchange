@@ -28,6 +28,13 @@ public:
 
     static void notifyOrderBook( const ClientSetConstPtr& clients, const price_t priceLevel,
                                  const side_t side_, const quantity_t quantity );
+
+    static void notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
+                             const price_t price, const quantity_t quantity );
+
+private:
+    static void writeAll( const ClientSetConstPtr& clients,
+                          const boost::python::object& data );
 };
 
 

@@ -35,13 +35,14 @@ void Trader::notifyError( const std::string& text )
  * @brief FIXME
  *
  */
-void Trader::notifyCreateOrderSuccess( const orderId_t orderId )
+void Trader::notifyCreateOrderSuccess( const orderId_t orderId, const quantity_t quantity )
 {
     py::dict response;
 
-    response[ keys::message ] = message::executionReport;
-    response[ keys::report  ] = report::new_;
-    response[ keys::orderId ] = orderId;
+    response[ keys::message  ] = message::executionReport;
+    response[ keys::report   ] = report::new_;
+    response[ keys::orderId  ] = orderId;
+    response[ keys::quantity ] = quantity;
 
     // send response
     writeData( response );
@@ -52,13 +53,33 @@ void Trader::notifyCreateOrderSuccess( const orderId_t orderId )
  * @brief FIXME
  *
  */
-void Trader::notifyCancelOrderSuccess( const orderId_t orderId )
+void Trader::notifyCancelOrderSuccess( const orderId_t orderId, const quantity_t quantity )
 {
     py::dict response;
 
-    response[ keys::message ] = message::executionReport;
-    response[ keys::report  ] = report::cancel;
-    response[ keys::orderId ] = orderId;
+    response[ keys::message  ] = message::executionReport;
+    response[ keys::report   ] = report::cancel;
+    response[ keys::orderId  ] = orderId;
+    response[ keys::quantity ] = quantity;
+
+    // send response
+    writeData( response );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Trader::notifyTrade( const orderId_t orderId, const price_t price, const quantity_t quantity )
+{
+    py::dict response;
+
+    response[ keys::message  ] = message::executionReport;
+    response[ keys::report   ] = report::fill;
+    response[ keys::orderId  ] = orderId;
+    response[ keys::price    ] = price;
+    response[ keys::quantity ] = quantity;
 
     // send response
     writeData( response );

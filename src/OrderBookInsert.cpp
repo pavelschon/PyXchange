@@ -36,7 +36,7 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders,
 
             if( order->quantity > 0 )
             {
-                trader->notifyCreateOrderSuccess( order->orderId );
+                trader->notifyCreateOrderSuccess( order->orderId, order->quantity );
 
                 aggregatePriceLevel<OrderContainer>( orders, order->price, order->side );
 

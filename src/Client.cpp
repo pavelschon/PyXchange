@@ -47,16 +47,45 @@ void Client::notifyOrderBook( const ClientSetConstPtr& clients, const price_t pr
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;
 
+    writeAll( clients, response );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Client::notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
+                          const price_t price, const quantity_t quantity )
+{
+    py::dict response;
+
+    response[ keys::type     ] = message::trade;
+    response[ keys::time     ] = 0;
+    response[ keys::price    ] = price;
+    response[ keys::quantity ] = quantity;
+
+    writeAll( clients, response );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Client::writeAll( const ClientSetConstPtr& clients, const boost::python::object& data )
+{
     for( const auto& client : *clients )
     {
         const auto& client_ = client.lock(); // from weak_ptr to shared_ptr
 
         if( client_ )
         {
-            client_->writeData( response );
+            client_->writeData( data );
         }
     }
 }
+
 
 
 } /* namespace pyxchange */

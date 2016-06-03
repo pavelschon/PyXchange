@@ -8,6 +8,7 @@
 #include "OrderBook.hpp"
 #include "Constants.hpp"
 #include "Trader.hpp"
+#include "Client.hpp"
 #include "Side.hpp"
 
 
@@ -35,14 +36,26 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
     while( it != idx.end() && order->comparePrice( *it ) && order->quantity > 0 )
     {
         const auto& oppOrder = *it;
-        //const TraderPtr& oppTrader = oppOrder->getTrader();
+        const TraderPtr& oppTrader = oppOrder->getTrader();
+        const price_t  matchPrice  = oppOrder->price;
         const quantity_t matchQty  = std::min( order->quantity, oppOrder->quantity );
 
         order->quantity    -= matchQty;
         oppOrder->quantity -= matchQty;
         totalMatchQuantity += matchQty;
 
-        priceLevels.insert( oppOrder->price );
+        priceLevels.insert( matchPrice );
+
+        { /* notify both trader and opposite trader and all clients */
+            trader->notifyTrade( order->orderId, matchPrice, matchQty );
+
+            if( oppTrader ) // it's created from weak_ptr, so we muust check for nullptr
+            {
+                oppTrader->notifyTrade( oppOrder->orderId, matchPrice, matchQty );
+            }
+
+            Client::notifyTrade( clients, order->time, matchPrice, matchQty );
+        }
 
         if( oppOrder->quantity < 1 )
         {
@@ -56,9 +69,8 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
 
     if( totalMatchQuantity > 0 )
     {
-        std::cout << "TRADE=" << totalMatchQuantity << "S=" << orders.template size() << std::endl;
-
-        aggregateSetPriceLevels<OrderContainer>( orders, priceLevels, side::opposite( order->side ) );
+        aggregateSetPriceLevels<OrderContainer>( orders, priceLevels,
+                                                 side::opposite( order->side ) );
     }
 }
 

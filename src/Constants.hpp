@@ -140,6 +140,7 @@ const std::string orderId   = "orderId";
 const std::string quantity  = "quantity";
 const std::string side      = "side";
 const std::string text      = "text";
+const std::string time      = "time";
 const std::string type      = "type";
 
 
