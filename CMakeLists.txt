@@ -18,15 +18,12 @@ find_package( PythonLibs   "2.7" REQUIRED )
 find_package( PythonInterp "2.7" REQUIRED )
 find_package( Boost COMPONENTS python REQUIRED )
 
-execute_process (
-    COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig as cfg; print cfg.get_python_lib()"
-    OUTPUT_VARIABLE PACKAGES_DIRECTORY OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+set( PythonPkgPathCmd "import distutils.sysconfig as cfg; print(cfg.get_python_lib())" )
 
-# configure_file(
-#     ${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in
-#     ${CMAKE_CURRENT_BINARY_DIR}/setup.py
-# )
+execute_process (
+    COMMAND ${PYTHON_EXECUTABLE} -c "${PythonPkgPathCmd}"
+    OUTPUT_VARIABLE PythonPkgPath OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -65,20 +62,20 @@ target_link_libraries ( engine
 
 install(
     TARGETS engine
-    DESTINATION ${PACKAGES_DIRECTORY}/pyxchange
+    DESTINATION ${PythonPkgPath}/pyxchange
     PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 )
 
 install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/pyxchange
-    DESTINATION ${PACKAGES_DIRECTORY}
+    DESTINATION ${PythonPkgPath}
     FILES_MATCHING PATTERN "*.py"
     PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 )
 
 install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
-    DESTINATION /
+    DESTINATION /usr
     FILES_MATCHING PATTERN "*.py"
     PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
 )
@@ -90,8 +87,8 @@ set( CPACK_PACKAGE_VERSION_MINOR "1" )
 set( CPACK_PACKAGE_VERSION_PATCH "0" )
 set( CPACK_DEBIAN_PACKAGE_DESCRIPTION "PyXchange - simulator of an exchange" )
 set( CPACK_DEBIAN_PACKAGE_MAINTAINER "Pavel Schön <pavel@schon.cz>" )
-set( CPACK_DEBIAN_PACKAGE_DEPENDS "python (>= 2.7), python (<< 2.8), python-twisted (>= 14.0), libboost-python-dev (>=1.55)" )
-set( CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS "python-dev (>= 2.7), python-dev (<< 2.8), libboost-python-dev (>=1.55)" )
+set( CPACK_DEBIAN_PACKAGE_DEPENDS "python (>= 2.7), python (<< 2.8), python-twisted (>= 14.0), libboost-python${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}" )
+set( CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS "python-dev (>= 2.7), python-dev (<< 2.8), libboost-all-dev" )
 
 include(CPack)
 
