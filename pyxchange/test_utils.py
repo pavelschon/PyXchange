@@ -41,18 +41,22 @@ class Transport(object):
                 self.messages.append(engine.json_loads(message))
 
 
-    def assertMessage(self, message):
-        """ FIXME """
-
-        assert message == self.messages.popleft()
-
-
     def loseConnection(self):
         """ FIXME """
 
         assert self.connection, 'Connection is closed'
 
         self.connection = None
+
+
+    def assertMessage(self, message):
+        """ FIXME """
+
+        assert message == self.messages.popleft()
+
+
+    def assertDisconnected(self):
+        assert self.connection is None, 'Connection is open'
 
 
 def createTraderPair(name, matcher):
