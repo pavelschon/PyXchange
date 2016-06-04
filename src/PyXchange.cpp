@@ -23,7 +23,7 @@ std::shared_ptr<T> make_shared_( Params... parameters )
 }
 
 
-BOOST_PYTHON_MODULE( pyxchange )
+BOOST_PYTHON_MODULE( engine )
 {
     using namespace ::boost::python;
     using namespace ::pyxchange;

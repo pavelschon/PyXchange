@@ -1,11 +1,10 @@
 #!/usr/bin/env python2.7
 
-
 import collections
-import pyxchange
 import unittest
-import io
-import json
+
+from . import server
+from . import engine
 
 
 class Transport(object):
@@ -16,7 +15,7 @@ class Transport(object):
     def write(self, data):
         for message in data.split('\n'):
             if message:
-                self.messages.append(pyxchange.json_loads(message))
+                self.messages.append(engine.json_loads(message))
 
 
     def assertMessage(self, message):
@@ -33,25 +32,25 @@ class JsonTest(unittest.TestCase):
     def testLoads(self):
         """ Test JSON loads """
 
-        assert pyxchange.json_loads('true')  is True
-        assert pyxchange.json_loads('false') is False
-        assert pyxchange.json_loads('null')  is None
-        assert pyxchange.json_loads(self.sdct) == self.dct
+        assert engine.json_loads('true')  is True
+        assert engine.json_loads('false') is False
+        assert engine.json_loads('null')  is None
+        assert engine.json_loads(self.sdct) == self.dct
 
         with self.assertRaises(TypeError):
-            assert pyxchange.json_loads(None)
+            assert engine.json_loads(None)
 
 
     def testDumps(self):
         """ Test JSON dumpss """
 
-        assert pyxchange.json_dumps(True)  == 'true'
-        assert pyxchange.json_dumps(False) == 'false'
-        assert pyxchange.json_dumps(None)  == 'null'
-        assert pyxchange.json_dumps(self.dct) == self.sdct
+        assert engine.json_dumps(True)  == 'true'
+        assert engine.json_dumps(False) == 'false'
+        assert engine.json_dumps(None)  == 'null'
+        assert engine.json_dumps(self.dct) == self.sdct
 
         with self.assertRaises(TypeError):
-            assert pyxchange.json_dumps(object)
+            assert engine.json_dumps(object)
 
 
 class MatcherTest(unittest.TestCase):
@@ -66,7 +65,7 @@ class MatcherTest(unittest.TestCase):
 
     def setUp(self):
         self.transport = Transport()
-        self.matcher = pyxchange.Matcher()
+        self.matcher = engine.Matcher()
         self.trader = self.matcher.getTrader('trader-1', self.transport)
 
     def tearDown(self):
@@ -104,7 +103,9 @@ class TradingTest(unittest.TestCase):
     def setUp(self):
         self.transport1 = Transport()
         self.transport2 = Transport()
-        self.matcher = pyxchange.Matcher()
+
+        self.matcher = engine.Matcher()
+
         self.trader1 = self.matcher.getTrader('trader-1', self.transport1)
         self.trader2 = self.matcher.getTrader('trader-2', self.transport2)
 
@@ -122,10 +123,6 @@ class TradingTest(unittest.TestCase):
                                 u'message': u'createOrder', u'side': u'BUY', u'quantity': 10 }
 
         self.matcher.handleMessageDict(self.trader1, createOrderRequest)
-
-
-if __name__ == '__main__':
-    unittest.main()
 
 
 # EOF
