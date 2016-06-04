@@ -1,9 +1,11 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+
 ##
 # @file setup.py
 # @brief FIXME
 #
 #
-import os
 
 import distutils.sysconfig
 
@@ -17,12 +19,14 @@ def remove_strict_prototypes():
         if type(value) == str:
             cfg_vars[key] = value.replace('-Wstrict-prototypes', '')
 
+
 remove_strict_prototypes()
 
-engine = Extension('engine',
+
+engine = Extension('pyxchange.engine',
     language = 'c++',
     extra_compile_args = [ '-Wall', '-pedantic', '-fPIC', '-std=c++14' ],
-    include_dirs = ['/usr/include/python2.7'],
+    include_dirs = [ '/usr/include/python2.7' ],
     libraries = [ 'boost_python-py27' ],
     sources = [
         'src/Logger.cpp',
@@ -43,13 +47,21 @@ engine = Extension('engine',
     ],
 )
 
-setup (
+setup(
     name = 'pyxchange',
     version = '0.1.0',
-    description = 'This is a demo package',
-    ext_modules = [ engine ]
+    description = 'PyXchange - simulator of limit orderbook',
+    url = 'http://codingchallenge.wood.cz/',
+    author ='Pavel Schön',
+    author_email = 'pavel@schon.cz',
+    requires = [ 'twisted' ],
+    ext_modules = [ engine ],
+    py_modules = [
+        'pyxchange.server',
+        'pyxchange.smoketest',
+        'pyxchange.test_utils'
+    ],
 )
-
 
 
 # EOF
