@@ -48,5 +48,21 @@ target_link_libraries ( pyxchange
     boost_python-py27
 )
 
+add_executable(
+
+set(CPACK_GENERATOR "DEB")
+
+
+set( CPACK_GENERATOR "DEB" )
+set( CPACK_PACKAGE_VERSION_MAJOR "0" )
+set( CPACK_PACKAGE_VERSION_MINOR "1" )
+set( CPACK_PACKAGE_VERSION_PATCH "0" )
+set( CPACK_DEBIAN_PACKAGE_DESCRIPTION "PyXchange - simulator of an exchange" )
+set( CPACK_DEBIAN_PACKAGE_MAINTAINER "Pavel Schön <pavel@schon.cz>" )
+set( CPACK_DEBIAN_PACKAGE_DEPENDS "python (>= 2.7), python (<< 2.8), python-twisted (>= 14.0), libboost-python (>=1.55)" )
+set( CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS "python-dev (>= 2.7), python-dev (<< 2.8), libboost-dev (>=1.55)" )
+
+include(CPack)
+
 
 # EOF
