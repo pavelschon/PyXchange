@@ -1,0 +1,73 @@
+##
+# @file test_utils.py
+# @brief FIXME
+#
+#
+
+import collections
+
+from . import engine
+
+
+class Transport(object):
+    def __init__(self):
+        """ FIXME """
+        self.messages = collections.deque()
+        self.connection = True
+
+
+    def clear(self):
+        """ FIXME """
+
+        self.messages.clear()
+
+
+    def write(self, data):
+        """ FIXME """
+
+        assert self.connection, 'Connection is closed'
+
+        for message in data.split('\n'):
+            if message:
+                self.messages.append(engine.json_loads(message))
+
+
+    def assertMessage(self, message):
+        """ FIXME """
+
+        assert message == self.messages.popleft()
+
+
+    def loseConnection(self):
+        """ FIXME """
+
+        self.connection = None
+
+
+def createTraderPair(name, matcher):
+    """ FIXME """
+
+    transport = Transport()
+    trader = matcher.getTrader(name, transport)
+
+    return TraderPair(trader, transport)
+
+
+def createClientPair(name, matcher):
+    """ FIXME """
+
+    transport = Transport()
+    client = matcher.getClient(name, transport)
+
+    return ClientPair(client, transport)
+
+
+TraderPair = collections.namedtuple('TraderPair', ('trader', 'transport'))
+ClientPair = collections.namedtuple('ClientPair', ('client', 'transport'))
+
+TraderPair.create = staticmethod(createTraderPair)
+ClientPair.create = staticmethod(createClientPair)
+
+
+# EOF
+
