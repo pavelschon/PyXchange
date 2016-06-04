@@ -6,10 +6,18 @@
 
 import collections
 
-from . import engine
+import engine
+
+__all__ = (
+    'Transport',
+    'TraderPair',
+    'ClientPair'
+)
 
 
 class Transport(object):
+    """ FIXME """
+
     def __init__(self):
         """ FIXME """
         self.messages = collections.deque()
@@ -25,6 +33,7 @@ class Transport(object):
     def write(self, data):
         """ FIXME """
 
+        assert type(data) is str
         assert self.connection, 'Connection is closed'
 
         for message in data.split('\n'):
@@ -40,6 +49,8 @@ class Transport(object):
 
     def loseConnection(self):
         """ FIXME """
+
+        assert self.connection, 'Connection is closed'
 
         self.connection = None
 
