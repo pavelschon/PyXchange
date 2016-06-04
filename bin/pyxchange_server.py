@@ -56,7 +56,7 @@ def parse_options():
     return parser.parse_args(args=None, values=None)
 
 
-def parse_ip_port(string):
+def parse_IP_address(string):
     """ FIXME """
 
     private_ip, private_port = string.split(':')
@@ -67,7 +67,7 @@ def parse_ip_port(string):
     return private_ip, private_port
 
 
-def getLoggingHandler(filename):
+def get_logging_handler(filename):
     """ FIXME """
 
     return ( logging.StreamHandler(sys.stdout) if filename == '-' else
@@ -81,15 +81,15 @@ def serve_forever():
 
     formatter = logging.Formatter(options.log_format)
 
-    handler = getLoggingHandler(options.log)
+    handler = get_logging_handler(options.log)
     handler.setFormatter(formatter)
 
     logger = logging.getLogger()
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
 
-    private_ip, private_port = parse_ip_port(options.private)
-    public_ip,  public_port  = parse_ip_port(options.public)
+    private_ip, private_port = parse_IP_address(options.private)
+    public_ip,  public_port  = parse_IP_address(options.public)
 
     matcher = pyxchange.engine.Matcher(logger)
 

@@ -61,7 +61,16 @@ class MatcherTest(unittest.TestCase):
 
     def testInvalidMessage(self):
         self.matcher.handleMessageDict(self.trader1.trader, { u'orderId': 0, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
-        self.trader1.transport.messages
+        self.trader1.transport.assertMessage({u'text': u'order has wrong order id', u'message': u'error'})
+
+        self.matcher.handleMessageDict(self.trader1.trader, { u'orderId': 1, u'price': 0, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.transport.assertMessage({u'text': u'order has wrong price', u'message': u'error'})
+
+        self.matcher.handleMessageDict(self.trader1.trader, { u'orderId': 1, u'price': 1, u'quantity': 0, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.transport.assertMessage({u'text': u'order has wrong quantity', u'message': u'error'})
+
+        self.matcher.handleMessageDict(self.trader1.trader, { u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': None })
+        self.trader1.transport.assertMessage({u'text': u'order has wrong side', u'message': u'error'})
 
 
     def testCreateCancelOrder(self):

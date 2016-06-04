@@ -49,16 +49,9 @@ add_library( engine SHARED
     src/PyXchange.cpp
 )
 
+set_target_properties( engine PROPERTIES PREFIX "" )
 
-set_target_properties( engine
-    PROPERTIES PREFIX ""
-)
-
-
-target_link_libraries ( engine
-    ${Boost_LIBRARIES}
-)
-
+target_link_libraries ( engine ${Boost_LIBRARIES} )
 
 install(
     TARGETS engine
@@ -80,17 +73,19 @@ install(
     PERMISSIONS OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
 )
 
-
 set( CPACK_GENERATOR "DEB" )
+
 set( CPACK_PACKAGE_VERSION_MAJOR "0" )
 set( CPACK_PACKAGE_VERSION_MINOR "1" )
 set( CPACK_PACKAGE_VERSION_PATCH "0" )
-set( CPACK_DEBIAN_PACKAGE_DESCRIPTION "PyXchange - simulator of an exchange" )
+
+set( CPACK_DEBIAN_PACKAGE_DESCRIPTION "PyXchange - simulator of limit orderbook" )
 set( CPACK_DEBIAN_PACKAGE_MAINTAINER "Pavel Schön <pavel@schon.cz>" )
+set( CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://codingchallenge.wood.cz/")
 set( CPACK_DEBIAN_PACKAGE_DEPENDS "python (>= 2.7), python (<< 2.8), python-twisted (>= 14.0), libboost-python${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}" )
 set( CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS "python-dev (>= 2.7), python-dev (<< 2.8), libboost-all-dev" )
 
 include(CPack)
 
-
 # EOF
+
