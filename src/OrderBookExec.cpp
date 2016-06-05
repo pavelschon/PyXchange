@@ -35,8 +35,7 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
 
     while( it != idx.end() && order->comparePrice( *it ) && order->quantity > 0 )
     {
-        const auto& oppOrder = *it;
-        const TraderPtr& oppTrader = oppOrder->getTrader();
+        const auto oppOrder = *it;
         const price_t  matchPrice  = oppOrder->price;
         const quantity_t matchQty  = std::min( order->quantity, oppOrder->quantity );
 
@@ -46,17 +45,6 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
 
         priceLevels.insert( matchPrice );
 
-        { /* notify both trader and opposite trader and all clients */
-            trader->notifyTrade( order->orderId, matchPrice, matchQty );
-
-            if( oppTrader ) // it's created from weak_ptr, so we muust check for nullptr
-            {
-                oppTrader->notifyTrade( oppOrder->orderId, matchPrice, matchQty );
-            }
-
-            Client::notifyTrade( clients, order->time, matchPrice, matchQty );
-        }
-
         if( oppOrder->quantity < 1 )
         {
             idx.erase( it++ );
@@ -65,6 +53,8 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
         {
             ++it;
         }
+
+        notifyExecution( trader, order, oppOrder, matchQty );
     }
 
     if( totalMatchQuantity > 0 )
@@ -80,6 +70,29 @@ template void OrderBook::handleExecution<BidOrderContainer>(
 
 template void OrderBook::handleExecution<AskOrderContainer>(
     AskOrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void OrderBook::notifyExecution( const TraderPtr& trader, const OrderPtr& order,
+                                 const OrderPtr& oppOrder, const quantity_t matchQty ) const
+{
+    const price_t matchPrice   = oppOrder->price;
+    const TraderPtr& oppTrader = oppOrder->getTrader();
+
+    logger.info( boost::format( format::f2::logExecution ) % matchQty % matchPrice );
+
+    trader->notifyTrade( order->orderId, matchPrice, matchQty );
+
+    if( oppTrader ) // it's created from weak_ptr, so we muust check for nullptr
+    {
+        oppTrader->notifyTrade( oppOrder->orderId, matchPrice, matchQty );
+    }
+
+    Client::notifyTrade( clients, order->time, matchPrice, matchQty );
+}
 
 
 } /* namespace pyxchange */

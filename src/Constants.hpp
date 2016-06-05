@@ -65,6 +65,7 @@ namespace f2
 
 const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
 const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
+const boost::format logExecution( "Execution %|| @ %||" );
 
 } /* namespace f2 */
 
