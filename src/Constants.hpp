@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Constants.hpp
+ * @brief   Static constants, most log messagess
+ * @file    Constants.hpp
  *
  */
 

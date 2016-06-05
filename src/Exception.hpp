@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Exception.hpp
+ * @brief   Exceptions and Python-to-C++ exception translation
+ * @file    Exception.hpp
  *
  */
 
@@ -19,7 +19,28 @@ namespace pyexc
 
 
 /**
- * @brief Generic Python-to-C++ exception translator
+ * @brief   Generic Python-to-C++ exception translator
+ *          Caller provides C++ exception class, callback(), list of Python exceptions,
+ *          which should be be handled and optional parameterss to callback
+ *
+ * @param   callback object, usually lambda function, functor, std::bind expression or std::function
+ * @param   types list of python exceptions, e.g. { PyExc_ValueError, PyExc_TypeError }
+ * @param   params optional parameters to callback()
+ * @return  decltype - return value of the callback()
+ *
+ *          Example:
+ *
+ *          const auto exceptions = { PyExc_KeyError };
+ *          const auto callback = []() { return py::dict()["key"]; }; // throws KeyError when called
+ *
+ *          try
+ *          {
+ *              const auto value = translate<std::exception>( callback, exceptions );
+ *          }
+ *          catch( const std::exception& )
+ *          {
+ *              std::cout << "key error occured" << std::endl;
+ *          }
  *
  */
 template<typename EXC, typename CALLBACK, typename ITERABLE, typename... Params>

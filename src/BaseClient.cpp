@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file BaseClient.cpp
+ * @brief   Base class implementing shared functionality of Trader and Client
+ * @file    BaseClient.cpp
  *
  */
 
@@ -17,10 +17,12 @@ namespace py = boost::python;
 
 
 /**
- * @brief Constructor
+ * @brief   Constructor
+ * @param   std::string name of the client
+ * @param   py::object  transport
  *
  */
-BaseClient::BaseClient( const std::string& name_, const boost::python::object& transport_ ):
+BaseClient::BaseClient( const std::string& name_, const py::object& transport_ ):
       name( name_ )
     , transport( transport_ )
 {
@@ -29,7 +31,7 @@ BaseClient::BaseClient( const std::string& name_, const boost::python::object& t
 
 
 /**
- * @brief Destructor
+ * @brief   Destructor
  *
  */
 BaseClient::~BaseClient()
@@ -39,8 +41,8 @@ BaseClient::~BaseClient()
 
 
 /**
- * @brief Get string representation of BaseClient
- * @return string
+ * @brief   Get string representation of BaseClient
+ * @return  string
  *
  */
 std::string BaseClient::toString( void ) const
@@ -50,7 +52,9 @@ std::string BaseClient::toString( void ) const
 
 
 /**
- * @brief FIXME
+ * @brief   Write string into 'transport' object, followed by newline character
+ * @param   std::string data to be written
+ * @return  void
  *
  */
 void BaseClient::writeString( const std::string& data )
@@ -61,10 +65,12 @@ void BaseClient::writeString( const std::string& data )
 
 
 /**
- * @brief FIXME
+ * @brief   Dump py object into JSON and write it into 'transport' object
+ * @param   py::object data to be written
+ * @return  void
  *
  */
-void BaseClient::writeData( const boost::python::object& data )
+void BaseClient::writeData( const py::object& data )
 {
     transport.attr( attr::write )( json::dumps<const std::string>( data ) );
     transport.attr( attr::write )( '\n' );
@@ -72,7 +78,8 @@ void BaseClient::writeData( const boost::python::object& data )
 
 
 /**
- * @brief FIXME
+ * @brief   Disconnect the client by calling transport.loseConnection()
+ * @return  void
  *
  */
 void BaseClient::disconnect( void )

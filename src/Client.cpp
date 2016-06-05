@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file MDClient.cpp
+ * @brief   Market-data Client implementation
+ * @file    Client.cpp
  *
  */
 
@@ -17,7 +17,11 @@ namespace py = boost::python;
 
 
 /**
- * @brief FIXME
+ * @brief   Write 'orderbook' message to this client
+ * @param   price_t     price priceLevel
+ * @param   side_t      side
+ * @param   quantity_t  quantity
+ * @return  void
  *
  */
 void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, const quantity_t quantity )
@@ -34,7 +38,12 @@ void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, cons
 
 
 /**
- * @brief FIXME
+ * @brief   Write 'orderbook' message to all clients
+ * @param   ClientSetConstPtr set of clients
+ * @param   price_t     price priceLevel
+ * @param   side_t      side
+ * @param   quantity_t  quantity
+ * @return  void
  *
  */
 void Client::notifyOrderBook( const ClientSetConstPtr& clients, const price_t priceLevel,
@@ -52,7 +61,11 @@ void Client::notifyOrderBook( const ClientSetConstPtr& clients, const price_t pr
 
 
 /**
- * @brief FIXME
+ * @brief   Write 'trade' message to this client
+ * @param   prio_t      time of match event
+ * @param   price_t     price priceLevel
+ * @param   quantity_t  quantity
+ * @return  void
  *
  */
 void Client::notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
@@ -74,10 +87,13 @@ void Client::notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
 
 
 /**
- * @brief FIXME
+ * @brief   Distribute message across all clients
+ * @param   ClientSetConstPtr set of clients
+ * @param   py::object data to be written
+ * @return  void
  *
  */
-void Client::writeAll( const ClientSetConstPtr& clients, const boost::python::object& data )
+void Client::writeAll( const ClientSetConstPtr& clients, const py::object& data )
 {
     for( const auto& client : *clients )
     {
@@ -95,7 +111,5 @@ void Client::writeAll( const ClientSetConstPtr& clients, const boost::python::ob
 } /* namespace pyxchange */
 
 
-
 /* EOF */
-
 

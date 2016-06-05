@@ -1,11 +1,11 @@
 /**
- * @brief This module implements simulator of exchange
- * @file BaseClient.hpp
+ * @brief   Base class implementing shared functionality of Trader and Client
+ * @file    BaseClient.hpp
  *
  */
 
-#ifndef BASECLIENT
-#define BASECLIENT
+#ifndef BASECLIENT_HPP
+#define BASECLIENT_HPP
 
 #include "PyXchangeFwd.hpp"
 
@@ -40,7 +40,7 @@ private:
 } /* namespace pyxchange */
 
 
-#endif /* BASECLIENT */
+#endif /* BASECLIENT_HPP */
 
 
 /* EOF */

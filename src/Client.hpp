@@ -1,11 +1,11 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Client.hpp
+ * @brief   Market-data Client implementation
+ * @file    Client.hpp
  *
  */
 
-#ifndef CLIENT
-#define CLIENT
+#ifndef CLIENT_HPP
+#define CLIENT_HPP
 
 #include "PyXchangeFwd.hpp"
 #include "BaseClient.hpp"
@@ -41,9 +41,8 @@ private:
 } /* namespace pyxchange */
 
 
-#endif /* CLIENT */
+#endif /* CLIENT_HPP */
 
 
 /* EOF */
-
 
