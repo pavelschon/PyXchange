@@ -31,13 +31,13 @@ public:
     bool                isBid( void ) const;
     bool                isAsk( void ) const;
 
-private:
-    bool                comparePrice( const OrderConstPtr& order ) const;
-
     static side_t       extractSide( const boost::python::dict& decoded );
     static orderId_t    extractOrderId( const boost::python::dict& decoded );
     static price_t      extractPrice( const boost::python::dict& decoded );
     static quantity_t   extractQuantity( const boost::python::dict& decoded );
+
+private:
+    bool                comparePrice( const OrderConstPtr& order ) const;
 
     const TraderWPtr    trader;
     const prio_t        time;

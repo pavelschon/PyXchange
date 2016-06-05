@@ -6,6 +6,7 @@
 
 
 #include "OrderBook.hpp"
+#include "Exception.hpp"
 #include "Constants.hpp"
 #include "Trader.hpp"
 #include "Side.hpp"
@@ -24,19 +25,28 @@ namespace py = boost::python;
  */
 void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
 {
-    const orderId_t orderId = py::extract<const orderId_t>( decoded[ keys::orderId ] );
-
-    size_t n = 0;
-
-    // we don't know if order is buy or sell, so we cancel it in both containers
-    n += cancelOrder<BidOrderContainer>( bidOrders, trader, orderId );
-    n += cancelOrder<AskOrderContainer>( askOrders, trader, orderId );
-
-    if( ! n )
+    try
     {
-        logger.warning( boost::format( format::f2::logOrderDoesNotExist ) % trader->getName() % orderId );
+        const orderId_t orderId = Order::extractOrderId( decoded );
 
-        trader->notifyError( format::f0::orderDoesNotExist.str() );
+        size_t n = 0;
+
+        // we don't know if order is buy or sell, so we cancel it in both containers
+        n += cancelOrder<BidOrderContainer>( bidOrders, trader, orderId );
+        n += cancelOrder<AskOrderContainer>( askOrders, trader, orderId );
+
+        if( ! n )
+        {
+            logger.warning( boost::format( format::f2::logOrderDoesNotExist ) % trader->getName() % orderId );
+
+            trader->notifyError( format::f0::orderDoesNotExist.str() );
+        }
+    }
+    catch( const pyexc::OrderIdError& )
+    {
+        logger.warning( boost::format( format::f1::logWrongOrderId ) % trader->getName() );
+
+        trader->notifyError( format::f0::wrongOrderId.str() );
     }
 }
 
