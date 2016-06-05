@@ -53,7 +53,7 @@ side_t Order::extractSide( const py::dict& decoded )
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
-        const std::wstring side_ = py::extract<std::wstring>( decoded[ keys::side ] );
+        const std::wstring side_ = py::extract<const std::wstring>( decoded[ keys::side ] );
 
         if( side_ == side::wBuy )
         {

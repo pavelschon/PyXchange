@@ -55,17 +55,28 @@ Matcher::Matcher( const boost::python::object& logger_):
 void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
     const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
-    const auto decode = std::bind( &json::loads<std::string, py::dict>, data );
+    const auto decode = std::bind( &json::loads<const std::string, py::dict>, data );
 
     try
     {
+        if( data.size() > json::maxJsonSize )
+        {
+            throw pyexc::JsonTooLong();
+        }
+
         const py::dict decoded{ pyexc::translate<pyexc::JsonDecodeError>( decode, exceptions ) };
 
         handleMessageDict( trader, decoded );
     }
     catch( const pyexc::JsonDecodeError& )
     {
-        logger.error( boost::format( format::f1::jsonDecodeError ) % trader->toString() );
+        logger.error( boost::format( format::f1::logJsonDecodeError ) % trader->toString() );
+
+        trader->disconnect();
+    }
+    catch( const pyexc::JsonTooLong& )
+    {
+        logger.error( boost::format( format::f2::logJsonTooLong ) % trader->toString() % data.size() );
 
         trader->disconnect();
     }
@@ -104,8 +115,6 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
         trader->notifyError( format::f0::unknownMessage.str() );
 
         logger.error( boost::format( format::f1::logUnknownMessage ) % trader->toString() );
-
-        return;
     }
 }
 
@@ -119,7 +128,7 @@ std::wstring Matcher::extractMessage( const py::dict& decoded )
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
-        const std::wstring message_ = py::extract<std::wstring>( decoded[ keys::message ] );
+        const std::wstring message_ = py::extract<const std::wstring>( decoded[ keys::message ] );
 
         if( std::count( message::all.begin(), message::all.end(), message_ ) )
         {
@@ -139,7 +148,8 @@ std::wstring Matcher::extractMessage( const py::dict& decoded )
  */
 TraderPtr Matcher::getTrader( const std::string& name, const py::object& transport )
 {
-    const TraderPtr& trader = std::make_shared<Trader>( ( boost::format( format::f1::trader ) % name ).str(), transport );
+    const TraderPtr& trader = std::make_shared<Trader>(
+        ( boost::format( format::f1::trader ) % name ).str(), transport );
 
     traders->insert( trader );
 
@@ -167,7 +177,7 @@ void Matcher::removeTrader( const TraderPtr& trader )
     }
     else
     {
-        logger.warning( boost::format( format::f1::traderDoesNotExist ) % trader->toString() );
+        logger.warning( boost::format( format::f1::logTraderDoesNotExist ) % trader->toString() );
     }
 }
 
@@ -178,7 +188,8 @@ void Matcher::removeTrader( const TraderPtr& trader )
  */
 ClientPtr Matcher::getClient( const std::string& name, const py::object& transport )
 {
-    const ClientPtr& client = std::make_shared<Client>( ( boost::format( format::f1::client ) % name ).str(), transport );
+    const ClientPtr& client = std::make_shared<Client>(
+        ( boost::format( format::f1::client ) % name ).str(), transport );
 
     clients->insert( client );
 
@@ -206,7 +217,7 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
-        logger.warning( boost::format( format::f1::clientDoesNotExist ) % client->toString() );
+        logger.warning( boost::format( format::f1::logClientDoesNotExist ) % client->toString() );
     }
 }
 

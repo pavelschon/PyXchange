@@ -26,7 +26,7 @@ const char* const dumps = "dumps";
 
 }
 
-
+const size_t maxJsonSize = 200;
 const auto json_module = boost::python::import( attr::json_ );
 
 

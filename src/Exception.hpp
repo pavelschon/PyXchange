@@ -55,6 +55,12 @@ class JsonDecodeError: public std::exception
 };
 
 
+class JsonTooLong: public std::exception
+{
+
+};
+
+
 class MalformedMessage: public std::exception
 {
 

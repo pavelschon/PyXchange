@@ -51,6 +51,8 @@ BOOST_PYTHON_MODULE( engine )
 
     def( "json_dumps", &json::dumps<const std::string> );
     def( "json_loads", &json::loads<const std::string> );
+
+    scope().attr( "maxJsonSize" ) = json::maxJsonSize; // read-only module-level constant
 }
 
 

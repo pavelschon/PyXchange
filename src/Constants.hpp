@@ -45,10 +45,10 @@ const boost::format trader( "<Trader %||>" );
 const boost::format logGetClient( "%|| created" );
 const boost::format logRemoveClient( "%|| removed" );
 
-const boost::format clientDoesNotExist( "%|| does not exists" );
-const boost::format traderDoesNotExist( "%|| does not exists" );
+const boost::format logClientDoesNotExist( "%|| does not exists" );
+const boost::format logTraderDoesNotExist( "%|| does not exists" );
 
-const boost::format jsonDecodeError( "%|| JSON decode error" );
+const boost::format logJsonDecodeError( "%|| JSON decode error" );
 const boost::format logMalformedMessage( "%|| sent malformed message" );
 const boost::format logUnknownMessage( "%|| sent unknown message" );
 
@@ -63,6 +63,7 @@ const boost::format logWrongQuantity( "%|| inserting order with invalid quantity
 namespace f2
 {
 
+const boost::format logJsonTooLong( "%|| JSON too long (%|| bytes)" );
 const boost::format logTraderAddedOrder( "%|| added %||" );
 const boost::format logTraderCanceledOne( "%|| cancelled %||" );
 const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
