@@ -63,6 +63,7 @@ const boost::format logWrongQuantity( "%|| inserting order with invalid quantity
 namespace f2
 {
 
+const boost::format logTraderAddedOrder( "%|| added %||" );
 const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
 const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
 const boost::format logExecution( "Execution %|| @ %||" );
@@ -78,13 +79,12 @@ const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| as
 
 } /* namespace f3 */
 
-
-namespace f5
+namespace f4
 {
 
-const boost::format traderAddedOrder( "%|| added %|| order id %|| at price %|| of quantity %||" );
+const boost::format order( "<Order %|| -> %||, %|| @ %||>" );
 
-} /* namespace f5 */
+} /* namespace f4 */
 
 
 namespace f6

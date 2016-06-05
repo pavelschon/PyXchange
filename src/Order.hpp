@@ -22,6 +22,8 @@ public:
                         Order( const TraderPtr& trader_,
                                const boost::python::dict& decoded );
 
+    std::string         toString( void ) const;
+
     price_t             getPrice( void ) const;
     prio_t              getTime( void ) const;
     orderId_t           getId( void ) const;

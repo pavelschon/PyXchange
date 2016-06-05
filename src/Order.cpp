@@ -37,6 +37,17 @@ Order::Order( const TraderPtr& trader_, const py::dict& decoded ):
  * @brief FIXME
  *
  */
+std::string Order::toString( void ) const
+{
+    return ( boost::format( format::f4::order ) % orderId
+        % side::toBidAsk( side ) % quantity % price ).str();
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 side_t Order::extractSide( const py::dict& decoded )
 {
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
