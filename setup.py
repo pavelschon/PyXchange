@@ -7,54 +7,39 @@
 #
 #
 
+import glob
 import distutils.sysconfig
 
 from distutils.core import setup, Extension
 
 
-def remove_strict_prototypes():
+def remove_unwanted_options():
     cfg_vars = distutils.sysconfig.get_config_vars()
 
     for key, value in cfg_vars.iteritems():
-        if type(value) == str:
-            cfg_vars[key] = value.replace('-Wstrict-prototypes', '')
+        if type(value) == str and cfg_vars[key].startswith('-'):
+            cfg_vars[key] = '' #value.replace('-Wstrict-prototypes', '')
 
 
-remove_strict_prototypes()
-
+remove_unwanted_options()
 
 engine = Extension('pyxchange.engine',
     language = 'c++',
     extra_compile_args = [ '-Wall', '-pedantic', '-fPIC', '-std=c++14' ],
-    include_dirs = [ '/usr/include/python2.7' ],
     libraries = [ 'boost_python-py27' ],
-    sources = [
-        'src/Logger.cpp',
-        'src/Order.cpp',
-        'src/BaseClient.cpp',
-        'src/Client.cpp',
-        'src/Trader.cpp',
-        'src/Matcher.cpp',
-        'src/OrderBook.cpp',
-        'src/OrderBookAggr.cpp',
-        'src/OrderBookAggrAll.cpp',
-        'src/OrderBookExec.cpp',
-        'src/OrderBookInsert.cpp',
-        'src/OrderBookCancel.cpp',
-        'src/OrderBookCancelAll.cpp',
-        'src/OrderBookSelfMatch.cpp',
-        'src/PyXchange.cpp',
-    ],
+    include_dirs = [ '/usr/include/python2.7' ],
+    sources = glob.glob('src/*.cpp'),
 )
 
 setup(
     name = 'pyxchange',
     version = '0.1.0',
     description = 'PyXchange - simulator of limit orderbook',
-    url = 'http://codingchallenge.wood.cz/',
+    url = 'https://github.com/pavelschon/PyXchange.git',
     author ='Pavel Schön',
     author_email = 'pavel@schon.cz',
     requires = [ 'twisted' ],
+    scripts = glob.glob('bin/*.py'),
     ext_modules = [ engine ],
     py_modules = [
         'pyxchange.server',

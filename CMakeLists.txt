@@ -81,7 +81,7 @@ set( CPACK_PACKAGE_VERSION_PATCH "0" )
 
 set( CPACK_DEBIAN_PACKAGE_DESCRIPTION "PyXchange - simulator of limit orderbook" )
 set( CPACK_DEBIAN_PACKAGE_MAINTAINER "Pavel Schön <pavel@schon.cz>" )
-set( CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://codingchallenge.wood.cz/")
+set( CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/pavelschon/PyXchange.git")
 set( CPACK_DEBIAN_PACKAGE_DEPENDS "python (>= 2.7), python (<< 2.8), python-twisted (>= 14.0), libboost-python${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}" )
 set( CPACK_DEBIAN_PACKAGE_BUILD_DEPENDS "python-dev (>= 2.7), python-dev (<< 2.8), libboost-all-dev" )
 

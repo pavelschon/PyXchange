@@ -1,0 +1,5 @@
+include MANIFEST.in
+include setup.py
+include CMakeLists.txt
+
+recursive-include src *.cpp *.hpp
