@@ -23,8 +23,8 @@ namespace py = boost::python;
  *
  */
 BaseClient::BaseClient( const std::string& name_, const py::object& transport_ ):
-      name( name_ )
-    , transport( transport_ )
+      name{ name_ }
+    , transport{ transport_ }
 {
 
 }
