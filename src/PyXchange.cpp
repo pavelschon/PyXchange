@@ -34,8 +34,8 @@ BOOST_PYTHON_MODULE( engine )
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
         .def( "__repr__", &Trader::toString )
-        .def( "handleMessageStr",  &Matcher::handleTraderMessageStr,  args( "matcher", "data" ) )
-        .def( "handleMessageDict", &Matcher::handleTraderMessageDict, args( "matcher", "data" ) )
+        .def( "handleMessageStr",  &Matcher::handleMessageStr<Trader>,  args( "matcher", "data" ) )
+        .def( "handleMessageDict", &Matcher::handleMessageDict<Trader>, args( "matcher", "data" ) )
     ;
 
     class_<Matcher, boost::noncopyable>( "Matcher", no_init )

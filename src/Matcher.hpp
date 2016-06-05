@@ -30,8 +30,13 @@ public:
     ClientPtr           getClient( const std::string& name, const boost::python::object& transport );
     void                removeClient( const ClientPtr& client );
 
-    static void         handleTraderMessageStr( const TraderPtr& trader, const MatcherPtr& matcher, const std::string& data );
-    static void         handleTraderMessageDict( const TraderPtr& trader, const MatcherPtr& matcher,  const boost::python::dict& decoded );
+    template<typename T>
+    static void         handleMessageStr( const std::shared_ptr<T>& client,
+                                          const MatcherPtr& matcher, const std::string& data );
+
+    template<typename T>
+    static void         handleMessageDict( const std::shared_ptr<T>& client,
+                                           const MatcherPtr& matcher,  const boost::python::dict& decoded );
 
 private:
     void                handleMessageStr( const TraderPtr& trader, const std::string& data );
