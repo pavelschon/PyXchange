@@ -52,19 +52,6 @@ std::string BaseClient::toString( void ) const
 
 
 /**
- * @brief   Write string into 'transport' object, followed by newline character
- * @param   std::string data to be written
- * @return  void
- *
- */
-void BaseClient::writeString( const std::string& data )
-{
-    transport.attr( attr::write )( data );
-    transport.attr( attr::write )( '\n' );
-}
-
-
-/**
  * @brief   Dump py object into JSON and write it into 'transport' object
  * @param   py::object data to be written
  * @return  void

@@ -30,12 +30,12 @@ BOOST_PYTHON_MODULE( engine )
 
     class_<Client, ClientPtr, boost::noncopyable>( "Client", no_init )
         .def( "__repr__", &Client::toString )
-        .def( "write", &Client::writeString, args( "data" ) )
         ;
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
         .def( "__repr__", &Trader::toString )
-        .def( "write", &Trader::writeString, args( "data" ) )
+        .def( "handleMessageStr",  &Matcher::handleTraderMessageStr,  args( "matcher", "data" ) )
+        .def( "handleMessageDict", &Matcher::handleTraderMessageDict, args( "matcher", "data" ) )
     ;
 
     class_<Matcher, boost::noncopyable>( "Matcher", no_init )
@@ -45,8 +45,6 @@ BOOST_PYTHON_MODULE( engine )
         .def( "getClient", &Matcher::getClient, args( "name", "transport" ) )
         .def( "removeTrader", &Matcher::removeTrader, args( "trader" ) )
         .def( "removeClient", &Matcher::removeClient, args( "client" ) )
-        .def( "handleMessageStr", &Matcher::handleMessageStr, args( "trader", "data" ) )
-        .def( "handleMessageDict", &Matcher::handleMessageDict, args( "trader", "data" ) )
     ;
 
     def( "json_dumps", &json::dumps<const std::string> );

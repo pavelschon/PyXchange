@@ -52,6 +52,26 @@ Matcher::Matcher( const boost::python::object& logger_):
  * @brief FIXME
  *
  */
+void Matcher::handleTraderMessageStr( const TraderPtr& trader, const MatcherPtr& matcher, const std::string& data )
+{
+    matcher->handleMessageStr( trader, data );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleTraderMessageDict( const TraderPtr& trader, const MatcherPtr& matcher,  const boost::python::dict& decoded )
+{
+    matcher->handleMessageDict( trader, decoded );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
     const auto exceptions{ PyExc_ValueError, PyExc_TypeError };

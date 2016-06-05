@@ -28,7 +28,6 @@ public:
 
     void        disconnect( void );
 
-    void        writeString( const std::string& data );
     void        writeData( const boost::python::object& data );
 
 private:

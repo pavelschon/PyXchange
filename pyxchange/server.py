@@ -50,7 +50,7 @@ class TraderProtocol(protocol.Protocol):
         data = data.strip()
         if data:
             try:
-                self.matcher.handleMessageStr(self.trader, data)
+                self.trader.handleMessageStr(self.matcher, data)
             except Exception:
                 self.onException()
 

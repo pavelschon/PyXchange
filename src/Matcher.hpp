@@ -24,16 +24,19 @@ public:
                         Matcher( const Matcher& ) = delete;
     Matcher&            operator=( const Matcher& ) = delete;
 
-    void                handleMessageStr( const TraderPtr& trader, const std::string& data );
-    void                handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
-
     TraderPtr           getTrader( const std::string& name, const boost::python::object& transport );
     void                removeTrader( const TraderPtr& trader );
 
     ClientPtr           getClient( const std::string& name, const boost::python::object& transport );
     void                removeClient( const ClientPtr& client );
 
+    static void         handleTraderMessageStr( const TraderPtr& trader, const MatcherPtr& matcher, const std::string& data );
+    static void         handleTraderMessageDict( const TraderPtr& trader, const MatcherPtr& matcher,  const boost::python::dict& decoded );
+
 private:
+    void                handleMessageStr( const TraderPtr& trader, const std::string& data );
+    void                handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
+
     static std::wstring extractMessage( const boost::python::dict& decoded );
 
     const Logger        logger;
