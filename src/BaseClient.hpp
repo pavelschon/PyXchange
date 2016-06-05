@@ -24,7 +24,7 @@ public:
                 BaseClient& operator=( const Trader& ) = delete;
     virtual     ~BaseClient();
 
-    std::string getName( void ) const;
+    std::string toString( void ) const;
 
     void        disconnect( void );
 

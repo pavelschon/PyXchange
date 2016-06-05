@@ -37,9 +37,8 @@ bool OrderBook::handleSelfMatch( const typename OrderContainer::type& orders,
         {
             trader->notifyError( format::f0::selfMatch.str() );
 
-            logger.info( boost::format( format::f6::logSelfMatch ) % trader->getName()
-                         % side::toBidAsk( order_.side ) % order_.orderId % side::toBidAsk( oppOrder->side )
-                         % oppOrder->orderId % oppOrder->price );
+            logger.info( boost::format( format::f3::logSelfMatch ) % trader->toString()
+                         % order->toString() % oppOrder->toString() );
 
             return false;
         }

@@ -59,8 +59,7 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
 
     if( totalMatchQuantity > 0 )
     {
-        aggregateSetPriceLevels<OrderContainer>( orders, priceLevels,
-                                                 side::opposite( order->side ) );
+        aggregateSetPriceLevels<OrderContainer>( orders, priceLevels, side::opposite( order->side ) );
     }
 }
 

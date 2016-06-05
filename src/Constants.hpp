@@ -64,6 +64,7 @@ namespace f2
 {
 
 const boost::format logTraderAddedOrder( "%|| added %||" );
+const boost::format logTraderCanceledOne( "%|| cancelled %||" );
 const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
 const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
 const boost::format logExecution( "Execution %|| @ %||" );
@@ -74,8 +75,8 @@ const boost::format logExecution( "Execution %|| @ %||" );
 namespace f3
 {
 
-const boost::format traderCanceledOne( "%|| cancelled %|| order id %||" );
 const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
+const boost::format logSelfMatch( "%|| self-match prevention rejected %|| matching with %||" );
 
 } /* namespace f3 */
 
@@ -85,14 +86,6 @@ namespace f4
 const boost::format order( "<Order %|| -> %||, %|| @ %||>" );
 
 } /* namespace f4 */
-
-
-namespace f6
-{
-
-const boost::format logSelfMatch( "%|| self-match prevention rejected %|| order id %|| "
-                                   "matching with %|| order id %|| at price %||" );
-} /* namespace f6 */
 
 
 } /* namespace format */

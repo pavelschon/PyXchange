@@ -38,7 +38,9 @@ class Transport(object):
 
         for message in data.split('\n'):
             if message:
-                self.messages.append(engine.json_loads(message))
+                message = engine.json_loads(message)
+                if 'time' in message: message['time'] = 0
+                self.messages.append(message)
 
 
     def loseConnection(self):

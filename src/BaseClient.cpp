@@ -39,10 +39,11 @@ BaseClient::~BaseClient()
 
 
 /**
- * @brief FIXME
+ * @brief Get string representation of BaseClient
+ * @return string
  *
  */
-std::string BaseClient::getName( void ) const
+std::string BaseClient::toString( void ) const
 {
     return name;
 }

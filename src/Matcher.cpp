@@ -65,7 +65,7 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
     }
     catch( const pyexc::JsonDecodeError& )
     {
-        logger.error( boost::format( format::f1::jsonDecodeError ) % trader->getName() );
+        logger.error( boost::format( format::f1::jsonDecodeError ) % trader->toString() );
 
         trader->disconnect();
     }
@@ -93,7 +93,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     }
     catch( const pyexc::MalformedMessage& )
     {
-        logger.error( boost::format( format::f1::logMalformedMessage ) % trader->getName() );
+        logger.error( boost::format( format::f1::logMalformedMessage ) % trader->toString() );
 
         trader->disconnect();
 
@@ -103,7 +103,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
     {
         trader->notifyError( format::f0::unknownMessage.str() );
 
-        logger.error( boost::format( format::f1::logUnknownMessage ) % trader->getName() );
+        logger.error( boost::format( format::f1::logUnknownMessage ) % trader->toString() );
 
         return;
     }
@@ -143,7 +143,7 @@ TraderPtr Matcher::getTrader( const std::string& name, const py::object& transpo
 
     traders->insert( trader );
 
-    logger.info( boost::format( format::f1::logGetClient ) % trader->getName() );
+    logger.info( boost::format( format::f1::logGetClient ) % trader->toString() );
 
     return trader;
 }
@@ -163,11 +163,11 @@ void Matcher::removeTrader( const TraderPtr& trader )
 
         traders->erase( it );
 
-        logger.info( boost::format( format::f1::logRemoveClient ) % trader->getName() );
+        logger.info( boost::format( format::f1::logRemoveClient ) % trader->toString() );
     }
     else
     {
-        logger.warning( boost::format( format::f1::traderDoesNotExist ) % trader->getName() );
+        logger.warning( boost::format( format::f1::traderDoesNotExist ) % trader->toString() );
     }
 }
 
@@ -184,7 +184,7 @@ ClientPtr Matcher::getClient( const std::string& name, const py::object& transpo
 
     orderbook->aggregateAllPriceLevels( client );
 
-    logger.info( boost::format( format::f1::logGetClient ) % client->getName() );
+    logger.info( boost::format( format::f1::logGetClient ) % client->toString() );
 
     return client;
 }
@@ -202,11 +202,11 @@ void Matcher::removeClient( const ClientPtr& client )
     {
         clients->erase( it );
 
-        logger.info( boost::format( format::f1::logRemoveClient ) % client->getName() );
+        logger.info( boost::format( format::f1::logRemoveClient ) % client->toString() );
     }
     else
     {
-        logger.warning( boost::format( format::f1::clientDoesNotExist ) % client->getName() );
+        logger.warning( boost::format( format::f1::clientDoesNotExist ) % client->toString() );
     }
 }
 
