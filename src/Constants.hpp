@@ -33,6 +33,8 @@ const boost::format unknownMessage( "unknown message" );
 
 const boost::format selfMatch( "self-match rejected" );
 
+const boost::format errNoWriteAttr( "object has no attribute write/writeData" );
+
 } /* namespace f0 */
 
 

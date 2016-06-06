@@ -70,6 +70,21 @@ inline auto translate( const CALLBACK& callback, const ITERABLE& types, Params..
 }
 
 
+/**
+ * @brief       Throw Python exception
+ * @param       Python exception
+ * @param       format string
+ * @return      void
+ *
+ */
+inline void raise( PyObject* type, const boost::format format_ )
+{
+    PyErr_SetString( type, format_.str().c_str() );
+
+    throw boost::python::error_already_set();
+}
+
+
 class JsonDecodeError: public std::exception
 {
 

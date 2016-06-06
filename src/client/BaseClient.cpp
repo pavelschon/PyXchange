@@ -6,6 +6,7 @@
 
 
 #include "client/BaseClient.hpp"
+#include "Exception.hpp"
 #include "Constants.hpp"
 #include "Json.hpp"
 
@@ -26,7 +27,10 @@ BaseClient::BaseClient( const std::string& name_, const py::object& transport_ )
       name{ name_ }
     , transport{ transport_ }
 {
-
+    if( !( hasattr( transport, attr::writeData ) || hasattr( transport, attr::write ) ) )
+    {
+        pyexc::raise( PyExc_AttributeError, format::f0::errNoWriteAttr );
+    }
 }
 
 
@@ -78,7 +82,10 @@ void BaseClient::writeData( const py::object& data )
  */
 void BaseClient::disconnect( void )
 {
-    transport.attr( attr::loseConnection )();
+    if( hasattr( transport, attr::loseConnection ) )
+    {
+        transport.attr( attr::loseConnection )();
+    }
 }
 
 

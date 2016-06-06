@@ -214,7 +214,7 @@ void Matcher::removeTrader( const TraderPtr& trader )
     }
     else
     {
-        logger.warning( boost::format( format::f1::logTraderDoesNotExist ) % trader->toString() );
+        pyexc::raise( PyExc_KeyError, boost::format( format::f1::logTraderDoesNotExist ) % trader->toString() );
     }
 }
 
@@ -254,7 +254,7 @@ void Matcher::removeClient( const ClientPtr& client )
     }
     else
     {
-        logger.warning( boost::format( format::f1::logClientDoesNotExist ) % client->toString() );
+        pyexc::raise( PyExc_KeyError, boost::format( format::f1::logClientDoesNotExist ) % client->toString() );
     }
 }
 
