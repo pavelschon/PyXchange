@@ -147,6 +147,7 @@ namespace attr
 
 const char* const loseConnection    = "loseConnection";
 const char* const write             = "write";
+const char* const writeData         = "writeData";
 
 }
 

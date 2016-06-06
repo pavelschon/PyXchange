@@ -5,7 +5,7 @@
  */
 
 
-#include "Client.hpp"
+#include "client/Client.hpp"
 #include "Constants.hpp"
 #include "Side.hpp"
 
@@ -71,14 +71,10 @@ void Client::notifyOrderBook( const ClientSetConstPtr& clients, const price_t pr
 void Client::notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
                           const price_t price, const quantity_t quantity )
 {
-    const auto toSeconds = [time]() -> float {
-        return std::chrono::time_point_cast<
-            std::chrono::microseconds>( time ).time_since_epoch().count() / 1e6f; };
-
     py::dict response;
 
     response[ keys::type     ] = message::trade;
-    response[ keys::time     ] = toSeconds();
+    response[ keys::time     ] = time.time_since_epoch().count() / 1.0e9;
     response[ keys::price    ] = price;
     response[ keys::quantity ] = quantity;
 

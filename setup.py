@@ -27,8 +27,12 @@ engine = Extension('pyxchange.engine',
     language = 'c++',
     extra_compile_args = [ '-Wall', '-pedantic', '-fPIC', '-std=c++14' ],
     libraries = [ 'boost_python-py27' ],
-    include_dirs = [ '/usr/include/python2.7' ],
-    sources = glob.glob('src/*.cpp'),
+    include_dirs = [ '/usr/include/python2.7', 'src' ],
+    sources = (
+        glob.glob('src/*.cpp') +
+        glob.glob('src/client/*.cpp') +
+        glob.glob('src/orderbook/*.cpp')
+    )
 )
 
 setup(

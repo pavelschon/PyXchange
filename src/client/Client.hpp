@@ -8,7 +8,7 @@
 #define CLIENT_HPP
 
 #include "PyXchangeFwd.hpp"
-#include "BaseClient.hpp"
+#include "client/BaseClient.hpp"
 
 
 namespace pyxchange

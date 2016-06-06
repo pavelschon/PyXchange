@@ -5,7 +5,7 @@
  */
 
 
-#include "Trader.hpp"
+#include "client/Trader.hpp"
 #include "Constants.hpp"
 
 

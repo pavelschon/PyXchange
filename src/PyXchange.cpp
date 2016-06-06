@@ -5,10 +5,10 @@
  */
 
 #include "PyXchangeFwd.hpp"
-#include "Client.hpp"
-#include "Trader.hpp"
+#include "client/Client.hpp"
+#include "client/Trader.hpp"
 #include "Matcher.hpp"
-#include "OrderBook.hpp"
+#include "orderbook/OrderBook.hpp"
 #include "Json.hpp"
 
 

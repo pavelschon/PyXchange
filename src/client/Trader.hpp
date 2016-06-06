@@ -8,7 +8,7 @@
 #define TRADER
 
 #include "PyXchangeFwd.hpp"
-#include "BaseClient.hpp"
+#include "client/BaseClient.hpp"
 
 
 namespace pyxchange

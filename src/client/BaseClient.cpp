@@ -5,7 +5,7 @@
  */
 
 
-#include "BaseClient.hpp"
+#include "client/BaseClient.hpp"
 #include "Constants.hpp"
 #include "Json.hpp"
 
@@ -59,8 +59,15 @@ std::string BaseClient::toString( void ) const
  */
 void BaseClient::writeData( const py::object& data )
 {
-    transport.attr( attr::write )( json::dumps<const std::string>( data ) );
-    transport.attr( attr::write )( '\n' );
+    if( hasattr( transport, attr::writeData ) )
+    {
+        transport.attr( attr::writeData )( data );
+    }
+    else
+    {
+        transport.attr( attr::write )( json::dumps<const std::string>( data ) );
+        transport.attr( attr::write )( '\n' );
+    }
 }
 
 

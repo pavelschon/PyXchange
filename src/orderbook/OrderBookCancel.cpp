@@ -5,10 +5,10 @@
  */
 
 
-#include "OrderBook.hpp"
+#include "orderbook/OrderBook.hpp"
+#include "client/Trader.hpp"
 #include "Exception.hpp"
 #include "Constants.hpp"
-#include "Trader.hpp"
 #include "Side.hpp"
 
 

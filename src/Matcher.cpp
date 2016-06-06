@@ -6,10 +6,10 @@
 
 
 #include "Matcher.hpp"
-#include "OrderBook.hpp"
+#include "orderbook/OrderBook.hpp"
+#include "client/Client.hpp"
+#include "client/Trader.hpp"
 #include "Constants.hpp"
-#include "Client.hpp"
-#include "Trader.hpp"
 #include "Exception.hpp"
 #include "Json.hpp"
 

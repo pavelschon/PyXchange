@@ -5,9 +5,9 @@
  */
 
 
-#include "OrderBook.hpp"
+#include "orderbook/OrderBook.hpp"
+#include "client/Client.hpp"
 #include "Constants.hpp"
-#include "Client.hpp"
 #include "Side.hpp"
 
 

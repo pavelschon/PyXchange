@@ -32,21 +32,21 @@ include_directories(
 )
 
 add_library( engine SHARED
-    src/Logger.cpp
-    src/Order.cpp
-    src/BaseClient.cpp
-    src/Client.cpp
-    src/Trader.cpp
-    src/Matcher.cpp
-    src/OrderBook.cpp
-    src/OrderBookAggr.cpp
-    src/OrderBookAggrAll.cpp
-    src/OrderBookExec.cpp
-    src/OrderBookInsert.cpp
-    src/OrderBookCancel.cpp
-    src/OrderBookCancelAll.cpp
-    src/OrderBookSelfMatch.cpp
     src/PyXchange.cpp
+    src/Logger.cpp
+    src/Matcher.cpp
+    src/client/BaseClient.cpp
+    src/client/Client.cpp
+    src/client/Trader.cpp
+    src/orderbook/Order.cpp
+    src/orderbook/OrderBook.cpp
+    src/orderbook/OrderBookAggr.cpp
+    src/orderbook/OrderBookAggrAll.cpp
+    src/orderbook/OrderBookExec.cpp
+    src/orderbook/OrderBookInsert.cpp
+    src/orderbook/OrderBookCancel.cpp
+    src/orderbook/OrderBookCancelAll.cpp
+    src/orderbook/OrderBookSelfMatch.cpp
 )
 
 set_target_properties( engine PROPERTIES PREFIX "" )

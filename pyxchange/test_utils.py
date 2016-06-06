@@ -5,8 +5,7 @@
 #
 
 import collections
-
-import engine
+import time
 
 __all__ = (
     'Transport',
@@ -23,6 +22,9 @@ class Transport(object):
         self.messages = collections.deque()
         self.connection = True
 
+        self.t0 = time.time()
+        self.t1 = self.t0 + 2
+
 
     def clear(self):
         """ FIXME """
@@ -30,17 +32,18 @@ class Transport(object):
         self.messages.clear()
 
 
-    def write(self, data):
+    def writeData(self, message):
         """ FIXME """
 
-        assert type(data) is str
+        assert type(message) is dict
         assert self.connection, 'Connection is closed'
 
-        for message in data.split('\n'):
-            if message:
-                message = engine.json_loads(message)
-                if 'time' in message: message['time'] = 0
-                self.messages.append(message)
+        if 'time' in message:
+            assert message['time'] > self.t0
+            assert message['time'] < self.t1
+            message['time'] = 0
+
+        self.messages.append(message)
 
 
     def loseConnection(self):
