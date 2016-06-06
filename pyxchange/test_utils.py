@@ -4,22 +4,26 @@
 #
 #
 
+from utils import Transport
+
 import collections
 import time
 
 __all__ = (
-    'Transport',
+    'TestTransport',
     'TraderPair',
     'ClientPair'
 )
 
 
-class Transport(object):
+class TestTransport(Transport):
     """ FIXME """
 
     def __init__(self):
         """ FIXME """
-        self.messages = collections.deque()
+
+        super(TestTransport, self).__init__()
+
         self.connection = True
 
         self.t0 = time.time()
@@ -67,7 +71,7 @@ class Transport(object):
 def createTraderPair(name, matcher):
     """ FIXME """
 
-    transport = Transport()
+    transport = TestTransport()
     trader = matcher.getTrader(name, transport)
 
     return TraderPair(trader, transport)
@@ -76,7 +80,7 @@ def createTraderPair(name, matcher):
 def createClientPair(name, matcher):
     """ FIXME """
 
-    transport = Transport()
+    transport = TestTransport()
     client = matcher.getClient(name, transport)
 
     return ClientPair(client, transport)

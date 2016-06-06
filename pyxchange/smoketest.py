@@ -54,6 +54,29 @@ class MatcherTest(unittest.TestCase):
             self.matcher.removeTrader(self.trader1.trader)
 
 
+    def testWrongTransport(self):
+        """ Test wrong transport object """
+
+        with self.assertRaises(AttributeError):
+            self.matcher.getTrader('trader-2', None)
+
+
+    def testInvalidRemove(self):
+        """ Test whether matcher handles invalid client remove """
+
+        self.client2 = ClientPair.create('client-2', self.matcher)
+        self.trader2 = TraderPair.create('trader-2', self.matcher)
+
+        self.matcher.removeClient(self.client2.client)
+        self.matcher.removeTrader(self.trader2.trader)
+
+        with self.assertRaises(KeyError):
+            self.matcher.removeClient(self.client2.client)
+
+        with self.assertRaises(KeyError):
+            self.matcher.removeTrader(self.trader2.trader)
+
+
     def testTypeError(self):
         """ Test handling of non-dict data """
 
