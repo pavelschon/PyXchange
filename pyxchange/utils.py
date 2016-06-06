@@ -20,10 +20,10 @@ class Transport(object):
         self.messages = collections.deque()
 
 
-    def writeData(self, data):
+    def writeData(self, message):
         """ On message callback """
 
-        raise NotImplementedError
+        self.messages.append(message)
 
 
     def loseConnection(self):

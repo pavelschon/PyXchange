@@ -41,8 +41,8 @@ class MatcherTest(unittest.TestCase):
 
         self.matcher = engine.Matcher()
 
-        self.client1 = ClientPair.create('client-1', self.matcher)
-        self.trader1 = TraderPair.create('trader-1', self.matcher)
+        self.client1 = ClientWrapper('client-1', self.matcher)
+        self.trader1 = TraderWrapper('trader-1', self.matcher)
 
 
     def tearDown(self):
@@ -64,8 +64,8 @@ class MatcherTest(unittest.TestCase):
     def testInvalidRemove(self):
         """ Test whether matcher handles invalid client remove """
 
-        self.client2 = ClientPair.create('client-2', self.matcher)
-        self.trader2 = TraderPair.create('trader-2', self.matcher)
+        self.client2 = ClientWrapper('client-2', self.matcher)
+        self.trader2 = TraderWrapper('trader-2', self.matcher)
 
         self.matcher.removeClient(self.client2.client)
         self.matcher.removeTrader(self.trader2.trader)
@@ -188,9 +188,9 @@ class TradingTest(unittest.TestCase):
     def setUp(self):
         self.matcher = engine.Matcher()
 
-        self.client1 = ClientPair.create('client-1', self.matcher)
-        self.trader1 = TraderPair.create('trader-1', self.matcher)
-        self.trader2 = TraderPair.create('trader-2', self.matcher)
+        self.client1 = ClientWrapper('client-1', self.matcher)
+        self.trader1 = TraderWrapper('trader-1', self.matcher)
+        self.trader2 = TraderWrapper('trader-2', self.matcher)
 
         # enter some bid orders
         self.trader1.trader.handleMessageDict(self.matcher, { u'orderId': 1, u'price': 10, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })

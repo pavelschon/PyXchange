@@ -11,8 +11,8 @@ import time
 
 __all__ = (
     'TestTransport',
-    'TraderPair',
-    'ClientPair'
+    'ClientWrapper',
+    'TraderWrapper'
 )
 
 
@@ -31,13 +31,13 @@ class TestTransport(Transport):
 
 
     def clear(self):
-        """ FIXME """
+        """ Clear messages in the queue """
 
         self.messages.clear()
 
 
     def writeData(self, message):
-        """ FIXME """
+        """ On message callback """
 
         assert type(message) is dict
         assert self.connection, 'Connection is closed'
@@ -47,7 +47,7 @@ class TestTransport(Transport):
             assert message['time'] < self.t1
             message['time'] = 0
 
-        self.messages.append(message)
+        super(TestTransport, self).writeData(message)
 
 
     def loseConnection(self):
@@ -68,29 +68,18 @@ class TestTransport(Transport):
         assert self.connection is None, 'Connection is open'
 
 
-def createTraderPair(name, matcher):
-    """ FIXME """
 
-    transport = TestTransport()
-    trader = matcher.getTrader(name, transport)
-
-    return TraderPair(trader, transport)
+class ClientWrapper(object):
+    def __init__(self, name, matcher):
+        self.transport = TestTransport()
+        self.client = matcher.getClient(name, self.transport)
 
 
-def createClientPair(name, matcher):
-    """ FIXME """
+class TraderWrapper(object):
+    def __init__(self, name, matcher):
+        self.transport = TestTransport()
+        self.trader = matcher.getTrader(name, self.transport)
 
-    transport = TestTransport()
-    client = matcher.getClient(name, transport)
-
-    return ClientPair(client, transport)
-
-
-TraderPair = collections.namedtuple('TraderPair', ('trader', 'transport'))
-ClientPair = collections.namedtuple('ClientPair', ('client', 'transport'))
-
-TraderPair.create = staticmethod(createTraderPair)
-ClientPair.create = staticmethod(createClientPair)
 
 
 # EOF
