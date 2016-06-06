@@ -4,5 +4,9 @@ include LICENSE
 include MANIFEST.in
 include setup.py
 include CMakeLists.txt
+include .gitignore
 
+recursive-include bin *.py
+recursive-include pyxchange *.py
+recursive-include examples *.py
 recursive-include src *.cpp *.hpp
