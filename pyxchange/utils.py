@@ -91,17 +91,11 @@ class ClientWrapper(object):
         self.transport.messages.clear()
 
 
-    def handleMessageStr(self, message):
+    def handleMessage(self, message):
         """ FIXME """
 
-        self.client.handleMessageStr(self.matcher, message)
-
-
-    def handleMessageDict(self, message):
-        """ FIXME """
-
-        assert type(message) is dict
-        self.client.handleMessageDict(self.matcher, message)
+        assert type(message) in (str, dict)
+        self.client.handleMessage(self.matcher, message)
 
 
     def assertMessage(self, message):
@@ -138,17 +132,11 @@ class TraderWrapper(object):
         self.transport.messages.clear()
 
 
-    def handleMessageStr(self, message):
+    def handleMessage(self, message):
         """ FIXME """
 
-        self.trader.handleMessageStr(self.matcher, message)
-
-
-    def handleMessageDict(self, message):
-        """ FIXME """
-
-        assert type(message) is dict
-        self.trader.handleMessageDict(self.matcher, message)
+        assert type(message) in (str, dict)
+        self.trader.handleMessage(self.matcher, message)
 
 
     def assertMessage(self, message):

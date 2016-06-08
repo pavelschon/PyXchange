@@ -80,14 +80,14 @@ class MatcherTest(unittest.TestCase):
     def testTypeError(self):
         """ Test handling of non-dict data """
 
-        self.trader1.handleMessageStr('null')
+        self.trader1.handleMessage('null')
         self.trader1.assertDisconnected()
 
 
     def testUnknownMessage(self):
         """ Test handling of unknown message """
 
-        self.trader1.handleMessageDict({ u'message': u'test' })
+        self.trader1.handleMessage({ u'message': u'test' })
         self.trader1.assertMessage({u'text': u'unknown message', u'message': u'error'})
 
 
@@ -95,59 +95,59 @@ class MatcherTest(unittest.TestCase):
         """ Test handling of bogus messages and invalid values """
 
         # wrong order id
-        self.trader1.handleMessageDict({ u'orderId': 0, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 0, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong order id', u'message': u'error'})
 
         # wrong type of order id (TypeError)
-        self.trader1.handleMessageDict({ u'orderId': None, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': None, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong order id', u'message': u'error'})
 
         # missing order id (KeyError)
-        self.trader1.handleMessageDict({ u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong order id', u'message': u'error'})
 
         # wrong price
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 0, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 0, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong price', u'message': u'error'})
 
         # wront type of price (TypeError)
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': None, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': None, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong price', u'message': u'error'})
 
         # missing price (KeyError)
-        self.trader1.handleMessageDict({ u'orderId': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong price', u'message': u'error'})
 
         # wrong quantity
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 1, u'quantity': 0, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 1, u'quantity': 0, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong quantity', u'message': u'error'})
 
         # wrong type of quantity (TypeError)
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 1, u'quantity': None, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 1, u'quantity': None, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong quantity', u'message': u'error'})
 
         # missing quantity (KeyError)
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order has wrong quantity', u'message': u'error'})
 
         # wrong type of side (TypeError)
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': None })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': None })
         self.trader1.assertMessage({u'text': u'order has wrong side', u'message': u'error'})
 
         # missing side (KeyError)
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder' })
         self.trader1.assertMessage({u'text': u'order has wrong side', u'message': u'error'})
 
         # wrong order id
-        self.trader1.handleMessageDict({ u'orderId': 0, u'message': u'cancelOrder' })
+        self.trader1.handleMessage({ u'orderId': 0, u'message': u'cancelOrder' })
         self.trader1.assertMessage({u'text': u'order has wrong order id', u'message': u'error'})
 
         # wrong type of order id (TypeError)
-        self.trader1.handleMessageDict({ u'orderId': None, u'message': u'cancelOrder' })
+        self.trader1.handleMessage({ u'orderId': None, u'message': u'cancelOrder' })
         self.trader1.assertMessage({u'text': u'order has wrong order id', u'message': u'error'})
 
         # missing order id (KeyError)
-        self.trader1.handleMessageDict({ u'message': u'cancelOrder' })
+        self.trader1.handleMessage({ u'message': u'cancelOrder' })
         self.trader1.assertMessage({u'text': u'order has wrong order id', u'message': u'error'})
 
 
@@ -155,26 +155,26 @@ class MatcherTest(unittest.TestCase):
         """ Test create/cancel order """
 
         # create bid order
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({ u'report': u'NEW', u'orderId': 1, u'quantity': 1, u'message': u'executionReport' })
 
-        self.trader1.handleMessageDict({ u'orderId': 2, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 2, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({ u'report': u'NEW', u'orderId': 2, u'quantity': 1, u'message': u'executionReport' })
 
         self.client1.assertMessage({ u'type': u'orderbook', u'side': u'bid', u'price': 1, 'quantity': 1})
         self.client1.assertMessage({ u'type': u'orderbook', u'side': u'bid', u'price': 1, 'quantity': 2})
 
         # insert existing order
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 1, u'quantity': 1, u'message': u'createOrder', u'side': u'BUY' })
         self.trader1.assertMessage({u'text': u'order already exists', u'message': u'error'})
 
         # cancel order
-        self.trader1.handleMessageDict({ u'orderId': 1, u'message': u'cancelOrder' })
+        self.trader1.handleMessage({ u'orderId': 1, u'message': u'cancelOrder' })
         self.trader1.assertMessage({ u'orderId': 1, u'message': u'executionReport', 'report': u'CANCELED', u'quantity': 1 })
         self.client1.assertMessage({ u'type': u'orderbook', u'side': u'bid', u'price': 1, 'quantity': 1})
 
         # cancel nonexistent order
-        self.trader1.handleMessageDict({ u'orderId': 1, u'message': u'cancelOrder' })
+        self.trader1.handleMessage({ u'orderId': 1, u'message': u'cancelOrder' })
         self.trader1.assertMessage({ u'text': u'order does not exists', u'message': u'error' })
 
         # test orders are removed when trader disconnects
@@ -193,14 +193,14 @@ class TradingTest(unittest.TestCase):
         self.trader2 = TraderWrapper('trader-2', self.matcher)
 
         # enter some bid orders
-        self.trader1.handleMessageDict({ u'orderId': 1, u'price': 10, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
-        self.trader1.handleMessageDict({ u'orderId': 2, u'price': 20, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
-        self.trader1.handleMessageDict({ u'orderId': 3, u'price': 30, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 1, u'price': 10, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 2, u'price': 20, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader1.handleMessage({ u'orderId': 3, u'price': 30, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
 
         # enter some ask orders
-        self.trader2.handleMessageDict({ u'orderId': 1, u'price': 40, u'quantity': 10, u'message': u'createOrder', u'side': u'SELL' })
-        self.trader2.handleMessageDict({ u'orderId': 2, u'price': 50, u'quantity': 10, u'message': u'createOrder', u'side': u'SELL' })
-        self.trader2.handleMessageDict({ u'orderId': 3, u'price': 60, u'quantity': 10, u'message': u'createOrder', u'side': u'SELL' })
+        self.trader2.handleMessage({ u'orderId': 1, u'price': 40, u'quantity': 10, u'message': u'createOrder', u'side': u'SELL' })
+        self.trader2.handleMessage({ u'orderId': 2, u'price': 50, u'quantity': 10, u'message': u'createOrder', u'side': u'SELL' })
+        self.trader2.handleMessage({ u'orderId': 3, u'price': 60, u'quantity': 10, u'message': u'createOrder', u'side': u'SELL' })
 
         # clear messages received until now
         self.client1.clear()
@@ -215,7 +215,7 @@ class TradingTest(unittest.TestCase):
 
 
     def testTrade(self):
-        self.trader2.handleMessageDict({ u'orderId': 4, u'price': 15, u'quantity': 25, u'message': u'createOrder', u'side': u'SELL' })
+        self.trader2.handleMessage({ u'orderId': 4, u'price': 15, u'quantity': 25, u'message': u'createOrder', u'side': u'SELL' })
 
         self.trader1.assertMessage({u'report': u'FILL', u'orderId': 3, u'message': u'executionReport', u'price': 30, u'quantity': 10})
         self.trader2.assertMessage({u'report': u'FILL', u'orderId': 4, u'message': u'executionReport', u'price': 30, u'quantity': 10})
@@ -235,7 +235,7 @@ class TradingTest(unittest.TestCase):
 
     def testSelfMatch(self):
         # self-match protection
-        self.trader2.handleMessageDict({ u'orderId': 4, u'price': 40, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
+        self.trader2.handleMessage({ u'orderId': 4, u'price': 40, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
         self.trader2.assertMessage({u'text': u'self-match rejected', u'message': u'error'})
 
 

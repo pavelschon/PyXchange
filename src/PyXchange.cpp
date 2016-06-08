@@ -36,17 +36,17 @@ BOOST_PYTHON_MODULE( engine )
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
         .def( "__repr__", &Trader::toString )
-        .def( "handleMessageStr",  &Matcher::handleMessage<TraderPtr, std::string>, args( "matcher", "data" ) )
-        .def( "handleMessageDict", &Matcher::handleMessage<TraderPtr, py::dict>, args( "matcher", "data" ) )
-        .def( "createOrder",       &Matcher::handleCreateOrder, args( "matcher", "data" ) )
-        .def( "cancelOrder",       &Matcher::handleCreateOrder, args( "matcher", "data" ) )
+        .def( "handleMessage", &Matcher::handleMessage<TraderPtr, std::string>, args( "matcher", "data" ) )
+        .def( "handleMessage", &Matcher::handleMessage<TraderPtr, py::dict>, args( "matcher", "data" ) )
+        .def( "createOrder",   &Matcher::handleCreateOrder, args( "matcher", "data" ) )
+        .def( "cancelOrder",   &Matcher::handleCancelOrder, args( "matcher", "data" ) )
     ;
 
     class_<Matcher, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
         .def( "__init__", make_constructor( &make_shared_<Matcher, const object&> ) )
-        .def( "getTrader", &Matcher::getTrader, args( "name", "transport" ) )
-        .def( "getClient", &Matcher::getClient, args( "name", "transport" ) )
+        .def( "getTrader",    &Matcher::getTrader, args( "name", "transport" ) )
+        .def( "getClient",    &Matcher::getClient, args( "name", "transport" ) )
         .def( "removeTrader", &Matcher::removeTrader, args( "trader" ) )
         .def( "removeClient", &Matcher::removeClient, args( "client" ) )
     ;
