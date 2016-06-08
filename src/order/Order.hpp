@@ -4,10 +4,10 @@
  *
  */
 
-#ifndef ORDER
-#define ORDER
+#ifndef ORDER_HPP
+#define ORDER_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 
 
 namespace pyxchange
@@ -53,7 +53,7 @@ private:
 } /* namespace pyxchange */
 
 
-#endif /* ORDER */
+#endif /* ORDER_HPP */
 
 
 /* EOF */

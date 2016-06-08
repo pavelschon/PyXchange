@@ -1,10 +1,10 @@
 /**
  * @brief This module implements simulator of exchange
- * @file pyxchange.cpp
+ * @file PyXchange.cpp
  * 
  */
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 #include "client/Client.hpp"
 #include "client/Trader.hpp"
 #include "matcher/Matcher.hpp"

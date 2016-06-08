@@ -7,7 +7,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 
 
 namespace pyxchange

@@ -7,7 +7,7 @@
 #ifndef ORDERBOOK
 #define ORDERBOOK
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 #include "order/OrderContainer.hpp"
 #include "logger/Logger.hpp"
 

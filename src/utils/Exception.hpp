@@ -7,7 +7,7 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 
 
 namespace pyxchange

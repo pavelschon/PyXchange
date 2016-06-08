@@ -7,7 +7,7 @@
 #ifndef SIDE_HPP
 #define SIDE_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 
 
 namespace pyxchange

@@ -4,10 +4,10 @@
  *
  */
 
-#ifndef TRADER
-#define TRADER
+#ifndef TRADER_HPP
+#define TRADER_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 #include "client/BaseClient.hpp"
 
 
@@ -39,7 +39,7 @@ public:
 } /* namespace pyxchange */
 
 
-#endif /* TRADER */
+#endif /* TRADER_HPP */
 
 
 /* EOF */

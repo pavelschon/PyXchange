@@ -7,7 +7,7 @@
 #ifndef BASECLIENT_HPP
 #define BASECLIENT_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 
 
 namespace pyxchange

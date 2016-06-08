@@ -7,7 +7,7 @@
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 
 
 namespace pyxchange

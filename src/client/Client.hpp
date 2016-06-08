@@ -7,7 +7,7 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 #include "client/BaseClient.hpp"
 
 

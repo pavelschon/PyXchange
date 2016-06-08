@@ -7,7 +7,7 @@
 #ifndef JSON_HPP
 #define JSON_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 
 
 namespace pyxchange

@@ -4,10 +4,10 @@
  * 
  */
 
-#ifndef MATCHER
-#define MATCHER
+#ifndef MATCHER_HPP
+#define MATCHER_HPP
 
-#include "PyXchangeFwd.hpp"
+#include "PyXchange.hpp"
 #include "logger/Logger.hpp"
 
 
@@ -72,7 +72,7 @@ inline void Matcher::handleMessage( const CLIENT& client, const MatcherPtr& matc
 } /* namespace pyxchange */
 
 
-#endif /* MATCHER */
+#endif /* MATCHER_HPP */
 
 
 /* EOF */
