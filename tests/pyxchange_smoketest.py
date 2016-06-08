@@ -2,10 +2,10 @@
 
 import unittest
 
-import server
-import engine
+from pyxchange import server
+from pyxchange import engine
 
-from utils import ClientWrapper, TraderWrapper
+from pyxchange.utils import ClientWrapper, TraderWrapper
 
 
 class JsonTest(unittest.TestCase):

@@ -9,4 +9,5 @@ include .gitignore
 recursive-include bin *.py
 recursive-include pyxchange *.py
 recursive-include examples *.py
+recursive-include tests *.py
 recursive-include src *.cpp *.hpp

@@ -10,7 +10,7 @@ import time
 
 __all__ = (
     'Transport',
-     'TestTransport',
+    'TestTransport',
     'ClientWrapper',
     'TraderWrapper'
 )

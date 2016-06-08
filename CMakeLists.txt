@@ -69,7 +69,14 @@ install(
 
 install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/examples
-    DESTINATION /usr/share/doc/pyxchange
+    DESTINATION /usr/share/pyxchange
+    FILES_MATCHING PATTERN "*.py"
+    PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
+)
+
+install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+    DESTINATION /usr/share/pyxchange
     FILES_MATCHING PATTERN "*.py"
     PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 )
