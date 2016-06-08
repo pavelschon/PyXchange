@@ -55,7 +55,7 @@ void Matcher::handleMessageStr( const T& client, const MatcherPtr& matcher, cons
 {
     matcher->findClient( client );
 
-    matcher->handleMessageStr( client, data );
+    matcher->handleMessageImpl( client, data );
 }
 
 
@@ -68,7 +68,7 @@ void Matcher::handleMessageDict( const T& client, const MatcherPtr& matcher, con
 {
     matcher->findClient( client );
 
-    matcher->handleMessageDict( client, decoded );
+    matcher->handleMessageImpl( client, decoded );
 }
 
 

@@ -46,8 +46,8 @@ public:
                                            const boost::python::dict& decoded );
 
 private:
-    void                handleMessageStr( const TraderPtr& trader, const std::string& data );
-    void                handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
+    void                handleMessageImpl( const TraderPtr& trader, const std::string& data );
+    void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded );
 
     TraderSet::const_iterator findClient( const TraderPtr& trader ) const;
     ClientSet::const_iterator findClient( const ClientPtr& client ) const;

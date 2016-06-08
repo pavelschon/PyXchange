@@ -52,7 +52,7 @@ Matcher::Matcher( const boost::python::object& logger_):
  * @brief FIXME
  *
  */
-void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
+void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& data )
 {
     const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
     const auto decode = std::bind( &json::loads<const std::string, py::dict>, data );
@@ -66,7 +66,7 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
 
         const py::dict decoded{ pyexc::translate<pyexc::JsonDecodeError>( decode, exceptions ) };
 
-        handleMessageDict( trader, decoded );
+        handleMessageImpl( trader, decoded );
     }
     catch( const pyexc::JsonDecodeError& )
     {
@@ -87,7 +87,7 @@ void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data
  * @brief FIXME
  *
  */
-void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decoded )
+void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded )
 {
     try
     {
