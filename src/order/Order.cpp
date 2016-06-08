@@ -22,12 +22,12 @@ namespace py = boost::python;
  *
  */
 Order::Order( const TraderPtr& trader_, const py::dict& decoded ):
-      trader( trader_ )
-    , time( std::chrono::high_resolution_clock::now() )
-    , side( extractSide( decoded ) )
-    , orderId( extractOrderId( decoded ) )
-    , price( extractPrice( decoded ) )
-    , quantity( extractQuantity( decoded ) )
+      trader{ trader_ }
+    , time{ std::chrono::high_resolution_clock::now() }
+    , side{ extractSide( decoded ) }
+    , orderId{ extractOrderId( decoded ) }
+    , price{ extractPrice( decoded ) }
+    , quantity{ extractQuantity( decoded ) }
 {
 
 }
