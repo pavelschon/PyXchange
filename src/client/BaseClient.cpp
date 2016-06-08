@@ -6,9 +6,9 @@
 
 
 #include "client/BaseClient.hpp"
-#include "Exception.hpp"
-#include "Constants.hpp"
-#include "Json.hpp"
+#include "utils/Exception.hpp"
+#include "utils/Constants.hpp"
+#include "utils/Json.hpp"
 
 
 namespace pyxchange

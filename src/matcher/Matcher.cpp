@@ -9,9 +9,9 @@
 #include "orderbook/OrderBook.hpp"
 #include "client/Client.hpp"
 #include "client/Trader.hpp"
-#include "Constants.hpp"
-#include "Exception.hpp"
-#include "Json.hpp"
+#include "utils/Constants.hpp"
+#include "utils/Exception.hpp"
+#include "utils/Json.hpp"
 
 
 namespace pyxchange

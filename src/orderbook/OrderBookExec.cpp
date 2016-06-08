@@ -8,8 +8,8 @@
 #include "orderbook/OrderBook.hpp"
 #include "client/Trader.hpp"
 #include "client/Client.hpp"
-#include "Constants.hpp"
-#include "Side.hpp"
+#include "utils/Constants.hpp"
+#include "utils/Side.hpp"
 
 
 namespace pyxchange

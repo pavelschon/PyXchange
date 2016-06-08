@@ -6,9 +6,9 @@
 
 
 #include "order/Order.hpp"
-#include "Exception.hpp"
-#include "Constants.hpp"
-#include "Side.hpp"
+#include "utils/Exception.hpp"
+#include "utils/Constants.hpp"
+#include "utils/Side.hpp"
 
 
 namespace pyxchange
