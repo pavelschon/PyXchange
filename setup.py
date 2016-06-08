@@ -10,7 +10,7 @@
 import glob
 import distutils.sysconfig
 
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 
 def remove_unwanted_options():
@@ -48,6 +48,11 @@ setup(
     requires = [ 'twisted' ],
     scripts = glob.glob('bin/*.py'),
     ext_modules = [ engine ],
+    data_files = [
+        ( 'pyxchange/examples', glob.glob('examples/*.py') ),
+        ( 'pyxchange/tests', glob.glob('tests/*.py') ),
+        ( 'pyxchange/', [ 'LICENSE', 'README', 'README.md' ] ),
+    ],
     py_modules = [
         'pyxchange.server',
         'pyxchange.smoketest',

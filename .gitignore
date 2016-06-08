@@ -4,6 +4,7 @@
 *.so
 *~
 obj-*
+pyxchange.egg-info
 CMakeFiles
 CmakeCache.txt
 cmake_install.cmake
