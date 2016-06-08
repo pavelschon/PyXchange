@@ -50,45 +50,6 @@ void Matcher::handleCancelOrder( const TraderPtr& trader, const MatcherPtr& matc
  * @brief FIXME
  *
  */
-template<typename T>
-void Matcher::handleMessageStr( const T& client, const MatcherPtr& matcher, const std::string& data )
-{
-    matcher->findClient( client );
-
-    matcher->handleMessageImpl( client, data );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-template<typename T>
-void Matcher::handleMessageDict( const T& client, const MatcherPtr& matcher, const boost::python::dict& decoded )
-{
-    matcher->findClient( client );
-
-    matcher->handleMessageImpl( client, decoded );
-}
-
-
-// template void Matcher::handleMessageStr(
-//     const ClientPtr& client, const MatcherPtr& matcher, const std::string& data );
-//
-// template void Matcher::handleMessageDict(
-//     const ClientPtr& client, const MatcherPtr& matcher, const boost::python::dict& decoded );
-
-template void Matcher::handleMessageStr(
-    const TraderPtr& trader, const MatcherPtr& matcher, const std::string& data );
-
-template void Matcher::handleMessageDict(
-    const TraderPtr& trader, const MatcherPtr& matcher, const boost::python::dict& decoded );
-
-
-/**
- * @brief FIXME
- *
- */
 TraderPtr Matcher::getTrader( const std::string& name, const py::object& transport )
 {
     const TraderPtr& trader = std::make_shared<Trader>(

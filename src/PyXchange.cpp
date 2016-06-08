@@ -12,6 +12,26 @@
 #include "Json.hpp"
 
 
+namespace pyxchange
+{
+
+
+/**
+ * @brief FIXME
+ *
+ */
+template<typename CLIENT, typename DATA>
+void Matcher::handleMessage( const CLIENT& client, const MatcherPtr& matcher, const DATA& data )
+{
+    matcher->findClient( client );
+
+    matcher->handleMessageImpl( client, data );
+}
+
+
+} /* namespace pyxchange */
+
+
 /**
  * @brief FIXME
  *
@@ -25,6 +45,8 @@ std::shared_ptr<T> make_shared_( Params... parameters )
 
 BOOST_PYTHON_MODULE( engine )
 {
+    namespace py = boost::python;
+
     using namespace ::boost::python;
     using namespace ::pyxchange;
 
@@ -34,8 +56,8 @@ BOOST_PYTHON_MODULE( engine )
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
         .def( "__repr__", &Trader::toString )
-        .def( "handleMessageStr",  &Matcher::handleMessageStr<TraderPtr>,  args( "matcher", "data" ) )
-        .def( "handleMessageDict", &Matcher::handleMessageDict<TraderPtr>, args( "matcher", "data" ) )
+        .def( "handleMessageStr",  &Matcher::handleMessage<TraderPtr, std::string>, args( "matcher", "data" ) )
+        .def( "handleMessageDict", &Matcher::handleMessage<TraderPtr, py::dict>, args( "matcher", "data" ) )
         .def( "createOrder",       &Matcher::handleCreateOrder, args( "matcher", "data" ) )
         .def( "cancelOrder",       &Matcher::handleCreateOrder, args( "matcher", "data" ) )
     ;

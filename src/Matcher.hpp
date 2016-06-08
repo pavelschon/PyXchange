@@ -31,16 +31,11 @@ public:
     ClientPtr           getClient( const std::string& name, const boost::python::object& transport );
     void                removeClient( const ClientPtr& client );
 
-    template<typename T>
-    static void         handleMessageStr( const T& client, const MatcherPtr& matcher,
-                                          const std::string& data );
-
-    template<typename T>
-    static void         handleMessageDict( const T& client, const MatcherPtr& matcher,
-                                           const boost::python::dict& decoded );
+    template<typename CLIENT, typename DATA>
+    static void         handleMessage( const CLIENT& client, const MatcherPtr& matcher, const DATA& data );
 
     static void         handleCreateOrder( const TraderPtr& trader, const MatcherPtr& matcher,
-                                     const boost::python::dict& decoded );
+                                           const boost::python::dict& decoded );
 
     static void         handleCancelOrder( const TraderPtr& trader, const MatcherPtr& matcher,
                                            const boost::python::dict& decoded );
