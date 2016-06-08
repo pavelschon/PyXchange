@@ -5,7 +5,7 @@
  */
 
 
-#include "Logger.hpp"
+#include "logger/Logger.hpp"
 
 
 namespace pyxchange
@@ -15,21 +15,13 @@ namespace pyxchange
 namespace py = boost::python;
 
 
-namespace format
-{
-
-
-
-} /* namespace message */
-
-
 namespace level
 {
 
-    const std::string debug     = "debug";
-    const std::string info      = "info";
-    const std::string warning   = "warning";
-    const std::string error     = "error";
+const std::string debug     = "debug";
+const std::string info      = "info";
+const std::string warning   = "warning";
+const std::string error     = "error";
 
 } /* namespace log */
 

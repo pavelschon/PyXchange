@@ -30,6 +30,7 @@ engine = Extension('pyxchange.engine',
     include_dirs = [ '/usr/include/python2.7', 'src' ],
     sources = (
         glob.glob('src/*.cpp') +
+        glob.glob('src/logger/*.cpp') +
         glob.glob('src/client/*.cpp') +
         glob.glob('src/orderbook/*.cpp')
     )

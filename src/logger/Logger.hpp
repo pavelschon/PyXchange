@@ -1,11 +1,11 @@
 /**
  * @brief This module implements simulator of exchange
- * @file BaseClient.hpp
+ * @file Logger.hpp
  *
  */
 
-#ifndef LOGGER
-#define LOGGER
+#ifndef LOGGER_HPP
+#define LOGGER_HPP
 
 #include "PyXchangeFwd.hpp"
 
@@ -25,10 +25,9 @@ public:
     void        warning( const boost::format& message )  const;
     void        error( const boost::format& message )  const;
 
-public:
-    void        log( const std::string& level,
-                     const boost::format& message ) const;
 private:
+    void        log( const std::string& level, const boost::format& message ) const;
+
     const boost::python::object logger;
 };
 
@@ -36,7 +35,7 @@ private:
 } /* namespace pyxchange */
 
 
-#endif /* BASECLIENT */
+#endif /* LOGGER_HPP */
 
 
 /* EOF */

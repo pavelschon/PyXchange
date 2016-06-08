@@ -8,8 +8,8 @@
 #define ORDERBOOK
 
 #include "PyXchangeFwd.hpp"
-#include "OrderContainer.hpp"
-#include "Logger.hpp"
+#include "orderbook/OrderContainer.hpp"
+#include "logger/Logger.hpp"
 
 
 namespace pyxchange
