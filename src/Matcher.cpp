@@ -52,43 +52,6 @@ Matcher::Matcher( const boost::python::object& logger_):
  * @brief FIXME
  *
  */
-template<typename T>
-void Matcher::handleMessageStr( const std::shared_ptr<T>& client,
-                                const MatcherPtr& matcher, const std::string& data )
-{
-    matcher->handleMessageStr( client, data );
-}
-
-
-/**
- * @brief FIXME
- *
- */
-template<typename T>
-void Matcher::handleMessageDict( const std::shared_ptr<T>& client,
-                                 const MatcherPtr& matcher, const boost::python::dict& decoded )
-{
-    matcher->handleMessageDict( client, decoded );
-}
-
-
-// template void Matcher::handleMessageStr(
-//     const ClientPtr& client, const MatcherPtr& matcher, const std::string& data );
-//
-// template void Matcher::handleMessageDict(
-//     const ClientPtr& client, const MatcherPtr& matcher, const boost::python::dict& decoded );
-
-template void Matcher::handleMessageStr(
-    const TraderPtr& trader, const MatcherPtr& matcher, const std::string& data );
-
-template void Matcher::handleMessageDict(
-    const TraderPtr& trader, const MatcherPtr& matcher, const boost::python::dict& decoded );
-
-
-/**
- * @brief FIXME
- *
- */
 void Matcher::handleMessageStr( const TraderPtr& trader, const std::string& data )
 {
     const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
@@ -183,39 +146,16 @@ std::wstring Matcher::extractMessage( const py::dict& decoded )
  * @brief FIXME
  *
  */
-TraderPtr Matcher::getTrader( const std::string& name, const py::object& transport )
-{
-    const TraderPtr& trader = std::make_shared<Trader>(
-        ( boost::format( format::f1::trader ) % name ).str(), transport );
-
-    traders->insert( trader );
-
-    logger.info( boost::format( format::f1::logGetClient ) % trader->toString() );
-
-    return trader;
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::removeTrader( const TraderPtr& trader )
+TraderSet::const_iterator Matcher::findClient( const TraderPtr& trader ) const
 {
     const auto& it = traders->find( trader );
 
-    if( it != traders->cend() )
-    {
-        orderbook->cancelAllOrders( trader );
-
-        traders->erase( it );
-
-        logger.info( boost::format( format::f1::logRemoveClient ) % trader->toString() );
-    }
-    else
+    if( it == traders->cend() )
     {
         pyexc::raise( PyExc_KeyError, boost::format( format::f1::logTraderDoesNotExist ) % trader->toString() );
     }
+
+    return it;
 }
 
 
@@ -223,39 +163,16 @@ void Matcher::removeTrader( const TraderPtr& trader )
  * @brief FIXME
  *
  */
-ClientPtr Matcher::getClient( const std::string& name, const py::object& transport )
-{
-    const ClientPtr& client = std::make_shared<Client>(
-        ( boost::format( format::f1::client ) % name ).str(), transport );
-
-    clients->insert( client );
-
-    orderbook->aggregateAllPriceLevels( client );
-
-    logger.info( boost::format( format::f1::logGetClient ) % client->toString() );
-
-    return client;
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::removeClient( const ClientPtr& client )
+ClientSet::const_iterator Matcher::findClient( const ClientPtr& client ) const
 {
     const auto& it = clients->find( client );
 
-    if( it != clients->cend() )
-    {
-        clients->erase( it );
-
-        logger.info( boost::format( format::f1::logRemoveClient ) % client->toString() );
-    }
-    else
+    if( it == clients->cend() )
     {
         pyexc::raise( PyExc_KeyError, boost::format( format::f1::logClientDoesNotExist ) % client->toString() );
     }
+
+    return it;
 }
 
 

@@ -35,6 +35,7 @@ add_library( engine SHARED
     src/PyXchange.cpp
     src/Logger.cpp
     src/Matcher.cpp
+    src/MatcherApi.cpp
     src/client/BaseClient.cpp
     src/client/Client.cpp
     src/client/Trader.cpp
@@ -62,6 +63,13 @@ install(
 install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/pyxchange
     DESTINATION ${PythonPkgPath}
+    FILES_MATCHING PATTERN "*.py"
+    PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
+)
+
+install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/examples
+    DESTINATION /usr/share/doc/pyxchange
     FILES_MATCHING PATTERN "*.py"
     PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 )

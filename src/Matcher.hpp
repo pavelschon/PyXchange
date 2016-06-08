@@ -1,4 +1,4 @@
-/**
+/**0
  * @brief This module implements simulator of exchange
  * @file Matcher.hpp
  * 
@@ -23,6 +23,8 @@ public:
                         Matcher( const Matcher& ) = delete;
     Matcher&            operator=( const Matcher& ) = delete;
 
+    /* public Matcher API (see MatcherApi.cpp */
+
     TraderPtr           getTrader( const std::string& name, const boost::python::object& transport );
     void                removeTrader( const TraderPtr& trader );
 
@@ -30,16 +32,25 @@ public:
     void                removeClient( const ClientPtr& client );
 
     template<typename T>
-    static void         handleMessageStr( const std::shared_ptr<T>& client,
-                                          const MatcherPtr& matcher, const std::string& data );
+    static void         handleMessageStr( const T& client, const MatcherPtr& matcher,
+                                          const std::string& data );
 
     template<typename T>
-    static void         handleMessageDict( const std::shared_ptr<T>& client,
-                                           const MatcherPtr& matcher,  const boost::python::dict& decoded );
+    static void         handleMessageDict( const T& client, const MatcherPtr& matcher,
+                                           const boost::python::dict& decoded );
+
+    static void         handleCreateOrder( const TraderPtr& trader, const MatcherPtr& matcher,
+                                     const boost::python::dict& decoded );
+
+    static void         handleCancelOrder( const TraderPtr& trader, const MatcherPtr& matcher,
+                                           const boost::python::dict& decoded );
 
 private:
     void                handleMessageStr( const TraderPtr& trader, const std::string& data );
     void                handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
+
+    TraderSet::const_iterator findClient( const TraderPtr& trader ) const;
+    ClientSet::const_iterator findClient( const ClientPtr& client ) const;
 
     static std::wstring extractMessage( const boost::python::dict& decoded );
 
