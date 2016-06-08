@@ -56,6 +56,19 @@ private:
 };
 
 
+/**
+ * @brief FIXME
+ *
+ */
+template<typename CLIENT, typename DATA>
+inline void Matcher::handleMessage( const CLIENT& client, const MatcherPtr& matcher, const DATA& data )
+{
+    matcher->findClient( client );
+
+    matcher->handleMessageImpl( client, data );
+}
+
+
 } /* namespace pyxchange */
 
 

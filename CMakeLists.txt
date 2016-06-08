@@ -34,8 +34,8 @@ include_directories(
 add_library( engine SHARED
     src/PyXchange.cpp
     src/logger/Logger.cpp
-    src/Matcher.cpp
-    src/MatcherApi.cpp
+    src/matcher/Matcher.cpp
+    src/matcher/MatcherApi.cpp
     src/client/BaseClient.cpp
     src/client/Client.cpp
     src/client/Trader.cpp

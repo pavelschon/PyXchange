@@ -32,6 +32,7 @@ engine = Extension('pyxchange.engine',
         glob.glob('src/*.cpp') +
         glob.glob('src/logger/*.cpp') +
         glob.glob('src/client/*.cpp') +
+        glob.glob('src/matcher/*.cpp')
         glob.glob('src/order/*.cpp')
         glob.glob('src/orderbook/*.cpp')
     )

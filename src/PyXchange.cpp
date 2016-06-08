@@ -7,29 +7,9 @@
 #include "PyXchangeFwd.hpp"
 #include "client/Client.hpp"
 #include "client/Trader.hpp"
-#include "Matcher.hpp"
+#include "matcher/Matcher.hpp"
 #include "orderbook/OrderBook.hpp"
 #include "Json.hpp"
-
-
-namespace pyxchange
-{
-
-
-/**
- * @brief FIXME
- *
- */
-template<typename CLIENT, typename DATA>
-void Matcher::handleMessage( const CLIENT& client, const MatcherPtr& matcher, const DATA& data )
-{
-    matcher->findClient( client );
-
-    matcher->handleMessageImpl( client, data );
-}
-
-
-} /* namespace pyxchange */
 
 
 /**
