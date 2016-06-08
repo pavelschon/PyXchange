@@ -39,7 +39,7 @@ add_library( engine SHARED
     src/client/BaseClient.cpp
     src/client/Client.cpp
     src/client/Trader.cpp
-    src/orderbook/Order.cpp
+    src/order/Order.cpp
     src/orderbook/OrderBook.cpp
     src/orderbook/OrderBookAggr.cpp
     src/orderbook/OrderBookAggrAll.cpp
