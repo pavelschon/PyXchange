@@ -15,6 +15,12 @@ namespace pyxchange
 
 namespace py = boost::python;
 
+const std::set<std::wstring> Client::messages{
+    message::wCreateOrder,
+    message::wCancelOrder,
+    message::wCancelAll
+};
+
 
 /**
  * @brief   Write 'orderbook' message to this client

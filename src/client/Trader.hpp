@@ -33,6 +33,8 @@ public:
 
     void        notifyTrade( const orderId_t orderId, const price_t price,
                              const quantity_t quantity );
+
+    static const std::set<std::wstring> messages;
 };
 
 

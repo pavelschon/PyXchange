@@ -9,6 +9,7 @@
 
 #include "PyXchange.hpp"
 #include "client/BaseClient.hpp"
+#include "client/BaseClient.hpp"
 
 
 namespace pyxchange
@@ -31,6 +32,8 @@ public:
 
     static void notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
                              const price_t price, const quantity_t quantity );
+
+    static const std::set<std::wstring> messages;
 
 private:
     static void writeAll( const ClientSetConstPtr& clients,
