@@ -19,8 +19,8 @@ namespace pyxchange
 class OrderBook
 {
 public:
-    explicit    OrderBook( const ClientSetConstPtr & clients_ );
-                OrderBook( const ClientSetConstPtr & clients_, const Logger& logger_ );
+    explicit    OrderBook( const ClientVectorConstPtr& clients_ );
+                OrderBook( const ClientVectorConstPtr& clients_, const Logger& logger_ );
                 OrderBook( const OrderBook& ) = delete;
     OrderBook& operator=( const OrderBook& ) = delete;
 
@@ -70,7 +70,7 @@ private:
 
 private:
     const Logger                    logger;
-    const ClientSetConstPtr         clients;
+    const ClientVectorConstPtr      clients;
 
     BidOrderContainer::type         bidOrders;
     AskOrderContainer::type         askOrders;

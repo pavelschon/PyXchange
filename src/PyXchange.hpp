@@ -16,7 +16,7 @@
 #include <memory>
 #include <chrono>
 #include <string>
-#include <set>
+#include <vector>
 
 
 namespace pyxchange
@@ -28,6 +28,8 @@ typedef int                                                             price_t;
 typedef int                                                             quantity_t;
 typedef int                                                             orderId_t;
 typedef unsigned short                                                  side_t;
+
+typedef std::vector<std::wstring>                                       MessageVector;
 
 
 class OrderBook;
@@ -43,27 +45,13 @@ typedef std::shared_ptr<Matcher>                                        MatcherP
 typedef std::shared_ptr<const Matcher>                                  MatcherConstPtr;
 
 
-template<typename T>
-struct CompareWeakPtr
-{
-    bool operator()( const std::weak_ptr<const T>& lhs,
-                     const std::weak_ptr<const T>& rhs ) const
-    {
-        const auto& lhs_ = lhs.lock();
-        const auto& rhs_ = rhs.lock();
-
-        return ( lhs_ && rhs_ ) ? lhs_ < rhs_ : false;
-    }
-};
-
-
 class Client;
 typedef std::shared_ptr<Client>                                         ClientPtr;
 typedef std::weak_ptr<Client>                                           ClientWPtr;
 
-typedef std::set<ClientWPtr, CompareWeakPtr<Client> >                   ClientSet;
-typedef std::shared_ptr<ClientSet>                                      ClientSetPtr;
-typedef std::shared_ptr<ClientSet const>                                ClientSetConstPtr;
+typedef std::vector<ClientWPtr>                                         ClientVector;
+typedef std::shared_ptr<ClientVector>                                   ClientVectorPtr;
+typedef std::shared_ptr<ClientVector const>                             ClientVectorConstPtr;
 
 
 class Trader;

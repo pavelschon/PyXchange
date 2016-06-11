@@ -15,7 +15,7 @@ namespace pyxchange
 
 namespace py = boost::python;
 
-const std::set<std::wstring> Client::messages{
+const MessageVector Client::messages{
     message::wPing
 };
 
@@ -81,7 +81,7 @@ void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, cons
  * @return  void
  *
  */
-void Client::notifyOrderBook( const ClientSetConstPtr& clients, const price_t priceLevel,
+void Client::notifyOrderBook( const ClientVectorConstPtr& clients, const price_t priceLevel,
                               const side_t side_, const quantity_t quantity )
 {
     py::dict response;
@@ -103,7 +103,7 @@ void Client::notifyOrderBook( const ClientSetConstPtr& clients, const price_t pr
  * @return  void
  *
  */
-void Client::notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
+void Client::notifyTrade( const ClientVectorConstPtr& clients, const prio_t time,
                           const price_t price, const quantity_t quantity )
 {
     py::dict response;
@@ -124,7 +124,7 @@ void Client::notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
  * @return  void
  *
  */
-void Client::writeAll( const ClientSetConstPtr& clients, const py::object& data )
+void Client::writeAll( const ClientVectorConstPtr& clients, const py::object& data )
 {
     for( const auto& client : *clients )
     {

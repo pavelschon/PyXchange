@@ -25,7 +25,7 @@ namespace py = boost::python;
  *
  */
 Matcher::Matcher():
-      clients{ std::make_shared<ClientSet>() }
+      clients{ std::make_shared<ClientVector>() }
     , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
 {
 
@@ -38,7 +38,7 @@ Matcher::Matcher():
  */
 Matcher::Matcher( const boost::python::object& logger_):
       logger{ logger_ }
-    , clients{ std::make_shared<ClientSet>() }
+    , clients{ std::make_shared<ClientVector>() }
     , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
 {
     logger.info( format::f0::logMatcherReady );
@@ -83,7 +83,7 @@ ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& nam
 {
     const ClientPtr& client = std::make_shared<Client>( matcher, name, transport );
 
-    matcher->clients->insert( client );
+    matcher->clients->push_back( client );
     matcher->orderbook->aggregateAllPriceLevels( client );
 
     return client;
@@ -198,7 +198,7 @@ void Matcher::handleMessageImpl( const ClientPtr& client, const py::dict& decode
  * @brief FIXME
  *
  */
-std::wstring Matcher::extractMessage( const std::set<std::wstring>& messages, const py::dict& decoded )
+std::wstring Matcher::extractMessage( const MessageVector& messages, const py::dict& decoded )
 {
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 

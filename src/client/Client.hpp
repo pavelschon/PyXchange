@@ -30,17 +30,16 @@ public:
     void        notifyOrderBook( const price_t priceLevel,
                                  const side_t side_, const quantity_t quantity );
 
-    static void notifyOrderBook( const ClientSetConstPtr& clients, const price_t priceLevel,
+    static void notifyOrderBook( const ClientVectorConstPtr& clients, const price_t priceLevel,
                                  const side_t side_, const quantity_t quantity );
 
-    static void notifyTrade( const ClientSetConstPtr& clients, const prio_t time,
+    static void notifyTrade( const ClientVectorConstPtr& clients, const prio_t time,
                              const price_t price, const quantity_t quantity );
 
-    static const std::set<std::wstring> messages;
+    static const MessageVector messages;
 
 private:
-    static void writeAll( const ClientSetConstPtr& clients,
-                          const boost::python::object& data );
+    static void writeAll( const ClientVectorConstPtr& clients, const boost::python::object& data );
 };
 
 

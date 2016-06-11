@@ -23,7 +23,7 @@ namespace py = boost::python;
  * @brief Constructor
  *
  */
-OrderBook::OrderBook( const ClientSetConstPtr & clients_ ):
+OrderBook::OrderBook( const ClientVectorConstPtr& clients_ ):
     clients{ clients_ }
 {
 
@@ -34,7 +34,7 @@ OrderBook::OrderBook( const ClientSetConstPtr & clients_ ):
  * @brief Constructor
  *
  */
-OrderBook::OrderBook( const ClientSetConstPtr & clients_, const Logger& logger_ ):
+OrderBook::OrderBook( const ClientVectorConstPtr& clients_, const Logger& logger_ ):
       logger{ logger_ }
     , clients{ clients_ }
 {
