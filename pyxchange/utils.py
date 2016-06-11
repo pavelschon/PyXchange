@@ -86,6 +86,13 @@ class ClientWrapper(object):
         return '<ClientWrapper of %r>' % self.client
 
 
+    def remove(self):
+        """ FIXME """
+
+        self.client = None
+        self.transport = None
+
+
     def clear(self):
         """ Clear messages in the queue """
 
@@ -125,6 +132,13 @@ class TraderWrapper(object):
 
     def __repr__(self):
         return '<TraderWrapper of %r>' % self.trader
+
+
+    def remove(self):
+        """ FIXME """
+
+        self.trader = None
+        self.transport = None
 
 
     def clear(self):

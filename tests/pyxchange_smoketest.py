@@ -47,8 +47,8 @@ class MatcherTest(unittest.TestCase):
 
     def tearDown(self):
         """ Remove client and trader from the matcher """
-
-        self.matcher.removeClient(self.client1.client)
+        self.client1.remove()
+        self.trader1.remove()
 
 
     def testWrongTransport(self):
@@ -56,18 +56,6 @@ class MatcherTest(unittest.TestCase):
 
         with self.assertRaises(AttributeError):
             self.matcher.getTrader('trader-2', None)
-
-
-    def testInvalidRemove(self):
-        """ Test whether matcher handles invalid client remove """
-
-        self.client2 = ClientWrapper('client-2', self.matcher)
-        self.trader2 = TraderWrapper('trader-2', self.matcher)
-
-        self.matcher.removeClient(self.client2.client)
-
-        with self.assertRaises(KeyError):
-            self.matcher.removeClient(self.client2.client)
 
 
     def testTypeError(self):
@@ -201,7 +189,9 @@ class TradingTest(unittest.TestCase):
 
 
     def tearDown(self):
-        self.matcher.removeClient(self.client1.client)
+        self.client1.remove()
+        self.trader1.remove()
+        self.trader2.remove()
 
 
     def testTrade(self):

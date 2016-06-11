@@ -23,12 +23,8 @@ public:
                         Matcher( const Matcher& ) = delete;
     Matcher&            operator=( const Matcher& ) = delete;
 
-    /* public Matcher API (see MatcherApi.cpp */
-
     static ClientPtr    makeClient( const MatcherPtr& matcher, const std::string& name,
                                     const boost::python::object& transport );
-
-    void                removeClient( const ClientPtr& client );
 
     template<typename CLIENT, typename DATA>
     static void         handleMessage( const CLIENT& client, const DATA& data );
@@ -40,8 +36,6 @@ public:
 private:
     void                handleMessageImpl( const TraderPtr& trader, const std::string& data );
     void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded );
-
-    ClientSet::const_iterator findClient( const ClientPtr& client ) const;
 
     static std::wstring extractMessage( const boost::python::dict& decoded );
 

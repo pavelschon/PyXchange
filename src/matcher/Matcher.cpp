@@ -50,6 +50,52 @@ Matcher::Matcher( const boost::python::object& logger_):
  * @brief FIXME
  *
  */
+void Matcher::handleCreateOrder( const TraderPtr& trader, const boost::python::dict& decoded )
+{
+    trader->matcher->orderbook->createOrder( trader, decoded );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleCancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
+{
+    trader->matcher->orderbook->cancelOrder( trader, decoded );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleCancelAll( const TraderPtr& trader )
+{
+    trader->matcher->orderbook->cancelAllOrders( trader );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& name, const py::object& transport )
+{
+    const ClientPtr& client = std::make_shared<Client>( matcher,
+                                                        ( boost::format( format::f1::client ) % name ).str(), transport );
+
+    matcher->clients->insert( client );
+    matcher->orderbook->aggregateAllPriceLevels( client );
+
+    return client;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& data )
 {
     const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
@@ -141,22 +187,6 @@ std::wstring Matcher::extractMessage( const py::dict& decoded )
     };
 
     return pyexc::translate<pyexc::MalformedMessage>( decode, exceptions );
-}
-
-/**
- * @brief FIXME
- *
- */
-ClientSet::const_iterator Matcher::findClient( const ClientPtr& client ) const
-{
-    const auto& it = clients->find( client );
-
-    if( it == clients->cend() )
-    {
-        pyexc::raise( PyExc_KeyError, boost::format( format::f1::logClientDoesNotExist ) % client->toString() );
-    }
-
-    return it;
 }
 
 

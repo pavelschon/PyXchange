@@ -48,7 +48,6 @@ BOOST_PYTHON_MODULE( engine )
     class_<Matcher, MatcherPtr, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
         .def( "__init__", make_constructor( &make_shared_<Matcher, const object&> ) )
-        .def( "removeClient", &Matcher::removeClient, args( "client" ) )
     ;
 
     def( "json_dumps", &json::dumps<const std::string> );
