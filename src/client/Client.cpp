@@ -23,6 +23,21 @@ const std::set<std::wstring> Client::messages{
 
 
 /**
+ * @brief   FIXME
+ * @return  void
+ *
+ */
+void Client::notifyPong( void )
+{
+    py::dict response;
+
+    response[ keys::type     ] = message::pong;
+
+    writeData( response );
+}
+
+
+/**
  * @brief   Write 'orderbook' message to this client
  * @param   price_t     price priceLevel
  * @param   side_t      side

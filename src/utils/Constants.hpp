@@ -97,6 +97,9 @@ const boost::format order( "<Order %|| -> %||, %|| @ %||>" );
 namespace message
 {
 
+const std::string ping              = "ping";
+const std::string pong              = "pong";
+
 const std::string executionReport   = "executionReport";
 const std::string orderBook         = "orderbook";
 const std::string error             = "error";
@@ -106,6 +109,7 @@ const std::string  createOrder      = "createOrder";
 const std::string  cancelOrder      = "cancelOrder";
 const std::string  cancelAll        = "cancelAll";
 
+const std::wstring wPing( ping.begin(), ping.end() );
 const std::wstring wCreateOrder( createOrder.begin(), createOrder.end() );
 const std::wstring wCancelOrder( cancelOrder.begin(), cancelOrder.end() );
 const std::wstring wCancelAll(   cancelAll.begin(),   cancelAll.end() );

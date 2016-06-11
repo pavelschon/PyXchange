@@ -24,6 +24,8 @@ public:
                 Client( const Client& ) = delete;
                 Client& operator=( const Client& ) = delete;
 
+    void        notifyPong( void );
+
     void        notifyOrderBook( const price_t priceLevel,
                                  const side_t side_, const quantity_t quantity );
 

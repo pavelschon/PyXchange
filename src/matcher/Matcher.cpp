@@ -82,8 +82,7 @@ void Matcher::handleCancelAll( const TraderPtr& trader )
  */
 ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& name, const py::object& transport )
 {
-    const ClientPtr& client = std::make_shared<Client>( matcher,
-        ( boost::format( format::f1::client ) % name ).str(), transport );
+    const ClientPtr& client = std::make_shared<Client>( matcher, name, transport );
 
     matcher->clients->insert( client );
     matcher->orderbook->aggregateAllPriceLevels( client );

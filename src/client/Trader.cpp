@@ -23,6 +23,21 @@ const std::set<std::wstring> Trader::messages{
 
 
 /**
+ * @brief   FIXME
+ * @return  void
+ *
+ */
+void Trader::notifyPong( void )
+{
+    py::dict response;
+
+    response[ keys::message ] = message::pong;
+
+    writeData( response );
+}
+
+
+/**
  * @brief FIXME
  *
  */

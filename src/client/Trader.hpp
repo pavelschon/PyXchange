@@ -23,6 +23,8 @@ public:
                 Trader( const Trader& ) = delete;
                 Trader& operator=( const Trader& ) = delete;
 
+    void        notifyPong( void );
+
     void        notifyError( const std::string& text );
 
     void        notifyCancelOrderSuccess( const orderId_t orderId,

@@ -28,38 +28,51 @@ class MessagePrinter(Transport):
 matcher = engine.Matcher()
 print matcher
 
-# uncomment this to get public market data messages
-#client1_transport = MessagePrinter('client-1')
-#client1 = matcher.getClient('client-1', client1_transport)
-#print client1
+name = 'client-1'
+client1 = engine.Client(matcher, name, MessagePrinter(name))
 
-trader1_transport = MessagePrinter('trader-1')
-trader1 = matcher.getTrader('trader-1', trader1_transport)
+name = 'trader-1'
+trader1 = engine.Trader(matcher, name, MessagePrinter(name))
+
+name = 'trader-2'
+trader2 = engine.Trader(matcher, name, MessagePrinter(name))
+
+print client1
 print trader1
-
-trader2_transport = MessagePrinter('trader-2')
-trader2 = matcher.getTrader('trader-2', trader2_transport)
 print trader2
 
+client1.ping()
+trader1.ping()
+trader2.ping()
+
+print
+
 # trader1 enters buy orders
-trader1.createOrder(matcher, { 'orderId': 1, 'price': 10, 'quantity': 10, 'side': 'BUY' })
-trader1.createOrder(matcher, { 'orderId': 2, 'price': 20, 'quantity': 10, 'side': 'BUY' })
-trader1.createOrder(matcher, { 'orderId': 3, 'price': 30, 'quantity': 10, 'side': 'BUY' })
+trader1.createOrder({ 'orderId': 1, 'price': 10, 'quantity': 10, 'side': 'BUY' })
+print
+
+trader1.createOrder({ 'orderId': 2, 'price': 20, 'quantity': 10, 'side': 'BUY' })
+print
+
+trader1.createOrder({ 'orderId': 3, 'price': 30, 'quantity': 10, 'side': 'BUY' })
+print
 
 # this order will match with order 3 of trader1 and resting quantity will be inserted to orderbook
-trader2.createOrder(matcher, { 'orderId': 1, 'price': 25, 'quantity': 15, 'side': 'SELL' })
-
+trader2.createOrder({ 'orderId': 1, 'price': 25, 'quantity': 15, 'side': 'SELL' })
+print
 
 # this could match with order 1 of trader2, but self-match prevention will reject it
-trader2.createOrder(matcher, { 'orderId': 2, 'price': 25, 'quantity': 10, 'side': 'BUY' })
+trader2.createOrder({ 'orderId': 2, 'price': 25, 'quantity': 10, 'side': 'BUY' })
+print
 
-trader1.cancelOrder(matcher, { 'orderId': 2 })
+trader1.cancelOrder({ 'orderId': 2 })
+print
 # order does not exit
-trader1.cancelOrder(matcher, { 'orderId': 2 })
+trader1.cancelOrder({ 'orderId': 2 })
+print
 
-matcher.removeTrader(trader1) # this will cancel all orders of trader1
-matcher.removeTrader(trader2) # this will cancel all orders of trader2
-
+trader2.cancelAll()
+print
 
 
 # EOF

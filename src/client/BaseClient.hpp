@@ -32,6 +32,8 @@ public:
 
     void        writeData( const boost::python::object& data );
 
+    virtual void notifyPong( void ) = 0;
+
 private:
     const MatcherPtr matcher;
     const std::string name;
