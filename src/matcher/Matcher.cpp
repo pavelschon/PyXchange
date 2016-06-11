@@ -25,8 +25,7 @@ namespace py = boost::python;
  *
  */
 Matcher::Matcher():
-      traders{ std::make_shared<TraderSet>() }
-    , clients{ std::make_shared<ClientSet>() }
+      clients{ std::make_shared<ClientSet>() }
     , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
 {
 
@@ -40,7 +39,6 @@ Matcher::Matcher():
  */
 Matcher::Matcher( const boost::python::object& logger_):
       logger{ logger_ }
-    , traders{ std::make_unique<TraderSet>() }
     , clients{ std::make_shared<ClientSet>() }
     , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
 {
@@ -144,24 +142,6 @@ std::wstring Matcher::extractMessage( const py::dict& decoded )
 
     return pyexc::translate<pyexc::MalformedMessage>( decode, exceptions );
 }
-
-
-/**
- * @brief FIXME
- *
- */
-TraderSet::const_iterator Matcher::findClient( const TraderPtr& trader ) const
-{
-    const auto& it = traders->find( trader );
-
-    if( it == traders->cend() )
-    {
-        pyexc::raise( PyExc_KeyError, boost::format( format::f1::logTraderDoesNotExist ) % trader->toString() );
-    }
-
-    return it;
-}
-
 
 /**
  * @brief FIXME

@@ -69,8 +69,6 @@ typedef std::shared_ptr<ClientSet const>                                ClientSe
 class Trader;
 typedef std::shared_ptr<Trader>                                         TraderPtr;
 typedef std::weak_ptr<Trader>                                           TraderWPtr;
-typedef std::set<TraderWPtr, CompareWeakPtr<Trader> >                   TraderSet;
-typedef std::shared_ptr<TraderSet>                                      TraderSetPtr;
 typedef std::tuple<const TraderPtr, const orderId_t>                    TraderOrderId;
 
 

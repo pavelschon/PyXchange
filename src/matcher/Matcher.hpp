@@ -39,13 +39,11 @@ private:
     void                handleMessageImpl( const TraderPtr& trader, const std::string& data );
     void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded );
 
-    TraderSet::const_iterator findClient( const TraderPtr& trader ) const;
     ClientSet::const_iterator findClient( const ClientPtr& client ) const;
 
     static std::wstring extractMessage( const boost::python::dict& decoded );
 
     const Logger        logger;
-    const TraderSetPtr  traders;
     const ClientSetPtr  clients;
     const OrderBookPtr  orderbook;
 };
