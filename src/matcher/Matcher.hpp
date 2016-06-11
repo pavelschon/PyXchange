@@ -34,8 +34,14 @@ public:
     static void         handleCancelAll(   const TraderPtr& trader );
 
 private:
-    void                handleMessageImpl( const TraderPtr& trader, const std::string& data );
-    void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded );
+    template<typename CLIENT>
+    void                handleMessageImpl( const CLIENT& client, const std::string& data );
+
+    template<typename CLIENT>
+    void                handleMessageImpl( const CLIENT& trader, const boost::python::dict& decoded );
+
+    void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded, const std::wstring message_ );
+    void                handleMessageImpl( const ClientPtr& client, const boost::python::dict& decoded, const std::wstring message_ );
 
     static std::wstring extractMessage( const boost::python::dict& decoded );
 
