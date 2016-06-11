@@ -7,6 +7,8 @@
 import collections
 import time
 
+from . import engine
+
 
 __all__ = (
     'Transport',
@@ -76,9 +78,8 @@ class ClientWrapper(object):
     def __init__(self, name, matcher):
         """ FIXME """
 
-        self.matcher = matcher
         self.transport = TestTransport()
-        self.client = matcher.getClient(name, self.transport)
+        self.client = engine.Client(matcher, name, self.transport)
 
 
     def __repr__(self):
@@ -118,9 +119,8 @@ class TraderWrapper(object):
     def __init__(self, name, matcher):
         """ FIXME """
 
-        self.matcher = matcher
         self.transport = TestTransport()
-        self.trader = matcher.getTrader(name, self.transport)
+        self.trader = engine.Trader(matcher, name, self.transport)
 
 
     def __repr__(self):

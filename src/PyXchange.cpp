@@ -31,6 +31,7 @@ BOOST_PYTHON_MODULE( engine )
     using namespace ::pyxchange;
 
     class_<Client, ClientPtr, boost::noncopyable>( "Client", no_init )
+        .def( "__init__", make_constructor( &Matcher::makeClient ) )
         .def( "__repr__", &Client::toString )
         ;
 
@@ -47,7 +48,6 @@ BOOST_PYTHON_MODULE( engine )
     class_<Matcher, MatcherPtr, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
         .def( "__init__", make_constructor( &make_shared_<Matcher, const object&> ) )
-        .def( "getClient",    &Matcher::getClient, args( "name", "transport" ) )
         .def( "removeClient", &Matcher::removeClient, args( "client" ) )
     ;
 

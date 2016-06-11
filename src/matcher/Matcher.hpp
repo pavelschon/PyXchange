@@ -15,7 +15,7 @@ namespace pyxchange
 {
 
 
-class Matcher: public std::enable_shared_from_this<Matcher>
+class Matcher
 {
 public:
                         Matcher();
@@ -25,7 +25,9 @@ public:
 
     /* public Matcher API (see MatcherApi.cpp */
 
-    ClientPtr           getClient( const std::string& name, const boost::python::object& transport );
+    static ClientPtr    makeClient( const MatcherPtr& matcher, const std::string& name,
+                                    const boost::python::object& transport );
+
     void                removeClient( const ClientPtr& client );
 
     template<typename CLIENT, typename DATA>

@@ -54,16 +54,13 @@ void Matcher::handleCancelAll( const TraderPtr& trader )
  * @brief FIXME
  *
  */
-ClientPtr Matcher::getClient( const std::string& name, const py::object& transport )
+ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& name, const py::object& transport )
 {
-    const ClientPtr& client = std::make_shared<Client>( shared_from_this(),
+    const ClientPtr& client = std::make_shared<Client>( matcher,
         ( boost::format( format::f1::client ) % name ).str(), transport );
 
-    clients->insert( client );
-
-    orderbook->aggregateAllPriceLevels( client );
-
-    logger.info( boost::format( format::f1::logGetClient ) % client->toString() );
+    matcher->clients->insert( client );
+    matcher->orderbook->aggregateAllPriceLevels( client );
 
     return client;
 }
