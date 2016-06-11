@@ -23,8 +23,9 @@ namespace py = boost::python;
  * @param   py::object  transport
  *
  */
-BaseClient::BaseClient( const std::string& name_, const py::object& transport_ ):
-      name{ name_ }
+BaseClient::BaseClient( const MatcherPtr& matcher_, const std::string& name_, const py::object& transport_ ):
+      matcher{ matcher_ }
+    , name{ name_ }
     , transport{ transport_ }
 {
     if( !( hasattr( transport, attr::writeData ) || hasattr( transport, attr::write ) ) )

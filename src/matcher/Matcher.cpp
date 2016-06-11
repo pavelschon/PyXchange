@@ -101,6 +101,10 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
         {
             orderbook->cancelOrder( trader, decoded );
         }
+        else if( message_ == message::wCancelAll )
+        {
+            orderbook->cancelAllOrders( trader );
+        }
     }
     catch( const pyexc::MalformedMessage& )
     {

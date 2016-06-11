@@ -15,7 +15,7 @@ namespace pyxchange
 {
 
 
-class Matcher
+class Matcher: public std::enable_shared_from_this<Matcher>
 {
 public:
                         Matcher();
@@ -32,13 +32,11 @@ public:
     void                removeClient( const ClientPtr& client );
 
     template<typename CLIENT, typename DATA>
-    static void         handleMessage( const CLIENT& client, const MatcherPtr& matcher, const DATA& data );
+    static void         handleMessage( const CLIENT& client, const DATA& data );
 
-    static void         handleCreateOrder( const TraderPtr& trader, const MatcherPtr& matcher,
-                                           const boost::python::dict& decoded );
-
-    static void         handleCancelOrder( const TraderPtr& trader, const MatcherPtr& matcher,
-                                           const boost::python::dict& decoded );
+    static void         handleCreateOrder( const TraderPtr& trader, const boost::python::dict& decoded );
+    static void         handleCancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
+    static void         handleCancelAll(   const TraderPtr& trader );
 
 private:
     void                handleMessageImpl( const TraderPtr& trader, const std::string& data );
@@ -61,11 +59,9 @@ private:
  *
  */
 template<typename CLIENT, typename DATA>
-inline void Matcher::handleMessage( const CLIENT& client, const MatcherPtr& matcher, const DATA& data )
+inline void Matcher::handleMessage( const CLIENT& client, const DATA& data )
 {
-    matcher->findClient( client );
-
-    matcher->handleMessageImpl( client, data );
+    client->matcher->handleMessageImpl( client, data );
 }
 
 

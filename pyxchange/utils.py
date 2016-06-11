@@ -95,7 +95,8 @@ class ClientWrapper(object):
         """ FIXME """
 
         assert type(message) in (str, dict)
-        self.client.handleMessage(self.matcher, message)
+
+        self.client.handleMessage(message)
 
 
     def assertMessage(self, message):
@@ -136,7 +137,8 @@ class TraderWrapper(object):
         """ FIXME """
 
         assert type(message) in (str, dict)
-        self.trader.handleMessage(self.matcher, message)
+
+        self.trader.handleMessage(message)
 
 
     def assertMessage(self, message):

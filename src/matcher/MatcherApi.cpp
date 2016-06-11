@@ -24,12 +24,9 @@ namespace py = boost::python;
  * @brief FIXME
  *
  */
-void Matcher::handleCreateOrder( const TraderPtr& trader, const MatcherPtr& matcher,
-                                 const boost::python::dict& decoded )
+void Matcher::handleCreateOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    matcher->findClient( trader );
-
-    matcher->orderbook->createOrder( trader, decoded );
+    trader->matcher->orderbook->createOrder( trader, decoded );
 }
 
 
@@ -37,12 +34,19 @@ void Matcher::handleCreateOrder( const TraderPtr& trader, const MatcherPtr& matc
  * @brief FIXME
  *
  */
-void Matcher::handleCancelOrder( const TraderPtr& trader, const MatcherPtr& matcher,
-                                 const boost::python::dict& decoded )
+void Matcher::handleCancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
-    matcher->findClient( trader );
+    trader->matcher->orderbook->cancelOrder( trader, decoded );
+}
 
-    matcher->orderbook->cancelOrder( trader, decoded );
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleCancelAll( const TraderPtr& trader )
+{
+    trader->matcher->orderbook->cancelAllOrders( trader );
 }
 
 
@@ -52,7 +56,7 @@ void Matcher::handleCancelOrder( const TraderPtr& trader, const MatcherPtr& matc
  */
 TraderPtr Matcher::getTrader( const std::string& name, const py::object& transport )
 {
-    const TraderPtr& trader = std::make_shared<Trader>(
+    const TraderPtr& trader = std::make_shared<Trader>( shared_from_this(),
         ( boost::format( format::f1::trader ) % name ).str(), transport );
 
     traders->insert( trader );
@@ -85,7 +89,7 @@ void Matcher::removeTrader( const TraderPtr& trader )
  */
 ClientPtr Matcher::getClient( const std::string& name, const py::object& transport )
 {
-    const ClientPtr& client = std::make_shared<Client>(
+    const ClientPtr& client = std::make_shared<Client>( shared_from_this(),
         ( boost::format( format::f1::client ) % name ).str(), transport );
 
     clients->insert( client );

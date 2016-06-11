@@ -16,8 +16,10 @@ namespace pyxchange
 
 class BaseClient
 {
+    friend class Matcher;
+
 public:
-                BaseClient( const std::string& name_,
+                BaseClient( const MatcherPtr& matcher_, const std::string& name_,
                             const boost::python::object& transport_ );
 
                 BaseClient( const Trader& ) = delete;
@@ -31,6 +33,7 @@ public:
     void        writeData( const boost::python::object& data );
 
 private:
+    const MatcherPtr matcher;
     const std::string name;
     const boost::python::object transport;
 };

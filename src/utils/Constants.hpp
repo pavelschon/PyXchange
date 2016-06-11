@@ -104,9 +104,11 @@ const std::string trade             = "trade";
 
 const std::string  createOrder      = "createOrder";
 const std::string  cancelOrder      = "cancelOrder";
+const std::string  cancelAll        = "cancelAll";
 
 const std::wstring wCreateOrder( createOrder.begin(), createOrder.end() );
 const std::wstring wCancelOrder( cancelOrder.begin(), cancelOrder.end() );
+const std::wstring wCancelAll(   cancelAll.begin(),   cancelAll.end() );
 
 const auto all = { wCreateOrder, wCancelOrder };
 
