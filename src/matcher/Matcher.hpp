@@ -43,7 +43,7 @@ private:
     void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded, const std::wstring message_ );
     void                handleMessageImpl( const ClientPtr& client, const boost::python::dict& decoded, const std::wstring message_ );
 
-    static std::wstring extractMessage( const boost::python::dict& decoded );
+    static std::wstring extractMessage( const std::set<std::wstring>& messages, const boost::python::dict& decoded );
 
     const Logger        logger;
     const ClientSetPtr  clients;

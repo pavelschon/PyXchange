@@ -83,7 +83,7 @@ void Matcher::handleCancelAll( const TraderPtr& trader )
 ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& name, const py::object& transport )
 {
     const ClientPtr& client = std::make_shared<Client>( matcher,
-                                                        ( boost::format( format::f1::client ) % name ).str(), transport );
+        ( boost::format( format::f1::client ) % name ).str(), transport );
 
     matcher->clients->insert( client );
     matcher->orderbook->aggregateAllPriceLevels( client );
@@ -137,7 +137,7 @@ void Matcher::handleMessageImpl( const CLIENT& client, const py::dict& decoded )
 {
     try
     {
-        const std::wstring message_ = extractMessage( decoded );
+        const std::wstring message_ = extractMessage( client->messages, decoded );
 
         handleMessageImpl( client, decoded, message_ );
     }
@@ -193,14 +193,14 @@ void Matcher::handleMessageImpl( const ClientPtr& client, const py::dict& decode
  * @brief FIXME
  *
  */
-std::wstring Matcher::extractMessage( const py::dict& decoded )
+std::wstring Matcher::extractMessage( const std::set<std::wstring>& messages, const py::dict& decoded )
 {
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
-    const auto decode = [ &decoded ]() {
+    const auto decode = [ &messages, &decoded ]() {
         const std::wstring message_ = py::extract<const std::wstring>( decoded[ keys::message ] );
 
-        if( std::count( message::all.begin(), message::all.end(), message_ ) )
+        if( std::count( messages.begin(), messages.end(), message_ ) )
         {
             return message_;
         }
