@@ -26,7 +26,6 @@ public:
     /* public Matcher API (see MatcherApi.cpp */
 
     TraderPtr           getTrader( const std::string& name, const boost::python::object& transport );
-    void                removeTrader( const TraderPtr& trader );
 
     ClientPtr           getClient( const std::string& name, const boost::python::object& transport );
     void                removeClient( const ClientPtr& client );

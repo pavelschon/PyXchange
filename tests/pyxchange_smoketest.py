@@ -50,9 +50,6 @@ class MatcherTest(unittest.TestCase):
 
         self.matcher.removeClient(self.client1.client)
 
-        if self.trader1:
-            self.matcher.removeTrader(self.trader1.trader)
-
 
     def testWrongTransport(self):
         """ Test wrong transport object """
@@ -68,13 +65,9 @@ class MatcherTest(unittest.TestCase):
         self.trader2 = TraderWrapper('trader-2', self.matcher)
 
         self.matcher.removeClient(self.client2.client)
-        self.matcher.removeTrader(self.trader2.trader)
 
         with self.assertRaises(KeyError):
             self.matcher.removeClient(self.client2.client)
-
-        with self.assertRaises(KeyError):
-            self.matcher.removeTrader(self.trader2.trader)
 
 
     def testTypeError(self):
@@ -178,8 +171,7 @@ class MatcherTest(unittest.TestCase):
         self.trader1.assertMessage({ u'text': u'order does not exists', u'message': u'error' })
 
         # test orders are removed when trader disconnects
-        self.matcher.removeTrader(self.trader1.trader)
-        self.trader1 = None
+        self.trader1.handleMessage({ u'message': u'cancelAll' })
 
         self.client1.assertMessage({u'price': 1, u'type': u'orderbook', u'side': u'bid', u'quantity': 0})
 
@@ -210,8 +202,6 @@ class TradingTest(unittest.TestCase):
 
     def tearDown(self):
         self.matcher.removeClient(self.client1.client)
-        self.matcher.removeTrader(self.trader1.trader)
-        self.matcher.removeTrader(self.trader2.trader)
 
 
     def testTrade(self):

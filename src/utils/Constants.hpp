@@ -110,7 +110,7 @@ const std::wstring wCreateOrder( createOrder.begin(), createOrder.end() );
 const std::wstring wCancelOrder( cancelOrder.begin(), cancelOrder.end() );
 const std::wstring wCancelAll(   cancelAll.begin(),   cancelAll.end() );
 
-const auto all = { wCreateOrder, wCancelOrder };
+const auto all = { wCreateOrder, wCancelOrder, wCancelAll };
 
 
 } /* namespace message */

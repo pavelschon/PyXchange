@@ -48,7 +48,6 @@ BOOST_PYTHON_MODULE( engine )
         .def( "__init__", make_constructor( &make_shared_<Matcher, const object&> ) )
         .def( "getTrader",    &Matcher::getTrader, args( "name", "transport" ) )
         .def( "getClient",    &Matcher::getClient, args( "name", "transport" ) )
-        .def( "removeTrader", &Matcher::removeTrader, args( "trader" ) )
         .def( "removeClient", &Matcher::removeClient, args( "client" ) )
     ;
 

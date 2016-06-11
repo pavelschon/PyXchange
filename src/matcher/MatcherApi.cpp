@@ -71,22 +71,6 @@ TraderPtr Matcher::getTrader( const std::string& name, const py::object& transpo
  * @brief FIXME
  *
  */
-void Matcher::removeTrader( const TraderPtr& trader )
-{
-    const auto& it = findClient( trader );
-
-    orderbook->cancelAllOrders( trader );
-
-    traders->erase( it );
-
-    logger.info( boost::format( format::f1::logRemoveClient ) % trader->toString() );
-}
-
-
-/**
- * @brief FIXME
- *
- */
 ClientPtr Matcher::getClient( const std::string& name, const py::object& transport )
 {
     const ClientPtr& client = std::make_shared<Client>( shared_from_this(),
