@@ -97,6 +97,15 @@ const boost::format order( "<Order %|| -> %||, %|| @ %||>" );
 namespace message
 {
 
+/**
+ * @brief FIXME
+ *
+ */
+inline std::wstring string2wstring( const std::string& str )
+{
+    return std::wstring( str.begin(), str.end() );
+}
+
 const std::string ping              = "ping";
 const std::string pong              = "pong";
 
@@ -109,12 +118,10 @@ const std::string  createOrder      = "createOrder";
 const std::string  cancelOrder      = "cancelOrder";
 const std::string  cancelAll        = "cancelAll";
 
-const std::wstring wPing( ping.begin(), ping.end() );
-const std::wstring wCreateOrder( createOrder.begin(), createOrder.end() );
-const std::wstring wCancelOrder( cancelOrder.begin(), cancelOrder.end() );
-const std::wstring wCancelAll(   cancelAll.begin(),   cancelAll.end() );
-
-const auto all = { wCreateOrder, wCancelOrder, wCancelAll };
+const std::wstring wPing( string2wstring( ping ) );
+const std::wstring wCreateOrder( string2wstring( createOrder ) );
+const std::wstring wCancelOrder( string2wstring( cancelOrder ) );
+const std::wstring wCancelAll( string2wstring( cancelAll ) );
 
 
 } /* namespace message */

@@ -60,12 +60,6 @@ typedef std::weak_ptr<Trader>                                           TraderWP
 typedef std::tuple<const TraderPtr, const orderId_t>                    TraderOrderId;
 
 
-inline bool hasattr( const boost::python::object& obj, const char* const attr_ )
-{
-    return PyObject_HasAttrString( obj.ptr(), attr_ );
-}
-
-
 } /* namespace pyxchange */
 
 
