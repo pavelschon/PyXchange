@@ -25,6 +25,7 @@ public:
                 Client& operator=( const Client& ) = delete;
 
     void        notifyPong( void );
+    void        notifyError( const std::string& text );
 
     void        notifyOrderBook( const price_t priceLevel,
                                  const side_t side_, const quantity_t quantity );

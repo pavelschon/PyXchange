@@ -33,6 +33,7 @@ public:
     void        writeData( const boost::python::object& data );
 
     virtual void notifyPong( void ) = 0;
+    virtual void notifyError( const std::string& text ) = 0;
 
 private:
     const MatcherPtr matcher;

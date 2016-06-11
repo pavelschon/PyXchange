@@ -16,6 +16,7 @@ namespace py = boost::python;
 
 
 const std::set<std::wstring> Trader::messages{
+    message::wPing,
     message::wCreateOrder,
     message::wCancelOrder,
     message::wCancelAll

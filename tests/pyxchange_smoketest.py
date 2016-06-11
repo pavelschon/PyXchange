@@ -69,7 +69,17 @@ class MatcherTest(unittest.TestCase):
         """ Test handling of unknown message """
 
         self.trader1.handleMessage({ u'message': u'test' })
-        self.trader1.assertMessage({u'text': u'unknown message', u'message': u'error'})
+        self.trader1.assertMessage({ u'text': u'unknown message', u'message': u'error' })
+
+
+    def testPingPong(self):
+        """ Test handling of ping/pong (heartbeat) messages """
+
+        self.trader1.handleMessage({ u'message': u'ping' })
+        self.trader1.assertMessage({ u'message': u'pong' })
+
+        self.client1.handleMessage({ u'message': u'ping' })
+        self.client1.assertMessage({ u'type': u'pong' })
 
 
     def testInvalidMessage(self):

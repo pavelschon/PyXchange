@@ -32,7 +32,6 @@ Matcher::Matcher():
 }
 
 
-
 /**
  * @brief Constructor
  * 
@@ -163,7 +162,11 @@ void Matcher::handleMessageImpl( const CLIENT& client, const py::dict& decoded )
  */
 void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded, const std::wstring message_ )
 {
-    if( message_ == message::wCreateOrder )
+    if( message_ == message::wPing )
+    {
+        trader->notifyPong();
+    }
+    else if( message_ == message::wCreateOrder )
     {
         orderbook->createOrder( trader, decoded );
     }
@@ -184,7 +187,10 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
  */
 void Matcher::handleMessageImpl( const ClientPtr& client, const py::dict& decoded, const std::wstring message_ )
 {
-
+    if( message_ == message::wPing )
+    {
+        client->notifyPong();
+    }
 }
 
 
@@ -211,7 +217,10 @@ std::wstring Matcher::extractMessage( const std::set<std::wstring>& messages, co
 }
 
 
+template void Matcher::handleMessageImpl( const ClientPtr& client, const std::string& data );
 template void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& data );
+
+template void Matcher::handleMessageImpl( const ClientPtr& client, const py::dict& data );
 template void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& data );
 
 

@@ -16,9 +16,7 @@ namespace pyxchange
 namespace py = boost::python;
 
 const std::set<std::wstring> Client::messages{
-    message::wCreateOrder,
-    message::wCancelOrder,
-    message::wCancelAll
+    message::wPing
 };
 
 
@@ -33,6 +31,22 @@ void Client::notifyPong( void )
 
     response[ keys::type     ] = message::pong;
 
+    writeData( response );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Client::notifyError( const std::string& text )
+{
+    boost::python::dict response;
+
+    response[ keys::type ] = message::error;
+    response[ keys::text ] = text;
+
+    // send response
     writeData( response );
 }
 

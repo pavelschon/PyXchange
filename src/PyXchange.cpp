@@ -34,6 +34,8 @@ BOOST_PYTHON_MODULE( engine )
         .def( "__init__", make_constructor( &Matcher::makeClient ) )
         .def( "__repr__", &Client::toString )
         .def( "ping", &Client::notifyPong )
+        .def( "handleMessage", &Matcher::handleMessage<ClientPtr, std::string>, args( "data" ) )
+        .def( "handleMessage", &Matcher::handleMessage<ClientPtr, py::dict>, args( "data" ) )
         ;
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
