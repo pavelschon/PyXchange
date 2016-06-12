@@ -1,81 +1,264 @@
-# PyXchange
+# PyXchange #
 Simulator of limit orderbook written in **Python** and **C++**, using **python-twisted**, **boost::python** and **boost::multi_index** container.
 
-## Architecture overview
-The program implements single process & single thread TCP server, but the nature of event-driven **Twisted** framework creates an effect of parallel environment.
 
-Exchange protocol is JSON based, all messages are separated by newline character `\n`.
+## Basic features ###
 
-### TCP server listens on two channels ###
+Matching engine implements simple *limit orderbook* with *price/time priority* matching algorithm.
 
-1. **Private channel** for market participants (traders), by default on port 7001. The protocol is request-response based.
+Messaging protocol uses python dictionaries or JSON objects
 
-2. **Public channel** for publishing market data (trade statistics and price-level aggregated statistics), by default on port 7002. Public channel is read-only, messages are publised by server to all clients.
+The library can benused in two ways:
+
+1. as python library suitable for scripting
+
+2. as a standalone TCP server, which communicates with clients and traders using JSON messages
+
+## Requirements ##
+
+Twisted framework
+
+Python 2.7 headers
+
+Boost libraries
+
+GCC with C++14 suport
+
+CMake
+
+## Installation ##
+
+### CMake ###
+
+```
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make -j4
+$ make install
+```
+### Creating `deb` package with CMake ###
+```
+$ make package 
+$ dpkg -i ./pyxchange-0.1.0-Linux.deb
+```
+
+### Distutils ###
+
+```
+$ python setup.py build
+$ python setup.py install
+```
+
+### Creating `rpm` package ###
+```
+$ python setup.py bdist_rpm
+$ rpm -ivh ./dist/pyxchange-0.1.0-1.x86_64.rpm
+```
 
 
-### Message create order request ###
+## Tutorial to scripting API ##
 
-The new order is at first tried to match with passive orders in orderbook and if no matching order is found, then the order is inserted to the orderbook.
+### Creating `Matcher` instance with optional `logger` ###
+Matcher holds orderbook with orders. It also holds list of connected traders and clients.
 
-The message expects following fields:
+```
+>>> import logging
+>>> from pyxchange import engine
+>>> logging.basicConfig(level=logging.INFO)
+>>> logger = logging.getLogger()
+>>> matcher = engine.Matcher(logger)
+INFO:root:Matcher is ready
+>>> matcher
+<pyxchange.engine.Matcher object at 0x7f802d323b50>
+>>>
+```
+### Creating `Trader` instance and sending heartbeat messages (ping/pong)
+```
+>>> from pyxchange.utils import Transport
+>>> t1 = Transport()
+>>> trader1 = engine.Trader(matcher, 'trader1', t1)
+>>> trader1
+<pyxchange.engine.Trader object at 0x7f802d323ba8>
+>>> trader1.ping()
+>>> t1.messages.popleft()
+{'message': 'pong'}
+>>>
+```
+### Creating new order ###
+OrderId must be unique within trader and bid/sell orders. Side is `BUY` or `SELL`, price must be positive integer, quantity as well.
+```
+>>> trader1.createOrder({ 'side': 'BUY', 'price': 100, 'quantity': 10, 'orderId': 1 })
+INFO:root:Trader trader1 added order bid:10@100
+>>> t1.messages.popleft()
+{'report': 'NEW', 'orderId': 1, 'message': 'executionReport', 'quantity': 10}
+>>>
+```
+### Triggering a match event ###
+Trader2 creates sell order, which is matched with order of trader1. Remaining quantity is inserted to the orderbook.
 
-* `message`: string `createOrder`
-* `side`: string (`BUY` or `SELL`)
-* `orderId`: unsigned integer greater than zero, must be unique for the trader
-* `price`: unsigned integer greater that zero
-* `quantity`: unsigned integer greater that zero
+```
+>>> t2 = Transport()
+>>> trader2 = engine.Trader(matcher, 'trader2', t2)
+>>> trader2
+<pyxchange.engine.Trader object at 0x7f802d323c00>
+>>> trader2.createOrder({ 'side': 'SELL', 'price': 90, 'quantity': 20, 'orderId': 1 })
+INFO:root:Execution 10@100
+INFO:root:Trader trader2 added order ask:10@90
+>>> t2.messages.popleft()
+{'report': 'FILL', 'orderId': 1, 'message': 'executionReport', 'price': 100, 'quantity': 10}
+>>> t2.messages.popleft()
+{'report': 'NEW', 'orderId': 1, 'message': 'executionReport', 'quantity': 10}
+>>>
+```
+### Canceling order ###
+```
+>>> trader2.cancelOrder({ 'side': 'SELL', 'orderId': 1 })
+INFO:root:Trader trader2 cancelled order ask:10@90
+>>> t2.messages.popleft()
+{'report': 'CANCELED', 'orderId': 1, 'message': 'executionReport', 'quantity': 10}
+>>> trader1.cancelAll()
+>>>
+```
+### Creating market order ###
+Market oder does not carry price and orderId
+```
+>>> trader1.createOrder({ 'side': 'BUY', 'price': 100, 'quantity': 10, 'orderId': 2 })
+INFO:root:Trader trader1 added order bid:10@100
+>>> trader1.createOrder({ 'side': 'BUY', 'price': 150, 'quantity': 20, 'orderId': 3 })
+INFO:root:Trader trader1 added order bid:20@150
+>>> trader2 = engine.Trader(matcher, 'trader2', t1)
+>>> trader2.marketOrder({ 'side': 'SELL', 'price': 150, 'quantity': 15 })
+INFO:root:Trader trader2 added market order ask:15
+INFO:root:Execution 15@150
+>>>
+```
+### Connecting market-data client ###
+New client receives complete price-level aggregated data from actual orderbook.
+Later it receives only updates on individual price levels and trade summaries.
+```
+>>> c1 = Transport()
+>>> client1 = engine.Client(matcher, 'client1', c1)
+>>> client1
+<pyxchange.engine.Client object at 0x7f802d323c58>
+>>> c1.messages
+deque([{'price': 150, 'type': 'orderbook', 'side': 'bid', 'quantity': 5}, {'price': 100, 'type': 'orderbook', 'side': 'bid', 'quantity': 10}])
+>>>
+```
 
-**Request**
+## Tutorial to standalone TCP server ##
 
-```{ 'orderId': 1, 'price': 100, 'message': 'createOrder', 'side': 'BUY', 'quantity': 10 }```
+The TCP server is single thread, single process, asynchronous, event driven.
 
-**Response**
+The server listens on three interfaces:
 
-```{ 'report': 'NEW', 'orderId': 1, 'quantity': 100, 'message': 'executionReport' }```
+1. *Trading* interface for creating limit orders and market orders
 
-**Fill response** is sent if the order was matched against passive order in the order book.
+2. *Extended trading* interface (**additional feature**: trader's orders are canceled, when the trader disconnects)
 
-```{ 'report': 'FILL', 'orderId': 1, 'message': 'executionReport', 'price': 100, 'quantity': 10}```
+3. *Market data* interface, which is read-only
 
-If the order was matched agains multiple passive orders, then multiple `FILL` messages will be sent.
+### Running the server ###
+```
+$ pyxchange_server.py
+2016-06-12 21:21:25,875 INFO Matcher is ready
+2016-06-12 21:21:25,877 INFO Listeting on *:7000 (ext trading)
+2016-06-12 21:21:25,877 INFO Listeting on *:7001 (trading)
+2016-06-12 21:21:25,877 INFO Listeting on *:7002 (market-data)
+```
 
-If the order has some resting quantity after the match event, then the order will be inserted to the orderbook and `NEW` message will be sent.
+### Connecting the trader ###
+
+```
+$ telnet localhost 7001
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+{"message": "ping"}
+{"message": "pong"}
+{"message": "createOrder", "side": "BUY", "price": 100, "quantity": 20, "orderId": 1 }
+{"report": "NEW", "orderId": 1, "message": "executionReport", "quantity": 20}
+```
+
+### Connecting the client (market data) ###
+
+```
+$ telnet localhost 7002
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+{"price": 100, "type": "orderbook", "side": "bid", "quantity": 20}
+```
+
+### More options of the server ###
+
+```
+$ pyxchange_server.py --help
+Usage: pyxchange_server.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  --listen-private-ext=ip:port
+                        Listen on extended private (trading) interface
+  --listen-private=ip:port
+                        Listen on private (trading) interface
+  --listen-public=ip:port
+                        Listen on public (market-data) interface
+  --log=file            Log filename
+  --log-format=format   Log format
+```
 
 
-**Error response** is sent if the order already exists or if the message contains invalid data
-
-```{'text': 'order already exists', 'message': 'error'}```
-
-**Error self-match response** is sent if the order would match agains orders of the same trader. In this case, no order is matched nether inserted, but error is returned. 
-
-```{'text': 'self-match rejected', 'message': 'error'}```
-
-
-## Message cancel order request ##
-
-The message expects following fields:
-
-* `message`: string `cancelOrder`, order is searched in bid and ask orders
-* `orderId`: unsigned integer greater than zero, order of that ID must exist, else error response is returned
-
-**Request**
-
-```{ 'orderId': 1, 'message': 'cancelOrder' }```
-
-**Response**
-
-```{ 'orderId': 1, 'message': 'executionReport', 'report': 'CANCELED', 'quantity': 1 }```
-
-**Error response**
-
-```{ 'text': 'order does not exists', 'message': 'error' }```
-
-## Message orderbook and trade on public channel ##
-
-FIXME
 
 ## Implementation details ##
 
-FIXME
+`Boost::python` is powerful framework for exposing C++ code to Python. The library exposes three classes to Python: **Matcher**, **Trader** and **Client**.
+
+From Python side, instances of *Matcher*, *Trader* and *Client* are managed by shared pointers (`std::shared_ptr`).
+
+**Matcher** controls creating of *Clients*, validation and deserialization of JSON messages from *Traders*.
+
+**OrderBook** object is the "engine of the engine". It contains two `boost::multi_index` containers:
+
+1. **BuyOrderContainer** - greatest price first, lowest price last
+
+2. **SellOrderContainer** - lowest price first, greatest price last
+
+Both containers are very similar. They are indexed by multiple indexes:
+
+1. *index by price-time*  (used for matching), orders are sorted by price, order at the same price level are sorted by time, lower priority first
+
+2. *index by price*  (used for price-level aggregation)
+
+3. *index by trader* (used to find all orders of individual any *Trader*)
+
+4. *index by trader-order ID pair* (used to find order by ID of any trader on cancel message)
+
+
+**Order**s within *BuyOrderContainer* or *SellOrderContainer* are managed by shared pointers and are generally constant except the quantity, which may change during a match event.
+
+*Order* object holds weak pointer (`std::weak_ptr`) to *Trader* object, so this basically allows to disconnect and destroy the Trader, while Order continues to live.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
