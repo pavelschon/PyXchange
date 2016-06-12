@@ -94,8 +94,27 @@ ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& nam
  * @brief FIXME
  *
  */
-template<typename CLIENT>
-void Matcher::handleMessageImpl( const CLIENT& client, const std::string& data )
+void Matcher::handleMessageJson( const TraderPtr& trader, const std::string& data )
+{
+    trader->matcher->handleMessageImpl( trader, data );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decoded )
+{
+    trader->matcher->handleMessageImpl( trader, decoded );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& data )
 {
     const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
     const auto decode = std::bind( &json::loads<const std::string, py::dict>, data );
@@ -109,19 +128,19 @@ void Matcher::handleMessageImpl( const CLIENT& client, const std::string& data )
 
         const py::dict decoded{ pyexc::translate<pyexc::JsonDecodeError>( decode, exceptions ) };
 
-        handleMessageImpl( client, decoded );
+        handleMessageImpl( trader, decoded );
     }
     catch( const pyexc::JsonDecodeError& )
     {
-        logger.error( boost::format( format::f1::logJsonDecodeError ) % client->toString() );
+        logger.error( boost::format( format::f1::logJsonDecodeError ) % trader->toString() );
 
-        client->disconnect();
+        trader->disconnect();
     }
     catch( const pyexc::JsonTooLong& )
     {
-        logger.error( boost::format( format::f2::logJsonTooLong ) % client->toString() % data.size() );
+        logger.error( boost::format( format::f2::logJsonTooLong ) % trader->toString() % data.size() );
 
-        client->disconnect();
+        trader->disconnect();
     }
 }
 
@@ -130,28 +149,27 @@ void Matcher::handleMessageImpl( const CLIENT& client, const std::string& data )
  * @brief FIXME
  *
  */
-template<typename CLIENT>
-void Matcher::handleMessageImpl( const CLIENT& client, const py::dict& decoded )
+void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded )
 {
     try
     {
-        const std::wstring message_ = extractMessage( client->messages, decoded );
+        const std::wstring message_ = extractMessage( trader->messages, decoded );
 
-        handleMessageImpl( client, decoded, message_ );
+        handleMessageImpl( trader, decoded, message_ );
     }
     catch( const pyexc::MalformedMessage& )
     {
-        logger.error( boost::format( format::f1::logMalformedMessage ) % client->toString() );
+        logger.error( boost::format( format::f1::logMalformedMessage ) % trader->toString() );
 
-        client->disconnect();
+        trader->disconnect();
 
         return;
     }
     catch( const pyexc::UnknownMessage& )
     {
-        client->notifyError( format::f0::unknownMessage.str() );
+        trader->notifyError( format::f0::unknownMessage.str() );
 
-        logger.error( boost::format( format::f1::logUnknownMessage ) % client->toString() );
+        logger.error( boost::format( format::f1::logUnknownMessage ) % trader->toString() );
     }
 }
 
@@ -160,7 +178,7 @@ void Matcher::handleMessageImpl( const CLIENT& client, const py::dict& decoded )
  * @brief FIXME
  *
  */
-void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded, const std::wstring message_ )
+void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded, const std::wstring& message_ )
 {
     if( message_ == message::wPing )
     {
@@ -177,19 +195,6 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
     else if( message_ == message::wCancelAll )
     {
         orderbook->cancelAllOrders( trader );
-    }
-}
-
-
-/**
- * @brief FIXME
- *
- */
-void Matcher::handleMessageImpl( const ClientPtr& client, const py::dict& decoded, const std::wstring message_ )
-{
-    if( message_ == message::wPing )
-    {
-        client->notifyPong();
     }
 }
 
@@ -215,13 +220,6 @@ std::wstring Matcher::extractMessage( const MessageVector& messages, const py::d
 
     return pyexc::translate<pyexc::MalformedMessage>( decode, exceptions );
 }
-
-
-template void Matcher::handleMessageImpl( const ClientPtr& client, const std::string& data );
-template void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& data );
-
-template void Matcher::handleMessageImpl( const ClientPtr& client, const py::dict& data );
-template void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& data );
 
 
 } /* namespace pyxchange */

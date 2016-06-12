@@ -78,9 +78,6 @@ class MatcherTest(unittest.TestCase):
         self.trader1.handleMessage({ u'message': u'ping' })
         self.trader1.assertMessage({ u'message': u'pong' })
 
-        self.client1.handleMessage({ u'message': u'ping' })
-        self.client1.assertMessage({ u'type': u'pong' })
-
 
     def testInvalidMessage(self):
         """ Test handling of bogus messages and invalid values """

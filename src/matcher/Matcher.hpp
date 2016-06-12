@@ -26,22 +26,17 @@ public:
     static ClientPtr    makeClient( const MatcherPtr& matcher, const std::string& name,
                                     const boost::python::object& transport );
 
-    template<typename CLIENT, typename DATA>
-    static void         handleMessage( const CLIENT& client, const DATA& data );
-
+    static void         handleMessageJson( const TraderPtr& trader, const std::string& data );
+    static void         handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
     static void         handleCreateOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     static void         handleCancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     static void         handleCancelAll(   const TraderPtr& trader );
 
 private:
-    template<typename CLIENT>
-    void                handleMessageImpl( const CLIENT& client, const std::string& data );
-
-    template<typename CLIENT>
-    void                handleMessageImpl( const CLIENT& trader, const boost::python::dict& decoded );
-
-    void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded, const std::wstring message_ );
-    void                handleMessageImpl( const ClientPtr& client, const boost::python::dict& decoded, const std::wstring message_ );
+    void                handleMessageImpl( const TraderPtr& trader, const std::string& data );
+    void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded );
+    void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded,
+                                           const std::wstring& message_ );
 
     static std::wstring extractMessage( const MessageVector& messages, const boost::python::dict& decoded );
 
@@ -49,17 +44,6 @@ private:
     const ClientVectorPtr clients;
     const OrderBookPtr  orderbook;
 };
-
-
-/**
- * @brief FIXME
- *
- */
-template<typename CLIENT, typename DATA>
-inline void Matcher::handleMessage( const CLIENT& client, const DATA& data )
-{
-    client->matcher->handleMessageImpl( client, data );
-}
 
 
 } /* namespace pyxchange */
