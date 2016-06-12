@@ -255,7 +255,7 @@ Both containers are very similar. They are indexed by multiple indexes:
 
 3. *index by trader* (used on `cancelAll` to find all orders of Trader)
 
-4. *index by pair* trader-orderId (used on `createOrder` and `cancelOrder` to find order by ID)
+4. *index by pair trader-orderId* (used on `createOrder` and `cancelOrder` to find order by ID)
 
 
 Orders within BuyOrderContainer and SellOrderContainer are managed by shared pointers and are considered as constant except the quantity, which may change during match event.
