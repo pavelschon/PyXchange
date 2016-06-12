@@ -26,9 +26,21 @@ public:
     void        notifyPong( void );
     void        notifyError( const std::string& text );
 
-    void        notifyCancelOrderSuccess( const orderId_t orderId, const quantity_t quantity );
-    void        notifyCreateOrderSuccess( const orderId_t orderId, const quantity_t quantity );
-    void        notifyTrade( const orderId_t orderId, const price_t price, const quantity_t quantity );
+
+    void        notifyCancelOrderSuccess(
+                    const orderId_t             orderId,
+                    const quantity_t            quantity );
+
+
+    void        notifyCreateOrderSuccess(
+                    const orderId_t             orderId,
+                    const quantity_t            quantity );
+
+
+    void        notifyTrade(
+                    const orderId_t             orderId,
+                    const price_t               price,
+                    const quantity_t            quantity );
 };
 
 

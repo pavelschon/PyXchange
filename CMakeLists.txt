@@ -46,7 +46,6 @@ add_library( engine SHARED
     src/orderbook/OrderBookInsert.cpp
     src/orderbook/OrderBookCancel.cpp
     src/orderbook/OrderBookCancelAll.cpp
-    src/orderbook/OrderBookSelfMatch.cpp
 )
 
 set_target_properties( engine PROPERTIES PREFIX "" )

@@ -19,8 +19,10 @@ class BaseClient
     friend class Matcher;
 
 public:
-                BaseClient( const MatcherPtr& matcher_, const std::string& name_,
-                            const boost::python::object& transport_ );
+                BaseClient(
+                    const MatcherPtr&               matcher_,
+                    const std::string&              name_,
+                    const boost::python::object&    transport_ );
 
                 BaseClient( const Trader& ) = delete;
     BaseClient& operator=( const Trader& ) = delete;
