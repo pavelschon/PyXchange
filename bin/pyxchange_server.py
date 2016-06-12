@@ -8,9 +8,10 @@
 import sys
 import logging
 import optparse
-import pyxchange
 
 from twisted.internet import reactor
+
+from pyxchange import engine, server
 
 
 def parse_options():
@@ -19,6 +20,14 @@ def parse_options():
     parser = optparse.OptionParser(
         usage = 'usage: %prog [options]',
         add_help_option = True
+    )
+
+    parser.add_option( '--listen-private-ext',
+        action = 'store',
+        dest = 'private2',
+        help = 'Listen on extended private (trading) interface',
+        metavar = 'ip:port',
+        default = '*:7000'
     )
 
     parser.add_option( '--listen-private',
@@ -56,19 +65,17 @@ def parse_options():
     return parser.parse_args(args=None, values=None)
 
 
-def parse_IP_address(string):
-    """ FIXME """
+def get_ip_port_kwargs(ipString):
+    """ Parse IP and port into kwargs suitable for reactor.listenTCP """
 
-    private_ip, private_port = string.split(':')
-    private_port = int(private_port)
-    if private_ip == '*':
-        private_ip = ''
+    ip, port = ipString.split(':')
+    ip, port = ( '' if ip == '*' else ip ), int(port)
 
-    return private_ip, private_port
+    return dict(interface=ip, port=port)
 
 
 def get_logging_handler(filename):
-    """ FIXME """
+    """ Create StremHandler or Filehandler """
 
     return ( logging.StreamHandler(sys.stdout) if filename == '-' else
              logging.FileHandler(filename) )
@@ -88,18 +95,14 @@ def serve_forever():
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
 
-    private_ip, private_port = parse_IP_address(options.private)
-    public_ip,  public_port  = parse_IP_address(options.public)
+    matcher = engine.Matcher(logger)
 
-    matcher = pyxchange.engine.Matcher(logger)
+    reactor.listenTCP(factory=server.TraderFactory(matcher),    **get_ip_port_kwargs(options.private))
+    reactor.listenTCP(factory=server.TraderExtFactory(matcher), **get_ip_port_kwargs(options.private2))
+    reactor.listenTCP(factory=server.ClientFactory(matcher),    **get_ip_port_kwargs(options.public))
 
-    trader_factory = pyxchange.server.TraderFactory(matcher)
-    client_factory = pyxchange.server.ClientFactory(matcher)
-
-    reactor.listenTCP(interface=private_ip, port=private_port, factory=trader_factory)
-    reactor.listenTCP(interface=public_ip,  port=public_port,  factory=client_factory)
-
-    logger.info('Listeting on %s (trading)', options.private)
+    logger.info('Listeting on %s (ext trading)', options.private2)
+    logger.info('Listeting on %s (trading)',     options.private)
     logger.info('Listeting on %s (market-data)', options.public)
 
     reactor.run()
