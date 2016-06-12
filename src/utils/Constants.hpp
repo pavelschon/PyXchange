@@ -41,15 +41,6 @@ const boost::format errNoWriteAttr( "object has no attribute write/writeData" );
 namespace f1
 {
 
-const boost::format client( "<Client %||>" );
-const boost::format trader( "<Trader %||>" );
-
-const boost::format logGetClient( "%|| created" );
-const boost::format logRemoveClient( "%|| removed" );
-
-const boost::format logClientDoesNotExist( "%|| does not exists" );
-const boost::format logTraderDoesNotExist( "%|| does not exists" );
-
 const boost::format logJsonDecodeError( "%|| JSON decode error" );
 const boost::format logMalformedMessage( "%|| sent malformed message" );
 const boost::format logUnknownMessage( "%|| sent unknown message" );
@@ -78,17 +69,19 @@ const boost::format logExecution( "Execution %|| @ %||" );
 namespace f3
 {
 
+const boost::format order( "order<%||@%||>" );
 const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
 const boost::format logSelfMatch( "%|| self-match prevention rejected %|| matching with %||" );
 
 } /* namespace f3 */
 
-namespace f4
+
+namespace f5
 {
 
-const boost::format order( "<Order %|| -> %||, %|| @ %||>" );
+const boost::format order( "order<%||,%||,%||,%||@%||>" );
 
-} /* namespace f4 */
+} /* namespace f5 */
 
 
 } /* namespace format */

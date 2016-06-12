@@ -6,6 +6,7 @@
 
 
 #include "order/Order.hpp"
+#include "client/Trader.hpp"
 #include "utils/Exception.hpp"
 #include "utils/Constants.hpp"
 #include "utils/Side.hpp"
@@ -39,8 +40,18 @@ Order::Order( const TraderPtr& trader_, const py::dict& decoded ):
  */
 std::string Order::toString( void ) const
 {
-    return ( boost::format( format::f4::order ) % orderId
-        % side::toBidAsk( side ) % quantity % price ).str();
+    const TraderPtr& trader_ = trader.lock();
+
+    if( trader_ )
+    {
+        return ( boost::format( format::f5::order ) % side::toBidAsk( side )
+            % trader_->toString() % orderId % quantity % price ).str();
+    }
+    else
+    {
+        return ( boost::format( format::f3::order ) % side::toBidAsk( side )
+                 % quantity % price ).str();
+    }
 }
 
 

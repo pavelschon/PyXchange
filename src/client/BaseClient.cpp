@@ -18,16 +18,6 @@ namespace py = boost::python;
 
 
 /**
- * @brief   FIXME
- *
- */
-inline bool hasattr( const boost::python::object& obj, const char* const attr_ )
-{
-    return PyObject_HasAttrString( obj.ptr(), attr_ );
-}
-
-
-/**
  * @brief   Constructor
  * @param   std::string name of the client
  * @param   py::object  transport
