@@ -235,7 +235,7 @@ Options:
 
 ## Implementation details ##
 
-`Boost::python` is powerful framework for exposing C++ code to Python. The library exposes three classes to Python: `Matcher`, `Trader` and `Client`.
+**Boost::python** is powerful framework for exposing C++ code to Python. The library exposes three classes to Python: Matcher, Trader and Client.
 
 From Python side, instances of Matcher, Trader and Client are managed by shared pointers (`std::shared_ptr`).
 
@@ -243,9 +243,9 @@ Matcher controls creating of Clients, validation and dispatch of (JSON) messages
 
 OrderBook object within Matcher contains two `boost::multi_index` containers:
 
-1. `BuyOrderContainer` - greatest price first, lowest price last
+1. *BuyOrderContainer* - greatest price first, lowest price last
 
-2. `SellOrderContainer` - lowest price first, greatest price last
+2. *SellOrderContainer* - lowest price first, greatest price last
 
 Both containers are very similar. They are indexed by multiple indexes:
 
