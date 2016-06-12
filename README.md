@@ -1,6 +1,5 @@
 # PyXchange #
-Simulator of limit orderbook written in **Python** and **C++14**, using **Twisted** framework and **Boost** libraries: **boost::python** and **boost::multi_index** container.
-
+Simulator of limit orderbook written in **Python** and **C++14**, using **Twisted** framework and **Boost** libraries, namely **boost::python** and **boost::multi_index** container.
 
 ## Basic features ###
 
@@ -113,7 +112,9 @@ INFO:root:Matcher is ready
 >>>
 ```
 ### Creating new order ###
-OrderId must be unique within trader and bid/sell orders. Side is `BUY` or `SELL`, price must be positive integer, quantity as well.
+OrderId must be unique within trader and bid/sell orders.
+
+Side is `BUY` or `SELL`, price must be positive integer, quantity as well.
 ```
 >>> trader1.createOrder({ 'side': 'BUY', 'price': 100, 'quantity': 10, 'orderId': 1 })
 INFO:root:Trader trader1 added order bid:10@100
@@ -122,7 +123,9 @@ INFO:root:Trader trader1 added order bid:10@100
 >>>
 ```
 ### Triggering a match event ###
-Trader2 creates sell order, which is matched with order of trader1. Remaining quantity is inserted to the orderbook.
+Trader2 creates sell order, which is matched with order of trader1.
+
+Remaining quantity is inserted to the orderbook.
 
 ```
 >>> t2 = Transport()
@@ -169,7 +172,8 @@ Later it receives only updates on individual price levels and trade summaries.
 >>> client1
 <pyxchange.engine.Client object at 0x7f802d323c58>
 >>> c1.messages
-deque([{'price': 150, 'type': 'orderbook', 'side': 'bid', 'quantity': 5}, {'price': 100, 'type': 'orderbook', 'side': 'bid', 'quantity': 10}])
+deque([{'price': 150, 'type': 'orderbook', 'side': 'bid', 'quantity': 5},
+       {'price': 100, 'type': 'orderbook', 'side': 'bid', 'quantity': 10}])
 >>>
 ```
 
@@ -233,11 +237,11 @@ Options:
 
 `Boost::python` is powerful framework for exposing C++ code to Python. The library exposes three classes to Python: `Matcher`, `Trader` and `Client`.
 
-From Python side, instances of `Matcher`, `Trader` and `Client` are managed by shared pointers (`std::shared_ptr`).
+From Python side, instances of Matcher, Trader and Client are managed by shared pointers (`std::shared_ptr`).
 
-`Matcher` controls creating of `Clients`, validation and dispatch of (JSON) messages.
+Matcher controls creating of Clients, validation and dispatch of (JSON) messages.
 
-`OrderBook` object within `Matcher` contains two `boost::multi_index` containers:
+OrderBook object within Matcher contains two `boost::multi_index` containers:
 
 1. `BuyOrderContainer` - greatest price first, lowest price last
 
@@ -249,22 +253,14 @@ Both containers are very similar. They are indexed by multiple indexes:
 
 2. *index by price*  (used for price-level aggregation)
 
-3. *index by trader* (used to find all orders of individual any *Trader*)
+3. *index by trader* (used on `cancelAll` to find all orders of Trader)
 
-4. *index by trader-order ID pair* (used to find order by ID of any trader on cancel message)
-
-
-`Orders` within `BuyOrderContainer` and `SellOrderContainer` are managed by shared pointers and are considered as constant except the quantity, which may change during match event.
-
-`Order` holds weak pointer (`std::weak_ptr`) to `Trader`, so this basically allows to destroy the `Trader`, while `Order` continues to live (see also difference between trading and extended trading interface).
+4. *index by pair trader-orderId (used on `createOrder` and `cancelOrder` to find order by ID)
 
 
+Orders within BuyOrderContainer and SellOrderContainer are managed by shared pointers and are considered as constant except the quantity, which may change during match event.
 
-
-
-
-
-
+Order has weak pointer (`std::weak_ptr`) to Trader, so this basically allows to destroy the Trader, while Order continues to live (see also difference between trading and extended trading interface).
 
 
 
