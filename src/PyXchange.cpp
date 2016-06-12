@@ -30,21 +30,25 @@ BOOST_PYTHON_MODULE( engine )
     using namespace ::boost::python;
     using namespace ::pyxchange;
 
-    class_<Client, ClientPtr, boost::noncopyable>( "Client", no_init )
-        .def( "__init__", make_constructor( &Matcher::makeClient ) )
-        .def( "__repr__", &Client::toString )
-        ;
+    const auto make_trader = &make_shared_<Trader,
+        const MatcherPtr&, const std::string&, const object&>;
 
     class_<Trader, TraderPtr, boost::noncopyable>( "Trader", no_init )
-        .def( "__init__", make_constructor( &make_shared_<Trader, const MatcherPtr&, const std::string&, const object&> ) )
-        .def( "__repr__", &Trader::toString )
-        .def( "ping", &Trader::notifyPong )
+        .def( "__init__",      make_constructor( make_trader ) )
+        .def( "__repr__",      &Trader::toString )
+        .def( "ping",          &Trader::notifyPong )
         .def( "handleMessage", &Matcher::handleMessageJson, args( "data" ) )
         .def( "handleMessage", &Matcher::handleMessageDict, args( "data" ) )
         .def( "createOrder",   &Matcher::handleCreateOrder, args( "data" ) )
         .def( "cancelOrder",   &Matcher::handleCancelOrder, args( "data" ) )
         .def( "cancelAll",     &Matcher::handleCancelAll,   args( "data" ) )
     ;
+
+    class_<Client, ClientPtr, boost::noncopyable>( "Client", no_init )
+        .def( "__init__", make_constructor( &Matcher::makeClient ) )
+        .def( "__repr__", &Client::toString )
+    ;
+
 
     class_<Matcher, MatcherPtr, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )

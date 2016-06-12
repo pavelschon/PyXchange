@@ -23,17 +23,15 @@ public:
                             const boost::python::object& transport_ );
 
                 BaseClient( const Trader& ) = delete;
-                BaseClient& operator=( const Trader& ) = delete;
+    BaseClient& operator=( const Trader& ) = delete;
     virtual     ~BaseClient();
 
     std::string toString( void ) const;
 
     void        disconnect( void );
 
+protected:
     void        writeData( const boost::python::object& data );
-
-    virtual void notifyPong( void ) = 0;
-    virtual void notifyError( const std::string& text ) = 0;
 
 private:
     const MatcherPtr matcher;
