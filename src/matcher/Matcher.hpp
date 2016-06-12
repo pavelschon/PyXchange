@@ -38,7 +38,7 @@ private:
     void                handleMessageImpl( const TraderPtr& trader, const boost::python::dict& decoded,
                                            const std::wstring& message_ );
 
-    static std::wstring extractMessage( const MessageVector& messages, const boost::python::dict& decoded );
+    static std::wstring extractMessage( const boost::python::dict& decoded );
 
     const Logger        logger;
     const ClientVectorPtr clients;

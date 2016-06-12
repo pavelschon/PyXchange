@@ -15,10 +15,6 @@ namespace pyxchange
 
 namespace py = boost::python;
 
-const MessageVector Client::messages{
-    message::wPing
-};
-
 
 /**
  * @brief   FIXME

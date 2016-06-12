@@ -153,7 +153,7 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
 {
     try
     {
-        const std::wstring message_ = extractMessage( trader->messages, decoded );
+        const std::wstring message_ = extractMessage( decoded );
 
         handleMessageImpl( trader, decoded, message_ );
     }
@@ -203,14 +203,14 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
  * @brief FIXME
  *
  */
-std::wstring Matcher::extractMessage( const MessageVector& messages, const py::dict& decoded )
+std::wstring Matcher::extractMessage( const py::dict& decoded )
 {
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
-    const auto decode = [ &messages, &decoded ]() {
+    const auto decode = [ &decoded ]() {
         const std::wstring message_ = py::extract<const std::wstring>( decoded[ keys::message ] );
 
-        if( std::count( messages.begin(), messages.end(), message_ ) )
+        if( std::count( message::all.begin(), message::all.end(), message_ ) )
         {
             return message_;
         }

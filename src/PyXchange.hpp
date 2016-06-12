@@ -29,8 +29,6 @@ typedef int                                                             quantity
 typedef int                                                             orderId_t;
 typedef unsigned short                                                  side_t;
 
-typedef std::vector<std::wstring>                                       MessageVector;
-
 
 class OrderBook;
 typedef std::unique_ptr<OrderBook>                                      OrderBookPtr;

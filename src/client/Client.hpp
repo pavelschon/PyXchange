@@ -36,8 +36,6 @@ public:
     static void notifyTrade( const ClientVectorConstPtr& clients, const prio_t time,
                              const price_t price, const quantity_t quantity );
 
-    static const MessageVector messages;
-
 private:
     static void writeAll( const ClientVectorConstPtr& clients, const boost::python::object& data );
 };

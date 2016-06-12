@@ -123,6 +123,8 @@ const std::wstring wCreateOrder( string2wstring( createOrder ) );
 const std::wstring wCancelOrder( string2wstring( cancelOrder ) );
 const std::wstring wCancelAll( string2wstring( cancelAll ) );
 
+const auto all = { wPing, wCreateOrder, wCancelOrder, wCancelAll };
+
 
 } /* namespace message */
 

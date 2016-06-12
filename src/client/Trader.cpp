@@ -15,14 +15,6 @@ namespace pyxchange
 namespace py = boost::python;
 
 
-const MessageVector Trader::messages{
-    message::wPing,
-    message::wCreateOrder,
-    message::wCancelOrder,
-    message::wCancelAll
-};
-
-
 /**
  * @brief   FIXME
  * @return  void
