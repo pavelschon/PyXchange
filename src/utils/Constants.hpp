@@ -61,7 +61,8 @@ const boost::format logTraderAddedOrder( "Trader %|| added %||" );
 const boost::format logTraderCanceledOne( "Trader %|| cancelled %||" );
 const boost::format logOrderAlreadyExist( "Trader %|| adding order id %||, but it already exists" );
 const boost::format logOrderDoesNotExist( "Trader %|| canceling order id %||, but it does not exists" );
-const boost::format logExecution( "Execution %||@%||, orders: %||, %||" );
+const boost::format logExecution( "Execution %||@%||" );
+const boost::format marketOrder( "market order %||:%||" );
 
 } /* namespace f2 */
 
@@ -69,18 +70,10 @@ const boost::format logExecution( "Execution %||@%||, orders: %||, %||" );
 namespace f3
 {
 
-const boost::format order( "order<%||,%||@%||>" );
-const boost::format logCancelAll( "Trader %|| cancelled %|| bid orders, %|| ask orders" );
+const boost::format order( "order %||:%||@%||" );
+const boost::format logTraderCanceledAll( "Trader %|| cancelled %|| bid orders, %|| ask orders" );
 
 } /* namespace f3 */
-
-
-namespace f5
-{
-
-const boost::format order( "order<%||,%||@%||,%||->%||>" );
-
-} /* namespace f5 */
 
 
 } /* namespace format */

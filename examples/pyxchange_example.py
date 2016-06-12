@@ -41,7 +41,6 @@ print client1
 print trader1
 print trader2
 
-client1.ping()
 trader1.ping()
 trader2.ping()
 

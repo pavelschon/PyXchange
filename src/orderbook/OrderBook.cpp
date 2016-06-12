@@ -117,10 +117,16 @@ void OrderBook::marketOrder( const TraderPtr& trader, const py::dict& decoded )
 
     if( order && side::isBid( order->side ) )
     {
+        logger.info( boost::format( format::f2::logTraderAddedOrder )
+                     % trader->toString() % order->toString() );
+
         handleExecution<AskOrderContainer>( askOrders, order );
     }
     else if( order && side::isAsk( order->side ) )
     {
+        logger.info( boost::format( format::f2::logTraderAddedOrder )
+                     % trader->toString() % order->toString() );
+
         handleExecution<BidOrderContainer>( bidOrders, order );
     }
 }

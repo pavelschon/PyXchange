@@ -43,15 +43,15 @@ std::string Order::toString( void ) const
 {
     const TraderPtr& trader_ = trader.lock();
 
-    if( trader_ )
+    if( isMarketOrder )
     {
-        return ( boost::format( format::f5::order ) % side::toBidAsk( side )
-                 % quantity % price % orderId % trader_->toString() ).str();
+        return ( boost::format( format::f2::marketOrder )
+                 % side::toBidAsk( side ) % quantity ).str();
     }
     else
     {
-        return ( boost::format( format::f3::order ) % side::toBidAsk( side )
-                 % quantity % price ).str();
+        return ( boost::format( format::f3::order )
+                 % side::toBidAsk( side ) % quantity % price ).str();
     }
 }
 
