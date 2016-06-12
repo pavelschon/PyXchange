@@ -101,7 +101,7 @@ INFO:root:Matcher is ready
 ```
 ### Creating `Trader` instance and sending heartbeat messages (ping/pong)
 ```
->>> from pyxchange.utils import Transport
+>>> from pyxchange import Transport
 >>> t1 = Transport()
 >>> trader1 = engine.Trader(matcher, 'trader1', t1)
 >>> trader1
@@ -151,7 +151,6 @@ INFO:root:Trader trader2 cancelled order ask:10@90
 >>>
 ```
 ### Creating market order ###
-Market oder does not carry price and orderId
 ```
 >>> trader1.createOrder({ 'side': 'BUY', 'price': 100, 'quantity': 10, 'orderId': 2 })
 INFO:root:Trader trader1 added order bid:10@100
