@@ -38,7 +38,8 @@ void OrderBook::cancelAllOrders( const TraderPtr& trader )
  *
  */
 template<typename OrderContainer>
-size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders, const TraderPtr& trader, const side_t side_ )
+size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders,
+                                   const TraderPtr& trader, const side_t side_ )
 {
     typename OrderContainer::price_set priceLevels;
 

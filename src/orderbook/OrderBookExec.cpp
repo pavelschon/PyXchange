@@ -58,20 +58,25 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Or
 
     if( totalMatchQuantity > 0 )
     {
-        aggregateSetPriceLevels<OrderContainer>( orders, priceLevels, side::opposite( order->side ) );
+        aggregateSetPriceLevels<OrderContainer>(
+            orders, priceLevels, side::opposite( order->side ) );
     }
 }
 
 
-template void OrderBook::handleExecution<BidOrderContainer>( BidOrderContainer::type& orders, const OrderPtr& order );
-template void OrderBook::handleExecution<AskOrderContainer>( AskOrderContainer::type& orders, const OrderPtr& order );
+template void OrderBook::handleExecution<BidOrderContainer>(
+    BidOrderContainer::type& orders, const OrderPtr& order );
+
+template void OrderBook::handleExecution<AskOrderContainer>(
+    AskOrderContainer::type& orders, const OrderPtr& order );
 
 
 /**
  * @brief FIXME
  *
  */
-void OrderBook::notifyExecution( const OrderConstPtr& order, const OrderConstPtr& oppOrder, const quantity_t matchQty ) const
+void OrderBook::notifyExecution( const OrderConstPtr& order, const OrderConstPtr& oppOrder,
+                                 const quantity_t matchQty ) const
 {
     const TraderPtr& trader    = order->getTrader();
     const TraderPtr& oppTrader = oppOrder->getTrader();

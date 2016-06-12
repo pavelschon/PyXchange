@@ -37,7 +37,8 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
 
         if( ! n )
         {
-            logger.warning( boost::format( format::f2::logOrderDoesNotExist ) % trader->toString() % orderId );
+            logger.warning( boost::format( format::f2::logOrderDoesNotExist )
+                            % trader->toString() % orderId );
 
             trader->notifyError( format::f0::orderDoesNotExist.str() );
         }
@@ -56,7 +57,8 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
  *
  */
 template<typename OrderContainer>
-size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const TraderPtr& trader, const orderId_t orderId )
+size_t OrderBook::cancelOrder( typename OrderContainer::type& orders,
+                               const TraderPtr& trader, const orderId_t orderId )
 {
           auto& idx = orders.template get<tags::idxTraderOrderId>();
     const auto& key = std::make_tuple( trader, orderId );
@@ -70,7 +72,8 @@ size_t OrderBook::cancelOrder( typename OrderContainer::type& orders, const Trad
 
         trader->notifyCancelOrderSuccess( order->orderId, order->quantity );
 
-        logger.info( boost::format( format::f2::logTraderCanceledOne ) % trader->toString() % order->toString() );
+        logger.info( boost::format( format::f2::logTraderCanceledOne )
+                     % trader->toString() % order->toString() );
 
         aggregatePriceLevel<OrderContainer>( orders, order->price, order->side );
 
