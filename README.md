@@ -1,34 +1,61 @@
 # PyXchange #
-Simulator of limit orderbook written in **Python** and **C++**, using **python-twisted**, **boost::python** and **boost::multi_index** container.
+Simulator of limit orderbook written in **Python** and **C++14**, using **Twisted** framework and Boost libraries: **boost::python** and **boost::multi_index** container.
 
 
 ## Basic features ###
 
-Matching engine implements simple *limit orderbook* with *price/time priority* matching algorithm.
+Matching engine implements simple limit orderbook with price/time priority matching algorithm.
 
 Messaging protocol uses python dictionaries or JSON objects
 
-The library can benused in two ways:
+The library can be used in two ways:
 
-1. as python library suitable for scripting
+* as python library suitable for scripting
 
-2. as a standalone TCP server, which communicates with clients and traders using JSON messages
+* as a standalone TCP server
+
+The TCP server is single thread, asynchronous, event driven. The server listens on three interfaces:
+
+1. **Trading** interface for managing limit orders and market orders
+
+2. **Extended trading** interface (**additional feature**: trader's orders are canceled, when the trader disconnects)
+
+3. **Market data** interface, which is read-only
+
+### Supported message types on trading interface ###
+
+* ping/pong (heartbeat)
+
+* createOrder
+
+* marketOrder
+
+* cancelOrder
+
+* cancelAll
+
+### Supported message types on market data interface ###
+
+* trade
+
+* orderbook (price-level aggregated summary)
+
 
 ## Requirements ##
 
-Twisted framework
+* Twisted framework
 
-Python 2.7 headers
+* Python 2.7 headers
 
-Boost libraries
+* Boost libraries
 
-GCC with C++14 suport
+* GCC with C++14 suport
 
-CMake
+* CMake
 
 ## Installation ##
 
-### CMake ###
+### Build with CMake ###
 
 ```
 $ mkdir build
@@ -43,7 +70,7 @@ $ make package
 $ dpkg -i ./pyxchange-0.1.0-Linux.deb
 ```
 
-### Distutils ###
+### Build with Distutils ###
 
 ```
 $ python setup.py build
@@ -147,16 +174,6 @@ deque([{'price': 150, 'type': 'orderbook', 'side': 'bid', 'quantity': 5}, {'pric
 ```
 
 ## Tutorial to standalone TCP server ##
-
-The TCP server is single thread, single process, asynchronous, event driven.
-
-The server listens on three interfaces:
-
-1. *Trading* interface for creating limit orders and market orders
-
-2. *Extended trading* interface (**additional feature**: trader's orders are canceled, when the trader disconnects)
-
-3. *Market data* interface, which is read-only
 
 ### Running the server ###
 ```
