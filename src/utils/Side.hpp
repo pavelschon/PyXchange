@@ -40,6 +40,26 @@ class WrongSide: public std::exception
  * @brief FIXME
  *
  */
+inline bool isBid( const side_t side_ )
+{
+    return side_ == bid_;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+inline bool isAsk( const side_t side_ )
+{
+    return side_ == ask_;
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 inline side_t opposite( const side_t side_ )
 {
     switch( side_ )

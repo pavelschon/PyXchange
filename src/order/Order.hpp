@@ -20,7 +20,8 @@ class Order
 
 public:
                         Order( const TraderPtr& trader_,
-                               const boost::python::dict& decoded );
+                               const boost::python::dict& decoded,
+                               const bool isMarketOrder_ );
 
     std::string         toString( void ) const;
 
@@ -30,17 +31,16 @@ public:
     TraderPtr           getTrader( void ) const;
     TraderOrderId       getUnique( void ) const;
 
-    bool                isBid( void ) const;
-    bool                isAsk( void ) const;
-
     static side_t       extractSide( const boost::python::dict& decoded );
     static orderId_t    extractOrderId( const boost::python::dict& decoded );
-    static price_t      extractPrice( const boost::python::dict& decoded );
     static quantity_t   extractQuantity( const boost::python::dict& decoded );
+    static price_t      extractPrice( const bool isMarketOrder_, const side_t side_,
+                                      const boost::python::dict& decoded );
 
 private:
     bool                comparePrice( const OrderConstPtr& order ) const;
 
+    const bool          isMarketOrder;
     const TraderWPtr    trader;
     const prio_t        time;
     const side_t        side;

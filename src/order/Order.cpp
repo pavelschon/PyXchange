@@ -22,12 +22,13 @@ namespace py = boost::python;
  * @brief Constructor
  *
  */
-Order::Order( const TraderPtr& trader_, const py::dict& decoded ):
-      trader{ trader_ }
+Order::Order( const TraderPtr& trader_, const py::dict& decoded, const bool isMarketOrder_ ):
+      isMarketOrder{ isMarketOrder_ }
+    , trader{ trader_ }
     , time{ std::chrono::high_resolution_clock::now() }
     , side{ extractSide( decoded ) }
-    , orderId{ extractOrderId( decoded ) }
-    , price{ extractPrice( decoded ) }
+    , orderId{ isMarketOrder ? 0 : extractOrderId( decoded ) }
+    , price{ extractPrice( isMarketOrder, side, decoded ) }
     , quantity{ extractQuantity( decoded ) }
 {
 
@@ -113,7 +114,7 @@ orderId_t Order::extractOrderId( const py::dict& decoded )
  * @brief FIXME
  *
  */
-price_t Order::extractPrice( const py::dict& decoded )
+price_t Order::extractPrice( const bool isMarketOrder_, const side_t side_, const py::dict& decoded )
 {
     const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
 
@@ -130,7 +131,18 @@ price_t Order::extractPrice( const py::dict& decoded )
         }
     };
 
-    return pyexc::translate<pyexc::PriceError>( decode, exceptions );
+    if( isMarketOrder_ && side::isBid( side_ ) )
+    {
+        return std::numeric_limits<const price_t>::max();
+    }
+    else if( isMarketOrder_ && side::isAsk( side_ ) )
+    {
+        return std::numeric_limits<const price_t>::min();
+    }
+    else
+    {
+        return pyexc::translate<pyexc::PriceError>( decode, exceptions );
+    }
 }
 
 
@@ -165,11 +177,11 @@ quantity_t Order::extractQuantity( const py::dict& decoded )
  */
 bool Order::comparePrice( const OrderConstPtr& order ) const
 {
-    if( isBid() && order->isAsk() )
+    if( side::isBid( side ) && side::isAsk( order->side ) )
     {
         return price >= order->price;
     }
-    else if( isAsk() && order->isBid() )
+    else if( side::isAsk( side ) && side::isBid( order->side ) )
     {
         return price <= order->price;
     }
@@ -179,26 +191,6 @@ bool Order::comparePrice( const OrderConstPtr& order ) const
     }
 }
 
-
-
-/**
- * @brief FIXME
- *
- */
-bool Order::isBid( void ) const
-{
-    return side == side::bid_;
-}
-
-
-/**
- * @brief FIXME
- *
- */
-bool Order::isAsk( void ) const
-{
-    return side == side::ask_;
-}
 
 /**
  * @brief FIXME

@@ -52,7 +52,7 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
 
     try
     {
-        order = std::make_shared<Order>( trader, decoded );
+        order = std::make_shared<Order>( trader, decoded, false );
     }
     catch( const side::WrongSide& )
     {
@@ -79,13 +79,49 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
         trader->notifyError( format::f0::wrongQuantity.str() );
     }
 
-    if( order && order->isBid() )
+    if( order && side::isBid( order->side ) )
     {
         insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, trader, order );
     }
-    else if( order && order->isAsk() )
+    else if( order && side::isAsk( order->side ) )
     {
         insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
+    }
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
+void OrderBook::marketOrder( const TraderPtr& trader, const py::dict& decoded )
+{
+    OrderPtr order;
+
+    try
+    {
+        order = std::make_shared<Order>( trader, decoded, true );
+    }
+    catch( const side::WrongSide& )
+    {
+        logger.warning( boost::format( format::f1::logWrongSide ) % trader->toString() );
+
+        trader->notifyError( format::f0::wrongSide.str() );
+    }
+    catch( const pyexc::QuantityError& )
+    {
+        logger.warning( boost::format( format::f1::logWrongQuantity ) % trader->toString() );
+
+        trader->notifyError( format::f0::wrongQuantity.str() );
+    }
+
+    if( order && side::isBid( order->side ) )
+    {
+        handleExecution<AskOrderContainer>( askOrders, order );
+    }
+    else if( order && side::isAsk( order->side ) )
+    {
+        handleExecution<BidOrderContainer>( bidOrders, order );
     }
 }
 

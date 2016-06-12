@@ -25,6 +25,7 @@ public:
     OrderBook&  operator=( const OrderBook& ) = delete;
 
     void        createOrder( const TraderPtr& trader, const boost::python::dict& decoded );
+    void        marketOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     void        cancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     void        cancelAllOrders( const TraderPtr& trader );
     void        aggregateAllPriceLevels( const ClientPtr& client ) const;
