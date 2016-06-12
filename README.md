@@ -1,5 +1,5 @@
 # PyXchange #
-Simulator of limit orderbook written in **Python** and **C++14**, using **Twisted** framework and Boost libraries: **boost::python** and **boost::multi_index** container.
+Simulator of limit orderbook written in **Python** and **C++14**, using **Twisted** framework and **Boost** libraries: **boost::python** and **boost::multi_index** container.
 
 
 ## Basic features ###
@@ -231,17 +231,17 @@ Options:
 
 ## Implementation details ##
 
-`Boost::python` is powerful framework for exposing C++ code to Python. The library exposes three classes to Python: **Matcher**, **Trader** and **Client**.
+`Boost::python` is powerful framework for exposing C++ code to Python. The library exposes three classes to Python: `Matcher`, `Trader` and `Client`.
 
-From Python side, instances of *Matcher*, *Trader* and *Client* are managed by shared pointers (`std::shared_ptr`).
+From Python side, instances of `Matcher`, `Trader` and `Client` are managed by shared pointers (`std::shared_ptr`).
 
-**Matcher** controls creating of *Clients*, validation and deserialization of JSON messages from *Traders*.
+`Matcher` controls creating of `Clients`, validation and dispatch of (JSON) messages.
 
-**OrderBook** object is the "engine of the engine". It contains two `boost::multi_index` containers:
+`OrderBook` object within `Matcher` contains two `boost::multi_index` containers:
 
-1. **BuyOrderContainer** - greatest price first, lowest price last
+1. `BuyOrderContainer` - greatest price first, lowest price last
 
-2. **SellOrderContainer** - lowest price first, greatest price last
+2. `SellOrderContainer` - lowest price first, greatest price last
 
 Both containers are very similar. They are indexed by multiple indexes:
 
@@ -254,9 +254,9 @@ Both containers are very similar. They are indexed by multiple indexes:
 4. *index by trader-order ID pair* (used to find order by ID of any trader on cancel message)
 
 
-**Order**s within *BuyOrderContainer* or *SellOrderContainer* are managed by shared pointers and are generally constant except the quantity, which may change during a match event.
+`Orders` within `BuyOrderContainer` and `SellOrderContainer` are managed by shared pointers and are considered as constant except the quantity, which may change during match event.
 
-*Order* object holds weak pointer (`std::weak_ptr`) to *Trader* object, so this basically allows to disconnect and destroy the Trader, while Order continues to live.
+`Order` holds weak pointer (`std::weak_ptr`) to `Trader`, so this basically allows to destroy the `Trader`, while `Order` continues to live (see also difference between trading and extended trading interface).
 
 
 
