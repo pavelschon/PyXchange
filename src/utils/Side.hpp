@@ -1,6 +1,6 @@
 /**
- * @brief Forward declarations of PyXchange module
- * @file Side.hpp
+ * @brief   FIXME
+ * @file    Side.hpp
  *
  */
 

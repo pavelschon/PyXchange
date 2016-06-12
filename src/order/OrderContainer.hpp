@@ -1,12 +1,11 @@
 /**
- * @file   OrdersContainer.hxx
- * @brief  Engine for assembling order book from EOBI messages
- *
+ * @brief  Declaration of OrderContainer
+ * @file   OrderContainer.hpp
  *
  */
 
-#ifndef ORDER_CONTAINER
-#define ORDER_CONTAINER
+#ifndef ORDER_CONTAINER_HPP
+#define ORDER_CONTAINER_HPP
 
 #include "order/Order.hpp"
 

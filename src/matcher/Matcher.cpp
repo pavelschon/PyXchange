@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Matcher.cpp
+ * @brief   FIXME
+ * @file    Matcher.cpp
  * 
  */
 

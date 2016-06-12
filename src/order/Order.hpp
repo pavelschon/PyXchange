@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Order.hpp
+ * @brief   FIXME
+ * @file    Order.hpp
  *
  */
 

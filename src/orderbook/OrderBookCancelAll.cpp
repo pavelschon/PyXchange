@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file OrderBook.cpp
+ * @brief   FIXME
+ * @file    OrderBookCancelAll.cpp
  *
  */
 

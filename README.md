@@ -86,7 +86,7 @@ $ rpm -ivh ./dist/pyxchange-0.1.0-1.x86_64.rpm
 ## Tutorial to scripting API ##
 
 ### Creating `Matcher` instance with optional `logger` ###
-Matcher holds orderbook with orders. It also holds list of connected traders and clients.
+Matcher holds orderbook with orders. It also holds list of connected traders and clients as well.
 
 ```
 >>> import logging
@@ -164,6 +164,7 @@ INFO:root:Execution 15@150
 ```
 ### Connecting market-data client ###
 New client receives complete price-level aggregated data from actual orderbook.
+
 Later it receives only updates on individual price levels and trade summaries.
 ```
 >>> c1 = Transport()
