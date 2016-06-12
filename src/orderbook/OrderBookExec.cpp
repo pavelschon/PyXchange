@@ -54,7 +54,7 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
             ++it;
         }
 
-        notifyExecution( trader, order, oppOrder, matchQty );
+        notifyExecution( order, oppOrder, matchQty );
     }
 
     if( totalMatchQuantity > 0 )
@@ -75,17 +75,21 @@ template void OrderBook::handleExecution<AskOrderContainer>(
  * @brief FIXME
  *
  */
-void OrderBook::notifyExecution( const TraderPtr& trader, const OrderPtr& order,
-                                 const OrderPtr& oppOrder, const quantity_t matchQty ) const
+void OrderBook::notifyExecution( const OrderConstPtr& order, const OrderConstPtr& oppOrder, const quantity_t matchQty ) const
 {
-    const price_t matchPrice   = oppOrder->price;
+    const TraderPtr& trader    = order->getTrader();
     const TraderPtr& oppTrader = oppOrder->getTrader();
+    const price_t matchPrice   = oppOrder->price;
 
-    logger.info( boost::format( format::f2::logExecution ) % matchQty % matchPrice );
+    logger.info( boost::format( format::f2::logExecution ) % matchQty % matchPrice
+                 % order->toString() % oppOrder->toString() );
 
-    trader->notifyTrade( order->orderId, matchPrice, matchQty );
+    if( trader ) // it's created from weak_ptr, so we must check for nullptr
+    {
+        trader->notifyTrade( order->orderId, matchPrice, matchQty );
+    }
 
-    if( oppTrader ) // it's created from weak_ptr, so we muust check for nullptr
+    if( oppTrader ) // it's created from weak_ptr, so we must check for nullptr
     {
         oppTrader->notifyTrade( oppOrder->orderId, matchPrice, matchQty );
     }

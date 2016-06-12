@@ -45,7 +45,7 @@ std::string Order::toString( void ) const
     if( trader_ )
     {
         return ( boost::format( format::f5::order ) % side::toBidAsk( side )
-            % trader_->toString() % orderId % quantity % price ).str();
+                 % quantity % price % orderId % trader_->toString() ).str();
     }
     else
     {

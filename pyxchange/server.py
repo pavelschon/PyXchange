@@ -9,6 +9,8 @@ import logging
 
 from twisted.internet import protocol
 
+from . import engine
+
 
 class ClientProtocol(protocol.Protocol):
     """ Market-data client protocol """
@@ -21,11 +23,7 @@ class ClientProtocol(protocol.Protocol):
 
 
     def connectionMade(self):
-        self.client = self.matcher.getClient(self.name, self.transport)
-
-
-    def connectionLost(self, reason):
-        self.matcher.removeClient(self.client)
+        self.client = engine.Client(self.matcher, self.name, self.transport)
 
 
 class TraderProtocol(protocol.Protocol):
@@ -39,26 +37,22 @@ class TraderProtocol(protocol.Protocol):
 
 
     def connectionMade(self):
-        self.trader = self.matcher.getTrader(self.name, self.transport)
+        self.trader = engine.Trader(self.matcher, self.name, self.transport)
 
 
-    def connectionLost(self, reason):
-        self.matcher.removeTrader(self.trader)
+    #def connectionLost(self, reason):
+        #self.trader.cancelAll()
 
 
     def dataReceived(self, data):
         data = data.strip()
         if data:
             try:
-                self.trader.handleMessageStr(self.matcher, data)
+                self.trader.handleMessage(data)
             except Exception:
-                self.onException()
+                self.logger.exception('Trader %r raised error' % self.name)
 
-
-    def onException(self):
-        self.logger.exception('%s caused error on trading interface' % self.trader)
-
-        self.transport.loseConnection()
+                self.transport.loseConnection()
 
 
 class ClientFactory(protocol.Factory):

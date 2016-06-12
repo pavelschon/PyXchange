@@ -65,8 +65,8 @@ private:
     void        aggregateAllPriceLevels( const typename OrderContainer::type& orders,
                                          const ClientPtr& client, const side_t side_ ) const;
 
-    void        notifyExecution( const TraderPtr& trader, const OrderPtr& order,
-                                 const OrderPtr& oppOrder, const quantity_t matchQty ) const;
+    void        notifyExecution( const OrderConstPtr& order, const OrderConstPtr& oppOrder,
+                                 const quantity_t matchQty ) const;
 
 private:
     const Logger                    logger;
