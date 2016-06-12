@@ -71,7 +71,6 @@ namespace f3
 
 const boost::format order( "order<%||,%||@%||>" );
 const boost::format traderCanceledAll( "%|| cancelled all %|| bid orders, %|| ask orders" );
-const boost::format logSelfMatch( "%|| self-match prevention rejected %|| matching with %||" );
 
 } /* namespace f3 */
 

@@ -23,8 +23,7 @@ namespace py = boost::python;
  *
  */
 template<typename OrderContainer>
-void OrderBook::handleExecution( typename OrderContainer::type& orders,
-                                 const TraderPtr& trader, const OrderPtr& order )
+void OrderBook::handleExecution( typename OrderContainer::type& orders, const OrderPtr& order )
 {
     typename OrderContainer::price_set priceLevels;
 
@@ -64,11 +63,8 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders,
 }
 
 
-template void OrderBook::handleExecution<BidOrderContainer>(
-    BidOrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
-
-template void OrderBook::handleExecution<AskOrderContainer>(
-    AskOrderContainer::type& orders, const TraderPtr& trader, const OrderPtr& order );
+template void OrderBook::handleExecution<BidOrderContainer>( BidOrderContainer::type& orders, const OrderPtr& order );
+template void OrderBook::handleExecution<AskOrderContainer>( AskOrderContainer::type& orders, const OrderPtr& order );
 
 
 /**

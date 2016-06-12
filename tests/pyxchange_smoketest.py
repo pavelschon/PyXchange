@@ -220,12 +220,6 @@ class TradingTest(unittest.TestCase):
         self.client1.assertMessage({u'price': 15, u'type': u'orderbook', u'side': u'ask', u'quantity': 5})
 
 
-    def testSelfMatch(self):
-        # self-match protection
-        self.trader2.handleMessage({ u'orderId': 4, u'price': 40, u'quantity': 10, u'message': u'createOrder', u'side': u'BUY' })
-        self.trader2.assertMessage({u'text': u'self-match rejected', u'message': u'error'})
-
-
 if __name__ == '__main__':
     unittest.main()
 
