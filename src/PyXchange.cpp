@@ -40,6 +40,7 @@ BOOST_PYTHON_MODULE( engine )
         .def( "handleMessage", &Matcher::handleMessageJson, args( "data" ) )
         .def( "handleMessage", &Matcher::handleMessageDict, args( "data" ) )
         .def( "createOrder",   &Matcher::handleCreateOrder, args( "data" ) )
+        .def( "marketOrder",   &Matcher::handleMarketOrder, args( "data" ) )
         .def( "cancelOrder",   &Matcher::handleCancelOrder, args( "data" ) )
         .def( "cancelAll",     &Matcher::handleCancelAll,   args( "data" ) )
     ;

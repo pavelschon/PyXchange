@@ -205,19 +205,52 @@ class TradingTest(unittest.TestCase):
         self.trader2.handleMessage({ u'orderId': 4, u'price': 15, u'quantity': 25, u'message': u'createOrder', u'side': u'SELL' })
 
         self.trader1.assertMessage({ u'report': u'FILL', u'orderId': 3, u'message': u'executionReport', u'price': 30, u'quantity': 10 })
-        self.trader2.assertMessage({ u'report': u'FILL', u'orderId': 4, u'message': u'executionReport', u'price': 30, u'quantity': 10 })
-        self.client1.assertMessage({ u'price': 30, u'time': 0, u'type': u'trade', u'quantity': 10 })
-
         self.trader1.assertMessage({ u'report': u'FILL', u'orderId': 2, u'message': u'executionReport', u'price': 20, u'quantity': 10 })
+
+        self.trader2.assertMessage({ u'report': u'FILL', u'orderId': 4, u'message': u'executionReport', u'price': 30, u'quantity': 10 })
         self.trader2.assertMessage({ u'report': u'FILL', u'orderId': 4, u'message': u'executionReport', u'price': 20, u'quantity': 10 })
-        self.client1.assertMessage({ u'price': 20, u'time': 0, u'type': u'trade', u'quantity': 10 })
 
         # remaining quantity of order 4 is inserted to orderbook
         self.trader2.assertMessage({ u'report': u'NEW', u'orderId': 4, u'message': u'executionReport', u'quantity': 5 })
 
+        self.client1.assertMessage({ u'price': 30, u'time': 0, u'type': u'trade', u'quantity': 10 })
+        self.client1.assertMessage({ u'price': 20, u'time': 0, u'type': u'trade', u'quantity': 10 })
         self.client1.assertMessage({ u'price': 30, u'type': u'orderbook', u'side': u'bid', u'quantity': 0 })
         self.client1.assertMessage({ u'price': 20, u'type': u'orderbook', u'side': u'bid', u'quantity': 0 })
         self.client1.assertMessage({ u'price': 15, u'type': u'orderbook', u'side': u'ask', u'quantity': 5 })
+
+
+    def testMarketSellOrder(self):
+        self.trader2.handleMessage({ u'quantity': 25, u'message': u'marketOrder', u'side': u'SELL' })
+
+        self.trader1.assertMessage({ u'report': u'FILL', u'orderId': 3, u'message': u'executionReport', u'price': 30, u'quantity': 10 })
+        self.trader1.assertMessage({ u'report': u'FILL', u'orderId': 2, u'message': u'executionReport', u'price': 20, u'quantity': 10 })
+
+        self.trader2.assertMessage({ u'report': u'FILL', u'orderId': 0, u'message': u'executionReport', u'price': 30, u'quantity': 10 })
+        self.trader2.assertMessage({ u'report': u'FILL', u'orderId': 0, u'message': u'executionReport', u'price': 20, u'quantity': 10 })
+
+        self.client1.assertMessage({ u'price': 30, u'time': 0, u'type': u'trade', u'quantity': 10 })
+        self.client1.assertMessage({ u'price': 20, u'time': 0, u'type': u'trade', u'quantity': 10 })
+        self.client1.assertMessage({ u'price': 10, u'time': 0, u'type': u'trade', u'quantity': 5 })
+
+        self.client1.assertMessage({ 'price': 30, 'type': 'orderbook', 'side': 'bid', 'quantity': 0 })
+        self.client1.assertMessage({ 'price': 20, 'type': 'orderbook', 'side': 'bid', 'quantity': 0 })
+        self.client1.assertMessage({ 'price': 10, 'type': 'orderbook', 'side': 'bid', 'quantity': 5 })
+
+
+    def testMarketBuyOrder(self):
+        self.trader1.handleMessage({ u'quantity': 25, u'message': u'marketOrder', u'side': u'BUY' })
+
+        self.trader2.assertMessage({ u'report': u'FILL', u'orderId': 1, u'message': u'executionReport', u'price': 40, u'quantity': 10 })
+        self.trader2.assertMessage({ u'report': u'FILL', u'orderId': 2, u'message': u'executionReport', u'price': 50, u'quantity': 10 })
+
+        self.client1.assertMessage({ 'price': 40, 'time': 0, 'type': 'trade', 'quantity': 10 })
+        self.client1.assertMessage({ 'price': 50, 'time': 0, 'type': 'trade', 'quantity': 10 })
+        self.client1.assertMessage({ 'price': 60, 'time': 0, 'type': 'trade', 'quantity': 5 })
+
+        self.client1.assertMessage({ 'price': 40, 'type': 'orderbook', 'side': 'ask', 'quantity': 0 })
+        self.client1.assertMessage({ 'price': 50, 'type': 'orderbook', 'side': 'ask', 'quantity': 0 })
+        self.client1.assertMessage({ 'price': 60, 'type': 'orderbook', 'side': 'ask', 'quantity': 5 })
 
 
 if __name__ == '__main__':

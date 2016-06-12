@@ -29,6 +29,7 @@ public:
     static void         handleMessageJson( const TraderPtr& trader, const std::string& data );
     static void         handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );
     static void         handleCreateOrder( const TraderPtr& trader, const boost::python::dict& decoded );
+    static void         handleMarketOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     static void         handleCancelOrder( const TraderPtr& trader, const boost::python::dict& decoded );
     static void         handleCancelAll(   const TraderPtr& trader );
 

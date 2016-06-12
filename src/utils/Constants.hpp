@@ -107,15 +107,17 @@ const std::string error             = "error";
 const std::string trade             = "trade";
 
 const std::string  createOrder      = "createOrder";
+const std::string  marketOrder      = "marketOrder";
 const std::string  cancelOrder      = "cancelOrder";
 const std::string  cancelAll        = "cancelAll";
 
 const std::wstring wPing( string2wstring( ping ) );
 const std::wstring wCreateOrder( string2wstring( createOrder ) );
+const std::wstring wMarketOrder( string2wstring( marketOrder ) );
 const std::wstring wCancelOrder( string2wstring( cancelOrder ) );
 const std::wstring wCancelAll( string2wstring( cancelAll ) );
 
-const auto all = { wPing, wCreateOrder, wCancelOrder, wCancelAll };
+const auto all = { wPing, wCreateOrder, wMarketOrder, wCancelOrder, wCancelAll };
 
 
 } /* namespace message */

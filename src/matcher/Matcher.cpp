@@ -59,6 +59,16 @@ void Matcher::handleCreateOrder( const TraderPtr& trader, const boost::python::d
  * @brief FIXME
  *
  */
+void Matcher::handleMarketOrder( const TraderPtr& trader, const boost::python::dict& decoded )
+{
+    trader->matcher->orderbook->marketOrder( trader, decoded );
+}
+
+
+/**
+ * @brief FIXME
+ *
+ */
 void Matcher::handleCancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
 {
     trader->matcher->orderbook->cancelOrder( trader, decoded );
@@ -187,6 +197,10 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
     else if( message_ == message::wCreateOrder )
     {
         orderbook->createOrder( trader, decoded );
+    }
+    else if( message_ == message::wMarketOrder )
+    {
+        orderbook->marketOrder( trader, decoded );
     }
     else if( message_ == message::wCancelOrder )
     {
