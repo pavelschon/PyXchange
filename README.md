@@ -9,7 +9,7 @@ Messaging protocol uses python dictionaries or JSON objects
 
 The library can be used in two ways:
 
-* as python library suitable for scripting
+* as python package for scripting
 
 * as a standalone TCP server
 
