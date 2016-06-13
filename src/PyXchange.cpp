@@ -1,5 +1,5 @@
 /**
- * @brief   This module implements simulator of exchange
+ * @brief   PyXchange python module
  * @file    PyXchange.cpp
  * 
  */
@@ -13,7 +13,8 @@
 
 
 /**
- * @brief FIXME
+ * @brief Function factory for creating shared pointers
+ * @param T class of the object which is created
  *
  */
 template<typename T, typename... Params>

@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Matcher implementation
  * @file    Matcher.cpp
  * 
  */
@@ -21,7 +21,7 @@ namespace py = boost::python;
 
 
 /**
- * @brief Constructor
+ * @brief Constructor without logger
  *
  */
 Matcher::Matcher():
@@ -33,7 +33,8 @@ Matcher::Matcher():
 
 
 /**
- * @brief Constructor
+ * @brief Constructor with logger
+ * @param logger python object, instance of logging.Logger
  * 
  */
 Matcher::Matcher( const boost::python::object& logger_):
@@ -46,7 +47,9 @@ Matcher::Matcher( const boost::python::object& logger_):
 
 
 /**
- * @brief FIXME
+ * @brief Create order for Trader. Function is called as trader.createOrder(data)
+ * @param trader instance
+ * @param data python structure
  *
  */
 void Matcher::handleCreateOrder( const TraderPtr& trader, const boost::python::dict& decoded )
@@ -56,7 +59,9 @@ void Matcher::handleCreateOrder( const TraderPtr& trader, const boost::python::d
 
 
 /**
- * @brief FIXME
+ * @brief Create market order for Trader. Function is called as trader.marketOrder(data)
+ * @param trader instance
+ * @param data python structure
  *
  */
 void Matcher::handleMarketOrder( const TraderPtr& trader, const boost::python::dict& decoded )
@@ -66,7 +71,9 @@ void Matcher::handleMarketOrder( const TraderPtr& trader, const boost::python::d
 
 
 /**
- * @brief FIXME
+ * @brief Cancel order of Trader. Function is called as trader.cancelOrder(data)
+ * @param trader instance
+ * @param data python structure
  *
  */
 void Matcher::handleCancelOrder( const TraderPtr& trader, const boost::python::dict& decoded )
@@ -76,7 +83,8 @@ void Matcher::handleCancelOrder( const TraderPtr& trader, const boost::python::d
 
 
 /**
- * @brief FIXME
+ * @brief Cancel all orders of Trader. Function is called as trader.cancelAll()
+ * @param trader instance
  *
  */
 void Matcher::handleCancelAll( const TraderPtr& trader )
@@ -86,7 +94,10 @@ void Matcher::handleCancelAll( const TraderPtr& trader )
 
 
 /**
- * @brief FIXME
+ * @brief Create Client instance, register it to Matcher
+ * @param matcher owning client
+ * @param name of client
+ * @param transport object
  *
  */
 ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& name, const py::object& transport )
@@ -101,7 +112,9 @@ ClientPtr Matcher::makeClient( const MatcherPtr& matcher, const std::string& nam
 
 
 /**
- * @brief FIXME
+ * @brief Handle message sent by Trader. Function is called as trader.handleMessage(data)
+ * @param trader instance
+ * @param data json string
  *
  */
 void Matcher::handleMessageJson( const TraderPtr& trader, const std::string& data )
@@ -111,7 +124,9 @@ void Matcher::handleMessageJson( const TraderPtr& trader, const std::string& dat
 
 
 /**
- * @brief FIXME
+ * @brief Handle message sent by Trader. Function is called as trader.handleMessage(data)
+ * @param trader instance
+ * @param decoded python structure
  *
  */
 void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decoded )
@@ -121,7 +136,9 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
 
 
 /**
- * @brief FIXME
+ * @brief Handle message sent by Trader, decode JSON into python structure. Disconnect Trader on error.
+ * @param trader instance
+ * @param data json string
  *
  */
 void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& data )
@@ -156,7 +173,9 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& dat
 
 
 /**
- * @brief FIXME
+ * @brief Handle message sent by Trader. Decode type of message. Disconnect on error.
+ * @param trader instance
+ * @param decoded python structure
  *
  */
 void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded )
@@ -185,7 +204,10 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
 
 
 /**
- * @brief FIXME
+ * @brief Handle message sent by Trader. Dispatch message by type. Forward message to orderbook.
+ * @param trader instance
+ * @param decoded python structure
+ * @param message type
  *
  */
 void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decoded, const std::wstring& message_ )
@@ -214,7 +236,8 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
 
 
 /**
- * @brief FIXME
+ * @brief Extract message type from decoded message. Throw error.
+ * @param decoded message
  *
  */
 std::wstring Matcher::extractMessage( const py::dict& decoded )

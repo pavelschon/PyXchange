@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of orderbook, message createOrder, marketOrder
  * @file    OrderBook.cpp
  *
  */
@@ -20,7 +20,8 @@ namespace py = boost::python;
 
 
 /**
- * @brief Constructor
+ * @brief Constructor without logger
+ * @param const vector of clients
  *
  */
 OrderBook::OrderBook( const ClientVectorConstPtr& clients_ ):
@@ -31,7 +32,9 @@ OrderBook::OrderBook( const ClientVectorConstPtr& clients_ ):
 
 
 /**
- * @brief Constructor
+ * @brief Constructor with logger
+ * @param const vector of clients
+ * @param logger python object, instance of logging.Logger
  *
  */
 OrderBook::OrderBook( const ClientVectorConstPtr& clients_, const Logger& logger_ ):
@@ -43,7 +46,9 @@ OrderBook::OrderBook( const ClientVectorConstPtr& clients_, const Logger& logger
 
 
 /**
- * @brief FIXME
+ * @brief Create order from decoded message, notify trader on decoding error
+ * @param trader creating order
+ * @param decoded message createOrder
  *
  */
 void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
@@ -91,7 +96,9 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
 
 
 /**
- * @brief FIXME
+ * @brief Create market order from decoded message, notify trader on decoding error
+ * @param trader creating order
+ * @param decoded message marketOrder
  *
  */
 void OrderBook::marketOrder( const TraderPtr& trader, const py::dict& decoded )

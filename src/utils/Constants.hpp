@@ -1,5 +1,5 @@
 /**
- * @brief   Static constants, most log messagess
+ * @brief   Static constants, log messagess, keys
  * @file    Constants.hpp
  *
  */
@@ -83,7 +83,9 @@ namespace message
 {
 
 /**
- * @brief FIXME
+ * @brief Convert string into wstring
+ * @brief string
+ * @return wstring
  *
  */
 inline std::wstring string2wstring( const std::string& str )

@@ -59,8 +59,9 @@ typedef std::tuple<const TraderPtr, const orderId_t>                    TraderOr
 
 
 /**
- * @brief   FIXME
- *
+ * @brief Check whether object has attribute, same as hasattr(obj, 'attr')
+ * @param obj
+ * @param attr_
  */
 inline bool hasattr( const boost::python::object& obj, const char* const attr_ )
 {

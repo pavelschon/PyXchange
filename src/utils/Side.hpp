@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Utiliti functions and constant related to order side
  * @file    Side.hpp
  *
  */
@@ -37,7 +37,8 @@ class WrongSide: public std::exception
 
 
 /**
- * @brief FIXME
+ * @brief Check if side is bid
+ * @param side to be checked
  *
  */
 inline bool isBid( const side_t side_ )
@@ -47,7 +48,8 @@ inline bool isBid( const side_t side_ )
 
 
 /**
- * @brief FIXME
+ * @brief Check if side is ask
+ * @param side to be checked
  *
  */
 inline bool isAsk( const side_t side_ )
@@ -57,7 +59,8 @@ inline bool isAsk( const side_t side_ )
 
 
 /**
- * @brief FIXME
+ * @brief Convert bid to ask, ask to bid
+ * @param side to be converted
  *
  */
 inline side_t opposite( const side_t side_ )
@@ -72,7 +75,8 @@ inline side_t opposite( const side_t side_ )
 
 
 /**
- * @brief FIXME
+ * @brief Convert side to buy/sell string
+ * @param side to be converted
  *
  */
 inline std::string toBuySell( const side_t side_ )
@@ -87,7 +91,8 @@ inline std::string toBuySell( const side_t side_ )
 
 
 /**
- * @brief FIXME
+ * @brief Convert side to bid/ask string
+ * @param side to be converted
  *
  */
 inline std::string toBidAsk( const side_t side_ )

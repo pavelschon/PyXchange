@@ -1,5 +1,5 @@
 /**0
- * @brief   FIXME
+ * @brief   Matcher implementation
  * @file    Matcher.hpp
  * 
  */

@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of orderbook, message cancelAll
  * @file    OrderBookCancelAll.cpp
  *
  */
@@ -18,7 +18,8 @@ namespace py = boost::python;
 
 
 /**
- * @brief FIXME
+ * @brief Cancel all orders of given trader
+ * @param trader canceling orders
  *
  */
 void OrderBook::cancelAllOrders( const TraderPtr& trader )
@@ -35,7 +36,10 @@ void OrderBook::cancelAllOrders( const TraderPtr& trader )
 
 
 /**
- * @brief FIXME
+ * @brief Cancel all orders of given trader
+ * @param orders OrdersContainer (bid or ask)
+ * @param trader canceling orders
+ * @param side of orders
  *
  */
 template<typename OrderContainer>

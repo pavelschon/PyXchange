@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Json.hpp
+ * @brief   JSON encoder and decoder
+ * @file    Json.hpp
  *
  */
 
@@ -31,7 +31,8 @@ const auto json_module = boost::python::import( attr::json_ );
 
 
 /**
-  * @brief FIXME
+  * @brief Dedode JSON message into python structure
+  * @param value JSON string
   *
   */
 template<typename T>
@@ -42,7 +43,8 @@ inline boost::python::object loads( const T& value )
 
 
 /**
- * @brief FIXME
+ * @brief Dedode JSON message into any python structure
+ * @param value JSON string
  *
  */
 template<typename T, typename R>
@@ -53,7 +55,8 @@ inline R loads( const T& value )
 
 
 /**
- * @brief FIXME
+ * @brief Encode python structure to JSON string
+ * @param value python structure
  *
  */
 template<typename T>

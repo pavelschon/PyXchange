@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of Order
  * @file    Order.cpp
  *
  */
@@ -20,6 +20,9 @@ namespace py = boost::python;
 
 /**
  * @brief Constructor
+ * @param trader creating this order
+ * @param decoded python structure - createOrder message
+ * @param isMarketOrder_ true if the order is market order, false otherwise
  *
  */
 Order::Order( const TraderPtr& trader_, const py::dict& decoded, const bool isMarketOrder_ ):
@@ -36,7 +39,8 @@ Order::Order( const TraderPtr& trader_, const py::dict& decoded, const bool isMa
 
 
 /**
- * @brief FIXME
+ * @brief Convert order to human-readable string
+ * @return string
  *
  */
 std::string Order::toString( void ) const
@@ -57,7 +61,9 @@ std::string Order::toString( void ) const
 
 
 /**
- * @brief FIXME
+ * @brief Extract side from decoded message. Throw error.
+ * @param decoded message
+ * @return side
  *
  */
 side_t Order::extractSide( const py::dict& decoded )
@@ -86,7 +92,9 @@ side_t Order::extractSide( const py::dict& decoded )
 
 
 /**
- * @brief FIXME
+ * @brief Extract orderId from decoded message. Throw error.
+ * @param decoded message
+ * @return orderId
  *
  */
 orderId_t Order::extractOrderId( const py::dict& decoded )
@@ -111,7 +119,9 @@ orderId_t Order::extractOrderId( const py::dict& decoded )
 
 
 /**
- * @brief FIXME
+ * @brief Extract price from decoded message. Handle market order. Throw error.
+ * @param decoded message
+ * @return price
  *
  */
 price_t Order::extractPrice( const bool isMarketOrder_, const side_t side_, const py::dict& decoded )
@@ -147,7 +157,9 @@ price_t Order::extractPrice( const bool isMarketOrder_, const side_t side_, cons
 
 
 /**
- * @brief FIXME
+ * @brief Extract quantity from decoded message. Throw error.
+ * @param decoded message
+ * @return quantity
  *
  */
 quantity_t Order::extractQuantity( const py::dict& decoded )
@@ -172,7 +184,9 @@ quantity_t Order::extractQuantity( const py::dict& decoded )
 
 
 /**
- * @brief FIXME
+ * @brief Compare this order and other order by price, used on match event
+ * @param order to be compared
+ * @return bool
  *
  */
 bool Order::comparePrice( const OrderConstPtr& order ) const
@@ -193,7 +207,8 @@ bool Order::comparePrice( const OrderConstPtr& order ) const
 
 
 /**
- * @brief FIXME
+ * @brief Get price of this order. Used by OrderContainer.
+ * @return price
  *
  */
 price_t Order::getPrice( void ) const
@@ -203,7 +218,8 @@ price_t Order::getPrice( void ) const
 
 
 /**
- * @brief FIXME
+ * @brief Get time priority of this order. Used by OrderContainer.
+ * @return time priority
  *
  */
 prio_t Order::getTime( void ) const
@@ -213,7 +229,8 @@ prio_t Order::getTime( void ) const
 
 
 /**
- * @brief FIXME
+ * @brief Get orderId of this order. Used by OrderContainer.
+ * @return orderId
  *
  */
 orderId_t Order::getId( void ) const
@@ -223,7 +240,8 @@ orderId_t Order::getId( void ) const
 
 
 /**
- * @brief FIXME
+ * @brief Get trader of this order. Used by OrderContainer.
+ * @return trader
  *
  */
 TraderPtr Order::getTrader( void ) const
@@ -233,7 +251,8 @@ TraderPtr Order::getTrader( void ) const
 
 
 /**
- * @brief FIXME
+ * @brief Get unique identification of this order. Used by OrderContainer.
+ * @return pair trader,orderId
  *
  */
 TraderOrderId Order::getUnique( void ) const

@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of Order
  * @file    Order.hpp
  *
  */

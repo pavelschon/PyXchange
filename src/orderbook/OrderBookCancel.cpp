@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of orderbook, message cancelOrder
  * @file    OrderBookCancel.cpp
  *
  */
@@ -20,7 +20,9 @@ namespace py = boost::python;
 
 
 /**
- * @brief FIXME
+ * @brief Cancel order from decoded message, notify trader on decoding error
+ * @param trader canceling order
+ * @param decoded message cancelOrder
  *
  */
 void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
@@ -53,7 +55,10 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
 
 
 /**
- * @brief FIXME
+ * @brief Cancel order from decoded message, notify trader on decoding error
+ * @param orders OrdersContainer (bid or ask)
+ * @param trader canceling order
+ * @param decoded message cancelOrder
  *
  */
 template<typename OrderContainer>
