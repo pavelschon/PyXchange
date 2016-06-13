@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of orderbook, insert order
  * @file    OrderBookInsert.cpp
  *
  */
@@ -18,7 +18,11 @@ namespace py = boost::python;
 
 
 /**
- * @brief FIXME
+ * @brief Insert order into give OrderContainer, forward processing into handleExecution
+ * @param orders OrdersContainer (bid or ask)
+ * @param oppOrders OrdersContainer (bid or ask), opposite to orders
+ * @param trader inserting order
+ * @param order to be inserted
  *
  */
 template<typename OrderContainer, typename OppOrderContainer>

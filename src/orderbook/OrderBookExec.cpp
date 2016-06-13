@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of orderbook, order execution, match event
  * @file    OrderBookExec.cpp
  *
  */
@@ -19,7 +19,9 @@ namespace py = boost::python;
 
 
 /**
- * @brief FIXME
+ * @brief Handle order execution agains orders in given container, notify clients
+ * @param orders OrdersContainer (bid or ask)
+ * @param order newly created
  *
  */
 template<typename OrderContainer>
@@ -72,7 +74,10 @@ template void OrderBook::handleExecution<AskOrderContainer>(
 
 
 /**
- * @brief FIXME
+ * @brief Notify client and traders about match event
+ * @param order which as matched
+ * @param oppOrder opposite order which has matched
+ * @param matchQty matched quantity
  *
  */
 void OrderBook::notifyExecution( const OrderConstPtr& order, const OrderConstPtr& oppOrder,

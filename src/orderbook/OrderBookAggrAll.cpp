@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of orderbook, aggregate price levels for given client
  * @file    OrderBookAggrAll.cpp
  *
  */
@@ -18,7 +18,8 @@ namespace py = boost::python;
 
 
 /**
- * @brief FIXME
+ * @brief Aggregate price levels for given client
+ * @param client which has logged in
  *
  */
 void OrderBook::aggregateAllPriceLevels( const ClientPtr& client ) const
@@ -29,7 +30,10 @@ void OrderBook::aggregateAllPriceLevels( const ClientPtr& client ) const
 
 
 /**
- * @brief FIXME
+ * @brief Aggregate set of price levels in given orders container, notify clients
+ * @param orders OrdersContainer (bid or ask)
+ * @param client which has logged in
+ * @param side of orders
  *
  */
 template<typename OrderContainer>

@@ -1,5 +1,5 @@
 /**
- * @brief   FIXME
+ * @brief   Implementation of orderbook, aggregate price levels
  * @file    OrderBookAggr.cpp
  *
  */
@@ -17,6 +17,13 @@ namespace pyxchange
 namespace py = boost::python;
 
 
+/**
+ * @brief Aggregate set of price levels in given orders container, notify clients
+ * @param orders OrdersContainer (bid or ask)
+ * @param priceLevels set
+ * @param side of orders
+ *
+ */
 template<typename OrderContainer>
 void OrderBook::aggregateSetPriceLevels( const typename OrderContainer::type& orders,
                                          const typename OrderContainer::price_set& priceLevels,
@@ -30,7 +37,10 @@ void OrderBook::aggregateSetPriceLevels( const typename OrderContainer::type& or
 
 
 /**
- * @brief FIXME
+ * @brief Aggregate single price level in given orders container, notify clients
+ * @param orders OrdersContainer (bid or ask)
+ * @param priceLevel
+ * @param side of orders
  *
  */
 template<typename OrderContainer>
