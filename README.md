@@ -23,21 +23,40 @@ The TCP server is single thread, asynchronous, event driven. The server listens 
 
 ### Supported message types on trading interface ###
 
-* ping/pong (heartbeat)
+* `ping`/`pong` (heartbeat)
 
-* createOrder
+* `createOrder`
 
-* marketOrder
+* `marketOrder`
 
-* cancelOrder
+* `cancelOrder`
 
-* cancelAll
+* `cancelAll`
 
 ### Supported message types on market data interface ###
 
-* trade
+* `trade`
 
-* orderbook (price-level aggregated summary)
+* `orderbook` (price level aggregated summary)
+
+
+## Ideas for future enhancements ###
+
+* Extended market data interface with order-by-order orderbook updates
+
+* Administration interface for retrieving runtime performance statistics
+
+* Support for `modifyOrder` message
+
+* Support for `login`/`logout` messages
+
+* Support for message sequence numbers 
+
+* Self-match prevention
+
+* Data persistence 
+
+* Twisted -based client library
 
 
 ## Requirements ##
@@ -90,9 +109,9 @@ Matcher holds orderbook with orders. It also holds list of connected traders and
 
 ```
 >>> import logging
->>> from pyxchange import engine
 >>> logging.basicConfig(level=logging.INFO)
 >>> logger = logging.getLogger()
+>>> from pyxchange import engine
 >>> matcher = engine.Matcher(logger)
 INFO:root:Matcher is ready
 >>> matcher
@@ -163,7 +182,7 @@ INFO:root:Execution 15@150
 >>>
 ```
 ### Connecting market-data client ###
-New client receives complete price-level aggregated data from actual orderbook.
+New client receives complete price level aggregated data from actual orderbook.
 
 Later it receives only updates on individual price levels and trade summaries.
 ```
@@ -243,22 +262,22 @@ Matcher controls creating of Clients, validation and dispatch of (JSON) messages
 
 OrderBook object within Matcher contains two `boost::multi_index` containers:
 
-1. *BuyOrderContainer* - greatest price first, lowest price last
+1. *BidOrderContainer* - greatest price first, lowest price last
 
-2. *SellOrderContainer* - lowest price first, greatest price last
+2. *AskOrderContainer* - lowest price first, greatest price last
 
 Both containers are very similar. They are indexed by multiple indexes:
 
 1. *index by price-time*  (used for matching), orders are sorted by price, order at the same price level are sorted by time, lower priority first
 
-2. *index by price*  (used for price-level aggregation)
+2. *index by price*  (used for price level aggregation)
 
 3. *index by trader* (used on `cancelAll` to find all orders of Trader)
 
 4. *index by pair trader-orderId* (used on `createOrder` and `cancelOrder` to find order by ID)
 
 
-Orders within BuyOrderContainer and SellOrderContainer are managed by shared pointers and are considered as constant except the quantity, which may change during match event.
+Orders within BidOrderContainer and AskOrderContainer are managed by shared pointers and are considered as constant except the quantity, which may change during match event.
 
 Order has weak pointer (`std::weak_ptr`) to Trader, so this basically allows to destroy the Trader, while Order continues to live (see also difference between trading and extended trading interface).
 
