@@ -19,7 +19,7 @@ __all__ = (
 
 
 class Transport(object):
-    """ Base transport handler for client and trader """
+    """ Base transport handler for clients and traders """
 
     def __init__(self):
         self.messages = collections.deque()
@@ -38,10 +38,10 @@ class Transport(object):
 
 
 class TestTransport(Transport):
-    """ FIXME """
+    """ Test transport provides some assertions """
 
     def __init__(self):
-        """ FIXME """
+        """ Create fake connection, store timestamps for later assertions """
 
         super(TestTransport, self).__init__()
 
@@ -52,7 +52,7 @@ class TestTransport(Transport):
 
 
     def writeData(self, message):
-        """ On message callback """
+        """ On message callback, assert type of message, compare timestamps """
 
         assert type(message) is dict
         assert self.connection, 'Connection is closed'
@@ -66,7 +66,7 @@ class TestTransport(Transport):
 
 
     def loseConnection(self):
-        """ FIXME """
+        """ Assert connection is open, close connection """
 
         assert self.connection, 'Connection is closed'
 
@@ -74,10 +74,9 @@ class TestTransport(Transport):
 
 
 class ClientWrapper(object):
-    """ FIXME """
-    def __init__(self, name, matcher):
-        """ FIXME """
+    """ Client wrapper with some assertions """
 
+    def __init__(self, name, matcher):
         self.transport = TestTransport()
         self.client = engine.Client(matcher, name, self.transport)
 
@@ -87,45 +86,33 @@ class ClientWrapper(object):
 
 
     def remove(self):
-        """ FIXME """
-
         self.client = None
         self.transport = None
 
 
     def clear(self):
-        """ Clear messages in the queue """
-
         self.transport.messages.clear()
 
 
     def handleMessage(self, message):
-        """ FIXME """
-
         assert type(message) in (str, dict)
 
         self.client.handleMessage(message)
 
 
     def assertMessage(self, message):
-        """ FIXME """
-
         assert type(message) is dict
         assert message == self.transport.messages.popleft()
 
 
     def assertDisconnected(self):
-        """ FIXME """
-
         assert self.transport.connection is None, 'Connection is open'
 
 
 class TraderWrapper(object):
-    """ FIXME """
+    """ Trader wrapper with some assertions """
 
     def __init__(self, name, matcher):
-        """ FIXME """
-
         self.transport = TestTransport()
         self.trader = engine.Trader(matcher, name, self.transport)
 
@@ -135,36 +122,26 @@ class TraderWrapper(object):
 
 
     def remove(self):
-        """ FIXME """
-
         self.trader = None
         self.transport = None
 
 
     def clear(self):
-        """ Clear messages in the queue """
-
         self.transport.messages.clear()
 
 
     def handleMessage(self, message):
-        """ FIXME """
-
         assert type(message) in (str, dict)
 
         self.trader.handleMessage(message)
 
 
     def assertMessage(self, message):
-        """ FIXME """
-
         assert type(message) is dict
         assert message == self.transport.messages.popleft()
 
 
     def assertDisconnected(self):
-        """ FIXME """
-
         assert self.transport.connection is None, 'Connection is open'
 
 

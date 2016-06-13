@@ -15,8 +15,8 @@ from pyxchange import engine, server
 
 
 def parse_options():
-    """ FIXME """
-    
+    """ Parse command-line options """
+
     parser = optparse.OptionParser(
         usage = 'usage: %prog [options]',
         add_help_option = True
@@ -82,7 +82,7 @@ def get_logging_handler(filename):
 
 
 def serve_forever():
-    """ FIXME """
+    """ Run the reactor """
 
     options, args = parse_options()
 
