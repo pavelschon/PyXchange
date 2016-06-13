@@ -1,7 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+
 ##
 # @file pyxchange_example.py
-# @brief FIXME
+# @brief Examples of using PyXchange
 #
 #
 

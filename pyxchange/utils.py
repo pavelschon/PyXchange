@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 ##
 # @file utils.py
-# @brief FIXME
+# @brief Miscelangeous utilities for PyXchange
 #
 #
 

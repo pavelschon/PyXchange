@@ -1,7 +1,9 @@
 #!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+
 ##
 # @file server.py
-# @brief FIXME
+# @brief Factories and protocols for Twisted
 #
 #
 

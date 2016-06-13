@@ -3,7 +3,7 @@
 
 ##
 # @file setup.py
-# @brief FIXME
+# @brief Setup script
 #
 #
 

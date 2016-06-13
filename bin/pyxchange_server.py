@@ -1,7 +1,9 @@
 #!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+
 ##
 # @file pyxchange_server.py
-# @brief FIXME
+# @brief Run Pyxchange as TCp server
 #
 #
 
