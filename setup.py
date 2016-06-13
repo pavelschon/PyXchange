@@ -55,8 +55,7 @@ setup(
     ],
     py_modules = [
         'pyxchange.server',
-        'pyxchange.smoketest',
-        'pyxchange.test_utils'
+        'pyxchange.utils'
     ],
 )
 
