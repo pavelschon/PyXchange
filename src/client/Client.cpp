@@ -17,11 +17,10 @@ namespace py = boost::python;
 
 
 /**
- * @brief   Write 'orderbook' message to this client
- * @param   price_t     price priceLevel
- * @param   side_t      side
- * @param   quantity_t  quantity
- * @return  void
+ * @brief   Write 'orderbook' summary message to this client
+ * @param   price priceLevel of the summary
+ * @param   side of the the summary
+ * @param   quantity on the price level
  *
  */
 void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, const quantity_t quantity )
@@ -39,11 +38,10 @@ void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, cons
 
 /**
  * @brief   Write 'orderbook' message to all clients
- * @param   ClientSetConstPtr set of clients
- * @param   price_t     price priceLevel
- * @param   side_t      side
- * @param   quantity_t  quantity
- * @return  void
+ * @param   clients set of clients
+ * @param   price priceLevel of the summary
+ * @param   side of the the summary
+ * @param   quantity on the price level
  *
  */
 void Client::notifyOrderBook( const ClientVectorConstPtr& clients, const price_t priceLevel,
@@ -61,11 +59,10 @@ void Client::notifyOrderBook( const ClientVectorConstPtr& clients, const price_t
 
 
 /**
- * @brief   Write 'trade' message to this client
- * @param   prio_t      time of match event
- * @param   price_t     price priceLevel
- * @param   quantity_t  quantity
- * @return  void
+ * @brief   Write 'trade' message to the client
+ * @param   time of match event
+ * @param   price of match event
+ * @param   quantity of match event
  *
  */
 void Client::notifyTrade( const ClientVectorConstPtr& clients, const prio_t time,
@@ -83,10 +80,9 @@ void Client::notifyTrade( const ClientVectorConstPtr& clients, const prio_t time
 
 
 /**
- * @brief   Distribute message across all clients
- * @param   ClientSetConstPtr set of clients
- * @param   py::object data to be written
- * @return  void
+ * @brief   Distribute message to all clients
+ * @param   client set of clients
+ * @param   data to be written
  *
  */
 void Client::writeAll( const ClientVectorConstPtr& clients, const py::object& data )
@@ -101,7 +97,6 @@ void Client::writeAll( const ClientVectorConstPtr& clients, const py::object& da
         }
     }
 }
-
 
 
 } /* namespace pyxchange */

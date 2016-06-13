@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Logger.hpp
+ * @brief   Logger wrapper
+ * @file    Logger.hpp
  *
  */
 

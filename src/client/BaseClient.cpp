@@ -19,8 +19,9 @@ namespace py = boost::python;
 
 /**
  * @brief   Constructor
- * @param   std::string name of the client
- * @param   py::object  transport
+ * @param   matcher_ related to the client
+ * @param   name_ of the client
+ * @param   transport_ object with methods write(str)/writeData(obj) and loseConnection()
  *
  */
 BaseClient::BaseClient( const MatcherPtr& matcher_, const std::string& name_, const py::object& transport_ ):
@@ -57,9 +58,8 @@ std::string BaseClient::toString( void ) const
 
 
 /**
- * @brief   Dump py object into JSON and write it into 'transport' object
- * @param   py::object data to be written
- * @return  void
+ * @brief   Dump python structure into JSON and write it into 'transport' object
+ * @param   data python structure
  *
  */
 void BaseClient::writeData( const py::object& data )

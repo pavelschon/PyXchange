@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Trader.cpp
+ * @brief   Implementaton of Trader
+ * @file    Trader.cpp
  *
  */
 
@@ -16,8 +16,7 @@ namespace py = boost::python;
 
 
 /**
- * @brief   FIXME
- * @return  void
+ * @brief   Pong notification
  *
  */
 void Trader::notifyPong( void )
@@ -31,7 +30,8 @@ void Trader::notifyPong( void )
 
 
 /**
- * @brief FIXME
+ * @brief   Write error message to Trader
+ * @param   text of the message
  *
  */
 void Trader::notifyError( const std::string& text )
@@ -47,7 +47,9 @@ void Trader::notifyError( const std::string& text )
 
 
 /**
- * @brief FIXME
+ * @brief Notify Trader about created order
+ * @param orderId of new order (for verification)
+ * @param quantity of new order (for verification)
  *
  */
 void Trader::notifyCreateOrderSuccess( const orderId_t orderId, const quantity_t quantity )
@@ -65,7 +67,8 @@ void Trader::notifyCreateOrderSuccess( const orderId_t orderId, const quantity_t
 
 
 /**
- * @brief FIXME
+ * @brief Notify Trader about canceled order
+ * @param quantity of canceled order (for verification)
  *
  */
 void Trader::notifyCancelOrderSuccess( const orderId_t orderId, const quantity_t quantity )
@@ -83,7 +86,10 @@ void Trader::notifyCancelOrderSuccess( const orderId_t orderId, const quantity_t
 
 
 /**
- * @brief FIXME
+ * @brief Notify Trader about match event
+ * @param   orderId of matched order
+ * @param   price of match event
+ * @param   quantity of match event
  *
  */
 void Trader::notifyTrade( const orderId_t orderId, const price_t price, const quantity_t quantity )
@@ -102,7 +108,6 @@ void Trader::notifyTrade( const orderId_t orderId, const price_t price, const qu
 
 
 } /* namespace pyxchange */
-
 
 
 /* EOF */

@@ -1,6 +1,6 @@
 /**
- * @brief This module implements simulator of exchange
- * @file Matcher.cpp
+ * @brief   Logger wrapper
+ * @file    Logger.cpp
  *
  */
 
@@ -27,7 +27,7 @@ const std::string error     = "error";
 
 
 /**
- * @brief Constructor
+ * @brief Constructor (no logger)
  *
  */
 Logger::Logger()
@@ -38,7 +38,8 @@ Logger::Logger()
 
 
 /**
- * @brief Constructor
+ * @brief Constructor (with provided logger)
+ * @param logger python object, instance of logging.Logger
  *
  */
 Logger::Logger( const boost::python::object& logger_):
@@ -49,7 +50,8 @@ Logger::Logger( const boost::python::object& logger_):
 
 
 /**
- * @brief FIXME
+ * @brief Log message on debug level
+ * @param message to be logged
  *
  */
 void Logger::debug( const boost::format& message )  const
@@ -59,7 +61,8 @@ void Logger::debug( const boost::format& message )  const
 
 
 /**
- * @brief FIXME
+ * @brief Log message on info level
+ * @param message to be logged
  *
  */
 void Logger::info( const boost::format& message )  const
@@ -69,7 +72,8 @@ void Logger::info( const boost::format& message )  const
 
 
 /**
- * @brief FIXME
+ * @brief Log message on warning level
+ * @param message to be logged
  *
  */
 void Logger::warning( const boost::format& message )  const
@@ -79,7 +83,8 @@ void Logger::warning( const boost::format& message )  const
 
 
 /**
- * @brief FIXME
+ * @brief Log message on error level
+ * @param message to be logged
  *
  */
 void Logger::error( const boost::format& message )  const
@@ -89,7 +94,9 @@ void Logger::error( const boost::format& message )  const
 
 
 /**
- * @brief FIXME
+ * @brief Log message on any level
+ * @param level as string
+ * @param message to be logged
  *
  */
 void Logger::log( const std::string& level, const boost::format& message ) const
