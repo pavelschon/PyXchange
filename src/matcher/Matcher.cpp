@@ -143,7 +143,7 @@ void Matcher::handleMessageDict( const TraderPtr& trader, const py::dict& decode
  */
 void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& data )
 {
-    const auto exceptions{ PyExc_ValueError, PyExc_TypeError };
+    const auto exceptions = { PyExc_ValueError, PyExc_TypeError };
     const auto decode = std::bind( &json::loads<const std::string, py::dict>, data );
 
     try
@@ -242,7 +242,7 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
  */
 std::wstring Matcher::extractMessage( const py::dict& decoded )
 {
-    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+    const auto exceptions = { PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
         const std::wstring message_ = py::extract<const std::wstring>( decoded[ keys::message ] );

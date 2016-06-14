@@ -68,7 +68,7 @@ std::string Order::toString( void ) const
  */
 side_t Order::extractSide( const py::dict& decoded )
 {
-    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+    const auto exceptions = { PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
         const std::wstring side_ = py::extract<const std::wstring>( decoded[ keys::side ] );
@@ -99,7 +99,7 @@ side_t Order::extractSide( const py::dict& decoded )
  */
 orderId_t Order::extractOrderId( const py::dict& decoded )
 {
-    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+    const auto exceptions = { PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
         const orderId_t orderId_ = py::extract<const orderId_t>( decoded[ keys::orderId ] );
@@ -126,7 +126,7 @@ orderId_t Order::extractOrderId( const py::dict& decoded )
  */
 price_t Order::extractPrice( const bool isMarketOrder_, const side_t side_, const py::dict& decoded )
 {
-    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+    const auto exceptions = { PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
         const price_t price_ = py::extract<const price_t>( decoded[ keys::price ] );
@@ -164,7 +164,7 @@ price_t Order::extractPrice( const bool isMarketOrder_, const side_t side_, cons
  */
 quantity_t Order::extractQuantity( const py::dict& decoded )
 {
-    const auto exceptions{ PyExc_KeyError, PyExc_TypeError };
+    const auto exceptions = { PyExc_KeyError, PyExc_TypeError };
 
     const auto decode = [ &decoded ]() {
         const quantity_t quantity_ = py::extract<const quantity_t>( decoded[ keys::quantity ] );
