@@ -54,7 +54,7 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders,
     else
     {
         logger.warning( boost::format( format::f2::logOrderAlreadyExist )
-                        % trader->toString() % order->toString() );
+                        % trader->toString() % order->orderId );
 
         trader->notifyError( format::f0::orderAlreadyExist.str() );
     }
