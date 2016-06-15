@@ -185,6 +185,8 @@ INFO:root:Execution 15@150
 New client receives complete price level aggregated data from actual orderbook.
 
 Later it receives only updates on individual price levels and trade summaries.
+
+In case more clients connected to matching engine, they will be notified in random order.
 ```
 >>> c1 = Transport()
 >>> client1 = engine.Client(matcher, 'client1', c1)

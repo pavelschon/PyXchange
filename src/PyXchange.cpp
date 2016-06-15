@@ -31,6 +31,9 @@ BOOST_PYTHON_MODULE( engine )
     using namespace ::boost::python;
     using namespace ::pyxchange;
 
+    // initialize random number generator
+    std::srand( static_cast<const unsigned int>( std::time( nullptr ) ) );
+
     const auto make_trader = &make_shared_<Trader,
         const MatcherPtr&, const std::string&, const object&>;
 
@@ -50,7 +53,6 @@ BOOST_PYTHON_MODULE( engine )
         .def( "__init__", make_constructor( &Matcher::makeClient ) )
         .def( "__str__",  &Client::toString )
     ;
-
 
     class_<Matcher, MatcherPtr, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )

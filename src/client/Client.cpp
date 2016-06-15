@@ -80,14 +80,18 @@ void Client::notifyTrade( const ClientVectorConstPtr& clients, const prio_t time
 
 
 /**
- * @brief   Distribute message to all clients
+ * @brief   Distribute message to all clients. Clients are notified in random order.
  * @param   client set of clients
  * @param   data to be written
  *
  */
 void Client::writeAll( const ClientVectorConstPtr& clients, const py::object& data )
 {
-    for( const auto& client : *clients )
+    ClientVector clients_{ *clients };
+
+    std::random_shuffle( clients_.begin(), clients_.end() );
+
+    for( const auto& client : clients_ )
     {
         const auto& client_ = client.lock(); // from weak_ptr to shared_ptr
 
