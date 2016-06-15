@@ -33,7 +33,8 @@ const boost::format unknownMessage( "unknown message" );
 
 const boost::format selfMatch( "self-match rejected" );
 
-const boost::format errNoWriteAttr( "object has no attribute write/writeData" );
+const boost::format errNoHandleMessage( "object has no attribute 'handleMessage'" );
+const boost::format errNoDisconnect( "object has no attribute 'disconnect'" );
 
 } /* namespace f0 */
 
@@ -146,16 +147,6 @@ const std::string type      = "type";
 
 
 } /* namespace keys */
-
-
-namespace attr
-{
-
-const char* const loseConnection    = "loseConnection";
-const char* const write             = "write";
-const char* const writeData         = "writeData";
-
-}
 
 
 } /* namespace pyxchange */

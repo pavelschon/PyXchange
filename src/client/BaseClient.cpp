@@ -8,13 +8,21 @@
 #include "client/BaseClient.hpp"
 #include "utils/Exception.hpp"
 #include "utils/Constants.hpp"
-#include "utils/Json.hpp"
 
 
 namespace pyxchange
 {
 
 namespace py = boost::python;
+
+
+namespace attr
+{
+
+const char* const disconnect    = "disconnect";
+const char* const handleMessage = "handleMessage";
+
+}
 
 
 /**
@@ -29,9 +37,14 @@ BaseClient::BaseClient( const MatcherPtr& matcher_, const std::string& name_, co
     , name{ name_ }
     , transport{ transport_ }
 {
-    if( !( hasattr( transport, attr::writeData ) || hasattr( transport, attr::write ) ) )
+    if( !( hasattr( transport, attr::handleMessage ) ) )
     {
-        pyexc::raise( PyExc_AttributeError, format::f0::errNoWriteAttr );
+        pyexc::raise( PyExc_AttributeError, format::f0::errNoHandleMessage );
+    }
+
+    if( !( hasattr( transport, attr::disconnect ) ) )
+    {
+        pyexc::raise( PyExc_AttributeError, format::f0::errNoDisconnect );
     }
 }
 
@@ -64,15 +77,7 @@ std::string BaseClient::toString( void ) const
  */
 void BaseClient::writeData( const py::object& data )
 {
-    if( hasattr( transport, attr::writeData ) )
-    {
-        transport.attr( attr::writeData )( data );
-    }
-    else
-    {
-        transport.attr( attr::write )( json::dumps<const std::string>( data ) );
-        transport.attr( attr::write )( '\n' );
-    }
+    transport.attr( attr::handleMessage )( data );
 }
 
 
@@ -83,9 +88,9 @@ void BaseClient::writeData( const py::object& data )
  */
 void BaseClient::disconnect( void )
 {
-    if( hasattr( transport, attr::loseConnection ) )
+    if( hasattr( transport, attr::disconnect ) )
     {
-        transport.attr( attr::loseConnection )();
+        transport.attr( attr::disconnect )();
     }
 }
 
