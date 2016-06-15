@@ -10,11 +10,14 @@
 import logging
 
 from twisted.internet import protocol
-from twisted.protocols import basic as protocols
+from twisted.protocols import basic
 
 from . import engine
+from . import utils
+
 
 __all__ = (
+    'BaseProtocol',
     'BaseFactory',
     'ClientProtocol',
     'ClientFactory',
@@ -25,38 +28,41 @@ __all__ = (
 )
 
 
-class ClientProtocol(protocols.LineReceiver):
+class BaseProtocol(basic.LineOnlyReceiver):
+    """ Base protocol """
+
+    delimiter = '\n'
+
+    def __init__(self, matcher, addr):
+        self.matcher = matcher
+        self.name = '%s:%s' % ( addr.host, addr.port )
+        self.handler = utils.TwistedHandler(self)
+        self.logger = logging.getLogger()
+
+
+class ClientProtocol(BaseProtocol):
     """ Market-data protocol """
 
-    def __init__(self, matcher, addr):
-        self.matcher = matcher
-        self.name = '%s:%s' % ( addr.host, addr.port )
-        self.logger = logging.getLogger()
-
-
     def connectionMade(self):
-        self.client = engine.Client(self.matcher, self.name, self.transport)
+        self.client = engine.Client(self.matcher, self.name, self.handler)
 
 
-class TraderProtocol(protocols.LineReceiver):
+    def dataReceived(self, data):
+        self.transport.loseConnection()
+
+
+class TraderProtocol(BaseProtocol):
     """ Trading protocol of market participants """
 
-    def __init__(self, matcher, addr):
-        self.matcher = matcher
-        self.name = '%s:%s' % ( addr.host, addr.port )
-        self.logger = logging.getLogger()
-
-
     def connectionMade(self):
-        self.trader = engine.Trader(self.matcher, self.name, self.transport)
+        self.trader = engine.Trader(self.matcher, self.name, self.handler)
 
 
     def lineReceived(self, message):
         try:
             self.trader.handleMessage(message)
         except Exception:
-            self.logger.exception('Trader %s raised error' % self.name)
-
+            self.logger.exception('Trader %s error' % self.name)
             self.transport.loseConnection()
 
 
@@ -69,6 +75,9 @@ class TraderExtProtocol(TraderProtocol):
 
 class BaseFactory(protocol.Factory):
     """ Base factory for trading and market data protocols """
+
+    protocol = BaseProtocol
+
 
     def __init__(self, matcher):
         self.matcher = matcher

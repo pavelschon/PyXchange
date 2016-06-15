@@ -161,7 +161,7 @@ class MatcherTest(unittest.TestCase):
 
         # insert existing order
         self.trader1.handleMessage({ 'orderId': 1, 'price': 1, 'quantity': 1, 'message': 'createOrder', 'side': 'BUY' })
-        self.trader1.assertMessage({'text': 'order already exists', 'message': 'error'})
+        self.trader1.assertMessage({ 'text': 'order already exists', 'message': 'error' })
 
         # cancel order
         self.trader1.handleMessage({ 'orderId': 1, 'message': 'cancelOrder' })

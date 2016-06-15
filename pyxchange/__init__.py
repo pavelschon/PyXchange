@@ -8,9 +8,7 @@
 
 from . import engine
 from . import server
-
-from .utils import Transport
-
+from . import utils
 
 # EOF
 

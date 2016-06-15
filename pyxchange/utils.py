@@ -8,44 +8,69 @@
 
 import collections
 import time
+import weakref
 
 from . import engine
 
 
 __all__ = (
-    'Transport',
-    'TestTransport',
+    'BaseHandler',
+    'TwistedHandler',
+    'TestHandler',
     'ClientWrapper',
     'TraderWrapper'
 )
 
 
-class Transport(object):
-    """ Base transport handler for clients and traders """
+class BaseHandler(object):
+    """ Base handler for clients and traders """
 
     def __init__(self):
         self.messages = collections.deque()
 
 
-    def writeData(self, message):
+    def handleMessage(self, message):
         """ On message callback """
 
         self.messages.append(message)
 
 
-    def loseConnection(self):
+    def disconnect(self):
         """ On disconnect callback """
 
         pass
 
 
-class TestTransport(Transport):
+class TwistedHandler(BaseHandler):
+    def __init__(self, lineHandler):
+        """ Create weak reference to lineHandler """
+
+        self.lineHandler = weakref.ref(lineHandler)
+
+
+    def handleMessage(self, message):
+        """ On message callback """
+
+        lineHandler = self.lineHandler()
+        if lineHandler:
+            lineHandler.sendLine(engine.json_dumps(message))
+
+
+    def disconnect(self):
+        """ On disconnect callback """
+
+        lineHandler = self.lineHandler()
+        if lineHandler:
+            lineHandler.transport.loseConnection()
+
+
+class TestHandler(BaseHandler):
     """ Test transport provides some assertions """
 
     def __init__(self):
         """ Create fake connection, store timestamps for later assertions """
 
-        super(TestTransport, self).__init__()
+        super(TestHandler, self).__init__()
 
         self.connection = True
 
@@ -53,7 +78,7 @@ class TestTransport(Transport):
         self.t1 = self.t0 + 2
 
 
-    def writeData(self, message):
+    def handleMessage(self, message):
         """ On message callback, assert type of message, compare timestamps """
 
         assert type(message) is dict
@@ -64,10 +89,10 @@ class TestTransport(Transport):
             assert message['time'] < self.t1
             message['time'] = 0
 
-        super(TestTransport, self).writeData(message)
+        super(TestHandler, self).handleMessage(message)
 
 
-    def loseConnection(self):
+    def disconnect(self):
         """ Assert connection is open, close connection """
 
         assert self.connection, 'Connection is closed'
@@ -79,8 +104,8 @@ class ClientWrapper(object):
     """ Client wrapper with some assertions """
 
     def __init__(self, name, matcher):
-        self.transport = TestTransport()
-        self.client = engine.Client(matcher, name, self.transport)
+        self.handler = TestHandler()
+        self.client = engine.Client(matcher, name, self.handler)
 
 
     def __repr__(self):
@@ -89,11 +114,11 @@ class ClientWrapper(object):
 
     def remove(self):
         self.client = None
-        self.transport = None
+        self.handler = None
 
 
     def clear(self):
-        self.transport.messages.clear()
+        self.handler.messages.clear()
 
 
     def handleMessage(self, message):
@@ -104,19 +129,19 @@ class ClientWrapper(object):
 
     def assertMessage(self, message):
         assert type(message) is dict
-        assert message == self.transport.messages.popleft()
+        assert message == self.handler.messages.popleft()
 
 
     def assertDisconnected(self):
-        assert self.transport.connection is None, 'Connection is open'
+        assert self.handler.connection is None, 'Connection is open'
 
 
 class TraderWrapper(object):
     """ Trader wrapper with some assertions """
 
     def __init__(self, name, matcher):
-        self.transport = TestTransport()
-        self.trader = engine.Trader(matcher, name, self.transport)
+        self.handler = TestHandler()
+        self.trader = engine.Trader(matcher, name, self.handler)
 
 
     def __repr__(self):
@@ -125,11 +150,11 @@ class TraderWrapper(object):
 
     def remove(self):
         self.trader = None
-        self.transport = None
+        self.handler = None
 
 
     def clear(self):
-        self.transport.messages.clear()
+        self.handler.messages.clear()
 
 
     def handleMessage(self, message):
@@ -140,11 +165,11 @@ class TraderWrapper(object):
 
     def assertMessage(self, message):
         assert type(message) is dict
-        assert message == self.transport.messages.popleft()
+        assert message == self.handler.messages.popleft()
 
 
     def assertDisconnected(self):
-        assert self.transport.connection is None, 'Connection is open'
+        assert self.handler.connection is None, 'Connection is open'
 
 
 # EOF
