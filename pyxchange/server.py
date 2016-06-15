@@ -10,6 +10,7 @@
 import logging
 
 from twisted.internet import protocol
+from twisted.protocols import basic as protocols
 
 from . import engine
 
@@ -24,7 +25,7 @@ __all__ = (
 )
 
 
-class ClientProtocol(protocol.Protocol):
+class ClientProtocol(protocols.LineReceiver):
     """ Market-data protocol """
 
     def __init__(self, matcher, addr):
@@ -37,7 +38,7 @@ class ClientProtocol(protocol.Protocol):
         self.client = engine.Client(self.matcher, self.name, self.transport)
 
 
-class TraderProtocol(protocol.Protocol):
+class TraderProtocol(protocols.LineReceiver):
     """ Trading protocol of market participants """
 
     def __init__(self, matcher, addr):
@@ -50,15 +51,13 @@ class TraderProtocol(protocol.Protocol):
         self.trader = engine.Trader(self.matcher, self.name, self.transport)
 
 
-    def dataReceived(self, data):
-        data = data.strip()
-        if data:
-            try:
-                self.trader.handleMessage(data)
-            except Exception:
-                self.logger.exception('Trader %s raised error' % self.name)
+    def lineReceived(self, message):
+        try:
+            self.trader.handleMessage(message)
+        except Exception:
+            self.logger.exception('Trader %s raised error' % self.name)
 
-                self.transport.loseConnection()
+            self.transport.loseConnection()
 
 
 class TraderExtProtocol(TraderProtocol):
