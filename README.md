@@ -252,6 +252,25 @@ Options:
   --log-format=format   Log format
 ```
 
+### Performance ###
+
+Twisted -based server is very fast, however because the event-loop is single thread, the performance is limited to the performance of single CPU.
+
+The design of matching engine is aiming to get the best from single-threaded design. The memory usage is as low as possibble.
+
+On author's older workstation, matching engine is able to process 100k `createOrder` messages in ~45 seconds (some the resulting in trades).
+
+More traders and clients connected will naturally cause performance decrease of matching engine.
+
+The performacne test can be run from tests/ directory:
+
+```
+$ time python tests/performance_test.py -n 100000
+    
+real    0m45.240s
+user    0m7.924s
+sys     0m0.104s
+```
 
 
 ## Implementation details ##
