@@ -15,6 +15,7 @@ from . import engine
 
 __all__ = (
     'BaseHandler',
+    'DequeHandler'
     'TwistedHandler',
     'TestHandler',
     'ClientWrapper',
@@ -23,6 +24,21 @@ __all__ = (
 
 
 class BaseHandler(object):
+    """ Base interface for other handlers """
+
+    def handleMessage(self, message):
+        """ On message callback """
+
+        raise NotImplementedError
+
+
+    def disconnect(self):
+        """ On disconnect callback """
+
+        raise NotImplementedError
+
+
+class DequeHandler(BaseHandler):
     """ Base handler for clients and traders """
 
     def __init__(self):
@@ -64,7 +80,7 @@ class TwistedHandler(BaseHandler):
             lineHandler.transport.loseConnection()
 
 
-class TestHandler(BaseHandler):
+class TestHandler(DequeHandler):
     """ Test transport provides some assertions """
 
     def __init__(self):
