@@ -120,8 +120,8 @@ INFO:root:Matcher is ready
 ```
 ### Creating `Trader` instance and sending heartbeat messages (ping/pong)
 ```
->>> from pyxchange import Transport
->>> t1 = Transport()
+>>> from pyxchange import utils
+>>> t1 = utils.DequeHandler()
 >>> trader1 = engine.Trader(matcher, 'trader1', t1)
 >>> trader1
 <pyxchange.engine.Trader object at 0x7f802d323ba8>
@@ -147,7 +147,7 @@ Trader2 creates sell order, which is matched with order of trader1.
 Remaining quantity is inserted to the orderbook.
 
 ```
->>> t2 = Transport()
+>>> t2 = utils.DequeHandler()
 >>> trader2 = engine.Trader(matcher, 'trader2', t2)
 >>> trader2
 <pyxchange.engine.Trader object at 0x7f802d323c00>
@@ -188,7 +188,7 @@ Later it receives only updates on individual price levels and trade summaries.
 
 In case more clients connected to matching engine, they will be notified in random order.
 ```
->>> c1 = Transport()
+>>> c1 = utils.DequeHandler()
 >>> client1 = engine.Client(matcher, 'client1', c1)
 >>> client1
 <pyxchange.engine.Client object at 0x7f802d323c58>
