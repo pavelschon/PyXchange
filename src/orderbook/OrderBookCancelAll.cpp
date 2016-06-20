@@ -29,7 +29,7 @@ void OrderBook::cancelAllOrders( const TraderPtr& trader )
 
     if( numBid || numAsk )
     {
-        logger.info( format::f3::logTraderCanceledAll, trader->toString(), numBid, numAsk );
+        logger.debug( format::f3::logTraderCanceledAll, trader->toString(), numBid, numAsk );
     }
 }
 

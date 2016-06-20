@@ -54,6 +54,7 @@ const boost::format logWrongPrice( "%|| inserting order with invalid price" );
 const boost::format logWrongQuantity( "%|| inserting order with invalid quantity" );
 
 const boost::format logClientConnected( "%|| connected" );
+const boost::format logClientDisconnect( "%|| unusual event, disconnecting" );
 const boost::format logClientDisconnected( "%|| disconnected" );
 
 } /* namespace f1 */

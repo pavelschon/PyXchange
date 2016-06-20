@@ -23,30 +23,20 @@ public:
                 Client( const Client& ) = delete;
                 Client& operator=( const Client& ) = delete;
 
-                
-    void        notifyOrderBook(
-                    const price_t                       priceLevel,
-                    const side_t                        side_,
-                    const quantity_t                    quantity );
-    
 
-    static void notifyOrderBook(
-                    const ClientVectorConstPtr&         clients,
-                    const price_t                       priceLevel,
-                    const side_t                        side_,
-                    const quantity_t                    quantity );
+    void        notifyOrderBook( const price_t priceLevel,
+                                 const side_t side_, const quantity_t quantity );
 
+    static void notifyOrderBook( const ClientVectorConstPtr& clients,
+                                 const price_t priceLevel, const side_t side_,
+                                 const quantity_t quantity );
 
-    static void notifyTrade(
-                    const ClientVectorConstPtr&         clients,
-                    const prio_t                        time,
-                    const price_t                       price,
-                    const quantity_t                    quantity );
+    static void notifyTrade( const ClientVectorConstPtr& clients, const prio_t time,
+                             const price_t price, const quantity_t quantity );
 
 private:
-    static void writeAll(
-                    const ClientVectorConstPtr&         clients,
-                    const boost::python::object&        data );
+    static void writeAll( const ClientVectorConstPtr& clients,
+                          const boost::python::object& data );
 };
 
 

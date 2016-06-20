@@ -87,7 +87,7 @@ void OrderBook::notifyExecution( const OrderConstPtr& order, const OrderConstPtr
     const TraderPtr& oppTrader = oppOrder->getTrader();
     const price_t matchPrice   = oppOrder->price;
 
-    logger.info( format::f2::logExecution, matchQty, matchPrice );
+    logger.debug( format::f2::logExecution, matchQty, matchPrice );
 
     if( trader ) // it's created from weak_ptr, so we must check for nullptr
     {

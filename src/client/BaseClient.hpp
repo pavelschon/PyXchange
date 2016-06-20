@@ -21,10 +21,10 @@ class BaseClient
 
 public:
                 BaseClient( const MatcherPtr&  matcher_, const std::string& name_,
-                            const boost::python::object& transport_ );
+                            const boost::python::object& handler_ );
 
-                BaseClient( const Trader& ) = delete;
-    BaseClient& operator=( const Trader& ) = delete;
+                BaseClient( const BaseClient& ) = delete;
+    BaseClient& operator=( const BaseClient& ) = delete;
     virtual     ~BaseClient();
 
     std::string toString( void ) const;
@@ -40,7 +40,7 @@ protected:
 private:
     const MatcherPtr matcher;
     const std::string name;
-    const boost::python::object transport;
+    const boost::python::object handler;
 };
 
 

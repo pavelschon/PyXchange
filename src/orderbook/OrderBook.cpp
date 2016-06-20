@@ -47,25 +47,25 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
     }
     catch( const side::WrongSide& )
     {
-        logger.warning( format::f1::logWrongSide, trader->toString() );
+        logger.debug( format::f1::logWrongSide, trader->toString() );
 
         trader->notifyError( format::f0::wrongSide.str() );
     }
     catch( const pyexc::OrderIdError& )
     {
-        logger.warning( format::f1::logWrongOrderId, trader->toString() );
+        logger.debug( format::f1::logWrongOrderId, trader->toString() );
 
         trader->notifyError( format::f0::wrongOrderId.str() );
     }
     catch( const pyexc::PriceError& )
     {
-        logger.warning( format::f1::logWrongPrice, trader->toString() );
+        logger.debug( format::f1::logWrongPrice, trader->toString() );
 
         trader->notifyError( format::f0::wrongPrice.str() );
     }
     catch( const pyexc::QuantityError& )
     {
-        logger.warning( format::f1::logWrongQuantity, trader->toString() );
+        logger.debug( format::f1::logWrongQuantity, trader->toString() );
 
         trader->notifyError( format::f0::wrongQuantity.str() );
     }
@@ -97,26 +97,26 @@ void OrderBook::marketOrder( const TraderPtr& trader, const py::dict& decoded )
     }
     catch( const side::WrongSide& )
     {
-        logger.warning( format::f1::logWrongSide, trader->toString() );
+        logger.debug( format::f1::logWrongSide, trader->toString() );
 
         trader->notifyError( format::f0::wrongSide.str() );
     }
     catch( const pyexc::QuantityError& )
     {
-        logger.warning( format::f1::logWrongQuantity, trader->toString() );
+        logger.debug( format::f1::logWrongQuantity, trader->toString() );
 
         trader->notifyError( format::f0::wrongQuantity.str() );
     }
 
     if( order && side::isBid( order->side ) )
     {
-        logger.info( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
+        logger.debug( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
 
         handleExecution<AskOrderContainer>( askOrders, order );
     }
     else if( order && side::isAsk( order->side ) )
     {
-        logger.info( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
+        logger.debug( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
 
         handleExecution<BidOrderContainer>( bidOrders, order );
     }

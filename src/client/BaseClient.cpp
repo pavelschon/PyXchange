@@ -32,17 +32,17 @@ const char* const handleMessage = "handleMessage";
  * @param   transport_ object with methods write(str)/writeData(obj) and loseConnection()
  *
  */
-BaseClient::BaseClient( const MatcherPtr& matcher_, const std::string& name_, const py::object& transport_ ):
+BaseClient::BaseClient( const MatcherPtr& matcher_, const std::string& name_, const py::object& handler_ ):
       matcher{ matcher_ }
     , name{ name_ }
-    , transport{ transport_ }
+    , handler{ handler_ }
 {
-    if( !( hasattr( transport, attr::handleMessage ) ) )
+    if( !( hasattr( handler, attr::handleMessage ) ) )
     {
         pyexc::raise( PyExc_AttributeError, format::f0::errNoHandleMessage );
     }
 
-    if( !( hasattr( transport, attr::disconnect ) ) )
+    if( !( hasattr( handler, attr::disconnect ) ) )
     {
         pyexc::raise( PyExc_AttributeError, format::f0::errNoDisconnect );
     }
@@ -79,7 +79,7 @@ std::string BaseClient::toString( void ) const
  */
 void BaseClient::writeData( const py::object& data )
 {
-    transport.attr( attr::handleMessage )( data );
+    handler.attr( attr::handleMessage )( data );
 }
 
 
@@ -90,10 +90,9 @@ void BaseClient::writeData( const py::object& data )
  */
 void BaseClient::disconnect( void )
 {
-    if( hasattr( transport, attr::disconnect ) )
-    {
-        transport.attr( attr::disconnect )();
-    }
+    logger.warning( format::f1::logClientDisconnect, name );
+
+    handler.attr( attr::disconnect )();
 }
 
 

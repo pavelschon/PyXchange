@@ -184,7 +184,7 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
     {
         trader->notifyError( format::f0::unknownMessage.str() );
 
-        logger.error( format::f1::logUnknownMessage, trader->toString() );
+        logger.warning( format::f1::logUnknownMessage, trader->toString() );
     }
 }
 
