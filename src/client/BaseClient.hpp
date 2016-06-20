@@ -8,6 +8,7 @@
 #define BASECLIENT_HPP
 
 #include "PyXchange.hpp"
+#include "logger/Logger.hpp"
 
 
 namespace pyxchange
@@ -29,9 +30,12 @@ public:
     std::string toString( void ) const;
 
     void        disconnect( void );
+    void        logDisconnect( void ) const;
 
 protected:
     void        writeData( const boost::python::object& data );
+
+    const Logger logger;
 
 private:
     const MatcherPtr matcher;

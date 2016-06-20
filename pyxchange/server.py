@@ -28,23 +28,33 @@ __all__ = (
 )
 
 
+logger = logging.getLogger(engine.logger)
+
+
 class BaseProtocol(basic.LineOnlyReceiver):
     """ Base protocol """
 
     delimiter = '\n'
+    prefix = None
 
     def __init__(self, matcher, addr):
         self.matcher = matcher
-        self.name = '%s:%s' % ( addr.host, addr.port )
+        self.name = '%s@%s:%s' % ( self.prefix, addr.host, addr.port )
         self.handler = utils.TwistedHandler(self)
-        self.logger = logging.getLogger()
 
 
 class ClientProtocol(BaseProtocol):
     """ Market-data protocol """
 
+    prefix = 'Client'
+
     def connectionMade(self):
         self.client = engine.Client(self.matcher, self.name, self.handler)
+
+
+    def connectionLost(self, reason):
+
+        self.client.logDisconnect()
 
 
     def dataReceived(self, data):
@@ -54,23 +64,34 @@ class ClientProtocol(BaseProtocol):
 class TraderProtocol(BaseProtocol):
     """ Trading protocol of market participants """
 
+    prefix = 'Trader'
+
     def connectionMade(self):
         self.trader = engine.Trader(self.matcher, self.name, self.handler)
+
+
+    def connectionLost(self, reason):
+        self.trader.logDisconnect()
 
 
     def lineReceived(self, message):
         try:
             self.trader.handleMessage(message)
         except Exception:
-            self.logger.exception('Trader %s error' % self.name)
+            logger.exception('%s error' % self.name)
+
             self.transport.loseConnection()
 
 
 class TraderExtProtocol(TraderProtocol):
     """ Extended trading protocol of market participants """
 
+    prefix = 'XTrader'
+
     def connectionLost(self, reason):
         self.trader.cancelAll()
+
+        super(TraderExtProtocol, self).connectionLost(reason)
 
 
 class BaseFactory(protocol.Factory):

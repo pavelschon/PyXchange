@@ -145,13 +145,13 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const std::string& dat
     }
     catch( const pyexc::JsonDecodeError& )
     {
-        logger.error( boost::format( format::f1::logJsonDecodeError ) % trader->toString() );
+        logger.error( format::f1::logJsonDecodeError, trader->toString() );
 
         trader->disconnect();
     }
     catch( const pyexc::JsonTooLong& )
     {
-        logger.error( boost::format( format::f2::logJsonTooLong ) % trader->toString() % data.size() );
+        logger.error( format::f2::logJsonTooLong, trader->toString(), data.size() );
 
         trader->disconnect();
     }
@@ -174,7 +174,7 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
     }
     catch( const pyexc::MalformedMessage& )
     {
-        logger.error( boost::format( format::f1::logMalformedMessage ) % trader->toString() );
+        logger.error( format::f1::logMalformedMessage, trader->toString() );
 
         trader->disconnect();
 
@@ -184,7 +184,7 @@ void Matcher::handleMessageImpl( const TraderPtr& trader, const py::dict& decode
     {
         trader->notifyError( format::f0::unknownMessage.str() );
 
-        logger.error( boost::format( format::f1::logUnknownMessage ) % trader->toString() );
+        logger.error( format::f1::logUnknownMessage, trader->toString() );
     }
 }
 

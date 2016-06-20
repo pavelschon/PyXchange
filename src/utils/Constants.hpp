@@ -48,10 +48,13 @@ const boost::format logJsonDecodeError( "%|| JSON decode error" );
 const boost::format logMalformedMessage( "%|| sent malformed message" );
 const boost::format logUnknownMessage( "%|| sent unknown message" );
 
-const boost::format logWrongSide( "Trader %|| inserting order with invalid side" );
-const boost::format logWrongOrderId( "Trader %|| inserting order with invalid order id" );
-const boost::format logWrongPrice( "Trader %|| inserting order with invalid price" );
-const boost::format logWrongQuantity( "Trader %|| inserting order with invalid quantity" );
+const boost::format logWrongSide( "%|| inserting order with invalid side" );
+const boost::format logWrongOrderId( "%|| inserting order with invalid order id" );
+const boost::format logWrongPrice( "%|| inserting order with invalid price" );
+const boost::format logWrongQuantity( "%|| inserting order with invalid quantity" );
+
+const boost::format logClientConnected( "%|| connected" );
+const boost::format logClientDisconnected( "%|| disconnected" );
 
 } /* namespace f1 */
 
@@ -60,11 +63,12 @@ namespace f2
 {
 
 const boost::format logJsonTooLong( "%|| JSON too long (%|| bytes)" );
-const boost::format logTraderAddedOrder( "Trader %|| added %||" );
-const boost::format logTraderCanceledOne( "Trader %|| cancelled %||" );
-const boost::format logOrderAlreadyExist( "Trader %|| adding order id %||, but it already exists" );
-const boost::format logOrderDoesNotExist( "Trader %|| canceling order id %||, but it does not exists" );
+const boost::format logTraderAddedOrder( "%|| added %||" );
+const boost::format logTraderCanceledOne( "%|| cancelled %||" );
+const boost::format logOrderAlreadyExist( "%|| adding order id %||, but it already exists" );
+const boost::format logOrderDoesNotExist( "%|| canceling order id %||, but it does not exists" );
 const boost::format logExecution( "Execution %||@%||" );
+
 const boost::format marketOrder( "market order %||:%||" );
 
 } /* namespace f2 */
@@ -74,7 +78,8 @@ namespace f3
 {
 
 const boost::format order( "order %||:%||@%||" );
-const boost::format logTraderCanceledAll( "Trader %|| cancelled %|| bid orders, %|| ask orders" );
+
+const boost::format logTraderCanceledAll( "%|| cancelled %|| bid orders, %|| ask orders" );
 
 } /* namespace f3 */
 

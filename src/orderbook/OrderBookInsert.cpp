@@ -42,8 +42,7 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders,
 
             aggregatePriceLevel<OrderContainer>( orders, order->price, order->side );
 
-            logger.info( boost::format( format::f2::logTraderAddedOrder )
-                         % trader->toString() % order->toString() );
+            logger.info( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
         }
         else
         {
@@ -53,8 +52,7 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders,
     }
     else
     {
-        logger.warning( boost::format( format::f2::logOrderAlreadyExist )
-                        % trader->toString() % order->orderId );
+        logger.warning( format::f2::logOrderAlreadyExist, trader->toString(), order->orderId );
 
         trader->notifyError( format::f0::orderAlreadyExist.str() );
     }

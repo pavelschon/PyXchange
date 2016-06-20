@@ -46,6 +46,8 @@ BaseClient::BaseClient( const MatcherPtr& matcher_, const std::string& name_, co
     {
         pyexc::raise( PyExc_AttributeError, format::f0::errNoDisconnect );
     }
+
+    logger.info( format::f1::logClientConnected, name );
 }
 
 
@@ -92,6 +94,17 @@ void BaseClient::disconnect( void )
     {
         transport.attr( attr::disconnect )();
     }
+}
+
+
+/**
+ * @brief   Disconnect the client by calling transport.loseConnection()
+ * @return  void
+ *
+ */
+void BaseClient::logDisconnect( void ) const
+{
+    logger.info( format::f1::logClientDisconnected, name );
 }
 
 

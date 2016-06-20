@@ -9,7 +9,6 @@
 
 #include "PyXchange.hpp"
 #include "client/BaseClient.hpp"
-#include "client/BaseClient.hpp"
 
 
 namespace pyxchange
