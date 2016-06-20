@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 ##
-# @file pyxchange_smoketest.py
-# @brief Smoketest of PyXchange
+# @file unit_test.py
+# @brief Unittest of PyXchange
 #
 #
 

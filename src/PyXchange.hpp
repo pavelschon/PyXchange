@@ -1,11 +1,11 @@
 /**
  * @brief   Forward declarations of PyXchange module
- * @file    PyXchangeFwd.hpp
+ * @file    PyXchange.hpp
  * 
  */
 
-#ifndef PYXCHANGEFWD_HPP
-#define PYXCHANGEFWD_HPP
+#ifndef PYXCHANGE_HPP
+#define PYXCHANGE_HPP
 
 #include <boost/format.hpp>
 #include <boost/python.hpp>

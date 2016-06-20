@@ -1,6 +1,12 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
+##
+# @file performance_test.py
+# @brief Performance test of PyXchange
+#
+#
+
 import json
 import random
 import optparse

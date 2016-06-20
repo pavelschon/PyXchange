@@ -1,5 +1,5 @@
 /**
- * @brief   Utiliti functions and constant related to order side
+ * @brief   Utility functions and constant related to order side
  * @file    Side.hpp
  *
  */
