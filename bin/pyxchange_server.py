@@ -56,12 +56,20 @@ def parse_options():
         default = '-'
     )
 
-    parser.add_option( '--log-format',
+    parser.add_option( '--format',
         action = 'store',
-        dest = 'log_format',
+        dest = 'format',
         metavar='format',
         help = 'Log format',
         default = '%(asctime)s %(name)s %(levelname)s %(message)s'
+    )
+
+    parser.add_option( '--debug', '-d',
+        action = 'store_true',
+        dest = 'debug',
+        metavar='file',
+        help = 'Enable debug level',
+        default = False
     )
 
     return parser.parse_args(args=None, values=None)
@@ -88,7 +96,7 @@ def serve_forever():
 
     options, args = parse_options()
 
-    formatter = logging.Formatter(options.log_format)
+    formatter = logging.Formatter(options.format)
 
     handler = get_logging_handler(options.log)
     handler.setFormatter(formatter)
@@ -96,6 +104,10 @@ def serve_forever():
     logger = logging.getLogger(engine.logger)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
+
+    if options.debug:
+        logger.setLevel(logging.DEBUG)
+        logger.info('Debug level is enabled')
 
     matcher = engine.Matcher()
 

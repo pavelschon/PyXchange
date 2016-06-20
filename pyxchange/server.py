@@ -53,11 +53,12 @@ class ClientProtocol(BaseProtocol):
 
 
     def connectionLost(self, reason):
-
         self.client.logDisconnect()
 
 
     def dataReceived(self, data):
+        logger.warning('%s unexpected data received, disconnecting', self.name)
+
         self.transport.loseConnection()
 
 
@@ -90,8 +91,7 @@ class TraderExtProtocol(TraderProtocol):
 
     def connectionLost(self, reason):
         self.trader.cancelAll()
-
-        super(TraderExtProtocol, self).connectionLost(reason)
+        self.trader.logDisconnect()
 
 
 class BaseFactory(protocol.Factory):
