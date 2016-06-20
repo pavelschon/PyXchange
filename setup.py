@@ -10,7 +10,10 @@
 import glob
 import distutils.sysconfig
 
-from setuptools import setup, Extension
+try:
+    from setuptools import setup, Extension
+except ImportError:
+    from distutils.core import setup, Extension
 
 
 def remove_unwanted_options():
