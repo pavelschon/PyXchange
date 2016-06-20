@@ -26,21 +26,7 @@ namespace py = boost::python;
  */
 Matcher::Matcher():
       clients{ std::make_shared<ClientVector>() }
-    , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
-{
-
-}
-
-
-/**
- * @brief Constructor with logger
- * @param logger python object, instance of logging.Logger
- * 
- */
-Matcher::Matcher( const boost::python::object& logger_):
-      logger{ logger_ }
-    , clients{ std::make_shared<ClientVector>() }
-    , orderbook{ std::make_unique<OrderBook>( clients, logger ) }
+    , orderbook{ std::make_unique<OrderBook>( clients ) }
 {
     logger.info( format::f0::logMatcherReady );
 }

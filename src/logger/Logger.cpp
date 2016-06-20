@@ -26,26 +26,37 @@ const std::string error     = "error";
 } /* namespace log */
 
 
+namespace attr
+{
+
+const char* const logging   = "logging";
+const char* const getLogger = "getLogger";
+
+}
+
+const auto logging_module = boost::python::import( attr::logging );
+
+const std::string Logger::name = "pyxchange";
+
+
 /**
  * @brief Constructor (no logger)
  *
  */
-Logger::Logger()
+Logger::Logger(): logger{ getLogger() }
 {
 
 }
 
 
-
 /**
- * @brief Constructor (with provided logger)
- * @param logger python object, instance of logging.Logger
+ * @brief Get pyxchange logger
+ * @return logging.Logger instance
  *
  */
-Logger::Logger( const boost::python::object& logger_):
-    logger{ logger_ }
+py::object Logger::getLogger()
 {
-
+    return logging_module.attr( attr::getLogger )( name );
 }
 
 

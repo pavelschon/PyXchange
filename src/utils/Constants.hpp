@@ -17,6 +17,7 @@ namespace pyxchange
 namespace format
 {
 
+
 namespace f0
 {
 
@@ -29,6 +30,7 @@ const boost::format orderDoesNotExist( "order does not exists" );
 const boost::format orderAlreadyExist( "order already exists" );
 
 const boost::format logMatcherReady( "Matcher is ready" );
+const boost::format logOrderBookReady( "OrderBook is ready" );
 const boost::format unknownMessage( "unknown message" );
 
 const boost::format selfMatch( "self-match rejected" );

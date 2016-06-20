@@ -20,7 +20,6 @@ class OrderBook
 {
 public:
     explicit    OrderBook( const ClientVectorConstPtr& clients_ );
-                OrderBook( const ClientVectorConstPtr& clients_, const Logger& logger_ );
                 OrderBook( const OrderBook& ) = delete;
     OrderBook&  operator=( const OrderBook& ) = delete;
 

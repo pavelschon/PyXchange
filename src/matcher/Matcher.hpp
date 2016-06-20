@@ -19,7 +19,6 @@ class Matcher
 {
 public:
                         Matcher();
-    explicit            Matcher( const boost::python::object& logger_ );
                         Matcher( const Matcher& ) = delete;
     Matcher&            operator=( const Matcher& ) = delete;
 

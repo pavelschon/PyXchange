@@ -5,6 +5,7 @@
  */
 
 #include "PyXchange.hpp"
+#include "logger/Logger.hpp"
 #include "client/Client.hpp"
 #include "client/Trader.hpp"
 #include "matcher/Matcher.hpp"
@@ -56,13 +57,13 @@ BOOST_PYTHON_MODULE( engine )
 
     class_<Matcher, MatcherPtr, boost::noncopyable>( "Matcher", no_init )
         .def( "__init__", make_constructor( &make_shared_<Matcher> ) )
-        .def( "__init__", make_constructor( &make_shared_<Matcher, const object&> ) )
     ;
 
     def( "json_dumps", &json::dumps<const std::string> );
     def( "json_loads", &json::loads<const std::string> );
 
     scope().attr( "maxJsonSize" ) = json::maxJsonSize; // read-only module-level constant
+    scope().attr( "logger" ) = Logger::name; // read-only module-level constant
 }
 
 

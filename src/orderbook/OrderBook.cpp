@@ -27,21 +27,7 @@ namespace py = boost::python;
 OrderBook::OrderBook( const ClientVectorConstPtr& clients_ ):
     clients{ clients_ }
 {
-
-}
-
-
-/**
- * @brief Constructor with logger
- * @param const vector of clients
- * @param logger python object, instance of logging.Logger
- *
- */
-OrderBook::OrderBook( const ClientVectorConstPtr& clients_, const Logger& logger_ ):
-      logger{ logger_ }
-    , clients{ clients_ }
-{
-
+    logger.info( format::f0::logOrderBookReady );
 }
 
 
