@@ -45,8 +45,6 @@ Order::Order( const TraderPtr& trader_, const py::dict& decoded, const bool isMa
  */
 std::string Order::toString( void ) const
 {
-    const TraderPtr& trader_ = trader.lock();
-
     if( isMarketOrder )
     {
         return ( boost::format( format::f2::marketOrder )
