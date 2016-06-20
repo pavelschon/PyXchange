@@ -7,6 +7,7 @@
 #
 #
 
+import logging
 import unittest
 
 from pyxchange import server
@@ -261,6 +262,8 @@ class TradingTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.CRITICAL)
+
     unittest.main()
 
 

@@ -51,7 +51,7 @@ setup(
     data_files = [
         ( 'pyxchange/examples', glob.glob('examples/*.py') ),
         ( 'pyxchange/tests', glob.glob('tests/*.py') ),
-        ( 'pyxchange/', [ 'LICENSE', 'README', 'README.md' ] ),
+        ( 'pyxchange/', [ 'LICENSE', 'README.md' ] ),
     ],
     py_modules = [
         'pyxchange.server',

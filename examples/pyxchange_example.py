@@ -7,26 +7,26 @@
 #
 #
 
-from pyxchange import engine, Transport
+import logging
+
+from pyxchange import engine, utils
 
 
-class MessagePrinter(Transport):
+class MessagePrinter(utils.BaseHandler):
     def __init__(self, name):
         super(MessagePrinter, self).__init__()
 
         self.name = name
 
 
-    def writeData(self, message):
+    def handleMessage(self, message):
         """ On message callback """
-
-        super(MessagePrinter, self).writeData(message)
 
         print self.name, '->', message
 
 
-# you can pass logging.Logger instance to Matcher
-#matcher = engine.Matcher(logger)
+logging.basicConfig(level=logging.INFO)
+
 matcher = engine.Matcher()
 print matcher
 

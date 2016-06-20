@@ -61,7 +61,7 @@ def parse_options():
         dest = 'log_format',
         metavar='format',
         help = 'Log format',
-        default = '%(asctime)s %(levelname)s %(message)s'
+        default = '%(asctime)s %(name)s %(levelname)s %(message)s'
     )
 
     return parser.parse_args(args=None, values=None)
@@ -93,11 +93,11 @@ def serve_forever():
     handler = get_logging_handler(options.log)
     handler.setFormatter(formatter)
 
-    logger = logging.getLogger()
+    logger = logging.getLogger(engine.logger)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
 
-    matcher = engine.Matcher(logger)
+    matcher = engine.Matcher()
 
     reactor.listenTCP(factory=server.TraderFactory(matcher),    **get_ip_port_kwargs(options.private))
     reactor.listenTCP(factory=server.TraderExtFactory(matcher), **get_ip_port_kwargs(options.private2))
