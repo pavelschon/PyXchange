@@ -3,7 +3,7 @@ Simulator of limit orderbook written in **Python** and **C++14**, using **Twiste
 
 The project is participating on *WOOD & Company Coding Challenge* [http://codingchallenge.wood.cz/]
 
-## Basic features ###
+## Main features ###
 
 Matching engine implements simple limit orderbook with price/time priority matching algorithm.
 
@@ -130,38 +130,38 @@ Trader2 creates sell order, which is matched with order of trader1.
 Remaining quantity is inserted to the orderbook.
 
 ```
->>> t2 = utils.DequeHandler()                                                                                                                           
->>> trader2 = engine.Trader(matcher, 'trader2', t2)                                                                                                     
-INFO:pyxchange:trader2 connected                                                                                                                        
->>> trader2                                                                                                                                             
-<pyxchange.engine.Trader object at 0x7f1be50dc3c0>                                                                                                      
->>> trader2.createOrder({ 'side': 'SELL', 'price': 90, 'quantity': 20, 'orderId': 1 })                                                                  
-DEBUG:pyxchange:Execution 10@100                                                                                                                        
-DEBUG:pyxchange:trader2 added order ask:10@90                                                                                                           
->>> t2.messages.popleft()                                                                                                                               
-{'report': 'FILL', 'orderId': 1, 'message': 'executionReport', 'price': 100, 'quantity': 10}                                                            
->>> t2.messages.popleft()                                                                                                                               
-{'report': 'NEW', 'orderId': 1, 'message': 'executionReport', 'quantity': 10}                                                                           
+>>> t2 = utils.DequeHandler()
+>>> trader2 = engine.Trader(matcher, 'trader2', t2)
+INFO:pyxchange:trader2 connected
+>>> trader2
+<pyxchange.engine.Trader object at 0x7f1be50dc3c0>
+>>> trader2.createOrder({ 'side': 'SELL', 'price': 90, 'quantity': 20, 'orderId': 1 })
+DEBUG:pyxchange:Execution 10@100
+DEBUG:pyxchange:trader2 added order ask:10@90
+>>> t2.messages.popleft()
+{'report': 'FILL', 'orderId': 1, 'message': 'executionReport', 'price': 100, 'quantity': 10}
+>>> t2.messages.popleft()
+{'report': 'NEW', 'orderId': 1, 'message': 'executionReport', 'quantity': 10}
 >>>
 ```
 ### Canceling order ###
 ```
->>> trader2.cancelOrder({ 'side': 'SELL', 'orderId': 1 })                                                                                               
-DEBUG:pyxchange:trader2 cancelled order ask:10@90                                                                                                       
->>> t2.messages.popleft()                                                                                                                               
-{'report': 'CANCELED', 'orderId': 1, 'message': 'executionReport', 'quantity': 10}                                                                      
->>> trader1.cancelAll()                                                                                                                                 
+>>> trader2.cancelOrder({ 'side': 'SELL', 'orderId': 1 })
+DEBUG:pyxchange:trader2 cancelled order ask:10@90
+>>> t2.messages.popleft()
+{'report': 'CANCELED', 'orderId': 1, 'message': 'executionReport', 'quantity': 10}
+>>> trader1.cancelAll()
 >>> 
 ```
 ### Creating market order ###
 ```
->>> trader1.createOrder({ 'side': 'BUY', 'price': 100, 'quantity': 10, 'orderId': 2 })                                                                  
-DEBUG:pyxchange:trader1 added order bid:10@100                                                                                                          
->>> trader1.createOrder({ 'side': 'BUY', 'price': 150, 'quantity': 20, 'orderId': 3 })                                                                  
-DEBUG:pyxchange:trader1 added order bid:20@150                                                                                                          
->>> trader2.marketOrder({ 'side': 'SELL', 'price': 150, 'quantity': 15 })                                                                               
-DEBUG:pyxchange:trader2 added market order ask:15                                                                                                       
-DEBUG:pyxchange:Execution 15@150                                                                                                                        
+>>> trader1.createOrder({ 'side': 'BUY', 'price': 100, 'quantity': 10, 'orderId': 2 })
+DEBUG:pyxchange:trader1 added order bid:10@100
+>>> trader1.createOrder({ 'side': 'BUY', 'price': 150, 'quantity': 20, 'orderId': 3 })
+DEBUG:pyxchange:trader1 added order bid:20@150
+>>> trader2.marketOrder({ 'side': 'SELL', 'price': 150, 'quantity': 15 })
+DEBUG:pyxchange:trader2 added market order ask:15
+DEBUG:pyxchange:Execution 15@150
 >>> 
 ```
 ### Connecting market-data client ###
@@ -171,12 +171,12 @@ Later it receives only updates on individual price levels and trade summaries.
 
 In case more clients connected to matching engine, they will be notified in random order.
 ```
->>> c1 = utils.DequeHandler()                                                                                                                           
->>> client1 = engine.Client(matcher, 'client1', c1)                                                                                                     
-INFO:pyxchange:client1 connected                                                                                                                        
->>> client1                                                                                                                                             
-<pyxchange.engine.Client object at 0x7f1be50dc520>                                                                                                      
->>> c1.messages                                                                                                                                         
+>>> c1 = utils.DequeHandler()
+>>> client1 = engine.Client(matcher, 'client1', c1)
+INFO:pyxchange:client1 connected
+>>> client1
+<pyxchange.engine.Client object at 0x7f1be50dc520>
+>>> c1.messages
 deque([{'price': 150, 'type': 'orderbook', 'side': 'bid', 'quantity': 5},
        {'price': 100, 'type': 'orderbook', 'side': 'bid', 'quantity': 10}])
 >>>
@@ -186,9 +186,9 @@ deque([{'price': 150, 'type': 'orderbook', 'side': 'bid', 'quantity': 5},
 
 ### Running the server ###
 ```
-$ pyxchange_server.py                                                                                                                
-2016-06-20 19:40:29,516 pyxchange INFO OrderBook is ready                                                                                               
-2016-06-20 19:40:29,516 pyxchange INFO Matcher is ready                                                                                                 
+$ pyxchange_server.py
+2016-06-20 19:40:29,516 pyxchange INFO OrderBook is ready
+2016-06-20 19:40:29,516 pyxchange INFO Matcher is ready
 2016-06-20 19:40:29,518 pyxchange INFO Listeting on *:7000 (ext trading)
 2016-06-20 19:40:29,518 pyxchange INFO Listeting on *:7001 (trading)
 2016-06-20 19:40:29,519 pyxchange INFO Listeting on *:7002 (market-data)
