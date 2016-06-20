@@ -25,7 +25,7 @@ class MessagePrinter(utils.BaseHandler):
         print self.name, '->', message
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 matcher = engine.Matcher()
 print matcher
