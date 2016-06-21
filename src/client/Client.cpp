@@ -32,7 +32,7 @@ void Client::notifyOrderBook( const price_t priceLevel, const side_t side_, cons
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;
 
-    writeData( response );
+    handleMessage( response );
 }
 
 
@@ -97,7 +97,7 @@ void Client::writeAll( const ClientVectorConstPtr& clients, const py::object& da
 
         if( client_ )
         {
-            client_->writeData( data );
+            client_->handleMessage( data );
         }
     }
 }

@@ -77,7 +77,7 @@ std::string BaseClient::toString( void ) const
  * @param   data python structure
  *
  */
-void BaseClient::writeData( const py::object& data )
+void BaseClient::handleMessage( const py::object& data )
 {
     handler.attr( attr::handleMessage )( data );
 }

@@ -33,7 +33,7 @@ public:
     void        logDisconnect( void ) const;
 
 protected:
-    void        writeData( const boost::python::object& data );
+    void        handleMessage( const boost::python::object& data );
 
     const Logger logger;
 

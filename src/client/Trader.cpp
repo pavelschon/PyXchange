@@ -25,7 +25,7 @@ void Trader::notifyPong( void )
 
     response[ keys::message ] = message::pong;
 
-    writeData( response );
+    handleMessage( response );
 }
 
 
@@ -42,7 +42,7 @@ void Trader::notifyError( const std::string& text )
     response[ keys::text    ] = text;
 
     // send response
-    writeData( response );
+    handleMessage( response );
 }
 
 
@@ -62,7 +62,7 @@ void Trader::notifyCreateOrderSuccess( const orderId_t orderId, const quantity_t
     response[ keys::quantity ] = quantity;
 
     // send response
-    writeData( response );
+    handleMessage( response );
 }
 
 
@@ -81,7 +81,7 @@ void Trader::notifyCancelOrderSuccess( const orderId_t orderId, const quantity_t
     response[ keys::quantity ] = quantity;
 
     // send response
-    writeData( response );
+    handleMessage( response );
 }
 
 
@@ -103,7 +103,7 @@ void Trader::notifyTrade( const orderId_t orderId, const price_t price, const qu
     response[ keys::quantity ] = quantity;
 
     // send response
-    writeData( response );
+    handleMessage( response );
 }
 
 
