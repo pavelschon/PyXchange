@@ -23,7 +23,7 @@ public:
     Matcher&            operator=( const Matcher& ) = delete;
 
     static ClientPtr    makeClient( const MatcherPtr& matcher, const std::string& name,
-                                    const boost::python::object& transport );
+                                    const boost::python::object& handler );
 
     static void         handleMessageJson( const TraderPtr& trader, const std::string& data );
     static void         handleMessageDict( const TraderPtr& trader, const boost::python::dict& decoded );

@@ -29,7 +29,7 @@ const char* const handleMessage = "handleMessage";
  * @brief   Constructor
  * @param   matcher_ related to the client
  * @param   name_ of the client
- * @param   transport_ object with methods write(str)/writeData(obj) and loseConnection()
+ * @param   handler_ object with mandatory methods handleMessage(data), disconnect()
  *
  */
 BaseClient::BaseClient( const MatcherPtr& matcher_, const std::string& name_, const py::object& handler_ ):
@@ -84,7 +84,7 @@ void BaseClient::writeData( const py::object& data )
 
 
 /**
- * @brief   Disconnect the client by calling transport.loseConnection()
+ * @brief   Disconnect the client by calling handler.disconnect()
  * @return  void
  *
  */
@@ -97,7 +97,7 @@ void BaseClient::disconnect( void )
 
 
 /**
- * @brief   Disconnect the client by calling transport.loseConnection()
+ * @brief   Disconnect the client by calling handler.disconnect()
  * @return  void
  *
  */
