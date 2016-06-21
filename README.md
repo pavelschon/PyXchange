@@ -266,7 +266,7 @@ From Python side, instances of Matcher, Trader and Client are managed by shared 
 
 Matcher controls creating of Clients, validation and dispatch of (JSON) messages.
 
-OrderBook object within Matcher contains two `boost::multi_index` containers:
+OrderBook object within Matcher contains two **boost::multi_index** containers:
 
 1. *BidOrderContainer* - greatest price first, lowest price last
 
