@@ -73,7 +73,7 @@ std::string BaseClient::toString( void ) const
 
 
 /**
- * @brief   Dump python structure into JSON and write it into 'transport' object
+ * @brief   Dump python structure into JSON
  * @param   data python structure
  *
  */

@@ -54,7 +54,7 @@ void Client::notifyOrderBook( const ClientVectorConstPtr& clients, const price_t
     response[ keys::price    ] = priceLevel;
     response[ keys::quantity ] = quantity;
 
-    writeAll( clients, response );
+    notifyAll( clients, response );
 }
 
 
@@ -75,7 +75,7 @@ void Client::notifyTrade( const ClientVectorConstPtr& clients, const prio_t time
     response[ keys::price    ] = price;
     response[ keys::quantity ] = quantity;
 
-    writeAll( clients, response );
+    notifyAll( clients, response );
 }
 
 
@@ -85,7 +85,7 @@ void Client::notifyTrade( const ClientVectorConstPtr& clients, const prio_t time
  * @param   data to be written
  *
  */
-void Client::writeAll( const ClientVectorConstPtr& clients, const py::object& data )
+void Client::notifyAll( const ClientVectorConstPtr& clients, const py::object& data )
 {
     ClientVector clients_{ *clients };
 

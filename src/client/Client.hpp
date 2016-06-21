@@ -35,8 +35,8 @@ public:
                              const price_t price, const quantity_t quantity );
 
 private:
-    static void writeAll( const ClientVectorConstPtr& clients,
-                          const boost::python::object& data );
+    static void notifyAll( const ClientVectorConstPtr& clients,
+                           const boost::python::object& data );
 };
 
 
