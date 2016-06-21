@@ -25,6 +25,12 @@ class MessagePrinter(utils.BaseHandler):
         print self.name, '->', message
 
 
+    def disconnect(self):
+        """ On disconnect callback """
+
+        pass
+
+
 logging.basicConfig(level=logging.DEBUG)
 
 matcher = engine.Matcher()
