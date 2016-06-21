@@ -87,7 +87,7 @@ $ rpm -ivh ./dist/pyxchange-0.1.0-1.x86_64.rpm
 
 ## Tutorial to scripting API ##
 
-### Creating `Matcher` instance with optional `logger` ###
+### Creating `Matcher` instance
 Matcher holds orderbook with orders. It also holds list of connected traders and clients as well.
 
 ```
@@ -115,9 +115,9 @@ INFO:pyxchange:trader1 connected
 >>>
 ```
 ### Creating new order ###
-OrderId must be unique within trader and bid/sell orders.
+OrderId must be unique within trader and bid/ask orders.
 
-Side is `BUY` or `SELL`, price must be positive integer, quantity as well.
+Side is `BUY` or `SELL`, price is positive integer, quantity is positive integer.
 ```
 >>> trader1.createOrder({ 'side': 'BUY', 'price': 100, 'quantity': 10, 'orderId': 1 })
 DEBUG:pyxchange:trader1 added order bid:10@100
