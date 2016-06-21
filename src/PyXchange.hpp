@@ -17,6 +17,7 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <set>
 
 
 namespace pyxchange

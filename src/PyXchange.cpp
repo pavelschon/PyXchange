@@ -27,8 +27,6 @@ std::shared_ptr<T> make_shared_( Params... parameters )
 
 BOOST_PYTHON_MODULE( engine )
 {
-    namespace py = boost::python;
-
     using namespace ::boost::python;
     using namespace ::pyxchange;
 

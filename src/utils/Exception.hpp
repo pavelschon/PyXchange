@@ -21,7 +21,7 @@ namespace pyexc
 /**
  * @brief   Generic Python-to-C++ exception translator
  *          Caller provides C++ exception class, callback(), list of Python exceptions,
- *          which should be be handled and optional parameterss to callback
+ *          which should be be handled and optional parameters to callback
  *
  * @param   callback object, usually lambda function, functor, std::bind expression or std::function
  * @param   types list of python exceptions, e.g. { PyExc_ValueError, PyExc_TypeError }
@@ -77,7 +77,7 @@ inline auto translate( const CALLBACK& callback, const ITERABLE& types, Params..
  * @return      void
  *
  */
-inline void raise( PyObject* type, const boost::format format_ )
+inline void raise( PyObject* type, const boost::format& format_ )
 {
     PyErr_SetString( type, format_.str().c_str() );
 
