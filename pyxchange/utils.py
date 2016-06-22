@@ -68,7 +68,7 @@ class TwistedHandler(BaseHandler):
         """ On message callback """
 
         lineHandler = self.lineHandler()
-        if lineHandler:
+        if lineHandler is not None:
             lineHandler.sendLine(engine.json_dumps(message))
 
 
@@ -76,7 +76,7 @@ class TwistedHandler(BaseHandler):
         """ On disconnect callback """
 
         lineHandler = self.lineHandler()
-        if lineHandler:
+        if lineHandler is not None:
             lineHandler.transport.loseConnection()
 
 
