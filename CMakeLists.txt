@@ -1,7 +1,3 @@
-##
-# @file CMakeLists.txt
-# @brief Performance Monitor package.
-#
 
 cmake_minimum_required( VERSION 3.0 )
 
