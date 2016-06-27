@@ -21,7 +21,7 @@ __all__ = (
     'BaseFactory',
     'ClientProtocol',
     'ClientFactory',
-    'TraderProtocol'
+    'TraderProtocol',
     'TraderFactory',
     'TraderExtProtocol',
     'TraderExtFactory'
