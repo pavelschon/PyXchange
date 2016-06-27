@@ -2,6 +2,8 @@
  * @brief   Base class implementing shared functionality of Trader and Client
  * @file    BaseClient.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 

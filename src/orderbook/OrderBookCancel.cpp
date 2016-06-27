@@ -2,6 +2,8 @@
  * @brief   Implementation of orderbook, message cancelOrder
  * @file    OrderBookCancel.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 

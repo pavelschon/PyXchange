@@ -1,6 +1,8 @@
 /**
  * @brief   Forward declarations of PyXchange module
  * @file    PyXchange.hpp
+ *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
  * 
  */
 

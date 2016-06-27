@@ -2,6 +2,8 @@
  * @brief  Declaration of OrderContainer
  * @file   OrderContainer.hpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 #ifndef ORDER_CONTAINER_HPP

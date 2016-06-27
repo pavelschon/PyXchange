@@ -1,6 +1,8 @@
 /**
  * @brief   PyXchange python module
  * @file    PyXchange.cpp
+ *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
  * 
  */
 

@@ -1,3 +1,8 @@
+##
+# @file CMakeLists.txt
+#
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 
 cmake_minimum_required( VERSION 3.0 )
 

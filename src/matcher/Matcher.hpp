@@ -1,6 +1,8 @@
 /**0
  * @brief   Matcher implementation
  * @file    Matcher.hpp
+ *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
  * 
  */
 

@@ -4,6 +4,8 @@
 # @file utils.py
 # @brief Miscelangeous utilities for PyXchange
 #
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 #
 
 import collections

@@ -2,6 +2,8 @@
  * @brief   Implementation of Order
  * @file    Order.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 

@@ -5,6 +5,8 @@
 # @file performance_test.py
 # @brief Performance test of PyXchange
 #
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 #
 
 import json

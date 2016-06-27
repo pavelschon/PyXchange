@@ -5,6 +5,8 @@
 # @file setup.py
 # @brief Setup script
 #
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 #
 
 import glob

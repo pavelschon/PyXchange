@@ -2,6 +2,8 @@
  * @brief   Implementation of orderbook, order execution, match event
  * @file    OrderBookExec.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 

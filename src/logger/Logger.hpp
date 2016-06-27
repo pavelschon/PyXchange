@@ -2,6 +2,8 @@
  * @brief   Logger wrapper
  * @file    Logger.hpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 #ifndef LOGGER_HPP

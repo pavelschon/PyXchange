@@ -2,6 +2,8 @@
  * @brief   Logger wrapper
  * @file    Logger.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 

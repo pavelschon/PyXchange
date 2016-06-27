@@ -5,6 +5,8 @@
 # @file unit_test.py
 # @brief Unittest of PyXchange
 #
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 #
 
 import logging
