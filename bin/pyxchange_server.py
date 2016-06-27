@@ -10,10 +10,9 @@
 import sys
 import logging
 import optparse
+import pyxchange
 
 from twisted.internet import reactor
-
-from pyxchange import engine, server
 
 
 def parse_options():
@@ -101,23 +100,20 @@ def serve_forever():
     handler = get_logging_handler(options.log)
     handler.setFormatter(formatter)
 
-    logger = logging.getLogger(engine.logger)
-    logger.addHandler(handler)
-    logger.setLevel(logging.INFO)
+    pyxchange.logger.addHandler(handler)
+    pyxchange.logger.setLevel(logging.INFO)
 
     if options.debug:
-        logger.setLevel(logging.DEBUG)
-        logger.info('Debug level is enabled')
+        pyxchange.logger.setLevel(logging.DEBUG)
+        pyxchange.logger.info('Debug level is enabled')
 
-    matcher = engine.Matcher()
+    reactor.listenTCP(factory=pyxchange.TraderFactory(),    **get_ip_port_kwargs(options.private))
+    reactor.listenTCP(factory=pyxchange.TraderExtFactory(), **get_ip_port_kwargs(options.private2))
+    reactor.listenTCP(factory=pyxchange.ClientFactory(),    **get_ip_port_kwargs(options.public))
 
-    reactor.listenTCP(factory=server.TraderFactory(matcher),    **get_ip_port_kwargs(options.private))
-    reactor.listenTCP(factory=server.TraderExtFactory(matcher), **get_ip_port_kwargs(options.private2))
-    reactor.listenTCP(factory=server.ClientFactory(matcher),    **get_ip_port_kwargs(options.public))
-
-    logger.info('Listeting on %s (ext trading)', options.private2)
-    logger.info('Listeting on %s (trading)',     options.private)
-    logger.info('Listeting on %s (market-data)', options.public)
+    pyxchange.logger.info('Listeting on %s (ext trading)', options.private2)
+    pyxchange.logger.info('Listeting on %s (trading)',     options.private)
+    pyxchange.logger.info('Listeting on %s (market-data)', options.public)
 
     reactor.run()
 

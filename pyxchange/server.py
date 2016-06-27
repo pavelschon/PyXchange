@@ -21,14 +21,18 @@ __all__ = (
     'BaseFactory',
     'ClientProtocol',
     'ClientFactory',
-    'TraderProtocol'
+    'TraderProtocol',
     'TraderFactory',
     'TraderExtProtocol',
-    'TraderExtFactory'
+    'TraderExtFactory',
+    'logger',
+    'matcher'
 )
 
 
 logger = logging.getLogger(engine.logger)
+
+matcher = engine.Matcher()
 
 
 class BaseProtocol(basic.LineOnlyReceiver):
@@ -37,8 +41,7 @@ class BaseProtocol(basic.LineOnlyReceiver):
     delimiter = '\n'
     prefix = None
 
-    def __init__(self, matcher, addr):
-        self.matcher = matcher
+    def __init__(self, addr):
         self.name = '%s@%s:%s' % ( self.prefix, addr.host, addr.port )
         self.handler = utils.TwistedHandler(self)
 
@@ -49,7 +52,7 @@ class ClientProtocol(BaseProtocol):
     prefix = 'Client'
 
     def connectionMade(self):
-        self.client = engine.Client(self.matcher, self.name, self.handler)
+        self.client = engine.Client(matcher, self.name, self.handler)
 
 
     def connectionLost(self, reason):
@@ -68,7 +71,7 @@ class TraderProtocol(BaseProtocol):
     prefix = 'Trader'
 
     def connectionMade(self):
-        self.trader = engine.Trader(self.matcher, self.name, self.handler)
+        self.trader = engine.Trader(matcher, self.name, self.handler)
 
 
     def connectionLost(self, reason):
@@ -100,12 +103,8 @@ class BaseFactory(protocol.Factory):
     protocol = BaseProtocol
 
 
-    def __init__(self, matcher):
-        self.matcher = matcher
-
-
     def buildProtocol(self, addr):
-        return self.protocol(self.matcher, addr)
+        return self.protocol(addr)
 
 
 class ClientFactory(BaseFactory):

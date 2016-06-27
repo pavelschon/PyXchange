@@ -15,11 +15,11 @@ from . import engine
 
 __all__ = (
     'BaseHandler',
-    'DequeHandler'
+    'DequeHandler',
     'TwistedHandler',
     'TestHandler',
     'ClientWrapper',
-    'TraderWrapper'
+    'TraderWrapper',
 )
 
 
