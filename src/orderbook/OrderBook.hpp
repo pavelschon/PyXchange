@@ -2,6 +2,8 @@
  * @brief   Implementation of orderbook
  * @file    OrderBook.hpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 #ifndef ORDERBOOK_HPP

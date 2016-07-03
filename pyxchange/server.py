@@ -5,6 +5,8 @@
 # @file server.py
 # @brief Factories and protocols for Twisted
 #
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 #
 
 import logging

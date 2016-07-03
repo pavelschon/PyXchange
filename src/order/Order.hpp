@@ -2,6 +2,8 @@
  * @brief   Implementation of Order
  * @file    Order.hpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 #ifndef ORDER_HPP

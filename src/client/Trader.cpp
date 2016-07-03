@@ -2,6 +2,8 @@
  * @brief   Implementaton of Trader
  * @file    Trader.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 

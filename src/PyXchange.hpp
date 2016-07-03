@@ -1,6 +1,8 @@
 /**
  * @brief   Forward declarations of PyXchange module
  * @file    PyXchange.hpp
+ *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
  * 
  */
 
@@ -12,6 +14,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <type_traits>
 #include <limits>
 #include <memory>
 #include <chrono>
@@ -41,7 +44,7 @@ typedef std::shared_ptr<Order const>                                    OrderCon
 
 class Matcher;
 typedef std::shared_ptr<Matcher>                                        MatcherPtr;
-typedef std::shared_ptr<const Matcher>                                  MatcherConstPtr;
+typedef std::shared_ptr<Matcher const>                                  MatcherConstPtr;
 
 
 class Client;

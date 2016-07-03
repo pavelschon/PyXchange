@@ -85,7 +85,7 @@ $ rpm -ivh ./dist/pyxchange-0.1.0-1.x86_64.rpm
 ```
 
 
-## Tutorial to scripting API ##
+## Introduction to scripting API ##
 
 ### Creating `Matcher` instance
 Matcher holds orderbook with orders. It also holds list of connected traders and clients as well.
@@ -182,7 +182,7 @@ deque([{'price': 150, 'type': 'orderbook', 'side': 'bid', 'quantity': 5},
 >>>
 ```
 
-## Tutorial to standalone TCP server ##
+## Introduction to standalone TCP server ##
 
 ### Running the server ###
 ```

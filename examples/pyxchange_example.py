@@ -5,6 +5,8 @@
 # @file pyxchange_example.py
 # @brief Examples of using PyXchange
 #
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 #
 
 import logging

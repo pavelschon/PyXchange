@@ -2,6 +2,8 @@
  * @brief   Market-data Client implementation
  * @file    Client.hpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 #ifndef CLIENT_HPP

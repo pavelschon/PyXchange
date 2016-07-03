@@ -2,6 +2,8 @@
  * @brief   Implementation of orderbook, aggregate price levels
  * @file    OrderBookAggr.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 

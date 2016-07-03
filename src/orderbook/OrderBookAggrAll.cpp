@@ -2,6 +2,8 @@
  * @brief   Implementation of orderbook, aggregate price levels for given client
  * @file    OrderBookAggrAll.cpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 
@@ -40,17 +42,17 @@ template<typename OrderContainer>
 inline void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::type& orders,
                                                 const ClientPtr& client, const side_t side_ ) const
 {
-    const auto& outerIdx = orders.template get<tags::idxPrice>();
-    const auto& innerIdx = orders.template get<tags::idxPrice>();
-    auto outerIt = outerIdx.begin();
+    const auto& idxPrice = orders.template get<tags::idxPrice>();
 
-    while( outerIt != outerIdx.end() )
+    auto outerIt = idxPrice.begin();
+
+    while( outerIt != idxPrice.end() )
     {
         const price_t priceLevel = (*outerIt)->price;
         quantity_t quantity = 0;
 
-        const auto  innerEnd = innerIdx.upper_bound( priceLevel );
-              auto  innerIt  = innerIdx.lower_bound( priceLevel );
+        const auto  innerEnd = idxPrice.upper_bound( priceLevel );
+              auto  innerIt  = idxPrice.lower_bound( priceLevel );
 
         while( innerIt != innerEnd )
         {

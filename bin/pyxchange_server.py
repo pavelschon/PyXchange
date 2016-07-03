@@ -5,6 +5,8 @@
 # @file pyxchange_server.py
 # @brief Run Pyxchange as TCp server
 #
+# Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+#
 #
 
 import sys

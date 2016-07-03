@@ -2,6 +2,8 @@
  * @brief  Declaration of OrderContainer
  * @file   OrderContainer.hpp
  *
+ * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
+ *
  */
 
 #ifndef ORDER_CONTAINER_HPP
@@ -58,38 +60,46 @@ typedef boost::multi_index::composite_key<Order, keyPrice, keyTime>             
 } /* namespace extractors */
 
 
-template<typename ComparePriceTime, typename ComparePrice>
+template<typename ComparePriceTime>
 struct OrderContainer
 {
+    typedef ComparePriceTime cmp_price_time;
+
+    typedef typename boost::tuples::element<0,
+        typename cmp_price_time::key_comp_tuple>::type cmp_price;
+
     typedef boost::multi_index::multi_index_container<
         OrderPtr, boost::multi_index::indexed_by<
 
-            boost::multi_index::ordered_unique<
+            boost::multi_index::ordered_unique<                                 // iterate orders during match event
                 boost::multi_index::tag<tags::idxPriceTime>,
-                    extractors::keyPriceTime, ComparePriceTime>,
+                    extractors::keyPriceTime, cmp_price_time>,
 
             boost::multi_index::ordered_non_unique<                             // iterate orders by price levels
                 boost::multi_index::tag<tags::idxPrice>,
-                    extractors::keyPrice, ComparePrice>,
+                    extractors::keyPrice, cmp_price>,
 
-            boost::multi_index::ordered_non_unique<
+            boost::multi_index::ordered_non_unique<                             // find orders of trader
                 boost::multi_index::tag<tags::idxTrader>,
                     extractors::keyTrader >,
 
-            boost::multi_index::hashed_unique<
+            boost::multi_index::hashed_unique<                                  // find order by id
                 boost::multi_index::tag<tags::idxTraderOrderId>,
                     extractors::keyTraderOrderId > >
     > type;
 
-    typedef std::set<price_t, ComparePrice> price_set;
+    typedef std::set<price_t, cmp_price> price_set;
 };
 
 
-typedef OrderContainer<comparators::higherPriceLowerTime,
-                       comparators::higherPrice>                                BidOrderContainer; // container type for buy orders
+typedef OrderContainer<comparators::higherPriceLowerTime>                       BidOrderContainer; // container type for buy orders
+typedef OrderContainer<comparators::lowerPriceLowerTime>                        AskOrderContainer; // container type for sell orders
 
-typedef OrderContainer<comparators::lowerPriceLowerTime,
-                       comparators::lowerPrice>                                 AskOrderContainer; // container type for sell orders
+static_assert( std::is_same<BidOrderContainer::cmp_price, comparators::higherPrice>::value, "higherPrice" );
+static_assert( std::is_same<AskOrderContainer::cmp_price, comparators::lowerPrice>::value,  "lowerPrice" );
+
+static_assert( std::is_same<BidOrderContainer::cmp_price_time, comparators::higherPriceLowerTime>::value, "higherPriceLowerTime" );
+static_assert( std::is_same<AskOrderContainer::cmp_price_time, comparators::lowerPriceLowerTime>::value,  "lowerPriceLowerTime" );
 
 
 } /* namespace pyxchange */
