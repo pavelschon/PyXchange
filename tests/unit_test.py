@@ -13,6 +13,8 @@ import logging
 import unittest
 import pyxchange
 
+from pyxchange import engine, utils
+
 
 class JsonTest(unittest.TestCase):
     py, json = { 'key': None }, '{"key": null}'
@@ -20,35 +22,35 @@ class JsonTest(unittest.TestCase):
     def testLoads(self):
         """ Test JSON loads """
 
-        assert pyxchange.json_loads('true')  is True
-        assert pyxchange.json_loads('false') is False
-        assert pyxchange.json_loads('null')  is None
-        assert pyxchange.json_loads(self.json) == self.py
+        assert engine.json_loads('true')  is True
+        assert engine.json_loads('false') is False
+        assert engine.json_loads('null')  is None
+        assert engine.json_loads(self.json) == self.py
 
         with self.assertRaises(TypeError):
-            assert pyxchange.json_loads(None)
+            assert engine.json_loads(None)
 
 
     def testDumps(self):
         """ Test JSON dumps """
 
-        assert pyxchange.json_dumps(True)  == 'true'
-        assert pyxchange.json_dumps(False) == 'false'
-        assert pyxchange.json_dumps(None)  == 'null'
-        assert pyxchange.json_dumps(self.py) == self.json
+        assert engine.json_dumps(True)  == 'true'
+        assert engine.json_dumps(False) == 'false'
+        assert engine.json_dumps(None)  == 'null'
+        assert engine.json_dumps(self.py) == self.json
 
         with self.assertRaises(TypeError):
-            assert pyxchange.json_dumps(object)
+            assert engine.json_dumps(object)
 
 
 class MatcherTest(unittest.TestCase):
     def setUp(self):
         """ Create matcher, one trader and one client (market data) """
 
-        self.matcher = pyxchange.Matcher()
+        self.matcher = engine.Matcher()
 
-        self.client1 = pyxchange.ClientWrapper('client-1', self.matcher)
-        self.trader1 = pyxchange.TraderWrapper('trader-1', self.matcher)
+        self.client1 = utils.ClientWrapper('client-1', self.matcher)
+        self.trader1 = utils.TraderWrapper('trader-1', self.matcher)
 
 
     def tearDown(self):
@@ -179,11 +181,11 @@ class MatcherTest(unittest.TestCase):
 
 class TradingTest(unittest.TestCase):
     def setUp(self):
-        self.matcher = pyxchange.Matcher()
+        self.matcher = engine.Matcher()
 
-        self.client1 = pyxchange.ClientWrapper('client-1', self.matcher)
-        self.trader1 = pyxchange.TraderWrapper('trader-1', self.matcher)
-        self.trader2 = pyxchange.TraderWrapper('trader-2', self.matcher)
+        self.client1 = utils.ClientWrapper('client-1', self.matcher)
+        self.trader1 = utils.TraderWrapper('trader-1', self.matcher)
+        self.trader2 = utils.TraderWrapper('trader-2', self.matcher)
 
         # enter some bid orders
         self.trader1.handleMessage({ 'orderId': 1, 'price': 10, 'quantity': 10, 'message': 'createOrder', 'side': 'BUY' })
