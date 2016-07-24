@@ -8,6 +8,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "order/OrderContainer.hpp"
 #include "client/Client.hpp"
 #include "utils/Constants.hpp"
 #include "utils/Side.hpp"
@@ -15,8 +16,6 @@
 
 namespace pyxchange
 {
-
-namespace py = boost::python;
 
 
 /**
@@ -28,7 +27,7 @@ namespace py = boost::python;
  */
 template<typename OrderContainer>
 void OrderBook::aggregateSetPriceLevels( const OrderContainer& orders,
-                                         const typename OrderContainer::price_set& priceLevels,
+                                         const typename OrderContainer::element_type::price_set& priceLevels,
                                          const side_t side_ ) const
 {
     for( const auto price : priceLevels )
@@ -46,9 +45,9 @@ void OrderBook::aggregateSetPriceLevels( const OrderContainer& orders,
  *
  */
 template<typename OrderContainer>
-inline void OrderBook::aggregatePriceLevel( const OrderContainer& orders, const price_t priceLevel, const side_t side_ ) const
+void OrderBook::aggregatePriceLevel( const OrderContainer& orders, const price_t priceLevel, const side_t side_ ) const
 {
-    const auto& idx = orders.container.template get<tags::idxPrice>();
+    const auto& idx = orders->container.template get<tags::idxPrice>();
     const auto  end = idx.upper_bound( priceLevel );
           auto  it  = idx.lower_bound( priceLevel );
 
@@ -65,22 +64,16 @@ inline void OrderBook::aggregatePriceLevel( const OrderContainer& orders, const 
 }
 
 
-template void OrderBook::aggregateSetPriceLevels<BidOrderContainer>(
-    const BidOrderContainer& orders,
-    const BidOrderContainer::price_set& priceLevels,
-    const side_t side_ ) const;
+template void OrderBook::aggregateSetPriceLevels( const BidOrderContainerPtr& orders,
+    const BidOrderContainerPtr::element_type::price_set& priceLevels, const side_t side_ ) const;
 
-template void OrderBook::aggregateSetPriceLevels<AskOrderContainer>(
-    const AskOrderContainer& orders,
-    const AskOrderContainer::price_set& priceLevels,
-    const side_t side_ ) const;
+template void OrderBook::aggregateSetPriceLevels( const AskOrderContainerPtr& orders,
+    const AskOrderContainerPtr::element_type::price_set& priceLevels, const side_t side_ ) const;
 
-template void OrderBook::aggregatePriceLevel<BidOrderContainer>(
-    const BidOrderContainer& orders,
+template void OrderBook::aggregatePriceLevel( const BidOrderContainerPtr& orders,
     const price_t priceLevel, const side_t side_ ) const;
 
-template void OrderBook::aggregatePriceLevel<AskOrderContainer>(
-    const AskOrderContainer& orders,
+template void OrderBook::aggregatePriceLevel( const AskOrderContainerPtr& orders,
     const price_t priceLevel, const side_t side_ ) const;
 
 

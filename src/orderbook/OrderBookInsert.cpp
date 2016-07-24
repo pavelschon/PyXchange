@@ -8,6 +8,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "order/OrderContainer.hpp"
 #include "client/Trader.hpp"
 #include "utils/Constants.hpp"
 #include "utils/Side.hpp"
@@ -15,8 +16,6 @@
 
 namespace pyxchange
 {
-
-namespace py = boost::python;
 
 
 /**
@@ -31,7 +30,7 @@ template<typename OrderContainer, typename OppOrderContainer>
 void OrderBook::insertOrder( OrderContainer& orders, OppOrderContainer& oppOrders,
                              const TraderPtr& trader, const OrderPtr& order )
 {
-    const auto& result = orders.container.insert( order );
+    const auto& result = orders->container.insert( order );
 
     if( result.second )
     {
@@ -48,7 +47,7 @@ void OrderBook::insertOrder( OrderContainer& orders, OppOrderContainer& oppOrder
         else
         {
             // order has no resting quantity (was executed), so remove it
-            orders.template container.erase( result.first );
+            orders->container.template erase( result.first );
         }
     }
     else
@@ -60,11 +59,11 @@ void OrderBook::insertOrder( OrderContainer& orders, OppOrderContainer& oppOrder
 }
 
 
-template void OrderBook::insertOrder<BidOrderContainer, AskOrderContainer>(
-    BidOrderContainer& orders, AskOrderContainer& oppOrders, const TraderPtr& trader, const OrderPtr& order );
+template void OrderBook::insertOrder( BidOrderContainerPtr& orders, AskOrderContainerPtr& oppOrders,
+                                      const TraderPtr& trader, const OrderPtr& order );
 
-template void OrderBook::insertOrder<AskOrderContainer, BidOrderContainer>(
-    AskOrderContainer& orders, BidOrderContainer& oppOrders, const TraderPtr& trader, const OrderPtr& order );
+template void OrderBook::insertOrder( AskOrderContainerPtr& orders, BidOrderContainerPtr& oppOrders,
+                                      const TraderPtr& trader, const OrderPtr& order );
 
 
 } /* namespace pyxchange */

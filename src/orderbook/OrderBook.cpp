@@ -8,6 +8,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "order/OrderContainer.hpp"
 #include "client/Trader.hpp"
 #include "utils/Exception.hpp"
 #include "utils/Constants.hpp"
@@ -27,7 +28,9 @@ namespace py = boost::python;
  *
  */
 OrderBook::OrderBook( const ClientVectorConstPtr& clients_ ):
-    clients{ clients_ }
+      clients{ clients_ }
+    , bidOrders{ std::make_unique<BidOrderContainer>() }
+    , askOrders{ std::make_unique<AskOrderContainer>() }
 {
     logger.info( format::f0::logOrderBookReady );
 }

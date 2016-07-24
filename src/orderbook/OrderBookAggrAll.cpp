@@ -8,6 +8,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "order/OrderContainer.hpp"
 #include "client/Client.hpp"
 #include "utils/Constants.hpp"
 #include "utils/Side.hpp"
@@ -15,8 +16,6 @@
 
 namespace pyxchange
 {
-
-namespace py = boost::python;
 
 
 /**
@@ -39,9 +38,9 @@ void OrderBook::aggregateAllPriceLevels( const ClientPtr& client ) const
  *
  */
 template<typename OrderContainer>
-inline void OrderBook::aggregateAllPriceLevels( const OrderContainer& orders, const ClientPtr& client, const side_t side_ ) const
+void OrderBook::aggregateAllPriceLevels( const OrderContainer& orders, const ClientPtr& client, const side_t side_ ) const
 {
-    const auto& idxPrice = orders.container.template get<tags::idxPrice>();
+    const auto& idxPrice = orders->container.template get<tags::idxPrice>();
 
     auto outerIt = idxPrice.begin();
 

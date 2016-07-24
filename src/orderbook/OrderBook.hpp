@@ -10,7 +10,7 @@
 #define ORDERBOOK_HPP
 
 #include "PyXchange.hpp"
-#include "order/OrderContainer.hpp"
+#include "order/OrderContainerFwd.hpp"
 #include "logger/Logger.hpp"
 
 
@@ -45,7 +45,8 @@ private:
     void        handleExecution( OrderContainer& orders, const OrderPtr& order );
 
     template<typename OrderContainer>
-    void        aggregateSetPriceLevels( const OrderContainer& orders, const typename OrderContainer::price_set& priceLevels, const side_t side_ ) const;
+    void        aggregateSetPriceLevels( const OrderContainer& orders,
+                                         const typename OrderContainer::element_type::price_set& priceLevels, const side_t side_ ) const;
 
     template<typename OrderContainer>
     void        aggregatePriceLevel( const OrderContainer& orders, const price_t price, const side_t side_ ) const;
@@ -60,8 +61,8 @@ private:
     const Logger                    logger;
     const ClientVectorConstPtr      clients;
 
-    BidOrderContainer               bidOrders;
-    AskOrderContainer               askOrders;
+    BidOrderContainerPtr            bidOrders;
+    AskOrderContainerPtr            askOrders;
 };
 
 
@@ -72,5 +73,4 @@ private:
 
 
 /* EOF */
-
 

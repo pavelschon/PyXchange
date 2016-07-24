@@ -8,6 +8,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "order/OrderContainer.hpp"
 #include "client/Trader.hpp"
 #include "utils/Exception.hpp"
 #include "utils/Constants.hpp"
@@ -65,7 +66,7 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
 template<typename OrderContainer>
 size_t OrderBook::cancelOrder( OrderContainer& orders, const TraderPtr& trader, const orderId_t orderId )
 {
-          auto& idx = orders.container.template get<tags::idxTraderOrderId>();
+          auto& idx = orders->container.template get<tags::idxTraderOrderId>();
     const auto& key = std::make_tuple( trader, orderId );
     const auto  it  = idx.find( key );
 

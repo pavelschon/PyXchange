@@ -8,6 +8,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "order/OrderContainer.hpp"
 #include "client/Trader.hpp"
 #include "client/Client.hpp"
 #include "utils/Constants.hpp"
@@ -16,8 +17,6 @@
 
 namespace pyxchange
 {
-
-namespace py = boost::python;
 
 
 /**
@@ -29,9 +28,9 @@ namespace py = boost::python;
 template<typename OrderContainer>
 void OrderBook::handleExecution( OrderContainer& orders, const OrderPtr& order )
 {
-    typename OrderContainer::price_set priceLevels;
+    typename OrderContainer::element_type::price_set priceLevels;
 
-    auto &idx = orders.container.template get<tags::idxPriceTime>();
+    auto &idx = orders->container.template get<tags::idxPriceTime>();
     auto it   = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
@@ -67,8 +66,8 @@ void OrderBook::handleExecution( OrderContainer& orders, const OrderPtr& order )
 }
 
 
-template void OrderBook::handleExecution<BidOrderContainer>( BidOrderContainer& orders, const OrderPtr& order );
-template void OrderBook::handleExecution<AskOrderContainer>( AskOrderContainer& orders, const OrderPtr& order );
+template void OrderBook::handleExecution( BidOrderContainerPtr& orders, const OrderPtr& order );
+template void OrderBook::handleExecution( AskOrderContainerPtr& orders, const OrderPtr& order );
 
 
 /**

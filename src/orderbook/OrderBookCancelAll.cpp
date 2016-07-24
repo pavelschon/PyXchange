@@ -8,6 +8,7 @@
 
 
 #include "orderbook/OrderBook.hpp"
+#include "order/OrderContainer.hpp"
 #include "client/Trader.hpp"
 #include "utils/Constants.hpp"
 #include "utils/Side.hpp"
@@ -15,8 +16,6 @@
 
 namespace pyxchange
 {
-
-namespace py = boost::python;
 
 
 /**
@@ -46,9 +45,9 @@ void OrderBook::cancelAllOrders( const TraderPtr& trader )
 template<typename OrderContainer>
 size_t OrderBook::cancelAllOrders( OrderContainer& orders, const TraderPtr& trader, const side_t side_ )
 {
-    typename OrderContainer::price_set priceLevels;
+    typename OrderContainer::element_type::price_set priceLevels;
 
-          auto &idx = orders.container.template get<tags::idxTrader>();
+          auto &idx = orders->container.template get<tags::idxTrader>();
           auto it   = idx.lower_bound( trader );
     const auto end  = idx.upper_bound( trader );
 

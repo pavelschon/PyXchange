@@ -10,6 +10,7 @@
 #define ORDER_CONTAINER_HPP
 
 #include "order/Order.hpp"
+#include "order/OrderContainerFwd.hpp"
 
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/ordered_index.hpp>
@@ -32,19 +33,6 @@ struct idxTraderOrderId {};
 struct idxTrader {};
 
 } /* namespace tags */
-
-
-namespace comparators
-{
-
-typedef std::greater<const price_t>                                             higherPrice;    // comparator ( higher price first -> bid orders )
-typedef std::less<const price_t>                                                lowerPrice;     // comparator ( lower  price first -> ask orders )
-typedef std::less<const prio_t>                                                 lowerTime;      // comparator ( lower timestamp first )
-
-typedef boost::multi_index::composite_key_compare<higherPrice, lowerTime>       higherPriceLowerTime;
-typedef boost::multi_index::composite_key_compare<lowerPrice,  lowerTime>       lowerPriceLowerTime;
-
-} /* namespace cmp */
 
 
 namespace extractors
@@ -88,15 +76,11 @@ struct OrderContainer
             boost::multi_index::hashed_unique<                                  // find order by id
                 boost::multi_index::tag<tags::idxTraderOrderId>,
                     extractors::keyTraderOrderId > >
-                    
+
     > container_type;
 
     container_type container;
 };
-
-
-typedef OrderContainer<comparators::higherPriceLowerTime>                       BidOrderContainer; // container type for buy orders
-typedef OrderContainer<comparators::lowerPriceLowerTime>                        AskOrderContainer; // container type for sell orders
 
 static_assert( std::is_same<BidOrderContainer::cmp_price, comparators::higherPrice>::value, "higherPrice" );
 static_assert( std::is_same<AskOrderContainer::cmp_price, comparators::lowerPrice>::value,  "lowerPrice" );
