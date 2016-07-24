@@ -68,6 +68,8 @@ struct OrderContainer
     typedef typename boost::tuples::element<0,
         typename cmp_price_time::key_comp_tuple>::type cmp_price;
 
+    typedef std::set<price_t, cmp_price> price_set;
+
     typedef boost::multi_index::multi_index_container<
         OrderPtr, boost::multi_index::indexed_by<
 
@@ -86,9 +88,10 @@ struct OrderContainer
             boost::multi_index::hashed_unique<                                  // find order by id
                 boost::multi_index::tag<tags::idxTraderOrderId>,
                     extractors::keyTraderOrderId > >
-    > type;
+                    
+    > container_type;
 
-    typedef std::set<price_t, cmp_price> price_set;
+    container_type container;
 };
 
 

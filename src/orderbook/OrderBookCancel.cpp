@@ -36,8 +36,8 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
         size_t n = 0;
 
         // we don't know if order is buy or sell, so we cancel it in both containers
-        n += cancelOrder<BidOrderContainer>( bidOrders, trader, orderId );
-        n += cancelOrder<AskOrderContainer>( askOrders, trader, orderId );
+        n += cancelOrder( bidOrders, trader, orderId );
+        n += cancelOrder( askOrders, trader, orderId );
 
         if( ! n )
         {
@@ -63,10 +63,9 @@ void OrderBook::cancelOrder( const TraderPtr& trader, const py::dict& decoded )
  *
  */
 template<typename OrderContainer>
-size_t OrderBook::cancelOrder( typename OrderContainer::type& orders,
-                               const TraderPtr& trader, const orderId_t orderId )
+size_t OrderBook::cancelOrder( OrderContainer& orders, const TraderPtr& trader, const orderId_t orderId )
 {
-          auto& idx = orders.template get<tags::idxTraderOrderId>();
+          auto& idx = orders.container.template get<tags::idxTraderOrderId>();
     const auto& key = std::make_tuple( trader, orderId );
     const auto  it  = idx.find( key );
 

@@ -26,8 +26,8 @@ namespace py = boost::python;
  */
 void OrderBook::aggregateAllPriceLevels( const ClientPtr& client ) const
 {
-    aggregateAllPriceLevels<BidOrderContainer>( bidOrders, client, side::bid_ );
-    aggregateAllPriceLevels<AskOrderContainer>( askOrders, client, side::ask_ );
+    aggregateAllPriceLevels( bidOrders, client, side::bid_ );
+    aggregateAllPriceLevels( askOrders, client, side::ask_ );
 }
 
 
@@ -39,10 +39,9 @@ void OrderBook::aggregateAllPriceLevels( const ClientPtr& client ) const
  *
  */
 template<typename OrderContainer>
-inline void OrderBook::aggregateAllPriceLevels( const typename OrderContainer::type& orders,
-                                                const ClientPtr& client, const side_t side_ ) const
+inline void OrderBook::aggregateAllPriceLevels( const OrderContainer& orders, const ClientPtr& client, const side_t side_ ) const
 {
-    const auto& idxPrice = orders.template get<tags::idxPrice>();
+    const auto& idxPrice = orders.container.template get<tags::idxPrice>();
 
     auto outerIt = idxPrice.begin();
 

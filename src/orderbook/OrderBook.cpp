@@ -74,11 +74,11 @@ void OrderBook::createOrder( const TraderPtr& trader, const py::dict& decoded )
 
     if( order && side::isBid( order->side ) )
     {
-        insertOrder<BidOrderContainer, AskOrderContainer>( bidOrders, askOrders, trader, order );
+        insertOrder( bidOrders, askOrders, trader, order );
     }
     else if( order && side::isAsk( order->side ) )
     {
-        insertOrder<AskOrderContainer, BidOrderContainer>( askOrders, bidOrders, trader, order );
+        insertOrder( askOrders, bidOrders, trader, order );
     }
 }
 
@@ -114,13 +114,13 @@ void OrderBook::marketOrder( const TraderPtr& trader, const py::dict& decoded )
     {
         logger.debug( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
 
-        handleExecution<AskOrderContainer>( askOrders, order );
+        handleExecution( askOrders, order );
     }
     else if( order && side::isAsk( order->side ) )
     {
         logger.debug( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
 
-        handleExecution<BidOrderContainer>( bidOrders, order );
+        handleExecution( bidOrders, order );
     }
 }
 

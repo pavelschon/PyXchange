@@ -28,28 +28,27 @@ namespace py = boost::python;
  *
  */
 template<typename OrderContainer, typename OppOrderContainer>
-void OrderBook::insertOrder( typename OrderContainer::type& orders,
-                             typename OppOrderContainer::type& oppOrders,
+void OrderBook::insertOrder( OrderContainer& orders, OppOrderContainer& oppOrders,
                              const TraderPtr& trader, const OrderPtr& order )
 {
-    const auto& result = orders.template insert( order );
+    const auto& result = orders.container.insert( order );
 
     if( result.second )
     {
-        handleExecution<OppOrderContainer>( oppOrders, order );
+        handleExecution( oppOrders, order );
 
         if( order->quantity > 0 )
         {
             trader->notifyCreateOrderSuccess( order->orderId, order->quantity );
 
-            aggregatePriceLevel<OrderContainer>( orders, order->price, order->side );
+            aggregatePriceLevel( orders, order->price, order->side );
 
             logger.debug( format::f2::logTraderAddedOrder, trader->toString(), order->toString() );
         }
         else
         {
             // order has no resting quantity (was executed), so remove it
-            orders.template erase( result.first );
+            orders.template container.erase( result.first );
         }
     }
     else
@@ -62,12 +61,10 @@ void OrderBook::insertOrder( typename OrderContainer::type& orders,
 
 
 template void OrderBook::insertOrder<BidOrderContainer, AskOrderContainer>(
-    BidOrderContainer::type& orders, AskOrderContainer::type& oppOrders,
-    const TraderPtr& trader, const OrderPtr& order );
+    BidOrderContainer& orders, AskOrderContainer& oppOrders, const TraderPtr& trader, const OrderPtr& order );
 
 template void OrderBook::insertOrder<AskOrderContainer, BidOrderContainer>(
-    AskOrderContainer::type& orders, BidOrderContainer::type& oppOrders,
-    const TraderPtr& trader, const OrderPtr& order );
+    AskOrderContainer& orders, BidOrderContainer& oppOrders, const TraderPtr& trader, const OrderPtr& order );
 
 
 } /* namespace pyxchange */

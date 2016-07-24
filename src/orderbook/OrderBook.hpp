@@ -33,50 +33,35 @@ public:
 
 private:
     template<typename OrderContainer, typename OppOrderContainer>
-    void        insertOrder( typename OrderContainer::type& orders,
-                             typename OppOrderContainer::type& oppOrders, // opposite orders
-                             const TraderPtr& trader, const OrderPtr& order );
+    void        insertOrder( OrderContainer& orders, OppOrderContainer& oppOrders, const TraderPtr& trader, const OrderPtr& order );
+
+    template<typename OrderContainer>
+    size_t      cancelOrder( OrderContainer& orders, const TraderPtr& trader, const orderId_t  orderId );
+
+    template<typename OrderContainer>
+    size_t      cancelAllOrders( OrderContainer& orders, const TraderPtr& trader, const side_t side_ );
+
+    template<typename OrderContainer>
+    void        handleExecution( OrderContainer& orders, const OrderPtr& order );
+
+    template<typename OrderContainer>
+    void        aggregateSetPriceLevels( const OrderContainer& orders, const typename OrderContainer::price_set& priceLevels, const side_t side_ ) const;
+
+    template<typename OrderContainer>
+    void        aggregatePriceLevel( const OrderContainer& orders, const price_t price, const side_t side_ ) const;
 
 
     template<typename OrderContainer>
-    size_t      cancelOrder( typename OrderContainer::type& orders,
-                             const TraderPtr& trader, const orderId_t  orderId );
+    void        aggregateAllPriceLevels( const OrderContainer& orders, const ClientPtr& client, const side_t side_ ) const;
 
-
-    template<typename OrderContainer>
-    size_t      cancelAllOrders( typename OrderContainer::type& orders,
-                                 const TraderPtr& trader, const side_t side_ );
-
-
-    template<typename OrderContainer>
-    void        handleExecution( typename OrderContainer::type& orders, const OrderPtr& order );
-
-
-    template<typename OrderContainer>
-    void        aggregateSetPriceLevels( const typename OrderContainer::type& orders,
-                                         const typename OrderContainer::price_set& priceLevels,
-                                         const side_t side_ ) const;
-
-
-    template<typename OrderContainer>
-    void        aggregatePriceLevel( const typename OrderContainer::type& orders,
-                                     const price_t price, const side_t side_ ) const;
-
-
-    template<typename OrderContainer>
-    void        aggregateAllPriceLevels( const typename OrderContainer::type& orders,
-                                         const ClientPtr& client, const side_t side_ ) const;
-
-                    
-    void        notifyExecution( const OrderConstPtr& order, const OrderConstPtr& oppOrder,
-                                 const quantity_t matchQty ) const;
+    void        notifyExecution( const OrderConstPtr& order, const OrderConstPtr& oppOrder, const quantity_t matchQty ) const;
 
 private:
     const Logger                    logger;
     const ClientVectorConstPtr      clients;
 
-    BidOrderContainer::type         bidOrders;
-    AskOrderContainer::type         askOrders;
+    BidOrderContainer               bidOrders;
+    AskOrderContainer               askOrders;
 };
 
 

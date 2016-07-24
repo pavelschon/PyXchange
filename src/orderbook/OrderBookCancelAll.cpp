@@ -26,8 +26,8 @@ namespace py = boost::python;
  */
 void OrderBook::cancelAllOrders( const TraderPtr& trader )
 {
-    const size_t numBid = cancelAllOrders<BidOrderContainer>( bidOrders, trader, side::bid_ );
-    const size_t numAsk = cancelAllOrders<AskOrderContainer>( askOrders, trader, side::ask_ );
+    const size_t numBid = cancelAllOrders( bidOrders, trader, side::bid_ );
+    const size_t numAsk = cancelAllOrders( askOrders, trader, side::ask_ );
 
     if( numBid || numAsk )
     {
@@ -44,12 +44,11 @@ void OrderBook::cancelAllOrders( const TraderPtr& trader )
  *
  */
 template<typename OrderContainer>
-size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders,
-                                   const TraderPtr& trader, const side_t side_ )
+size_t OrderBook::cancelAllOrders( OrderContainer& orders, const TraderPtr& trader, const side_t side_ )
 {
     typename OrderContainer::price_set priceLevels;
 
-          auto &idx = orders.template get<tags::idxTrader>();
+          auto &idx = orders.container.template get<tags::idxTrader>();
           auto it   = idx.lower_bound( trader );
     const auto end  = idx.upper_bound( trader );
 
@@ -66,7 +65,7 @@ size_t OrderBook::cancelAllOrders( typename OrderContainer::type& orders,
         ++n;
     }
 
-    aggregateSetPriceLevels<OrderContainer>( orders, priceLevels, side_ );
+    aggregateSetPriceLevels( orders, priceLevels, side_ );
 
     return n;
 }

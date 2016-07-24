@@ -27,13 +27,13 @@ namespace py = boost::python;
  *
  */
 template<typename OrderContainer>
-void OrderBook::aggregateSetPriceLevels( const typename OrderContainer::type& orders,
+void OrderBook::aggregateSetPriceLevels( const OrderContainer& orders,
                                          const typename OrderContainer::price_set& priceLevels,
                                          const side_t side_ ) const
 {
     for( const auto price : priceLevels )
     {
-        aggregatePriceLevel<OrderContainer>( orders, price, side_ );
+        aggregatePriceLevel( orders, price, side_ );
     }
 }
 
@@ -46,10 +46,9 @@ void OrderBook::aggregateSetPriceLevels( const typename OrderContainer::type& or
  *
  */
 template<typename OrderContainer>
-inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type& orders,
-                                            const price_t priceLevel, const side_t side_ ) const
+inline void OrderBook::aggregatePriceLevel( const OrderContainer& orders, const price_t priceLevel, const side_t side_ ) const
 {
-    const auto& idx = orders.template get<tags::idxPrice>();
+    const auto& idx = orders.container.template get<tags::idxPrice>();
     const auto  end = idx.upper_bound( priceLevel );
           auto  it  = idx.lower_bound( priceLevel );
 
@@ -67,21 +66,21 @@ inline void OrderBook::aggregatePriceLevel( const typename OrderContainer::type&
 
 
 template void OrderBook::aggregateSetPriceLevels<BidOrderContainer>(
-    const BidOrderContainer::type& orders,
+    const BidOrderContainer& orders,
     const BidOrderContainer::price_set& priceLevels,
     const side_t side_ ) const;
 
 template void OrderBook::aggregateSetPriceLevels<AskOrderContainer>(
-    const AskOrderContainer::type& orders,
+    const AskOrderContainer& orders,
     const AskOrderContainer::price_set& priceLevels,
     const side_t side_ ) const;
 
 template void OrderBook::aggregatePriceLevel<BidOrderContainer>(
-    const BidOrderContainer::type& orders,
+    const BidOrderContainer& orders,
     const price_t priceLevel, const side_t side_ ) const;
 
 template void OrderBook::aggregatePriceLevel<AskOrderContainer>(
-    const AskOrderContainer::type& orders,
+    const AskOrderContainer& orders,
     const price_t priceLevel, const side_t side_ ) const;
 
 

@@ -27,11 +27,11 @@ namespace py = boost::python;
  *
  */
 template<typename OrderContainer>
-void OrderBook::handleExecution( typename OrderContainer::type& orders, const OrderPtr& order )
+void OrderBook::handleExecution( OrderContainer& orders, const OrderPtr& order )
 {
     typename OrderContainer::price_set priceLevels;
 
-    auto &idx = orders.template get<tags::idxPriceTime>();
+    auto &idx = orders.container.template get<tags::idxPriceTime>();
     auto it   = idx.begin();
 
     quantity_t totalMatchQuantity = 0;
@@ -62,17 +62,13 @@ void OrderBook::handleExecution( typename OrderContainer::type& orders, const Or
 
     if( totalMatchQuantity > 0 )
     {
-        aggregateSetPriceLevels<OrderContainer>(
-            orders, priceLevels, side::opposite( order->side ) );
+        aggregateSetPriceLevels( orders, priceLevels, side::opposite( order->side ) );
     }
 }
 
 
-template void OrderBook::handleExecution<BidOrderContainer>(
-    BidOrderContainer::type& orders, const OrderPtr& order );
-
-template void OrderBook::handleExecution<AskOrderContainer>(
-    AskOrderContainer::type& orders, const OrderPtr& order );
+template void OrderBook::handleExecution<BidOrderContainer>( BidOrderContainer& orders, const OrderPtr& order );
+template void OrderBook::handleExecution<AskOrderContainer>( AskOrderContainer& orders, const OrderPtr& order );
 
 
 /**
