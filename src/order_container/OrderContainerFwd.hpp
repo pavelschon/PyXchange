@@ -1,6 +1,6 @@
 /**
  * @brief  Declaration of OrderContainer
- * @file   OrderContainer.hpp
+ * @file   OrderContainerFwd.hpp
  *
  * Copyright (c) 2016 Pavel Schön <pavel@schon.cz>
  *
