@@ -27,7 +27,7 @@ namespace pyxchange
  *
  */
 template<typename OrderContainer, typename OppOrderContainer>
-void OrderBook::insertOrder( OrderContainer& orders, OppOrderContainer& oppOrders,
+void OrderBook::insertOrder( const OrderContainer& orders, const OppOrderContainer& oppOrders,
                              const TraderPtr& trader, const OrderPtr& order )
 {
     const auto& result = orders->container.insert( order );
@@ -59,10 +59,10 @@ void OrderBook::insertOrder( OrderContainer& orders, OppOrderContainer& oppOrder
 }
 
 
-template void OrderBook::insertOrder( BidOrderContainerPtr& orders, AskOrderContainerPtr& oppOrders,
+template void OrderBook::insertOrder( const BidOrderContainerPtr& orders, const AskOrderContainerPtr& oppOrders,
                                       const TraderPtr& trader, const OrderPtr& order );
 
-template void OrderBook::insertOrder( AskOrderContainerPtr& orders, BidOrderContainerPtr& oppOrders,
+template void OrderBook::insertOrder( const AskOrderContainerPtr& orders, const BidOrderContainerPtr& oppOrders,
                                       const TraderPtr& trader, const OrderPtr& order );
 
 

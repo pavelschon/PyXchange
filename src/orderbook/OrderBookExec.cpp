@@ -26,7 +26,7 @@ namespace pyxchange
  *
  */
 template<typename OrderContainer>
-void OrderBook::handleExecution( OrderContainer& orders, const OrderPtr& order )
+void OrderBook::handleExecution( const OrderContainer& orders, const OrderPtr& order )
 {
     typename OrderContainer::element_type::price_set priceLevels;
 
@@ -66,8 +66,8 @@ void OrderBook::handleExecution( OrderContainer& orders, const OrderPtr& order )
 }
 
 
-template void OrderBook::handleExecution( BidOrderContainerPtr& orders, const OrderPtr& order );
-template void OrderBook::handleExecution( AskOrderContainerPtr& orders, const OrderPtr& order );
+template void OrderBook::handleExecution( const BidOrderContainerPtr& orders, const OrderPtr& order );
+template void OrderBook::handleExecution( const AskOrderContainerPtr& orders, const OrderPtr& order );
 
 
 /**
